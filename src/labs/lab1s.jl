@@ -9,13 +9,8 @@
 # of some basic approximations you have already seen in the guise of analysis.
 # In particular, we will look at the following:
 
-# 1. Integeration via the rectangular rule:  integrals are defined by
-# approximating a function by rectangles and taking the limit as the number of rectangles becomes
-# infinite. If we use a finite number of rectangles this gives an approximation to the integral.
-# 2. Differentiation via divided differences: derivatives are defined by taking the limit of
-# the difference of a function evaluated at two nearby points and dividing by the
-# distance of these points, where in the limit the distance goes to zero. If we fix the 
-# distance to be small but nonzero we get an approximation to the derivative.
+# 1. Integeration via the rectangular rule:  integrals are defined by approximating a function by rectangles and taking the limit as the number of rectangles becomes infinite. If we use a finite number of rectangles this gives an approximation to the integral.
+# 2. Differentiation via divided differences: derivatives are defined by taking the limit of the difference of a function evaluated at two nearby points and dividing by the distance of these points, where in the limit the distance goes to zero. If we fix the distance to be small but nonzero we get an approximation to the derivative.
 #
 # An important component to numerical analysis is studying the _convergence  rate_:
 # how fast do these approximations tend to the true value? We explore this question
@@ -25,11 +20,8 @@
 # does not quite follow the convergence results in analysis. 
 # We run into a couple mysteries:
 # 
-# 1. Numerical integration appears to converge but in some examples the error gets stuck at
-# a vey small value, less than $10^{-15}$ or so.
-# 2. Numerical differentiation appears to converges as $h → 0$ achieving around
-# 5 digits or so. However, it starts becoming extremely inaccurate when $h$ falls below $10^{-8}$ or so,
-# eventually giving no digits of accuracy!
+# 1. Numerical integration appears to converge but in some examples the error gets stuck at a vey small value, less than $10^{-15}$ or so.
+# 2. Numerical differentiation appears to converges as $h → 0$ achieving around 5 digits or so. However, it starts becoming extremely inaccurate when $h$ falls below $10^{-8}$ or so, eventually giving no digits of accuracy!
 #
 # In the next lab we will look at a work-around for mystery (2). And in the next few weeks
 # we will build an understanding of how computers work with numbers so that we can understand
@@ -397,10 +389,9 @@ plot(0:10, errs; yscale=:log10, label="error") # scale only the y-axis
 # **Problem 3(d)** Use central differences to approximate to 5-digits the first
 # derivative to the following functions
 # at the point $x = 0.1$:
-# $$
-# \exp(\exp x \cos x + \sin x), ∏_{k=1}^{1000} \left({x \over k}-1\right), \hbox{ and } f^{\rm s}_{1000}(x)
-# $$
-# where $f^{\rm s}_n(x)$ corresponds to $n$-terms of the following continued fraction:
+# 1. $\exp(\exp x \cos x + \sin x)$
+# 2. $∏_{k=1}^{1000} \left({x \over k}-1\right)$
+# 3. $f^{\rm s}_{1000}(x)$ where $f^{\rm s}_n(x)$ corresponds to $n$-terms of the following continued fraction:
 # $$
 # 1 + {x-1 \over 2 + {x-1 \over 2 + {x-1 \over 2 + ⋱}}},
 # $$

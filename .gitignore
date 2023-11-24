@@ -7,3 +7,4 @@ default.profraw
 *.gz
 *.out
 *.aux
+Manifest.toml

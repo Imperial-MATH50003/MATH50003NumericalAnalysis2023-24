@@ -33,7 +33,6 @@ end
 
 compilenotes("I.1.RectangularRule")
 compilenotes("I.2.DividedDifferences")
-compilenotes("I.3.DualNumbers")
 
 
 ###
@@ -51,7 +50,6 @@ function compilesheet(filename)
 end
 
 compilesheet("sheet1")
-compilesheet("sheet2")
 
 # notebook("sheets/sheet1.jmd"; pkwds...)
 # notebook("src/sheets/sheet1s.jmd"; pkwds...)
@@ -64,7 +62,7 @@ compilesheet("sheet2")
 import Literate
 
 # Make Labs
-for k = 1:2
+for k = 1:1
     write("labs/lab$k.jl", replace(replace(read("src/labs/lab$(k)s.jl", String), r"## SOLUTION(.*?)## END"s => "")))
     Literate.notebook("labs/lab$k.jl", "labs/"; execute=false)
 end
