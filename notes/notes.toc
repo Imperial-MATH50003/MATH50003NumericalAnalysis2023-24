@@ -1,3 +1,0 @@
-\contentsline {chapter}{\numberline {I}Calculus on a Computer}{5}{chapter.1}% 
-\contentsline {section}{\numberline {I.1}Rectangular rule}{6}{section.1.1}% 
-\contentsline {section}{\numberline {I.2}Divided Differences}{7}{section.1.2}% 

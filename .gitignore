@@ -8,3 +8,4 @@ default.profraw
 *.out
 *.aux
 Manifest.toml
+*.toc
