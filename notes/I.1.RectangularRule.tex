@@ -6,7 +6,7 @@ One possible definition for an integral is the limit of a Riemann sum, for examp
 \]
 where $x_k = a+kh$ are evenly spaced points dividing up the interval $[a,b]$, that is  wit the \{{\textbackslash}it step size\} $h = (b-a)/n$. This suggests an algorithm known as the \emph{(right-sided) rectangular rule} for approximating an integral: choose $n$ large so that
 \[
-  \ensuremath{\int}_a^n f(x) {\rm d}x \ensuremath{\approx} h \ensuremath{\sum}_{k=1}^n f(x_k).
+  \ensuremath{\int}_a^b f(x) {\rm d}x \ensuremath{\approx} h \ensuremath{\sum}_{k=1}^n f(x_k).
 \]
 In the lab we explore practical implementation of this approximation, and observe that the error in approximation is bounded by $C/n$ for some constant $C$. This can be expressed using "Big-O" notation:
 \[
@@ -16,11 +16,11 @@ In these notes we consider the "Analysis" part of "Numerical Analysis": we want 
 
 To tackle this question we consider the error incurred on a single "rectangle", then sum up the errors on rectangles.
 
-Now for a secret. There are only so many tools available in analysis (especially at this stage of your career), and  one can make a safe bet that the right tool in any analysis proof is either (1) integration-by-parts, (2) geometric series or (3) Taylor series. In this case we use (1):
+Now for a secret. There are only so many tools available in analysis (especially at this stage of your career), and one can make a safe bet that the right tool in any analysis proof is either (1) integration-by-parts, (2) geometric series or (3) Taylor series. In this case we use (1):
 
-\begin{lemma}[Rectangular Rule error on one panel] Assuming $f$ is differentiable we have
+\begin{lemma}[(Right-sided) Rectangular Rule error on one panel] Assuming $f$ is differentiable we have
 \[
-\ensuremath{\int}_a^b f(x) {\rm d}x = (b-a) f(a) +  \ensuremath{\delta}
+\ensuremath{\int}_a^b f(x) {\rm d}x = (b-a) f(b) + \ensuremath{\delta}
 \]
 where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a)^2$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f'(x)|$.
 
@@ -46,7 +46,7 @@ Now summing up the errors in each panel gives us the error of using the Rectangu
 \[
 \ensuremath{\int}_a^b f(x) {\rm d}x =  h \ensuremath{\sum}_{k=1}^n f(x_k) +  \ensuremath{\delta}
 \]
-where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a) h$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f'(x)|$, $h = (b-a)/n$ and $x_k = a + kh$. 
+where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a) h$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f'(x)|$, $h = (b-a)/n$ and $x_k = a + kh$.
 
 \end{theorem}
 \textbf{Proof} We split the integral into a sum of smaller integrals:
@@ -54,11 +54,11 @@ where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a) h$ for $M = \sup_{a \ensu
 \ensuremath{\int}_a^b f(x) {\rm d}x = \ensuremath{\sum}_{k=1}^n  \ensuremath{\int}_{x_{k-1}}^{x_k} f(x) {\rm d}x =
 \ensuremath{\sum}_{k=1}^n  \br[(x_k - x_{k-1}) f(x_k) + \ensuremath{\delta}_k] =  h \ensuremath{\sum}_{k=1}^n f(x_k) +  \underbrace{\ensuremath{\sum}_{k=1}^n \ensuremath{\delta}_k}_\ensuremath{\delta}
 \]
-where $\ensuremath{\delta}_k$, the error on each panel as in the preceding lemma, satisfies 
+where $\ensuremath{\delta}_k$, the error on each panel as in the preceding lemma, satisfies
 \[
 |\ensuremath{\delta}_k| \ensuremath{\leq} (x_k-x_{k-1})^2 \sup_{x_{k-1} \ensuremath{\leq} x \ensuremath{\leq} x_k}|f'(x)| \ensuremath{\leq} M h^2.
 \]
-Thus using the triangular inequality we have 
+Thus using the triangular inequality we have
 \[
 |\ensuremath{\delta}| = \abs{ \ensuremath{\sum}_{k=1}^n \ensuremath{\delta}_k} \ensuremath{\leq} \ensuremath{\sum}_{k=1}^n |\ensuremath{\delta}_k| \ensuremath{\leq} M n h^2 = M(b-a)h.
 \]

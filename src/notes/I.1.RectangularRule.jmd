@@ -11,7 +11,7 @@ is  wit the {\it step size} $h = (b-a)/n$.
 This suggests an algorithm known as the _(right-sided) rectangular rule_
 for approximating an integral: choose $n$ large so that
 $$
-  ∫_a^n f(x) {\rm d}x ≈ h ∑_{k=1}^n f(x_k).
+  ∫_a^b f(x) {\rm d}x ≈ h ∑_{k=1}^n f(x_k).
 $$
 In the lab we explore practical implementation of this approximation, and observe that
 the error in approximation is bounded by $C/n$ for some constant $C$. This can be expressed using
@@ -25,14 +25,14 @@ convergence rate of the approximation, including finding an explicit expression 
 
 To tackle this question we consider the error incurred on a single "rectangle", then sum up the errors on rectangles.
 
-Now for a secret. There are only so many tools available in analysis (especially at this stage of your career), and 
+Now for a secret. There are only so many tools available in analysis (especially at this stage of your career), and
 one can make a safe bet that the right tool in any analysis proof is either (1) integration-by-parts, (2) geometric series
 or (3) Taylor series. In this case we use (1):
 
-**Lemma (Rectangular Rule error on one panel)**
+**Lemma ((Right-sided) Rectangular Rule error on one panel)**
 Assuming $f$ is differentiable we have
 $$
-∫_a^b f(x) {\rm d}x = (b-a) f(a) +  δ
+∫_a^b f(x) {\rm d}x = (b-a) f(b) + δ
 $$
 where $|δ| ≤ M (b-a)^2$ for $M = \sup_{a ≤ x ≤ b}|f'(x)|$.
 
@@ -62,7 +62,7 @@ Assuming $f$ is differentiable we have
 $$
 ∫_a^b f(x) {\rm d}x =  h ∑_{k=1}^n f(x_k) +  δ
 $$
-where $|δ| ≤ M (b-a) h$ for $M = \sup_{a ≤ x ≤ b}|f'(x)|$, $h = (b-a)/n$ and $x_k = a + kh$. 
+where $|δ| ≤ M (b-a) h$ for $M = \sup_{a ≤ x ≤ b}|f'(x)|$, $h = (b-a)/n$ and $x_k = a + kh$.
 
 **Proof**
 We split the integral into a sum of smaller integrals:
@@ -70,11 +70,11 @@ $$
 ∫_a^b f(x) {\rm d}x = ∑_{k=1}^n  ∫_{x_{k-1}}^{x_k} f(x) {\rm d}x =
 ∑_{k=1}^n  \br[(x_k - x_{k-1}) f(x_k) + δ_k] =  h ∑_{k=1}^n f(x_k) +  \underbrace{∑_{k=1}^n δ_k}_δ
 $$
-where $δ_k$, the error on each panel as in the preceding lemma, satisfies 
+where $δ_k$, the error on each panel as in the preceding lemma, satisfies
 $$
 |δ_k| ≤ (x_k-x_{k-1})^2 \sup_{x_{k-1} ≤ x ≤ x_k}|f'(x)| ≤ M h^2.
 $$
-Thus using the triangular inequality we have 
+Thus using the triangular inequality we have
 $$
 |δ| = \abs{ ∑_{k=1}^n δ_k} ≤ ∑_{k=1}^n |δ_k| ≤ M n h^2 = M(b-a)h.
 $$
