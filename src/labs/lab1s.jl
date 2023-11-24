@@ -9,9 +9,7 @@
 # of some basic approximations you have already seen in the guise of analysis.
 # In particular, we will look at the following:
 
-# 1. Integeration via the rectangular rule:  integrals are defined by
-# approximating a function by rectangles and taking the limit as the number of rectangles becomes
-# infinite. If we use a finite number of rectangles this gives an approximation to the integral.
+# 1. Integeration via the rectangular rule:  integrals are defined by approximating a function by rectangles and taking the limit as the number of rectangles becomes infinite. If we use a finite number of rectangles this gives an approximation to the integral.
 # 2. Differentiation via divided differences: derivatives are defined by taking the limit of
 # the difference of a function evaluated at two nearby points and dividing by the
 # distance of these points, where in the limit the distance goes to zero. If we fix the 
