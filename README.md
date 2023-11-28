@@ -9,9 +9,9 @@ Office hour: Mondays 11am, Huxley 6M40
 
 ## Weekly Material
 
-1. I.1 Rectangular Rule and I.2 Divided Differences. 
-[Lab 1](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab1.ipynb) 
-[Sheet 1](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet1.pdf)
+1. I.1 Rectangular Rule and I.2 Divided Differences
+   - [Lab 1](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab1.ipynb)
+   - [Sheet 1](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet1.pdf)
 
 
 ## Assessment

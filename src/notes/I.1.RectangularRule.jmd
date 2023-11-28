@@ -7,7 +7,7 @@ $$
   ∫_a^b f(x) {\rm d}x = \lim_{n → ∞} h ∑_{k=1}^n f(x_k)
 $$
 where $x_k = a+kh$ are evenly spaced points dividing up the interval $[a,b]$, that
-is  wit the {\it step size} $h = (b-a)/n$.
+is  with the _step size_ $h = (b-a)/n$.
 This suggests an algorithm known as the _(right-sided) rectangular rule_
 for approximating an integral: choose $n$ large so that
 $$
