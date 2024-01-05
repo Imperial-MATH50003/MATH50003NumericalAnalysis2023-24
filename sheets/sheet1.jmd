@@ -6,9 +6,9 @@
 
 **Problem 1** Assuming $f$ is differentiable, prove the left-point Rectangular rule error formula
 $$
-∫_a^b f(x) {\rm d}x =  h ∑_{k=0}^{n-1} f(x_k) +  δ
+∫_a^b f(x) {\rm d}x =  h ∑_{j=0}^{n-1} f(x_j) +  δ
 $$
-where $|δ| ≤ M (b-a) h$ for $M = \sup_{a ≤ x ≤ b}|f'(x)|$, $h = (b-a)/n$ and $x_k = a + kh$. 
+where $|δ| ≤ M (b-a) h$ for $M = \sup_{a ≤ x ≤ b}|f'(x)|$, $h = (b-a)/n$ and $x_j = a + jh$. 
 
 
 
@@ -34,7 +34,7 @@ The sharpest bound is $|δ| ≤ (b-a)^3 M/12$ but that would be a significantly 
 
 **Problem 2(b)** Assuming $f$ is twice-differentiable, prove a bound for the Trapezium rule error:
 $$
-∫_a^b f(x) {\rm d}x = h \br[{f(a) \over 2} + ∑_{j=1}^{n-1} f(x_k) + {f(b) \over 2}] +  δ
+∫_a^b f(x) {\rm d}x = h \br[{f(a) \over 2} + ∑_{j=1}^{n-1} f(x_j) + {f(b) \over 2}] +  δ
 $$
 where $|δ| ≤ M (b-a) h^2$ for $M = \sup_{a ≤ x ≤ b}|f''(x)|$.  
 
