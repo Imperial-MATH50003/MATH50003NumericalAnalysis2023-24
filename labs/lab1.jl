@@ -203,14 +203,14 @@ plot(x, y) # plot lines throw the specified x and y coordinates
 # by the left-hand rule compared to the "true" answer `exp(1)-1` as $n$ increases:
 
 N = 10_000 # total number of points
-leftruleerr = n -> leftrectangularrule(exp,n)- (exp(1)-1) # anonymous function that computes the error in the left-hand rectangular rule for the exponential
-errs = [abs(leftruleerr(n)) for n=1:N] # create a vector of the absolute-value of the errors for n running from 1 to N
-plot(1:N, errs; label="left-rule error") # label="..." labels the plot in the legend
+rightruleerr = n -> rightrectangularrule(exp,n)- (exp(1)-1) # anonymous function that computes the error in the right-hand rectangular rule for the exponential
+errs = [abs(rightruleerr(n)) for n=1:N] # create a vector of the absolute-value of the errors for n running from 1 to N
+plot(1:N, errs; label="right-rule error") # label="..." labels the plot in the legend
 
 # This plot is very uninformative: we can see that the error tends to zero but its
 # hard to understand at what rate. We can get more information by scaling both the $x$- and $y$-axis logarithmically:
 
-plot(1:N, errs; xscale=:log10, yscale=:log10, label="left-rule error", yticks=10.0 .^ (-10:1)) # yticks specifies the ticks used on the y-axis
+plot(1:N, errs; xscale=:log10, yscale=:log10, label="right-rule error", yticks=10.0 .^ (-10:1)) # yticks specifies the ticks used on the y-axis
 
 # We see with 10,000 points we get about $10^{-4}$ errors.
 # We can add to this plot reference curves corresponding to $n^{-1}$ and $n^{-2}$
@@ -220,7 +220,7 @@ plot!(1:N, (1:N) .^ (-1); linestyle=:dash, label="n^-1") # exclamation point mea
 plot!(1:N, (1:N) .^ (-2); linestyle=:dash, label="n^-2")
 
 # Since the error decays at the same rate as $n^{-1}$ we conclude that we can likely bound the error by
-# $C n^{-1}$ for some constant $C$.
+# $C n^{-1}$ for some constant $C$, which matches the theory.
 
 # ------
 
@@ -284,6 +284,9 @@ rightdifferences(exp, 1, 10.0^(-15))
 ## Create  vector of errors in divided difference for h = 1,0.1,0.01,…,10^(-20)
 errs = [abs(rightdifferences(exp, 1, 10.0^(-k))-exp(1)) for k = 0:20]
 plot(0:20, errs; yscale=:log10, label="error", legend=:bottomright) # scale only the y-axis, move the legend to bottom right to get out of the way
+bnds = [(h = 10.0^(-k); exp(1+h)*h/2) for k = 0:20] # error bound proven theoretically. We use `;` to write two lines at once
+plot!(0:20, bnds; linestyle=:dash, label="bound")
+
 
 # This raises a couple of mysteries:
 # 1. Why does our numerical version of divided differences diverges
