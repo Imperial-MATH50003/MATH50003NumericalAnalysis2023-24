@@ -129,9 +129,9 @@
 \rule{\textwidth}{1pt}
 \textbf{Problem 1} Assuming $f$ is differentiable, prove the left-point Rectangular rule error formula
 \[
-\ensuremath{\int}_a^b f(x) {\rm d}x =  h \ensuremath{\sum}_{k=0}^{n-1} f(x_k) +  \ensuremath{\delta}
+\ensuremath{\int}_a^b f(x) {\rm d}x =  h \ensuremath{\sum}_{j=0}^{n-1} f(x_j) +  \ensuremath{\delta}
 \]
-where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a) h$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f'(x)|$, $h = (b-a)/n$ and $x_k = a + kh$. 
+where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a) h$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f'(x)|$, $h = (b-a)/n$ and $x_j = a + jh$. 
 
 \textbf{Problem 2(a)}  Assuming $f$ is twice-differentiable, prove a one-panel Trapezium rule error bound:
 \[
@@ -147,7 +147,7 @@ and you may need to use Taylor's theorem. Note that the bound is not sharp and s
 
 \textbf{Problem 2(b)} Assuming $f$ is twice-differentiable, prove a bound for the Trapezium rule error:
 \[
-\ensuremath{\int}_a^b f(x) {\rm d}x = h \br[{f(a) \over 2} + \ensuremath{\sum}_{j=1}^{n-1} f(x_k) + {f(b) \over 2}] +  \ensuremath{\delta}
+\ensuremath{\int}_a^b f(x) {\rm d}x = h \br[{f(a) \over 2} + \ensuremath{\sum}_{j=1}^{n-1} f(x_j) + {f(b) \over 2}] +  \ensuremath{\delta}
 \]
 where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a) h^2$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f''(x)|$.  
 

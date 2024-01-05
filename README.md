@@ -16,22 +16,22 @@ Office hour: Mondays 11am, Huxley 6M40
 
 ## Assessment
 
-1. [2021–22 Computer-based exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/computerexam2122.ipynb)
-2. [2022–23 Computer-based exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/computerexam2223.ipynb)
-3. Practice computer-based exam: TBA
-4. Final exam (pen-and-paper): TBA
+1. Practice computer-based exam (marked but not for credit): TBA
+2. Computer-based exam: 15 March 2024, 9:00–10:00
+5. Final exam (pen-and-paper): TBA
 
 
 ## Reading List
 
-1. Tobin A. Driscoll & Richard J. Braun, [Fundamentals of Numerical Computation, Julia Edition](https://tobydriscoll.net/fnc-julia/linsys/overview.html), Chapters 1–3, 7
+1. [MATH50003 Introduction to Julia](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/notes/A.Julia.ipynb)
+4. [The Julia Documentation](https://docs.julialang.org)
+6. Ben Lauwens, [Think Julia](https://benlauwens.github.io/ThinkJulia.jl/latest/book)
+5. [The Julia–Matlab–Python Cheatsheet](https://cheatsheets.quantecon.org)
+2. Tobin A. Driscoll & Richard J. Braun, [Fundamentals of Numerical Computation, Julia Edition](https://tobydriscoll.net/fnc-julia/linsys/overview.html), Chapters 1–3, 7
 2. Nicholas J. Higham, [Accuracy and Stability of Numerical Algorithms](https://epubs.siam.org/doi/book/10.1137/1.9780898718027?mobileUi=0), Chapters 1–3
 1. Michael L. Overton, [Numerical Computing with IEEE Floating Point Arithmetic](https://epubs.siam.org/doi/book/10.1137/1.9780898718072), Chapters 2–6
 2. Lloyd N. Trefethen & David Bau III, [Numerical Linear Algebra](https://my.siam.org/Store/Product/viewproduct/?ProductId=950/&ct=c257a1956367c57b599612fbf383d0d3c674af4f9181d827444b5cdaca95b0686d6d20467a7c1e3290fb5b31c310ce74f5b2ede375934b844b1171bc734358e2), Chapters 1–4
 3. Lloyd N. Trefethen, [Approximation Theory and Approximation Practice](https://people.maths.ox.ac.uk/trefethen/ATAP/ATAPfirst6chapters.pdf), Chapters 1–4, 17–19
-4. [The Julia Documentation](https://docs.julialang.org)
-5. [The Julia–Matlab–Python Cheatsheet](https://cheatsheets.quantecon.org)
-6. Ben Lauwens, [Think Julia](https://benlauwens.github.io/ThinkJulia.jl/latest/book)
 7. David A. Ham, [Just enough Git to get by](https://object-oriented-python.github.io/a2_git.html)
 
 
@@ -98,7 +98,7 @@ really understand what the computer is doing. As a bonus, it is easy-to-read and
 
 To run Julia in a Jupyter notebook on your own machine:
 
-1. Download [Julia v1.9.3](https://julialang.org/downloads/)
+1. Download [Julia v1.10](https://julialang.org/downloads/)
 2. Open the Julia app which will launch a new window
 3. Install the needed packages by typing (`]` will change the prompt to a package manager):
 ```julia
@@ -114,3 +114,14 @@ using IJulia
 notebook()
 ```
 5. Download the labs to the same folder as the Jupyter notebook is running.
+
+## Past exams
+
+
+1. [2021–22 Computer-based exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/computerexam2122.ipynb)
+2. [2022–23 Computer-based exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/computerexam2223.ipynb)
+
+## Past Course Websites
+
+1. [2021-22](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2021-22)
+2. [2022-23](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2022-23)

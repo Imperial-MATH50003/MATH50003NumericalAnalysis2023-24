@@ -17,9 +17,9 @@
 # here experimentally, leaving rigorous analysis to the notes.
 #
 # However, things do not go quite according to plan: our numerical implementation
-# does not quite follow the convergence results in analysis. 
+# does not quite follow the convergence results in analysis.
 # We run into a couple mysteries:
-# 
+#
 # 1. Numerical integration appears to converge but in some examples the error gets stuck at a vey small value, less than $10^{-15}$ or so.
 # 2. Numerical differentiation appears to converges as $h → 0$ achieving around 5 digits or so. However, it starts becoming extremely inaccurate when $h$ falls below $10^{-8}$ or so, eventually giving no digits of accuracy!
 #
@@ -29,14 +29,14 @@
 #
 # We will use the Julia programming language which is in some ways similar to Python.
 # Julia is a _compiled language_ whereas Python is interpreted. It is also more adapted to the
-# implementation of algorithms in numerical analysis and scientific computing. 
+# implementation of algorithms in numerical analysis and scientific computing.
 # Being a compiled language means it will help us later on in the module understand exactly how
 # the computer functions when performing numerical calculations.
 #
 # We have included problems interspersed with the material which are highly recommended for
 # preparation for the computer-based exam later this term. Note each exercise comes with
 # unit-tests: if when run they don't throw an error that gives evidence (but no guarantee!)
-# that the problem solution is correct. 
+# that the problem solution is correct.
 #
 # **Learning Outcomes**
 #
@@ -44,7 +44,7 @@
 #
 # 1. Approximating integrals using rectangular and trapezium rules.
 # 2. Approximating (first) derivatives using divided differences and central differences.
-# 3. Approximating second derivatives using second-order divided differences. 
+# 3. Approximating second derivatives using second-order divided differences.
 # 4. Understanding that there are artificial errors introduced by numerical implementations of algorithms.
 #
 # Coding knowledge:
@@ -62,12 +62,12 @@
 
 # One possible definition for an integral is the limit of a Riemann sum, for example:
 # $$
-#   ∫_0^1 f(x) {\rm d}x = \lim_{n → ∞} {1 \over n} ∑_{k=1}^n f(k/n).
+#   ∫_0^1 f(x) {\rm d}x = \lim_{n → ∞} {1 \over n} ∑_{j=1}^n f(j/n).
 # $$
 # This suggests an algorithm known as the _(right-sided) rectangular rule_
 # for approximating an integral: choose $n$ large so that
 # $$
-#   ∫_0^1 f(x) {\rm d}x ≈ {1 \over n} ∑_{k=1}^n f(k/n).
+#   ∫_0^1 f(x) {\rm d}x ≈ {1 \over n} ∑_{j=1}^n f(j/n).
 # $$
 # To implement this approximation in code we need to turn the sum into a for-loop.
 # Let's take as an example $f(x) = \exp(x)$. We can write:
@@ -76,8 +76,8 @@ n = 10000     # the number of terms in the summation
 ret = 0.0     # ret will store the result, accumulated one argument at a time.
               ## The .0 makes it a "real" rather than an "integer".
               ## Understanding the "type" will be important later on.
-for k = 1:n   # k will be set to 1,2,…,n in sequence
-    ret = ret + exp(k/n) # add exp(k/n) to the result. Now ret = ∑_{j=1}^k f(j/n).
+for j = 1:n   # j will be set to 1,2,…,n in sequence
+    ret = ret + exp(j/n) # add exp(j/n) to the result. Now ret = ∑_{k = 1}^j f(k/n).
 end           # in Julia for-loops are finished with an end
 ret/n         # approximates the true answer exp(1) - exp(0) = ℯ-1 = 1.71828… to 4 digits
 
@@ -86,27 +86,49 @@ ret/n         # approximates the true answer exp(1) - exp(0) = ℯ-1 = 1.71828�
 
 function rightrectangularrule(f, n) # create a function named "rightrectangularrule" that takes in two arguments
     ret = 0.0
-    for k = 1:n
-        ret = ret + f(k/n) # now `f` is the input function
-    end           
+    for j = 1:n
+        ret = ret + f(j/n) # now `f` is the input function
+    end
     ret/n   # the last line of a function is returned
 end # like for-loops, functions are finished with an end
 
 rightrectangularrule(exp, 100_000_000) # Use n = 100 million points to get an approximation accurate to 8 digits.
                                       ## The underscores in numbers are like commas and are ignored.
 
-# Note it is now easy to approximate other functions. For example, the following code computes the
+
+# In the problems below we provide unit-tests to help you verify whether your answers are correct.
+# This is provided by a `Test` package which provides the "macro" `@test` which either errors if a result
+# returns false or passes if it is true.  Here we test that our
+# implementation of `rightrectangularrule` approximately matches the true integral:
+
+using Test # loads `@test`. Will need to be called again if you reset Julia
+@test rightrectangularrule(exp, 100_000_000) ≈ exp(1) - 1
+
+# Note `≈` is a unicode character which can be typed as `\approx` followed by hitting the `[tab]` key.
+# The `@test` macro combined with `≈` allows us to provide an absolute tolerance which is useful
+# for checking results where the error is larger. Here we check that it satisfies the bound we have
+# proven:
+
+n = 1000
+@test rightrectangularrule(exp, n) ≈ exp(1) - 1 atol=exp(1)/n # error predicted to be less than M/n = (max exp(x))/n = exp(1)/n
+
+# Note it is now easy to approximate integrals of other functions. For example, the following code computes the
 # integral of $x^2$:
 
 function squared(x)
     x^2 # carets ^ mean "to the power of". This is actually a function that just calls x*x.
 end
-rightrectangularrule(squared, 10_000) # approximates 1/3 to 3 digits
+@test rightrectangularrule(squared, 10_000) ≈ 1/3 atol=1E-4 # approximates 1/3 to 3 digits
+
+# Note below we sometimes use a one-liner version of defining a function:
+
+squared(x) = x^2 # exactly the same as the `function squared(x) ... end` definition
+@test rightrectangularrule(squared, 10_000) ≈ 1/3 atol=1E-4 # approximates 1/3 to 3 digits
 
 # It is often inconvenient to name a function, and so we might want to integrate a function like $\cos(x^2)$
 # by making a so-called anonymous function:
 
-rightrectangularrule(x -> cos(x^2), 10_000) # No nice formula! But I claim we got 4 digits
+rightrectangularrule(x -> cos(x^2), 10_000) # No nice formula! But we expect from the theory that the error is less than 2*1E-4
 
 # **Remark** Note the difference between "named" and "anonymous" functions can be confusing at first.
 # For example, writing `f = x -> cos(x^2)` creates an anonymous function and assigns it to the
@@ -120,18 +142,18 @@ rightrectangularrule(x -> cos(x^2), 10_000) # No nice formula! But I claim we go
 # **Problem 1(a)** Complete the following function `leftrectangularrule(f, n)` That approximates
 # an integral using the left-sided rectangular rule:
 # $$
-#   ∫_0^1 f(x) {\rm d}x ≈ {1 \over n} ∑_{k=0}^{n-1} f(k/n).
+#   ∫_0^1 f(x) {\rm d}x ≈ {1 \over n} ∑_{j=0}^{n-1} f(j/n).
 # $$
 
-using Test # Loads the testing packages
+using Test # Loads `@test` again in case you didn't run the line above.
 
 function leftrectangularrule(f, n)
-    ## TODO: return (1/n) * ∑_{k=0}^{n-1} f(k/n) computed using a for-loop
+    ## TODO: return (1/n) * ∑_{j=0}^{n-1} f(j/n) computed using a for-loop
     ## SOLUTION
     ret = 0.0
-    for k = 0:n-1 # k runs from 0 to n-1 instead of 1 to n
-        ret = ret + f(k/n)
-    end           
+    for j = 0:n-1 # j runs from 0 to n-1 instead of 1 to n
+        ret = ret + f(j/n)
+    end
     ret/n   # the last line of a function is returned
     ## END
 end
@@ -142,18 +164,18 @@ end
 # **Problem 1(b)** If we approximate integrals by _trapeziums_ instead of rectangles we arrive
 # at an approximation to an integral using the $(n+1)$-point trapezium rule:
 # $$
-#   ∫_0^1 f(x) {\rm d}x ≈ {1 \over n} \left[ f(0)/2 + ∑_{k=1}^{n-1} f(k/n) + f(1)/2 \right]
+#   ∫_0^1 f(x) {\rm d}x ≈ {1 \over n} \left[ f(0)/2 + ∑_{j=1}^{n-1} f(j/n) + f(1)/2 \right]
 # $$
-# Write a function `trapeziumrule(f, n)` that implements this approximation. 
+# Write a function `trapeziumrule(f, n)` that implements this approximation.
 # Do you think it is more or less accurate than the rectangular rules?
 
 ## TODO: write  a function trapeziumrule(f, n) which returns the n-point trapezium rule approximation
 ## SOLUTION
 function trapeziumrule(f, n)
     ret = f(0)/2
-    for k = 1:n-1 # k skips first and lest point
-        ret = ret + f(k/n) 
-    end     
+    for j = 1:n-1 # j skips first and lest point
+        ret = ret + f(j/n)
+    end
     ret = ret + f(1)/2
     ret/n
 end
@@ -205,7 +227,7 @@ trapeziumrule(x -> sin(4π*x), 10_000) # not any more accurate
 #   $$
 #  It is possible to prove convergence rates
 # (something we will come back to throughout the module) but it is often easier and more informative
-# to plot the error and deduce the convergence rate experimentally. 
+# to plot the error and deduce the convergence rate experimentally.
 
 # Let's try with the `leftrectangularrule` routine. First we see how we can plot functions:
 
@@ -213,21 +235,21 @@ using Plots # Load the plotting package
 
 m = 100 # number of plot points
 x = range(0, 1; length=m) # makes a vector of a 100 points between 0 and 1
-y = [exp(x[k]) for k=1:m] # Make a vector of `exp` evaluated at each point `x`.
+y = [exp(x[j]) for j=1:m] # Make a vector of `exp` evaluated at each point `x`.
 plot(x, y) # plot lines throw the specified x and y coordinates
 
 # We now plot the absolute value of the integral approximated
 # by the left-hand rule compared to the "true" answer `exp(1)-1` as $n$ increases:
 
 N = 10_000 # total number of points
-leftruleerr = n -> leftrectangularrule(exp,n)- (exp(1)-1) # anonymous function that computes the error in the left-hand rectangular rule for the exponential
-errs = [abs(leftruleerr(n)) for n=1:N] # create a vector of the absolute-value of the errors for n running from 1 to N
-plot(1:N, errs; label="left-rule error") # label="..." labels the plot in the legend
+rightruleerr = n -> rightrectangularrule(exp,n)- (exp(1)-1) # anonymous function that computes the error in the right-hand rectangular rule for the exponential
+errs = [abs(rightruleerr(n)) for n=1:N] # create a vector of the absolute-value of the errors for n running from 1 to N
+plot(1:N, errs; label="right-rule error") # label="..." labels the plot in the legend
 
 # This plot is very uninformative: we can see that the error tends to zero but its
 # hard to understand at what rate. We can get more information by scaling both the $x$- and $y$-axis logarithmically:
 
-plot(1:N, errs; xscale=:log10, yscale=:log10, label="left-rule error", yticks=10.0 .^ (-10:1)) # yticks specifies the ticks used on the y-axis
+plot(1:N, errs; xscale=:log10, yscale=:log10, label="right-rule error", yticks=10.0 .^ (-10:1)) # yticks specifies the ticks used on the y-axis
 
 # We see with 10,000 points we get about $10^{-4}$ errors.
 # We can add to this plot reference curves corresponding to $n^{-1}$ and $n^{-2}$
@@ -237,7 +259,7 @@ plot!(1:N, (1:N) .^ (-1); linestyle=:dash, label="n^-1") # exclamation point mea
 plot!(1:N, (1:N) .^ (-2); linestyle=:dash, label="n^-2")
 
 # Since the error decays at the same rate as $n^{-1}$ we conclude that we can likely bound the error by
-# $C n^{-1}$ for some constant $C$.  
+# $C n^{-1}$ for some constant $C$, which matches the theory.
 
 # ------
 
@@ -304,7 +326,7 @@ plot(1:N, errs; xscale=:log10, yscale=:log10, label="error", yticks=10.0 .^ (-16
 # function is so simple we write it as a single line (using a special
 # syntax that is equivalent to writing `function ...`):
 
-rightdifferences(f, x, h) = (f(x+h) - f(x))/h
+rightdifferences(f, x, h) = (f(x+h) - f(x))/h # defines a function called `rightdifferences(f, x, h)` in one line
 rightdifferences(exp, 1, 0.00001)
 
 # We have computed `ℯ = 2.71828...` to 5 digits. One might be tempted to compute the integral by
@@ -320,8 +342,11 @@ rightdifferences(exp, 1, 10.0^(-15))
 # The result is completely wrong! Let's do a plot of the error as $h → 0$:
 
 ## Create  vector of errors in divided difference for h = 1,0.1,0.01,…,10^(-20)
-errs = [abs(rightdifferences(exp, 1, 10.0^(-k))-exp(1)) for k = 0:20] 
+errs = [abs(rightdifferences(exp, 1, 10.0^(-k))-exp(1)) for k = 0:20]
 plot(0:20, errs; yscale=:log10, label="error", legend=:bottomright) # scale only the y-axis, move the legend to bottom right to get out of the way
+bnds = [(h = 10.0^(-k); exp(1+h)*h/2) for k = 0:20] # error bound proven theoretically. We use `;` to write two lines at once
+plot!(0:20, bnds; linestyle=:dash, label="bound")
+
 
 # This raises a couple of mysteries:
 # 1. Why does our numerical version of divided differences diverges
@@ -356,7 +381,7 @@ end
 
 ## TODO: Plot the errors of centraldifferences
 ## SOLUTION
-errs = [abs(centraldifferences(exp, 1, 10.0^(-k))-exp(1)) for k = 0:20] 
+errs = [abs(centraldifferences(exp, 1, 10.0^(-k))-exp(1)) for k = 0:20]
 plot(0:20, errs; yscale=:log10, label="error") # scale only the y-axis
 ## It still diverges but achieves much better accuracy. The optimal choice of $h$ is now
 # $≈ 10^{-5}$.
@@ -377,7 +402,7 @@ function seconddifferences(f, x, h)
     (f(x+h)-2f(x) + f(x-h))/(h^2)
 end
 
-errs = [abs(seconddifferences(exp, 1, 10.0^(-k))-exp(1)) for k = 0:10] 
+errs = [abs(seconddifferences(exp, 1, 10.0^(-k))-exp(1)) for k = 0:10]
 plot(0:10, errs; yscale=:log10, label="error") # scale only the y-axis
 
 ## We see the method begins to converge but then the error grows catastrophically.
@@ -426,19 +451,19 @@ end
 
 ## The following is less than 1E-10
 centraldifferences(f, 0.1, 0.000001) - centraldifferences(f, 0.1, 0.00001)
-## Hence we expect 
+## Hence we expect
 centraldifferences(f, 0.1, 0.000001) == 6.5847725547740765
 ## is accurate to 5 digits.
 
 ## The following is less than 1E-8
 centraldifferences(g, 0.1, 0.000001) - centraldifferences(g, 0.1, 0.00001)
-## Hence we expect 
+## Hence we expect
 centraldifferences(g, 0.1, 0.000001) == -3.593826512965359
 ## is accurate to 5 digits.
 
 ## The following is less than 1E-8
 centraldifferences(x -> cont(1000, x), 0.1, 0.000001) - centraldifferences(x -> cont(1000, x), 0.1, 0.00001)
-## Hence we expect 
+## Hence we expect
 centraldifferences(x -> cont(1000, x), 0.1, 0.000001) == 1.5811388301423257
 ## is accurate to 5 digits.
 

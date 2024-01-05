@@ -6,9 +6,9 @@
 
 **Problem 1** Assuming $f$ is differentiable, prove the left-point Rectangular rule error formula
 $$
-∫_a^b f(x) {\rm d}x =  h ∑_{k=0}^{n-1} f(x_k) +  δ
+∫_a^b f(x) {\rm d}x =  h ∑_{j=0}^{n-1} f(x_j) +  δ
 $$
-where $|δ| ≤ M (b-a) h$ for $M = \sup_{a ≤ x ≤ b}|f'(x)|$, $h = (b-a)/n$ and $x_k = a + kh$. 
+where $|δ| ≤ M (b-a) h$ for $M = \sup_{a ≤ x ≤ b}|f'(x)|$, $h = (b-a)/n$ and $x_j = a + jh$. 
 
 **SOLUTION**
 
@@ -25,19 +25,19 @@ where
 $$
 \abs{ε} ≤ (b-a) \sup_{a ≤ x ≤ b}|(x-b) f'(x)| ≤ M (b-a)^2
 $$
-Applying this result on $[x_{k-1},x_k]$ we get
+Applying this result on $[x_{j-1},x_j]$ we get
 $$
-∫_{x_{k-1}}^{x_k} f(x) {\rm d}x = h f(x_{k-1}) + δ_k
+∫_{x_{j-1}}^{x_j} f(x) {\rm d}x = h f(x_{j-1}) + δ_j
 $$
-where $|δ_k| ≤ M h^2$. 
+where $|δ_j| ≤ M h^2$. 
 Splitting the integral into a sum of smaller integrals:
 $$
-∫_a^b f(x) {\rm d}x = ∑_{k=1}^n  ∫_{x_{k-1}}^{x_k} f(x) {\rm d}x =
-h ∑_{k=1}^n f(x_{k-1}) +  \underbrace{∑_{k=1}^n δ_k}_δ
+∫_a^b f(x) {\rm d}x = ∑_{j=1}^n  ∫_{x_{j-1}}^{x_j} f(x) {\rm d}x =
+h ∑_{j=1}^n f(x_{j-1}) +  \underbrace{∑_{j=1}^n δ_j}_δ
 $$
 where using the triangular inequality we have 
 $$
-|δ| = \abs{ ∑_{k=1}^n δ_k} ≤ ∑_{k=1}^n |δ_k| ≤ M n h^2 = M(b-a)h.
+|δ| = \abs{ ∑_{j=1}^n δ_j} ≤ ∑_{j=1}^n |δ_j| ≤ M n h^2 = M(b-a)h.
 $$
 
 **END**
@@ -91,25 +91,25 @@ For the sharper $1/12$ constant check out the [Euler–Maclaurin formula](https:
 
 **Problem 2(b)** Assuming $f$ is twice-differentiable, prove a bound for the Trapezium rule error:
 $$
-∫_a^b f(x) {\rm d}x = h \br[{f(a) \over 2} + ∑_{j=1}^{n-1} f(x_k) + {f(b) \over 2}] +  δ
+∫_a^b f(x) {\rm d}x = h \br[{f(a) \over 2} + ∑_{j=1}^{n-1} f(x_j) + {f(b) \over 2}] +  δ
 $$
 where $|δ| ≤ M (b-a) h^2$ for $M = \sup_{a ≤ x ≤ b}|f''(x)|$.  
 
 **SOLUTION**
 
-This is very simple to the rectangular rules: applying the preceding result on $[x_{k-1},x_k]$ we get
+This is very simple to the rectangular rules: applying the preceding result on $[x_{j-1},x_j]$ we get
 $$
-∫_{x_{k-1}}^{x_k} f(x) {\rm d}x = h {f(x_{k-1}) + f(x_k) \over 2} + δ_k
+∫_{x_{j-1}}^{x_j} f(x) {\rm d}x = h {f(x_{j-1}) + f(x_j) \over 2} + δ_j
 $$
-where $|δ_k| ≤ M h^3$. 
+where $|δ_j| ≤ M h^3$. 
 Splitting the integral into a sum of smaller integrals:
 $$
-∫_a^b f(x) {\rm d}x = ∑_{k=1}^n  ∫_{x_{k-1}}^{x_k} f(x) {\rm d}x =
-h \br[{f(a) \over 2} + ∑_{j=1}^{n-1} f(x_k) + {f(b) \over 2}] +  \underbrace{∑_{k=1}^n δ_k}_δ
+∫_a^b f(x) {\rm d}x = ∑_{j=1}^n  ∫_{x_{j-1}}^{x_j} f(x) {\rm d}x =
+h \br[{f(a) \over 2} + ∑_{j=1}^{n-1} f(x_j) + {f(b) \over 2}] +  \underbrace{∑_{j=1}^n δ_j}_δ
 $$
 where using the triangular inequality we have 
 $$
-|δ| = \abs{ ∑_{k=1}^n δ_k} ≤ ∑_{k=1}^n |δ_k| ≤ M n h^3 = M(b-a) h^2.
+|δ| = \abs{ ∑_{j=1}^n δ_j} ≤ ∑_{j=1}^n |δ_j| ≤ M n h^3 = M(b-a) h^2.
 $$
 
 

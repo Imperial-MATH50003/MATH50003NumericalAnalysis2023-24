@@ -1,4 +1,13 @@
 #####
+# extras
+#####
+
+using Weave
+
+nkwds = (out_path="notes/", jupyter_path="$(homedir())/.julia/conda/3/x86_64/bin/jupyter", nbconvert_options="--allow-errors")
+notebook("src/notes/A.Julia.jmd"; nkwds...)
+
+#####
 # notes
 #####
 

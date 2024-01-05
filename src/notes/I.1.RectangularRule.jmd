@@ -4,20 +4,20 @@
 
 One possible definition for an integral is the limit of a Riemann sum, for example:
 $$
-  ∫_a^b f(x) {\rm d}x = \lim_{n → ∞} h ∑_{k=1}^n f(x_k)
+  ∫_a^b f(x) {\rm d}x = \lim_{n → ∞} h ∑_{j=1}^n f(x_j)
 $$
-where $x_k = a+kh$ are evenly spaced points dividing up the interval $[a,b]$, that
+where $x_j = a+jh$ are evenly spaced points dividing up the interval $[a,b]$, that
 is  with the _step size_ $h = (b-a)/n$.
 This suggests an algorithm known as the _(right-sided) rectangular rule_
 for approximating an integral: choose $n$ large so that
 $$
-  ∫_a^b f(x) {\rm d}x ≈ h ∑_{k=1}^n f(x_k).
+  ∫_a^b f(x) {\rm d}x ≈ h ∑_{j=1}^n f(x_j).
 $$
 In the lab we explore practical implementation of this approximation, and observe that
 the error in approximation is bounded by $C/n$ for some constant $C$. This can be expressed using
 "Big-O" notation:
 $$
-∫_a^b f(x) {\rm d}x = h ∑_{k=1}^n f(x_k) + O(1/n).
+∫_a^b f(x) {\rm d}x = h ∑_{j=1}^n f(x_j) + O(1/n).
 $$
 
 In these notes we consider the "Analysis" part of "Numerical Analysis": we want to _prove_ the
@@ -60,30 +60,30 @@ Now summing up the errors in each panel gives us the error of using the Rectangu
 **Theorem (Rectangular Rule error)**
 Assuming $f$ is differentiable we have
 $$
-∫_a^b f(x) {\rm d}x =  h ∑_{k=1}^n f(x_k) +  δ
+∫_a^b f(x) {\rm d}x =  h ∑_{j=1}^n f(x_j) +  δ
 $$
-where $|δ| ≤ M (b-a) h$ for $M = \sup_{a ≤ x ≤ b}|f'(x)|$, $h = (b-a)/n$ and $x_k = a + kh$.
+where $|δ| ≤ M (b-a) h$ for $M = \sup_{a ≤ x ≤ b}|f'(x)|$, $h = (b-a)/n$ and $x_j = a + jh$.
 
 **Proof**
 We split the integral into a sum of smaller integrals:
 $$
-∫_a^b f(x) {\rm d}x = ∑_{k=1}^n  ∫_{x_{k-1}}^{x_k} f(x) {\rm d}x =
-∑_{k=1}^n  \br[(x_k - x_{k-1}) f(x_k) + δ_k] =  h ∑_{k=1}^n f(x_k) +  \underbrace{∑_{k=1}^n δ_k}_δ
+∫_a^b f(x) {\rm d}x = ∑_{j=1}^n  ∫_{x_{j-1}}^{x_j} f(x) {\rm d}x =
+∑_{j=1}^n  \br[(x_j - x_{j-1}) f(x_j) + δ_j] =  h ∑_{j=1}^n f(x_j) +  \underbrace{∑_{j=1}^n δ_j}_δ
 $$
-where $δ_k$, the error on each panel as in the preceding lemma, satisfies
+where $δ_j$, the error on each panel as in the preceding lemma, satisfies
 $$
-|δ_k| ≤ (x_k-x_{k-1})^2 \sup_{x_{k-1} ≤ x ≤ x_k}|f'(x)| ≤ M h^2.
+|δ_j| ≤ (x_j-x_{j-1})^2 \sup_{x_{j-1} ≤ x ≤ x_j}|f'(x)| ≤ M h^2.
 $$
 Thus using the triangular inequality we have
 $$
-|δ| = \abs{ ∑_{k=1}^n δ_k} ≤ ∑_{k=1}^n |δ_k| ≤ M n h^2 = M(b-a)h.
+|δ| = \abs{ ∑_{j=1}^n δ_j} ≤ ∑_{j=1}^n |δ_j| ≤ M n h^2 = M(b-a)h.
 $$
 ∎
 
-Note a consequence of this lemma is that the approximation converges as $n → 0$. In the labs and problem
+Note a consequence of this lemma is that the approximation converges as $n → ∞$ (i.e. $h → 0$). In the labs and problem
 sheets we will consider the left-sided rule:
 $$
-∫_a^b f(x) {\rm d}x ≈  h ∑_{k=0}^{n-1} f(x_k).
+∫_a^b f(x) {\rm d}x ≈  h ∑_{j=0}^{n-1} f(x_j).
 $$
 We also consider the _Trapezium rule_. Here we approximate an integral  by an affine function:
 $$
@@ -91,9 +91,9 @@ $$
 = {b-a \over 2} \br[f(a) + f(b)].
 $$
 Subdividing an interval $a = x_0 < x_1 < … < x_n = b$ and applying this approximation separately on
-each subinterval $[x_{k-1},x_k]$, where $h = (b-a)/n$ and $x_k = a + kh$, leads to the approximation
+each subinterval $[x_{j-1},x_j]$, where $h = (b-a)/n$ and $x_j = a + jh$, leads to the approximation
 $$
-∫_a^b f(x) {\rm d}x ≈  {h \over 2} f(a) + h ∑_{k=1}^{n-1} f(x_k) + {h \over 2} f(b)
+∫_a^b f(x) {\rm d}x ≈  {h \over 2} f(a) + h ∑_{j=1}^{n-1} f(x_j) + {h \over 2} f(b)
 $$
 We shall see both experimentally and provably that this approximation converges faster than the
 rectangular rule.
