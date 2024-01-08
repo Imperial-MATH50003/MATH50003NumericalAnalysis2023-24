@@ -34,7 +34,7 @@ for what choice of $s$ and $t$?
 
 
 **Problem 3(b)** A _field_ is a commutative ring such that $0 ≠ 1$ and all nonzero elements have a multiplicative inverse, i.e.,
-there exists $a^{-1}$ such that $a a^{-1} = 1$. Can we use Problem 4(b) to define $a^{-1} := 1/a$ to make $𝔻$ a field? Why or why not?
+there exists $a^{-1}$ such that $a a^{-1} = 1$. Can we use Problem 3(a) to define $a^{-1} := 1/a$ to make $𝔻$ a field? Why or why not?
 
 
  
