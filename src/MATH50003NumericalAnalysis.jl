@@ -59,8 +59,9 @@ function compilesheet(filename)
     write(path, replace(read(path, String), r"\\\[\n\\meeq\{(.*?)\}\n\\\]"s => s"\\meeq{\1}"))
 end
 
-compilesheet("sheet1")
-compilesheet("sheet2")
+for k = 1:2
+    compilesheet("sheet$k")
+end
 
 # notebook("sheets/sheet1.jmd"; pkwds...)
 # notebook("src/sheets/sheet1s.jmd"; pkwds...)

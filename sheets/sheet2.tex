@@ -128,7 +128,11 @@
 
 \textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Problem Sheet 2}
 
-\textbf{Problem 1}  Show that dual numbers $\ensuremath{\bbD}$ are a \emph{commutative ring}, that is, for all $a,b,c \ensuremath{\in} \ensuremath{\bbD}$ the following are satisfied:
+\textbf{Problem 1} Using dual number arithmetic, compute the following polynomials evaluated at the dual number $2+\ensuremath{\epsilon}$ and use this to deduce their derivative at $2$:
+\[
+2x^2 + 3x + 4, (x+1)(x+2)(x+3), (2x+1)x^3
+\]
+\textbf{Problem 2}  Show that dual numbers $\ensuremath{\bbD}$ are a \emph{commutative ring}, that is, for all $a,b,c \ensuremath{\in} \ensuremath{\bbD}$ the following are satisfied:
 
 \begin{itemize}
 \item[1. ] \emph{additive associativity}: $(a + b) + c = a + (b + c)$
@@ -155,21 +159,21 @@
 \item[8. ] \emph{distributive}: $a(b+c) = ab + ac$
 
 \end{itemize}
-\textbf{Problem 2} What should the following functions applied to dual numbers return for $x = a+b \ensuremath{\epsilon}$:
+\textbf{Problem 3} What should the following functions applied to dual numbers return for $x = a+b \ensuremath{\epsilon}$:
 \[
-f(x) = x^{10}    + 1, g(x) = 1/x, h(x) = \tan x
+f(x) = x^{100}    + 1, g(x) = 1/x, h(x) = \tan x
 \]
 State  the domain where these definitions are valid.
 
-\textbf{Problem 3(a)} What is the correct definition of division on dual numbers, i.e.,
+\textbf{Problem 4(a)} What is the correct definition of division on dual numbers, i.e.,
 \[
 (a + b \ensuremath{\epsilon} )/(c + d \ensuremath{\epsilon} ) = s + t \ensuremath{\epsilon}
 \]
 for what choice of $s$ and $t$? 
 
-\textbf{Problem 3(b)} A \emph{field} is a commutative ring such that $0 \ensuremath{\neq} 1$ and all nonzero elements have a multiplicative inverse, i.e., there exists $a^{-1}$ such that $a a^{-1} = 1$. Can we use Problem 4(b) to define $a^{-1} := 1/a$ to make $\ensuremath{\bbD}$ a field? Why or why not?
+\textbf{Problem 4(b)} A \emph{field} is a commutative ring such that $0 \ensuremath{\neq} 1$ and all nonzero elements have a multiplicative inverse, i.e., there exists $a^{-1}$ such that $a a^{-1} = 1$. Can we use the previous part to define $a^{-1} := 1/a$ to make $\ensuremath{\bbD}$ a field? Why or why not?
 
-\textbf{Problem 4} Use dual numbers to compute the derivative of the following functions at $x = 0.1$:
+\textbf{Problem 5} Use dual numbers to compute the derivative of the following functions at $x = 0.1$:
 \[
 \exp(\exp x \cos x + \sin x), \prod_{k=1}^3 \left({x \over k}-1\right),\hbox{ and } f^{\rm s}_2(x) = {1 + {x - 1 \over 2 + {x-1 \over 2}}}
 \]
