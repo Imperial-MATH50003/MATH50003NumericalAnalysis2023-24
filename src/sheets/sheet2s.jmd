@@ -29,59 +29,9 @@ so the derivative is 76.
 
 **END**
 
-**Problem 2** 
-Show that dual numbers $𝔻$ are a _commutative ring_, that is, for all $a,b,c ∈ 𝔻$ the following are satisfied:
-1. _additive associativity_: $(a + b) + c = a + (b + c)$
-2. _additive commutativity_: $a + b = b + a$
-3. _additive identity_: There exists $0 ∈ 𝔻$ such that $a + 0 = a$.
-4. _additive inverse_: There exists $-a$ such that $(-a) + a = 0$.
-5. _multiplicative associativity_: $(ab)c = a(bc)$
-6. _multiplictive commutativity_: $ab = ba$
-7. _multiplictive identity_: There exists $1 ∈ 𝔻$ such that $1a= a$.
-8. _distributive_: $a(b+c) = ab + ac$
-
-**SOLUTION**
-In what follows we write $a = a_r + a_d ϵ$ and likewise for $b,c ∈ 𝔻$.
-
-Additive associativity and commutativity and existence of additive inverse are both 
-immediate results of dual number addition reducing to element-wise real number addition. 
-Furthermore, by definition of addition on $𝔻$ the dual number $0+0 ϵ$ acts as the additive 
-identity since
-$$
-(a_r+a_dϵ)+(0+0ϵ) = (a_r+a_dϵ ).
-$$
-We explicitly prove multiplicative commutativity
-$$
-ab = (a_r+a_dϵ )(b_r+b_d ϵ ) = a_r b_r+(a_r b_d+a_d b_r)ϵ = b_r a_r+(b_r a_d+b_d a_r)ϵ = ba.
-$$
-We also explicitly prove multiplicative associativity:
-$$
-(ab)c = ((a_r b_r+(a_r b_d+a_d b_r) ϵ ) c = 
-a_r b_r c_r + ((a_r b_d + a_d b_r) c_r  + a_r b_r c_d) ϵ = 
-a_r b_r c_r + (a_r b_d c_r + a_d b_r c_r  + a_r b_r c_d) ϵ
-$$
-and
-$$
-a(bc) = a ((b_r c_r+(b_r c_d+b_d c_r) ϵ ) = a_r b_r c_r + (a_r b_d c_r + a_d b_r c_r  + a_r b_r c_d) ϵ.
-$$
-The number $1+0ϵ$ serves as the multiplicative identity. Note that for any dual number $a$, we have
-$$
-(1+0ϵ )(a_r + a_d ϵ ) = 1 a_r + (a_r 0 + 1 a_d) ϵ = a_r+a_d ϵ = a.
-$$
-Finally we show distributivity of multiplication:
-$$
-a(b+c) = a (b_r+c_r + (b_d+c_d)ϵ) = (a_r b_r + a_r c_r) + (a_r b_d+a_r c_d+ a_d b_r + a_d c_r) ϵ,
-$$
-$$
-ab + ac = a_r b_r + (a_d b_r + a_r b_d) ϵ + a_r c_r + (a_d c_r + a_r c_d) ϵ = (a_r b_r + a_r c_r) + (a_r b_d+a_r c_d+ a_d b_r + a_d c_r) ϵ.
-$$
-
-**END**
 
 
-
-
-**Problem 3** What should the following functions applied to dual numbers return for $x = a+b ϵ$:
+**Problem 2** What should the following functions applied to dual numbers return for $x = a+b ϵ$:
 $$
 f(x) = x^{100}    + 1, g(x) = 1/x, h(x) = \tan x
 $$
@@ -107,7 +57,7 @@ valid for $a ∉ \{ kπ+π/2 : k ∈ ℤ\}$.
 **END**
 
 
-**Problem 4(a)** What is the correct definition of division on dual numbers, i.e.,
+**Problem 3(a)** What is the correct definition of division on dual numbers, i.e.,
 $$
 (a + b ϵ )/(c + d ϵ ) = s + t ϵ
 $$
@@ -130,7 +80,7 @@ Thus we have $s = \frac{a}{c}$ and $t = \frac{bc - ad}{c^2}$.
 
 **END**
 
-**Problem 4(b)** A _field_ is a commutative ring such that $0 ≠ 1$ and all nonzero elements have a multiplicative inverse, i.e.,
+**Problem 3(b)** A _field_ is a commutative ring such that $0 ≠ 1$ and all nonzero elements have a multiplicative inverse, i.e.,
 there exists $a^{-1}$ such that $a a^{-1} = 1$. Can we use the previous part to define $a^{-1} := 1/a$ to make $𝔻$ a field? Why or why not?
 
 **SOLUTION**
@@ -149,7 +99,7 @@ This proves that no choice of real part $z_r$ can reach the multiplicative ident
  
 
 
-**Problem 5** Use dual numbers to compute the derivative of the following functions at $x = 0.1$:
+**Problem 4** Use dual numbers to compute the derivative of the following functions at $x = 0.1$:
 $$
 \exp(\exp x \cos x + \sin x), \prod_{k=1}^3 \left({x \over k}-1\right),\hbox{ and } f^{\rm s}_2(x) = {1 + {x - 1 \over 2 + {x-1 \over 2}}}
 $$
