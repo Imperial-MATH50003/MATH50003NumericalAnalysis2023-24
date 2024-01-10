@@ -20,10 +20,10 @@ $$
 ∫_a^b f(x) {\rm d}x = h ∑_{j=1}^n f(x_j) + O(1/n).
 $$
 
-In these notes we consider the ``Analysis" part of ``Numerical Analysis": we want to _prove_ the
+In these notes we consider the $``$Analysis" part of $``$Numerical Analysis": we want to _prove_ the
 convergence rate of the approximation, including finding an explicit expression for the constant $C$.
 
-To tackle this question we consider the error incurred on a single ``rectangle", then sum up the errors on rectangles.
+To tackle this question we consider the error incurred on a single $``$rectangle", then sum up the errors on rectangles.
 
 Now for a secret. There are only so many tools available in analysis (especially at this stage of your career), and
 one can make a safe bet that the right tool in any analysis proof is either (1) integration-by-parts, (2) geometric series
