@@ -45,7 +45,7 @@ We will return to the question of understanding these errors after learning floa
 
 
 There are alternative versions of divided differences. Left-side divided differences evaluates to the left
-of the point where wish to know the derivative:
+of the point where we wish to know the derivative:
 $$
 f'(x) ≈ {f(x) - f(x-h) \over h}
 $$

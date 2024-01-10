@@ -58,8 +58,8 @@ $$
 $$
 p(x) = (x-1)(x-2) + x^2.
 $$
-We can use dual numbers to differentiating, avoiding expanding in monomials
-or rules of differentiating:
+We can use dual numbers to differentiate, avoiding expanding in monomials
+or applying rules of differentiating:
 $$
 p(2+ϵ) = (1+ϵ)ϵ + (2+ϵ)^2 = ϵ + 4 + 4ϵ = 4 + \underbrace{5}_{p'(2)}ϵ
 $$
@@ -141,11 +141,11 @@ of functions that are dual with differentiation will be differentiable via dual 
 
 **Example (differentiating non-polynomial)**
 
-Consider $f(x) =  \exp(x^2 + \E^x)$ by evaluating on the duals:
+Consider differentiating $f(x) =  \exp(x^2 + \E^x)$ at the point $a = 1$ by evaluating on the duals:
 $$
-f(1 + ϵ) = \exp(1 + 2ϵ + \E + \E ϵ) =  \exp(1 + \E) + \exp(1 + \E) (2 + \E) ϵ
+f(1 + ϵ) = \exp(1 + 2ϵ + \E + \E ϵ) =  \exp(1 + \E) + \exp(1 + \E) (2 + \E) ϵ.
 $$
-and therefore we deduce that
+Therefore we deduce that
 $$
 f'(1) = \exp(1 + \E) (2 + \E).
 $$

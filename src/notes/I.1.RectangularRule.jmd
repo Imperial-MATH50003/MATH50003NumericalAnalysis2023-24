@@ -15,7 +15,7 @@ $$
 $$
 In the lab we explore practical implementation of this approximation, and observe that
 the error in approximation is bounded by $C/n$ for some constant $C$. This can be expressed using
-"Big-O" notation:
+“Big-O" notation:
 $$
 ∫_a^b f(x) {\rm d}x = h ∑_{j=1}^n f(x_j) + O(1/n).
 $$
@@ -23,7 +23,7 @@ $$
 In these notes we consider the “Analysis" part of “Numerical Analysis": we want to _prove_ the
 convergence rate of the approximation, including finding an explicit expression for the constant $C$.
 
-To tackle this question we consider the error incurred on a single “rectangle", then sum up the errors on rectangles.
+To tackle this question we consider the error incurred on a single panel $(x_{j-1},x_j)$, then sum up the errors on rectangles.
 
 Now for a secret. There are only so many tools available in analysis (especially at this stage of your career), and
 one can make a safe bet that the right tool in any analysis proof is either (1) integration-by-parts, (2) geometric series
@@ -44,14 +44,18 @@ $$
 = (b-a) f(b) + \underbrace{\left(-∫_a^b (x-a) f'(x) {\rm d} x \right)}_δ.
 }
 $$
-Recall that we can bound the absolute value of an integral by the sepremum of the integrand
+Recall that we can bound the absolute value of an integral by the supremum of the integrand
 times the width of the integration interval:
 $$
 \abs{∫_a^b g(x) {\rm d} x} ≤ (b-a) \sup_{a ≤ x ≤ b}|g(x)|.
 $$
 The lemma thus follows since
 $$
-\abs{∫_a^b (x-a) f'(x) {\rm d} x} ≤ (b-a) \sup_{a ≤ x ≤ b}|(x-a) f'(x)| ≤ M (b-a)^2.
+\begin{align*}
+\abs{∫_a^b (x-a) f'(x) {\rm d} x} &≤ (b-a) \sup_{a ≤ x ≤ b}|(x-a) f'(x)| ≤ (b-a) \sup_{a ≤ x ≤ b}|(x-a) f'(x)| \\
+&≤ (b-a) \sup_{a ≤ x ≤ b}|x-a| \sup_{a ≤ x ≤ b}|f'(x)|\\
+&≤ M (b-a)^2.
+\end{align*}
 $$
 ∎
 

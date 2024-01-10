@@ -52,16 +52,16 @@ In particular we investigate the following mathematical problems which can not i
 
 \begin{enumerate}
 \item Integration. General integrals have no closed form expressions. Can we use a computer to approximate the values of definite integrals?
-\item Differentiation. Differentiating a formula as in calculus is usually algorithmic, however, it is often needed to compute derivatives without access to an underlying formula, eg, of a function defined only in code. Can we use a computer to approximate derivatives?  A very important application is in Machine Learning, where there is a need to compute gradients to determine the ``right" weights in a neural network. 
+\item Differentiation. Differentiating a formula as in calculus is usually algorithmic, however, it is often needed to compute derivatives without access to an underlying formula, eg,  a function defined only in code. Can we use a computer to approximate derivatives?  A very important application is in Machine Learning, where there is a need to compute gradients to determine the ``right" weights in a neural network. 
 \item Root finding. There is no general formula for finding roots (zeros) of arbitrary functions, or even polynomials that are of degree 5 (quintics) or higher. Can we compute roots of general functions using a computer?
 \end{enumerate}
 
 In this chapter we discuss:
 
 \begin{enumerate}
-\item I.1 Rectangular rule: We review the rectangular rule for integration and deduce the {\it converge rate} of the approximation. In the lab  we investigate its implementation as well as extensions to the Trapezium rule. 
-\item I.2 Divided differences: We investigate approximating derivatives by a divided difference and again deduce the convergence rates. In the lab we extend the approach to the central differences formula and computing second derivatives. We also observe a mystery: the approximations may have significant errors in practice, and there is a limit to the accuracy.
-\item I.3 Dual numbers:  We introduce the algebraic notion of a {\it dual number} which allows implementing {\it forward-mode automatic differentiation}, a high accuracy alternative to divided differences for computing derivatives.
+\item I.1 Rectangular rule: We review the rectangular rule for integration and deduce the {\it converge rate} of the approximation. In the lab/problem sheet  we investigate its implementation as well as extensions to the Trapezium rule. 
+\item I.2 Divided differences: We investigate approximating derivatives by a divided difference and again deduce the convergence rates. In the lab/problem sheet we extend the approach to the central differences formula and computing second derivatives. We also observe a mystery: the approximations may have significant errors in practice, and there is a limit to the accuracy.
+\item I.3 Dual numbers:  We introduce the algebraic notion of a {\it dual number} which allows the implemention of {\it forward-mode automatic differentiation}, a high accuracy alternative to divided differences for computing derivatives.
 \end{enumerate}
 
 
