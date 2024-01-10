@@ -16,7 +16,7 @@
 # Mathematical knowledge:
 #
 # 1. Definition of dual numbers and functions applied dual numbers.
-# 2. Approximating second derivatives using second-order divided differences. 
+# 2. Approximating second derivatives using second-order divided differences.
 # 3. Newton's method for root finding.
 #
 # Coding knowledge:
@@ -44,7 +44,7 @@ nanabs(x) = x == 0 ? NaN : abs(x)
 # ## Types in Julia
 
 
-# Before we can use a concept like dual numbers we have to understand the notion of a "type",
+# Before we can use a concept like dual numbers we have to understand the notion of a "type".
 # In compiled languages like Julia everything has a "type". The function `typeof` can be used to determine the type of,
 # for example, a number.
 # By default when we write an integer (e.g. `-123`) it is of type `Int`:
@@ -52,25 +52,25 @@ nanabs(x) = x == 0 ? NaN : abs(x)
 typeof(5)
 
 # On a 64-bit machine this will print `Int64`, where the `64` indicates it is using precisely 64 bits
-# to represent the number (a topic we will come back to in the next few weeks). If we write something with
+# to represent the number (a topic we will come back to in Part II). If we write something with
 # a decimal point it represents a "real" number, whose storage is of type `Float64`:
 
 typeof(5.3)
 
 # This is called a "floating point" number, and again the `64` indicates it is using precisely
-# 64 bits to represent this number. (We will see this is why computations like divided differences 
+# 64 bits to represent this number. (We will see this is why computations like divided differences
 # have large errors: because we are limiting the number of "digits" to represent numbers we need to
 # round our computations.) Note that some operations involving `Int`s return `Float64`s:
 
 1/5 # 1 and 5 are Int but output is a Float64
 
-# It is possible to have functions behave differently depending on the input value. 
+# It is possible to have functions behave differently depending on the input type.
 # To do so we can add a restriction denoted `::Int` or `::Float64` to the function "signature".
 # Here we create a function `foo` that is equal to `1` if the input is an `Int`, `0` if the input is
 # a `Float64`, and `-1` otherwise:
 
 foo(x::Int) = 1 # The ::Int means this version is called when the input is an Int
-foo(x::Float64) = 0 
+foo(x::Float64) = 0
 foo(x) = -1 # This is equivalent to f(x::Any) = -1
             # Anything that is not an Int or Float64 will call this
 
@@ -81,13 +81,13 @@ foo(3), foo(2.5), foo("hi"), foo(3.0)
 # Note that there is a difference between an "integer" and the type `Int`: whilst 3.0 is an integer
 # its type is `Float64` so `foo(3.0) == 0`.
 
-# **Remark** Every type has a "supertype", which is an "abstract type": something you can't make an instance of it. 
+# **Remark** Every type has a "supertype", which is an "abstract type": something you can't make an instance of it.
 # For example, in the same way that "integers"
 # are subsets of the "reals" we have that `Int` and `Float64` are subtypes of
 # `Real`. Which is a subtype of `Number`. Which, as is everything, a subtype of `Any`.
 
 # Types allow for combining multiple numbers (or instances of other types) to represent a more complicated
-# object. A simple example of this is a complex number, 
+# object. A simple example of this is a complex number,
 # which stores two real numbers $x$ and $y$ (either `Int` or `Float64` or indeed other real number types not yet discussed)
 # to represent the complex number $x + {\rm i} y$. In Julia ${\rm i} = \sqrt{-1}$ is denoted `im` and
 # hence we can create a complex number like $1+2{\rm i}$ as follows:
@@ -122,22 +122,23 @@ exp(2z^2 + 3im)
 
 @test foo(1.1 + 2im) == im
 
-# ------ 
+# ------
 
 # **Problem 2(a)** Consider the Taylor series approximation to the exponential:
-# $$ 
+# $$
 # \exp z ≈ ∑_{k=0}^n {z^k \over k!}
 # $$
 # Complete the function `exp_t(z, n)` that computes this and returns a
-# `Complex{Float64}` if the input is complex and a `Float64`. 
+# `Complex{Float64}` if the input is complex and a `Float64`.
 # Do not use the inbuilt `factorial` function.
-# Hint: It might help to think inductively: for $s_k = z^k/k!$ we have 
+# Hint: It might help to think inductively: for $s_k = z^k/k!$ we have
 # $$
 #   s_{k+1}  = {z \over k+1} s_k.
 # $$
 
 function exp_t(z, n)
-    ## TODO: Compute the first (n+1)-terms of the Taylor series of exp evaluated at z
+    ## TODO: Compute the first (n+1)-terms of the Taylor series of exp
+    ## evaluated at z
     
 end
 
@@ -148,7 +149,7 @@ end
 
 # **Problem 2(b)** Plot the error for `n = 1:1000` of `exp_t(z, n)` for `z = 1, im, -5`, and `-100`,
 # scaling the y-axis logarithmically.
-# Does the method appear to converge for all values of $z$? 
+# Does the method appear to converge for all values of $z$?
 
 ## TODO: plot the error for the Taylor series approximation.
 
@@ -186,14 +187,16 @@ x + x
 
 import Base: + # allows us to overload +
 
-## Here putting ::Rat after both x and y means this version of + is only called if both arguments are Rat
+## Here putting ::Rat after both x and y means this version of +
+## is only called if both arguments are Rat
 function +(x::Rat, y::Rat)
     p,q = x.p,x.q # x represents p/q
     r,s = y.p,y.q # y represents r/s
     Rat(p * s + r * q, q * s)
 end
 
-Rat(1,2) + Rat(3,4) # 1/2 + 3/4 == 10/8 (== 5/4) which is represented as Rat(10, 8)
+Rat(1,2) + Rat(3,4) # 1/2 + 3/4 == 10/8 (== 5/4) which is represented
+                    ## as Rat(10, 8)
 
 # We can support mixing `Rat` and `Int` by adding additional functionality:
 
@@ -206,10 +209,12 @@ Rat(1,2) + 1  # 1 + 1/2 == 3/2
 
 # **Problem 3** Support `*`, `-`, `/`, and `==` for `Rat` and `Int`.
 
-## We import `-`, `*`, `/` so we can "overload" these operations specifically for `Rat`.
+## We import `+`, `-`, `*`, `/` so we can "overload" these operations
+## specifically for `Rat`.
 import Base: +, -, *, /, ==
 
-## The ::Rat means the following version of `==` is only called if both arguments are Rat.
+## The ::Rat means the following version of `==` is only called if both
+## arguments are Rat.
 function ==(x::Rat, y::Rat)
     ## TODO: implement equality, making sure to check the case where
     ## the numerator/denominator are possibly reducible
@@ -232,7 +237,7 @@ end
 @test Rat(2,2) == 1
 @test 1 == Rat(2,2)
 
-## TODO: implement +, -, *, and /, 
+## TODO: implement +, -, *, and /,
 
 
 @test Rat(1, 2) + Rat(1, 3) == Rat(5, 6)
@@ -243,7 +248,7 @@ end
 # ------
 
 # ## I.3 Dual Numbers
-# 
+#
 # We now consider implementing a type `Dual` to represent the dual number $a + bϵ$,
 # in a way similar to `Complex` or `Rat`. For simplicity we don't restrict the types of `a` and `b`
 # but for us they will usually be `Float64`. We create this type very similar to `Rat` above:
@@ -275,11 +280,14 @@ Dual(1,2) + Dual(3,4) # just adds each argument
 
 import Base: * # we want to also overload *
 
-function *(x::Dual, y::Dual) 
+function *(x::Dual, y::Dual)
     a,b = x.a, x.b # x == a+bϵ. This gets out a and b
     c,d = y.a, y.b # y == c+dϵ. This gets out c and d
     Dual(a*c, b*c + a*d)
 end
+
+
+# ### I.3.1 Differentiating polynomials
 
 # Dual numbers allow us to differentiate functions provided they are composed of
 # operations overloaded for `Dual`. In particular, we have that
@@ -325,7 +333,7 @@ end
 f = x -> x^3 + 1
 f(Dual(2,1))  # 2^3+1 + 3*2^2*ϵ
 
-
+# ### I.3.2 Differentiating polynomials
 
 # We can also overload functions like `exp` so that they satisfy the rules of
 # a _dual extension_, that is, are consistent with the formula $f(a+bϵ) = f(a) + bf'(a)ϵ$
@@ -384,9 +392,9 @@ x = 0.1
 # **Problem 4(b)** Use dual numbers to compute the derivatives to
 # 1. $\exp(\exp x \cos x + \sin x)$
 # 2. $∏_{k=1}^{1000} \left({x \over k}-1\right)$
-# 3. $f^{\rm s}_{1000}(x)$ where $f^{\rm s}_n(x)$ corresponds to $n$-terms of the following continued fraction:
+# 3. $f^{\rm s}_{1000}(x)$ where, as in Lab 1 Problem 3(d), $f^{\rm s}_n(x)$ corresponds to $n$-terms of the following continued fraction:
 # $$
-# 1 + {x-1 \over 2 + {x-1 \over 2 + {x-1 \over 2 + ⋱}}},
+# 1 + {x-1 \over 2 + {x-1 \over 2 + {x-1 \over 2 + ⋱}}}.
 # $$
 # Compare with divided differences to give evidence that your implementation is correct.
 
@@ -398,8 +406,8 @@ x = 0.1
 # ------
 # ## Newton's method
 
-# Newton's method is a simple algorithmic approach for computing roots (or zeros)
-# of functions that you may have seen before in school. The basic idea is given an initial guess $x_0$,
+# Newton's method is a simple algorithmic approach that you may have seen before in school for computing roots (or zeros)
+# of functions. The basic idea is given an initial guess $x_0$,
 # find the first-order Taylor approximation $p(x)$ (i.e., find the line that matches the slope of the function at the point)
 # $$
 # f(x) ≈ \underbrace{f(x_0) + f'(x_0) (x- x_0)}_{p(x)}.
@@ -421,7 +429,7 @@ x = 0.1
 # of Newton's method working:
 
 
-# derivative(f, x) computes the derivative at a point x using Dual
+## derivative(f, x) computes the derivative at a point x using Dual
 derivative(f, x) = f(Dual(x,1)).b
 
 function newton(f, x, N) # x = x_0 is the initial guess
@@ -448,7 +456,7 @@ f(r)
 
 
 # **Problem 5(b)** Use `newton` with a complex number to compute
-# an approximation to a complex root of $f(x) = x^5 - x^2 + 1$. 
+# an approximation to a complex root of $f(x) = x^5 - x^2 + 1$.
 # Verify the approximation is accurate by testing that it satisfies $f(r)$
 # is approximately zero.
 
