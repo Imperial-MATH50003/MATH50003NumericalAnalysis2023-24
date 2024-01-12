@@ -108,7 +108,7 @@ To run Julia in a Jupyter notebook on your own machine:
 ```
 3. Build Jupyter via
 ```julia
-] bulid IJulia
+] build IJulia
 ```
 4. Launch Jupyter by typing
 ```julia
