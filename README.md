@@ -5,14 +5,14 @@ Lecturer: [Dr Sheehan Olver](https://www.ma.imperial.ac.uk/~solver/)
 
 Office hour: Mondays 11am, Huxley 6M40
 
-## [Notes](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/raw/main/notes/notes.pdf) (up to Week 2)
+## [Notes](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/raw/main/notes/notes.pdf) (up to Week 3)
 
 ## Weekly Material
 
 1. I.1 Rectangular Rule and I.2 Divided Differences
    - [Lab 1](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab1.ipynb)
    - [Sheet 1](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet1.pdf)
-2. I.3 Dual Numbers
+2. I.3 Dual Numbers and I.4 Newton's method
    - [Lab 2](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab2.ipynb)
    - [Sheet 2](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet2.pdf)
 3. II.1 Integers and II.2 Reals
@@ -23,7 +23,7 @@ Office hour: Mondays 11am, Huxley 6M40
 ## Assessment
 
 1. Practice computer-based exam (marked but not for credit): TBA
-2. Computer-based exam: 15 March 2024, 9:00–10:00
+2. Computer-based exam: 15 March 2024, 9:00–10:30
 5. Final exam (pen-and-paper): TBA
 
 
