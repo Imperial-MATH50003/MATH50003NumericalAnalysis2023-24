@@ -30,7 +30,7 @@ $$
 **Example (integers in binary)**
 A simple integer example is $5 = 2^2 + 2^0 = (101)_2$.
 On the other hand, we write $-5 = -(101)_2$.
-Another example is $258 = 2^8 + 2 = (1000000010)_2$.
+Another example is $258 = 2^8 + 2 = (100000010)_2$.
 ∎
 
 

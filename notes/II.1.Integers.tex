@@ -21,7 +21,7 @@ To translate between integers and bits we will need to write integers in binary 
 \]
 \end{definition}
 
-\begin{example}[integers in binary] A simple integer example is $5 = 2^2 + 2^0 = (101)_2$. On the other hand, we write $-5 = -(101)_2$. Another example is $258 = 2^8 + 2 = (1000000010)_2$. \end{example}
+\begin{example}[integers in binary] A simple integer example is $5 = 2^2 + 2^0 = (101)_2$. On the other hand, we write $-5 = -(101)_2$. Another example is $258 = 2^8 + 2 = (100000010)_2$. \end{example}
 
 \subsection{Unsigned Integers}
 Computers represent integers by a finite number of $p$-bits, with $2^p$ possible combinations of 0s and 1s. Denote these $p$-bits as $B_{p-1}\ensuremath{\ldots}B_1B_0$ where $B_k \ensuremath{\in} \{0,1\}$. For \emph{unsigned integers} (non-negative integers) these bits dictate the first $p$ binary digits: $(B_{p-1}\ldots B_1B_0)_2$. Integers represented with $p$-bits on a computer are interpreted as  representing elements of ${\mathbb Z}_{2^p}$ and integer arithmetic on a computer is equivalent to arithmetic modulo $2^p$. We denote modular arithmetic with $m = 2^p$ as follows:

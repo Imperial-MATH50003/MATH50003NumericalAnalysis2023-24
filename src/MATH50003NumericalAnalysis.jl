@@ -26,7 +26,7 @@ function replacedefinition(path, thrm, Thrm)
     write(path, str)
 end
 
-function compilenotes(filename)
+function compilenotes(filename) 
     weave("src/notes/$filename.jmd"; out_path="notes/", doctype="md2tex", template="src/notes/template.tpl")
     path = "notes/$filename.tex"
     replacetheorem(path, "theorem", "Theorem")
