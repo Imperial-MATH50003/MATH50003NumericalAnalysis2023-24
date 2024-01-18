@@ -141,8 +141,8 @@ With a complicated formula it is inelegant to work with normalised ranges. Exten
 bounds to subnormal numbers is tedious, rarely relevant, and beyond the scope of this module. Thus to avoid this
 issue we will work with an alternative mathematical model:
 
-**Definition (normal floating point)**
-A mathematical model of floating point which the only subnormal number is zero can be defined as:
+**Definition (idealised floating point)**
+An idealised mathematical model of floating point numbers for which the only subnormal number is zero can be defined as:
 $$
 F_{∞,S} := \{± 2^q × (1.b_1b_2b_3…b_S)_2 :  q ∈ ℤ \} ∪ \{0\}
 $$
@@ -162,7 +162,7 @@ in this model the round bound is valid for all real numbers (including $x = 0$).
 $$
 (1.1 + 1.2) + 1.3
 $$
-using extended normal floating-point arithmetic $F_{∞,S}$. First note that `1.1` on a computer is in
+using idealised floating-point arithmetic $F_{∞,S}$. First note that `1.1` on a computer is in
 fact ${\rm fl}(1.1)$, and we will always assume nearest rounding unless otherwise
 stated. Thus this computation becomes
 $$
@@ -193,6 +193,28 @@ $$
 |δ_7| ≤ (6 + 1 + 2 + 1 + 1) ϵ_{\rm m} = 11 ϵ_{\rm m}
 $$
 ∎
+
+## Rectangular rule error bound
+
+We can use bounds on floating point arithmetic to derive bounds on the error in a
+more complicated computation. For example, consider our  rectangular rule approximation
+$$
+\int_0^1 f(x) {\rm d} x = {1 \over n} \sum_{j=1}^n f(j/n) + δ
+$$
+Assume for simplicity that $n = 2^s$, i.e., a power of 2, so that in idealised floating
+point we have $x ⊘ n = x / n$ for any $x ∈ F_{∞,S}$. Thus our actual approximation is
+$$
+\int_0^1 f(x) {\rm d} x = {1 \over n} ⨁_{j=1}^n f^{\rm FP}(j/n) + δ^{\rm FP}
+$$
+where
+$$
+f^{\rm FP}(x) = f(x) + ε_x^f
+$$
+represents the function $f$ implemented in floating point, that is $f^{\rm FP} : F_{S,∞} → F_{S,∞}$
+and assume we have a bound of the form $|ε_x^f| ≤ c ϵ_{\rm m}$. 
+
+
+
 
 
 ## Divided differences bound

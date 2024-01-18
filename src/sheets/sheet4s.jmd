@@ -1,6 +1,7 @@
+**Numerical Analysis MATH50003 (2023–24) Problem Sheet 4**
 
 
-**Problem 5** Suppose $x = 1.25$ and consider 16-bit floating point arithmetic ($F_{16}$). 
+**Problem 1** Suppose $x = 1.25$ and consider 16-bit floating point arithmetic ($F_{16}$). 
 What is the error in approximating $x$ by the nearest float point number ${\rm fl}(x)$?
 What is the error in approximating $2x$, $x/2$, $x + 2$ and $x - 2$ by $2 \otimes x$, $x \oslash 2$, $x ⊕ 2$ and $x \ominus 2$?
 
@@ -10,7 +11,7 @@ None of these computations have errors since they are all exactly representable 
 
 
 
-**Problem 6** What are the exact bits for $1 ⊘ 5$, $1 ⊘ 5 ⊕ 1$ computed
+**Problem 2** What are the exact bits for $1 ⊘ 5$, $1 ⊘ 5 ⊕ 1$ computed
 using  half-precision arithmetic (`Float16`) (using default rounding)?
 
 **SOLUTION**
@@ -49,16 +50,16 @@ printbits(1 + Float16(1)/5)
 **END**
 
 
-**Problem 9** Find a bound on the _absolute error_ in terms of a constant times machine epsilon
-$ϵ_{\rm m}$ for the following computations
+**Problem 3** Prove the following bounds on the _absolute error_ of a floating point calculation
+in idealised floating-point arithmetic (i.e., you may assume all operations involve normal floating point numbers):
 $$
 \begin{align*}
-(1.1 * 1.2) &+ 1.3 \\
-(1.1 - 1) &/ 0.1 
+(1.1 ⊗ 1.2) &⊕ 1.3 = 2.62 + ε_1 \\
+(1.1 ⊖ 1) & ⊘ 0.1 = 1 + ε_2
 \end{align*}
 $$
-implemented using floating point arithmetic (with any precision). That is, each number is rounded
-first using ${\rm fl}$ and each operation is replaced by its floating point analogues $⊕, ⊗, ⊖, ⊘$.
+such that $|ε_1| ≤ 11 ϵ_{\rm m}$ and $|ε_2| ≤ 40 ϵ_{\rm m}$, where $ϵ_{\rm m}$ is
+machine epsilon. 
 
 
 **SOLUTION**
@@ -85,11 +86,11 @@ $$
 $$
 Finally,
 $$
-(2.62 + δ_7)(1+δ_5) = 2.62 + \underbrace{δ_7 + 2.62δ_5 + δ_7 δ_5}_{δ_8}
+(2.62 + δ_7)(1+δ_5) = 2.62 + \underbrace{δ_7 + 2.62δ_5 + δ_7 δ_5}_{ε_1}
 $$
 where
 $$
-|δ_8| ≤ 11 ϵ_{\rm m}
+|ε_1| ≤ 11 ϵ_{\rm m}
 $$
 
 
@@ -125,12 +126,128 @@ $$
 $$
 Then we get 
 $$
-({\rm fl}(1.1) ⊖ 1) ⊘ {\rm fl}(0.1) = (1 + δ_7) (1 + δ_6) =  1 + δ_7 + δ_6 + δ_6 δ_7
+({\rm fl}(1.1) ⊖ 1) ⊘ {\rm fl}(0.1) = (1 + δ_7) (1 + δ_6) =  1 + \underbrace{δ_7 + δ_6 + δ_6 δ_7}_{ε_2}
 $$
 and the error is bounded by:
 $$
-(12 + 2 + 24) ϵ_{\rm m} = 38 ϵ_{\rm m}
+|ε_2| ≤ (12 + 2 + 24) ϵ_{\rm m} = 38 ϵ_{\rm m}
 $$
 This is quite pessimistic but still captures that we are on the order of $ϵ_{\rm m}$.
+
+**END**
+
+
+
+**Problem 4**
+Assume that
+$$
+f^{\rm FP}(x) = f(x) + δ_x
+$$
+where $|δ_x| ≤ c ϵ_{\rm m}$ for all $x$. Using idealised floating point arithmetic,
+for 
+$$
+{f^{\rm FP}(x+h) ⊖ f^{\rm FP}(x-h) \over  2h} = f'(x) + ε
+$$
+show the absolute error is bounded by
+$$
+ε ≤ {|f'(x)| \over 2} ϵ_{\rm m} + {M \over 3} h^2 + {2 c ϵ_{\rm m} \over h},
+$$
+where we assume $h = 2^{-n}$, $x ⊕ h  = x+ h$ and $x ⊖ h = x-h$.
+
+**SOLUTION**
+
+In floating point we have 
+$$
+\begin{align*}
+{f^{\rm FP}(x + 2h) ⊖ f^{\rm FP}(x-2h) \over 2h} &= {f(x + h) +  δ_{x+h} - f(x-h) - δ_{x-h} \over 2h} (1 + δ_1) \\
+&= {f(x+h) - f(x-h) \over 2h} (1 + δ_1) + {δ_{x+h}- δ_{x-h} \over 2h} (1 + δ_1)
+\end{align*}
+$$
+Applying Taylor's theorem we get 
+$$
+(f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x-h)) ⊘ (2h) = 
+f'(x) + \underbrace{f'(x) δ_1 + δ_{x,h}^{\rm T} (1 + δ_1) + {δ_{x+h}- δ_{x-h} \over 2h} (1 + δ_1)}_{δ_{x,h}^{\rm CD}}
+$$
+where
+$$
+|δ_{x,h}^{\rm CD}| ≤ {|f'(x)| \over 2} ϵ_{\rm m} + {M \over 3} h^2 + {2 c ϵ_{\rm m} \over h}
+$$
+
+**END**
+
+**Problem 2.1** Suppose $|ϵ_k| ≤ ϵ$ and $n ϵ < 1$. Show that
+$$
+∏_{k=1}^n (1+ϵ_k) = 1+θ_n
+$$
+for some constant $θ_n$ satisfying
+$$
+|θ_n| ≤ \underbrace{n ϵ \over 1-nϵ}_{E_{n,ϵ}}
+$$
+Hint: use induction.
+
+**SOLUTION**
+
+$$
+∏_{k=1}^{n+1} (1+ϵ_k) = ∏_{k=1}^n (1+ϵ_k) (1+ϵ_{n+1}) = (1+θ_n)(1+ϵ_{n+1}) = 1 + \underbrace{θ_n + ϵ_{n+1} + θ_nϵ_{n+1}}_{θ_{n+1}}
+$$
+where
+$$
+\begin{align*}
+|θ_{n+1}| &≤ {n ϵ \over 1-nϵ}(1+ϵ) + ϵ \\
+&={n ϵ + n ϵ^2 \over 1-(n+1)ϵ} {1-(n+1)ϵ \over 1-nϵ}  + {ϵ-(n+1)ϵ^2 \over 1-(n+1)ϵ} \\
+&≤ {(n+1)  - n ϵ \over 1-(n+1)ϵ} ϵ ≤ {(n+1) ϵ \over 1-(n+1)ϵ} 
+\end{align*}
+$$
+
+**END**
+
+**Problem 2.2** Show if $x_1,…,x_n ∈ F$ then
+$$
+x_1 ⊗ ⋯ ⊗ x_n = x_1 ⋯ x_n (1 + θ_{n-1})
+$$
+where $|θ_n| ≤ E_{n,ϵ_{\rm m}/2}$, assuming $n ϵ_{\rm m} < 2$.
+You may assume all operations are within the normalised range.
+
+**SOLUTION**
+
+We can expand out:
+$$
+x_1 ⊗ ⋯ ⊗ x_n = (⋯((x_1 x_2)(1+δ_1) x_3(1+δ_2)⋯ x_n(1+δ_{n-1})) = x_1 ⋯ x_n (1+δ_1) ⋯ (1+δ_{n-1})
+$$
+where $|δ_k| ≤ ϵ_{\rm m}/2$. The result then follows from the previous result.
+
+**END**
+
+**Problem 2.3** Show if $x_1,…,x_n ∈ F$ then
+$$
+x_1 ⊕ ⋯ ⊕ x_n = x_1 +  ⋯ + x_n + σ_n
+$$
+where, for $M = Σ_{k=1}^n |x_k|$, $|σ_n| ≤ M E_{n-1,ϵ_{\rm m}/2},$ assuming $n ϵ_{\rm m} < 2$.
+You may assume all operations are within the normalised range.
+Hint: use Problem 2.1 to first write 
+$$
+x_1 ⊕ ⋯ ⊕ x_n = x_1(1+θ_{n-1}) + ∑_{j=2}^n x_j (1 + θ_{n-j+1}).
+$$
+
+
+**SOLUTION**
+
+Using Problem 2.1 we write:
+$$
+(⋯((x_1 + x_2)(1+δ_1) + x_3)(1+δ_2)⋯+x_n)(1+δ_{n-1})
+= x_1 ∏_{k=1}^{n-1} (1+δ_k) +  ∑_{j=2}^n x_j ∏_{k=j-1}^{n-1} (1+δ_j)
+= x_1(1+θ_{n-1}) + ∑_{j=2}^n x_j (1 + θ_{n-j+1})
+$$
+where we have for $j = 2,…,n$
+$$
+|θ_{n-j+1}| ≤ E_{n-j+1,ϵ_{\rm m}/2} ≤ E_{n-1,ϵ_{\rm m}/2}.
+$$
+Thus we have 
+$$
+∑_{j=1}^n x_j (1 + θ_{n-j+1})= ∑_{j=1}^n x_j + \underbrace{∑_{j=1}^n x_j θ_{n-j+1}}_{σ_n}
+$$
+where $|σ_n| ≤ M E_{n-1,ϵ_{\rm m}/2}$.
+∎
+
 
 **END**
