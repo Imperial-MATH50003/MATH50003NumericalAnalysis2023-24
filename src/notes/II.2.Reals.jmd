@@ -4,7 +4,7 @@
 In this chapter, we introduce  the 
 [IEEE Standard for Floating-Point Arithmetic](https://en.wikipedia.org/wiki/IEEE_754).
 There are multiplies ways of representing real numbers on a computer, as well as 
-the precise behaviour of operations such as addition, multiplication, etc.: one can use
+the precise behaviour of operations such as addition, multiplication, etc. One can use
 
 1. [Fixed-point arithmetic](https://en.wikipedia.org/wiki/Fixed-point_arithmetic): essentially representing a real number as an integer where a decimal point is inserted at a fixed position. This turns out to be impractical in most applications, e.g., due to loss of relative accuracy for small numbers.
 2. [Floating-point arithmetic](https://en.wikipedia.org/wiki/Floating-point_arithmetic): essentially scientific notation where an exponent is stored alongside a fixed number of digits. This is what is used in practice.
@@ -68,11 +68,11 @@ $$
 The _normal numbers_
 $F^{\rm normal}_{σ,Q,S} ⊂ ℝ$ are
 $$
-F^{\rm normal}_{σ,Q,S} := \{± 2^{q-σ} × (1.b_1b_2b_3…b_S)_2 : 1 ≤ q < 2^Q-1 \}.
+F^{\rm normal}_{σ,Q,S} := \{\red{±} 2^{\green{q}-σ} × (1.\blue{b_1b_2b_3…b_S})_2 : 1 ≤ q < 2^Q-1 \}.
 $$
 The _sub-normal numbers_ $F^{\rm sub}_{σ,Q,S} ⊂ ℝ$ are
 $$
-F^{\rm sub}_{σ,Q,S} := \{± 2^{1-σ} × (0.b_1b_2b_3…b_S)_2\}.
+F^{\rm sub}_{σ,Q,S} := \{\red{±} 2^{\green{1}-σ} × (0.\blue{b_1b_2b_3…b_S})_2\}.
 $$
 The _special numbers_ $F^{\rm special} ⊄ ℝ$ are 
 $$
@@ -86,22 +86,22 @@ On the other hand, we can control errors effectively hence it is extremely usefu
 
 Floating-point numbers are stored in $1 + Q + S$ total number of bits, in the format
 $$
-sq_{Q-1}…q_0 b_1 …b_S
+\red{s}\ \green{q_{Q-1}…q_0}\ \blue{b_1…b_S}
 $$
 The first bit ($s$) is the _sign bit_: 0 means positive and 1 means
 negative. The bits $q_{Q-1}…q_0$ are the _exponent bits_:
 they are the binary digits of the unsigned integer $q$: 
 $$
-q = (q_{Q-1}…q_0)_2.
+q = (\green{q_{Q-1}…q_0})_2.
 $$
 Finally, the bits $b_1…b_S$ are the _significand bits_.
 If $1 ≤ q < 2^Q-1$ then the bits represent the normal number
 $$
-x = ± 2^{q-σ} × (1.b_1b_2b_3…b_S)_2.
+x = \red{±} 2^{\green{q}-σ} × (1.\blue{b_1b_2b_3…b_S})_2.
 $$
 If $q = 0$ (i.e. all bits are 0) then the bits represent the sub-normal number
 $$
-x = ± 2^{1-σ} × (0.b_1b_2b_3…b_S)_2.
+x = \red{±} 2^{\green{1}-σ} × (0.\blue{b_1b_2b_3…b_S})_2.
 $$
 If $q = 2^Q-1$  (i.e. all bits are 1) then the bits represent a special number, discussed
 later.
@@ -121,20 +121,20 @@ F_{64} &:= F_{1023,11,52}
 $$
 ∎
 
-**Example (a real number in 16-bits)** Consider the number with bits
-```
-0 10000 1010000000
-```
+**Example (interpreting 16-bits as a float)** Consider the number with bits
+$$
+\red{0}\ \green{10000}\ \blue{1010000000}
+$$
 assuming it is a half-prevision float ($F_{16}$). 
 Since the sign bit is `0` it is positive. The exponent is
-$2^4 - Q = 16 - 15 = 1$
+$2^4 - σ = 16 - 15 = 1$
 Hence this number is:
 $$
 2^1 (1.1010000000)_2 = 2 (1 + 1/2 + 1/8) = 3+1/4 = 3.25.
 $$
 ∎
 
-**Example (rational in 16-bits)** How is the number $1/3$ stored in $F_{16}$?
+**Example (rational to 16-bits)** How is the number $1/3$ stored in $F_{16}$?
 Recall that
 $$
 1/3 = (0.010101…)_2 = 2^{-2} (1.0101…)_2 = 2^{13-15} (1.0101…)_2
@@ -147,9 +147,9 @@ $$
 $$
 and the significand bits are `0101010101`.
 Thus the stored bits for $1/3$ are:
-```
-0 01101 0101010101
-```
+$$
+\red{0}\ \green{01101}\ \blue{0101010101}
+$$
 ∎
 
 
@@ -159,13 +159,13 @@ For sub-normal numbers, the simplest example is zero, which has $q=0$ and all si
 `0 00000 0000000000`.
 Unlike integers, we also have a negative zero, which has bits:
 `1 00000 0000000000`.
-This is treated as identical to positive `0` (except for degenerate operations as explained in special numbers).
+This is treated as identical to positive `0` (except for degenerate operations as explained in the lab).
 
 
 **Example (subnormal in 16-bits)** Consider the number with bits
-```
-1 00000 1100000000
-```
+$$
+\red{1}\ \green{00000}\ \blue{1100000000}
+$$
 assuming it is a half-prevision float ($F_{16}$). 
 Since all exponent bits are zero it is sub-normal. Since the sign bit is `1` it is negative. 
 Hence this number is:
@@ -180,14 +180,14 @@ If all $b_k=0$, then the number represents either $±∞$.
 All other special floating-point numbers represent ${\rm NaN}$. 
 
 **Example (special in 16-bits)** The number with bits
-```
-1 11111 0000000000
-```
+$$
+\red{1}\ \green{11111}\ \blue{0000000000}
+$$
 has all exponent bits equal to $1$, and significand bits $0$ and sign bit $1$, hence represents $-∞$. On the other hand,
 the number with bits
-```
-1 11111 0000000001
-```
+$$
+\red{1}\ \green{11111}\ \blue{0000000001}
+$$
 has all exponent bits equal to $1$ but does not have all significand bits equal to $0$, hence is one of many representations
 for  ${\rm NaN}$.
 ∎

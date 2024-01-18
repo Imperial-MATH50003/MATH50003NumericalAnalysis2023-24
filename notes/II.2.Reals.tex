@@ -1,6 +1,6 @@
 
 \section{Reals}
-In this chapter, we introduce  the  \href{https://en.wikipedia.org/wiki/IEEE_754}{IEEE Standard for Floating-Point Arithmetic}. There are multiplies ways of representing real numbers on a computer, as well as  the precise behaviour of operations such as addition, multiplication, etc.: one can use
+In this chapter, we introduce  the  \href{https://en.wikipedia.org/wiki/IEEE_754}{IEEE Standard for Floating-Point Arithmetic}. There are multiplies ways of representing real numbers on a computer, as well as  the precise behaviour of operations such as addition, multiplication, etc. One can use
 
 \begin{itemize}
 \item[1. ] \href{https://en.wikipedia.org/wiki/Fixed-point_arithmetic}{Fixed-point arithmetic}: essentially representing a real number as an integer where a decimal point is inserted at a fixed position. This turns out to be impractical in most applications, e.g., due to loss of relative accuracy for small numbers.
@@ -59,11 +59,11 @@ F_{\ensuremath{\sigma},Q,S} := F^{\rm normal}_{\ensuremath{\sigma},Q,S} \cup F^{
 \]
 The \emph{normal numbers} $F^{\rm normal}_{\ensuremath{\sigma},Q,S} \ensuremath{\subset} \ensuremath{\bbR}$ are
 \[
-F^{\rm normal}_{\ensuremath{\sigma},Q,S} := \{\ensuremath{\pm} 2^{q-\ensuremath{\sigma}} \ensuremath{\times} (1.b_1b_2b_3\ensuremath{\ldots}b_S)_2 : 1 \ensuremath{\leq} q < 2^Q-1 \}.
+F^{\rm normal}_{\ensuremath{\sigma},Q,S} := \{\red{\ensuremath{\pm}} 2^{\green{q}-\ensuremath{\sigma}} \ensuremath{\times} (1.\blue{b_1b_2b_3\ensuremath{\ldots}b_S})_2 : 1 \ensuremath{\leq} q < 2^Q-1 \}.
 \]
 The \emph{sub-normal numbers} $F^{\rm sub}_{\ensuremath{\sigma},Q,S} \ensuremath{\subset} \ensuremath{\bbR}$ are
 \[
-F^{\rm sub}_{\ensuremath{\sigma},Q,S} := \{\ensuremath{\pm} 2^{1-\ensuremath{\sigma}} \ensuremath{\times} (0.b_1b_2b_3\ensuremath{\ldots}b_S)_2\}.
+F^{\rm sub}_{\ensuremath{\sigma},Q,S} := \{\red{\ensuremath{\pm}} 2^{\green{1}-\ensuremath{\sigma}} \ensuremath{\times} (0.\blue{b_1b_2b_3\ensuremath{\ldots}b_S})_2\}.
 \]
 The \emph{special numbers} $F^{\rm special} \ensuremath{\nsubset} \ensuremath{\bbR}$ are 
 \[
@@ -75,19 +75,19 @@ Note this set of real numbers has no nice \emph{algebraic structure}: it is not 
 
 Floating-point numbers are stored in $1 + Q + S$ total number of bits, in the format
 \[
-sq_{Q-1}\ensuremath{\ldots}q_0 b_1 \ensuremath{\ldots}b_S
+\red{s}\ \green{q_{Q-1}\ensuremath{\ldots}q_0}\ \blue{b_1\ensuremath{\ldots}b_S}
 \]
 The first bit ($s$) is the \emph{sign bit}: 0 means positive and 1 means negative. The bits $q_{Q-1}\ensuremath{\ldots}q_0$ are the \emph{exponent bits}: they are the binary digits of the unsigned integer $q$: 
 \[
-q = (q_{Q-1}\ensuremath{\ldots}q_0)_2.
+q = (\green{q_{Q-1}\ensuremath{\ldots}q_0})_2.
 \]
 Finally, the bits $b_1\ensuremath{\ldots}b_S$ are the \emph{significand bits}. If $1 \ensuremath{\leq} q < 2^Q-1$ then the bits represent the normal number
 \[
-x = \ensuremath{\pm} 2^{q-\ensuremath{\sigma}} \ensuremath{\times} (1.b_1b_2b_3\ensuremath{\ldots}b_S)_2.
+x = \red{\ensuremath{\pm}} 2^{\green{q}-\ensuremath{\sigma}} \ensuremath{\times} (1.\blue{b_1b_2b_3\ensuremath{\ldots}b_S})_2.
 \]
 If $q = 0$ (i.e. all bits are 0) then the bits represent the sub-normal number
 \[
-x = \ensuremath{\pm} 2^{1-\ensuremath{\sigma}} \ensuremath{\times} (0.b_1b_2b_3\ensuremath{\ldots}b_S)_2.
+x = \red{\ensuremath{\pm}} 2^{\green{1}-\ensuremath{\sigma}} \ensuremath{\times} (0.\blue{b_1b_2b_3\ensuremath{\ldots}b_S})_2.
 \]
 If $q = 2^Q-1$  (i.e. all bits are 1) then the bits represent a special number, discussed later.
 
@@ -102,18 +102,17 @@ F_{64} &:= F_{1023,11,52}
 \end{align*}
 \end{definition}
 
-\begin{example}[a real number in 16-bits] Consider the number with bits
-
-\begin{verbatim}
-0 10000 1010000000
-\end{verbatim}
-assuming it is a half-prevision float ($F_{16}$).  Since the sign bit is \texttt{0} it is positive. The exponent is $2^4 - Q = 16 - 15 = 1$ Hence this number is:
+\begin{example}[interpreting 16-bits as a float] Consider the number with bits
+\[
+\red{0}\ \green{10000}\ \blue{1010000000}
+\]
+assuming it is a half-prevision float ($F_{16}$).  Since the sign bit is \texttt{0} it is positive. The exponent is $2^4 - \ensuremath{\sigma} = 16 - 15 = 1$ Hence this number is:
 \[
 2^1 (1.1010000000)_2 = 2 (1 + 1/2 + 1/8) = 3+1/4 = 3.25.
 \]
 \end{example}
 
-\begin{example}[rational in 16-bits] How is the number $1/3$ stored in $F_{16}$? Recall that
+\begin{example}[rational to 16-bits] How is the number $1/3$ stored in $F_{16}$? Recall that
 \[
 1/3 = (0.010101\ensuremath{\ldots})_2 = 2^{-2} (1.0101\ensuremath{\ldots})_2 = 2^{13-15} (1.0101\ensuremath{\ldots})_2
 \]
@@ -122,20 +121,18 @@ and since $13 = (1101)_2$  the exponent bits are \texttt{01101}. For the signifi
 1.010101010101010101010101\ensuremath{\ldots}\approx 1.0101010101 \in F_{16} 
 \]
 and the significand bits are \texttt{0101010101}. Thus the stored bits for $1/3$ are:
-
-\begin{verbatim}
-0 01101 0101010101
-\end{verbatim}
+\[
+\red{0}\ \green{01101}\ \blue{0101010101}
+\]
 \end{example}
 
-\subsubsection{Sub-normal and special numbers}
-For sub-normal numbers, the simplest example is zero, which has $q=0$ and all significand bits zero: \texttt{0 00000 0000000000}. Unlike integers, we also have a negative zero, which has bits: \texttt{1 00000 0000000000}. This is treated as identical to positive \texttt{0} (except for degenerate operations as explained in special numbers).
+\subsection{Sub-normal and special numbers}
+For sub-normal numbers, the simplest example is zero, which has $q=0$ and all significand bits zero: \texttt{0 00000 0000000000}. Unlike integers, we also have a negative zero, which has bits: \texttt{1 00000 0000000000}. This is treated as identical to positive \texttt{0} (except for degenerate operations as explained in the lab).
 
 \begin{example}[subnormal in 16-bits] Consider the number with bits
-
-\begin{verbatim}
-1 00000 1100000000
-\end{verbatim}
+\[
+\red{1}\ \green{00000}\ \blue{1100000000}
+\]
 assuming it is a half-prevision float ($F_{16}$).  Since all exponent bits are zero it is sub-normal. Since the sign bit is \texttt{1} it is negative.  Hence this number is:
 \[
 -2^{1-\ensuremath{\sigma}} (0.1100000000)_2 = -2^{-14} (2^{-1} + 2^{-2}) = -3 \ensuremath{\times} 2^{-16}
@@ -145,15 +142,13 @@ assuming it is a half-prevision float ($F_{16}$).  Since all exponent bits are z
 The special numbers extend the real line by adding $\ensuremath{\pm}\ensuremath{\infty}$ but also a notion of ``not-a-number" ${\rm NaN}$. Whenever the bits of $q$ of a floating-point number are all 1 then they represent an element of $F^{\rm special}$. If all $b_k=0$, then the number represents either $\ensuremath{\pm}\ensuremath{\infty}$. All other special floating-point numbers represent ${\rm NaN}$. 
 
 \begin{example}[special in 16-bits] The number with bits
-
-\begin{verbatim}
-1 11111 0000000000
-\end{verbatim}
+\[
+\red{1}\ \green{11111}\ \blue{0000000000}
+\]
 has all exponent bits equal to $1$, and significand bits $0$ and sign bit $1$, hence represents $-\ensuremath{\infty}$. On the other hand, the number with bits
-
-\begin{verbatim}
-1 11111 0000000001
-\end{verbatim}
+\[
+\red{1}\ \green{11111}\ \blue{0000000001}
+\]
 has all exponent bits equal to $1$ but does not have all significand bits equal to $0$, hence is one of many representations for  ${\rm NaN}$. \end{example}
 
 

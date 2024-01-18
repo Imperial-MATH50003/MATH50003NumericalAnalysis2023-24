@@ -1,6 +1,6 @@
 **Numerical Analysis MATH50003 (2023–24) Problem Sheet 3**
 
-**Problem 2** With 8-bit unsigned integers, what is the result for the following computations:
+**Problem 1** With 8-bit unsigned integers, what is the result for the following computations:
 $$
 127 ⊕_{256} 200,\quad 2 ⊗_{256} 127,\quad 2 ⊗_{256} 128, \quad0 ⊖_{256} 1
 $$

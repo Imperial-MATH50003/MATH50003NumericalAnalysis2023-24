@@ -13,24 +13,11 @@ That is, essentially all functions $f$ are either of the form
 $f : ℤ_{2^p} → ℤ_{2^p}$ or  $f : ℤ_{2^p} × ℤ_{2^p} → ℤ_{2^p}$,
 where we use the following notation:
 
-**Definition (signed integers)** Denote the
-$$
-ℤ_m := \{0 , 1 , …, m-1 \}
-$$
+**Definition (finite integers)** Denote the set of the first $m$ non-negative integers as $ℤ_m := \{0 , 1 , …, m-1 \}$.
 ∎
 
-The limitations this imposes on representing integers is substantial.
-If we have an implementation of $+$, which we shall denote $⊕_m$, how can we possibly represent
-$m + 1$ in this implementation when the result is above the largest possible integer?
-
-The solution that is used is straightforward: _modular arithmetic_. E.g., we have
-$$
-(m-1) ⊕_m 1 = m\ ({\rm mod}\ m) = 0.
-$$
-In this section we discuss the implications of this approach and how it works with negative numbers.
-
-
-We will write integers in binary format, that is, as sequence of `0`s and `1`s:
+To translate between integers and bits we will need to write integers in binary format. 
+That is, as sequence of `0`s and `1`s:
 
 **Definition (binary format)**
 For $B_0,\ldots,B_p \in \{0,1\}$ denote an integer in _binary format_ by:
@@ -50,13 +37,11 @@ Another example is $258 = 2^8 + 2 = (1000000010)_2$.
 ## Unsigned Integers
 
 
-Computers represent integers by a finite number of $p$ bits,
-with $2^p$ possible combinations of 0s and 1s. For _unsigned integers_ (non-negative integers)
-these bits dictate the first $p$ binary digits: $(B_{p-1}\ldots B_1B_0)_2$.
-
-Integers on a computer follow [modular arithmetic](https://en.wikipedia.org/wiki/Modular_arithmetic):
-Integers represented with $p$-bits on a computer actually
-represent elements of ${\mathbb Z}_{2^p}$ and integer arithmetic on a computer is
+Computers represent integers by a finite number of $p$-bits,
+with $2^p$ possible combinations of 0s and 1s. Denote these $p$-bits as $B_{p-1}…B_1B_0$ where $B_k ∈ \{0,1\}$.
+For _unsigned integers_ (non-negative integers) these bits dictate the first $p$ binary digits: $(B_{p-1}\ldots B_1B_0)_2$.
+Integers represented with $p$-bits on a computer are interpreted as 
+representing elements of ${\mathbb Z}_{2^p}$ and integer arithmetic on a computer is
 equivalent to arithmetic modulo $2^p$. We denote modular arithmetic with $m = 2^p$ as follows:
 $$
 \begin{align*}
@@ -65,7 +50,8 @@ x ⊖_m y &:= (x-y)\ ({\rm mod}\ m) \\
 x ⊗_m y &:= (x*y)\ ({\rm mod}\ m)
 \end{align*}
 $$
-When $m$ is implied by context we just write $⊕, ⊖, ⊗$.
+When $m$ is implied by context we just write $⊕, ⊖, ⊗$. Note that  the $({\rm mod}\ m)$ function simply
+drops all bits except for the first $p$-bits when writing a number in binary.
 
 **Example (arithmetic with  8-bit unsigned integers)**
 If  the result of an operation lies between $0$ and $m = 2^8 = 256$ then airthmetic works exactly like
@@ -85,9 +71,10 @@ $$
 255 + 1 = (11111111)_2 + (00000001)_2 = (100000000)_2 = 256
 $$
 However, the result is impossible to store in just 8-bits!
-So as mentioned instead it treats the integers as elements of ${\mathbb Z}_{256}$:
+So as mentioned instead it treats the integers as elements of ${\mathbb Z}_{256}$
+by dropping any extra digits:
 $$
-255 ⊕_{256} 1 = 255 + 1 \ ({\rm mod}\ 256) = (00000000)_2 \ ({\rm mod}\ 256) = 0 \ ({\rm mod}\ 256)
+255 ⊕_{256} 1 = 255 + 1 \ ({\rm mod}\ 256) = (100000000)_2 \ ({\rm mod}\ 256) = 0.
 $$
 On the other hand, if we go below $0$ we wrap around from above:
 $$
@@ -98,21 +85,25 @@ $$
 **Example (multiplication of 8-bit unsigned integers)**
 Multiplication works similarly: for example,
 $$
-254 ⊗_{256} 2 = 254 * 2 \ ({\rm mod}\ 256) = 252 \ ({\rm mod}\ 256) = (11111100)_2 \ ({\rm mod}\ 256)
+254 ⊗_{256} 2 = 254 * 2 \ ({\rm mod}\ 256) = (11111110)_2 * 2  \ ({\rm mod}\ 256)
+= (111111100)_2  \ ({\rm mod}\ 256) = 252.
 $$
+Note that multiplication by $2$ is the same as shifting the binary digits left by one,
+just as multiplication by $10$ shifts base-10 digits left by 1.
 ∎
 
 ## Signed integer
 
 Signed integers use the [Two's complemement](https://epubs.siam.org/doi/abs/10.1137/1.9780898718072.ch3)
-convention. The convention is if the first bit is 1 then the number is negative: the number $2^p - y$
-is interpreted as $-y$.
+convention. The convention is if the first bit is 1 then the number is negative: in this case
+if the bits had represented the unsigned integer $2^p - y$ then the represent the signed
+integer $-y$.
 Thus for $p = 8$ we are interpreting
 $2^7$ through $2^8-1$ as negative numbers. More precisely:
 
-**Definition ($ℤ_{2^p}^{\rm s}$, signed integers)**
+**Definition (signed integers)** Denote the finite signed integers as
 $$
-ℤ_{2^p}^{\rm s} := \{-2^{p-1} ,…, -1 ,0,1, …, 2^{p-1}-1 \}
+ℤ_{2^p}^{\rm s} := \{-2^{p-1} ,…, -1 ,0,1, …, 2^{p-1}-1\}.
 $$
 ∎
 
@@ -127,26 +118,29 @@ $$
 
 Note that if $R_p(x) = x\ ({\rm mod}^{\rm s}\ 2^p)$ then it can be viewed as a map
 $R_p : ℤ → ℤ_{2^p}^{\rm s}$ or a one-to-one map
-$R_p : ℤ_{2^p} → ℤ_{2^p}^{\rm s}$ whose inverse is $R_p^{-1}(x) = x (\mod 2^p)$. It can also be
+$R_p : ℤ_{2^p} → ℤ_{2^p}^{\rm s}$ whose inverse is $R_p^{-1}(x) = x\ ({\rm mod}\ 2^p)$. It can also be
 viewed as the identity map on signed integers $R_p : ℤ_{2^p}^{\rm s} → ℤ_{2^p}^{\rm s}$, that is, 
 $R_p(x) = x$ if $x \in ℤ_{2^p}^{\rm s}$.
 
 
 Arithmetic works precisely
-the same for signed and unsigned integers up to the mapping $R_p$, e.g. we have
+the same for signed and unsigned integers up to the mapping $R_p$, e.g. we have for $m = 2^p$
 $$
-x ⊕_{2^p}^{\rm s} y := x + y\ ({\rm mod}^{\rm s}\ 2^p)
+\begin{align*}
+x ⊕_{m}^{\rm s} y &:= (x+y)\ ({\rm mod}^{\rm s}\ m) \\
+x ⊖_{m}^{\rm s} y &:= (x-y)\ ({\rm mod}^{\rm s}\ m) \\
+x ⊗_{m}^{\rm s} y &:= (x*y)\ ({\rm mod}^{\rm s}\ m)
+\end{align*}
 $$
 
 **Example (addition of 8-bit signed integers)**
-Consider `(-1) + 1` in 8-bit arithmetic. The number $-1$ has the same bits as
-$2^8 - 1 = 255$. Thus this is equivalent to the previous question and we get the correct
-result of `0`. In other words:
+Consider `(-1) + 1` in 8-bit arithmetic:
 $$
 -1 ⊕_{256}^{\rm s} 1 = -1 + 1 \ ({\rm mod}^{\rm s}\ 256) = 0
 $$
-But on the bit level this computation is exactly the same as unsigned integers. We represent the
-number $-1$ using the bits `11111111` (i.e., we store it equivalently to  $(11111111)_2 = 255$) and the 
+On the bit level this computation is exactly the same as unsigned integers. We represent the
+number $-1$ using the same bits as the unsigned integer $2^8 - 1 = 255$, that is
+ using the bits `11111111` (i.e., we store it equivalently to  $(11111111)_2 = 255$) and the 
 number $1$ is stored using the bits `00000001`. When we add this with true integer arithmetic we have
 $$
 \begin{align*}
@@ -155,8 +149,7 @@ $$
 (1 00000000)_2&
 \end{align*}
 $$
-The modular arithmetic drops the leading $1$ and we are left with all zeros.
-
+Modular arithmetic drops the leading $1$ and we are left with all zeros.
 ∎
 
 **Example (signed overflow with 8-bit signed integers)**
@@ -178,11 +171,10 @@ Because the first bit is `1` we interpret this as a negative number using the fo
 $$
 (10000000)_2\ ({\rm mod}^{\rm s}\ 256) = 128   ({\rm mod}^{\rm s}\ 256) = -128.
 $$
+∎
 
 **Example (multiplication of 8-bit signed integers)**
-Consider `(-2) * 2`. $-2$ has the same bits as $2^{256} - 2 = 254$ and $-4$ has the
-same bits as $2^{256}-4 = 252$, and hence from the previous example we get the correct result of `-4`.
-In other words:
+Consider computation of `(-2) * 2`:
 $$
 (-2) ⊗_{2^p}^{\rm s} 2 = -4 \ ({\rm mod}^{\rm s}\ 2^p) = -4
 $$
@@ -203,7 +195,6 @@ $$
  = 252  \ ({\rm mod}^{\rm s}\ 256) = -4.
 }
 $$
-
 ∎
 
 ## Hexadecimal format

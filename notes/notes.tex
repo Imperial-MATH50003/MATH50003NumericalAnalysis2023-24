@@ -9,7 +9,7 @@
 \usepackage{hyperref}
 \usepackage{amsthm}
 \usepackage{listings}
-\usepackage{xcolor}
+\usepackage[usenames,dvipsnames]{xcolor}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1.2ex}
 \let\QED=\blacksquare
@@ -21,6 +21,8 @@
 \def\nsubset{\not\subset}
 \def\ldq{``}
 \def\red#1{{\color{red} #1}}
+\def\blue#1{{\color{blue} #1}}
+\def\green#1{{\color{ForestGreen} #1}}
 \def\euler{\E}
 
 \hypersetup
@@ -102,7 +104,7 @@ In particular we discuss:
 
 \begin{enumerate}
 \item II.1 Integers: unsigned (non-negative) and signed integers are representable using exactly $p$-bits by using modular arithmetic in all operations.
-\item II.2 Reals:  real numbers are approximated by floating point numbers, which are the computers version of scientific notation.
+\item II.2 Reals:  real numbers are approximated by floating point numbers, which are a computers version of scientific notation.
 \item II.3 Floating Point Arithmetic:  arithmetic with floating point numbers is exact up-to-rounding, which introduces small-but-understandable errors in the computations. We explain how these errors can be analysed mathematically to get rigorous bounds. 
 \item II.4 Interval Arithmetic: rounding can be controlled in order to implement {\it interval arithmetic}, a way to compute rigorous bounds for computations. In the lab, we use this to compute up to 15 digits of ${\rm e} \equiv \exp 1$ rigorously with precise bounds on the error.
 \end{enumerate}
