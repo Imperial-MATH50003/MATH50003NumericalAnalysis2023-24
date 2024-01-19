@@ -10,6 +10,19 @@
 #    an interval operation
 # 2. A bound on $∑_{k=n+1}^∞ x^k/k!$ that we capture in the returned result
 #
+
+# **Learning Outcomes**
+#
+# Mathematical knowledge:
+#
+# 1. Behaviour of floating point rounding and interval arithmetic.
+# 2. Combining interval arithmetic with Taylor series bounds for rigorous computations.
+#
+# Coding knowledge:
+#
+# 1. Setting the rounding mode in constructors like `Float32` and via `setrounding`.
+# 2. High precision floating point numbers via `big` and setting precision via `setprecision`.
+
 # We need the following packages:
 
 using SetRounding, Test
