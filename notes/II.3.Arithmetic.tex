@@ -160,25 +160,10 @@ where the \emph{absolute error} is
 \]
 \end{example}
 
-\subsection{Rectangular rule error bound}
-We can use bounds on floating point arithmetic to derive bounds on the error in a more complicated computation. For example, consider our  rectangular rule approximation
-\[
-\int_0^1 f(x) {\rm d} x = {1 \over n} \sum_{j=1}^n f(j/n) + \ensuremath{\delta}
-\]
-Assume for simplicity that $n = 2^s$, i.e., a power of 2, so that in idealised floating point we have $x \ensuremath{\oslash} n = x / n$ for any $x \ensuremath{\in} F_{\ensuremath{\infty},S}$. Thus our actual approximation is
-\[
-\int_0^1 f(x) {\rm d} x = {1 \over n} \ensuremath{\bigoplus}_{j=1}^n f^{\rm FP}(j/n) + \ensuremath{\delta}^{\rm FP}
-\]
-where
-\[
-f^{\rm FP}(x) = f(x) + \ensuremath{\varepsilon}_x^f
-\]
-represents the function $f$ implemented in floating point, that is $f^{\rm FP} : F_{S,\ensuremath{\infty}} \ensuremath{\rightarrow} F_{S,\ensuremath{\infty}}$ and assume we have a bound of the form $|\ensuremath{\varepsilon}_x^f| \ensuremath{\leq} c \ensuremath{\epsilon}_{\rm m}$. 
-
-\subsection{Divided differences bound}
+\subsection{Divided differences floating point error bound}
 We can use the bound on floating point arithmetic to deduce a bound on divided differences that captures the phenomena we observed where the error of divided differences became large as $h \ensuremath{\rightarrow} 0$. We assume that the function we are attempting to differentiate is computing using floating point arithmetic in a way that achieves relative accuracy. 
 
-\begin{theorem}[divided difference error bound] Let $f$ be twice-differentiable in a neighbourhood of $x$ and assume that 
+\begin{theorem}[divided difference error bound] Let $f$ be twice-differentiable in a neighbourhood of $x$  and assume that 
 \[
  f(x) = f^{\rm FP}(x) + \ensuremath{\delta}_x^f
 \]
@@ -218,9 +203,11 @@ The three-terms of this bound tell us a story: the first term is a fixed (small)
 
 \textbf{Heuristic (divided difference with floating-point step)} Choose $h$ proportional to $\sqrt{\ensuremath{\epsilon}_{\rm m}}$ in divided differences  so that $M h$ and ${4c \ensuremath{\epsilon}_{\rm m} \over h}$ are roughly the same magnitude.
 
-In the case of double precision $\sqrt{\ensuremath{\epsilon}_{\rm m}} \ensuremath{\approx} 1.5\times 10^{-8}$, which is close to when the observed error begins to increase in the examples we saw before. 
+In the case of double precision $\sqrt{\ensuremath{\epsilon}_{\rm m}} \ensuremath{\approx} 1.5\ensuremath{\times} 10^{-8}$, which is close to when the observed error begins to increase in the examples we saw before. 
 
 \textbf{Remark} While divided differences is of debatable utility for computing derivatives, it is extremely effective in building methods for solving differential equations, as we shall see later. It is also very useful as a \ensuremath{\ldq}sanity check" if one wants something to compare with other numerical methods for differentiation.
+
+\textbf{Remark} It is also possible to deduce an error bound for the rectangular rule showing that the error caused by round-off is on the order of $n \ensuremath{\epsilon}_{\rm m}$, that is it does in fact grow but the error without round-off which was bounded by $M/n$ will be substantially greater for all reasonable values of $n$. 
 
 
 

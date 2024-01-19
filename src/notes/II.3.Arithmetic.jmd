@@ -221,30 +221,8 @@ $$
 $$
 ∎
 
-## Rectangular rule error bound
 
-We can use bounds on floating point arithmetic to derive bounds on the error in a
-more complicated computation. For example, consider our  rectangular rule approximation
-$$
-\int_0^1 f(x) {\rm d} x = {1 \over n} \sum_{j=1}^n f(j/n) + δ
-$$
-Assume for simplicity that $n = 2^s$, i.e., a power of 2, so that in idealised floating
-point we have $x ⊘ n = x / n$ for any $x ∈ F_{∞,S}$. Thus our actual approximation is
-$$
-\int_0^1 f(x) {\rm d} x = {1 \over n} ⨁_{j=1}^n f^{\rm FP}(j/n) + δ^{\rm FP}
-$$
-where
-$$
-f^{\rm FP}(x) = f(x) + ε_x^f
-$$
-represents the function $f$ implemented in floating point, that is $f^{\rm FP} : F_{S,∞} → F_{S,∞}$
-and assume we have a bound of the form $|ε_x^f| ≤ c ϵ_{\rm m}$. 
-
-
-
-
-
-## Divided differences bound
+## Divided differences floating point error bound
 
 We can use the bound on floating point arithmetic to deduce a bound on divided differences that
 captures the phenomena we observed where the error of divided differences became large as $h → 0$.
@@ -252,7 +230,8 @@ We assume that the function we are attempting to differentiate is computing usin
 in a way that achieves relative accuracy. 
 
 
-**Theorem (divided difference error bound)** Let $f$ be twice-differentiable in a neighbourhood of $x$ and assume that 
+**Theorem (divided difference error bound)** Let $f$ be twice-differentiable in a neighbourhood of $x$ 
+and assume that 
 $$
  f(x) = f^{\rm FP}(x) + δ_x^f
 $$
@@ -299,9 +278,9 @@ what happens _in general_ and suffices to motivate the following heuristic to ba
 
 
 **Heuristic (divided difference with floating-point step)** Choose $h$ proportional to $\sqrt{ϵ_{\rm m}}$
-in divided differences  so that $M h$ and ${4c \ensuremath{\epsilon}_{\rm m} \over h}$ are roughly the same magnitude.
+in divided differences  so that $M h$ and ${4c ϵ_{\rm m} \over h}$ are roughly the same magnitude.
 
-In the case of double precision $\sqrt{ϵ_{\rm m}} ≈ 1.5\times 10^{-8}$, which is close to when the observed error begins to increase
+In the case of double precision $\sqrt{ϵ_{\rm m}} ≈ 1.5× 10^{-8}$, which is close to when the observed error begins to increase
 in the examples we saw before. 
 
 
@@ -310,3 +289,6 @@ in the examples we saw before.
 in building methods for solving differential equations, as we shall see later. It is also very useful as a “sanity check"
 if one wants something to compare with other numerical methods for differentiation.
 
+**Remark** It is also possible to deduce an error bound for the rectangular rule showing that the error
+caused by round-off is on the order of $n ϵ_{\rm m}$, that is it does in fact grow but the error without
+round-off which was bounded by $M/n$ will be substantially greater for all reasonable values of $n$. 

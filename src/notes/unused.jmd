@@ -1,0 +1,144 @@
+## Rectangular rule floating point error bound
+
+We can use bounds on floating point arithmetic to derive bounds on the error in a
+more complicated computation. For example, consider our  rectangular rule approximation
+$$
+\int_0^1 f(x) {\rm d} x ≈ {1 \over n} \sum_{j=1}^n f(j/n)
+$$
+Assume for simplicity that $n = 2^s$, i.e., a power of 2, so that in idealised floating
+point we have $x ⊘ n = x / n$ for any $x ∈ F_{∞,S}$. Thus our actual approximation is
+$$
+\int_0^1 f(x) {\rm d} x ≈ {1 \over n} ⨁_{j=1}^n f^{\rm FP}(j/n)
+$$
+where
+$$
+f^{\rm FP}(x) = f(x) + δ_x^f
+$$
+represents the function $f$ implemented in idealised floating point, that is $f^{\rm FP} : F_{S,∞} → F_{S,∞}$.
+We can generally assume we have a bound of the form $|δ_x^f| ≤ c ϵ_{\rm m}$ for some $c ∈ ℝ$ and all $x ∈ [0,1]$. 
+
+We will use the following proposition:
+
+**Proposition (floating point addition error)** If $x_1,…,x_n ∈ F_{∞,S}$ then
+$$
+x_1 ⊕ ⋯ ⊕ x_n = x_1 +  ⋯ + x_n + σ_n
+$$
+where, for $M = Σ_{k=1}^n |x_k|$, $|σ_n| ≤ M E_{n-1,ϵ_{\rm m}/2}$ assuming $n ϵ_{\rm m} < 2$ and where
+$$
+E_{n,ϵ} := {n ϵ \over 1-nϵ}.
+$$
+**Proof**
+See problem sheet 4.
+∎
+
+We can now relate the error in the rectangular rule to that of the 
+
+**Theorem (rectangular rule error)** Assume $f$ is differentiable and approximated
+in  idealised floating point arithmetic by $f^{\rm FP} : F_{∞,S} → F_{∞,S}$ satisfying
+$$
+f^{\rm FP}(x) = f(x) + δ_x^f
+$$
+where $|δ_x^f| ≤ c ϵ_{\rm m}$, and that $n = 2^s$. Then
+$$
+\int_0^1 f(x) {\rm d} x = {1 \over n} ⨁_{j=1}^n f^{\rm FP}(j/n) + δ^{\rm FP}
+$$
+where, for $M = \sup_{0 ≤ x ≤ 1}|f'(x)|$,
+$$
+|δ^{\rm FP}| ≤ {M \over n} + c ϵ_{\rm m} n + E_{n-1,ϵ_{\rm m}/2} \sup |f|
+$$
+
+**Proof**
+
+From the preceding proposition we have
+$$
+{1 \over n} ⨁_{j=1}^n f^{\rm FP}(j/n) = {1 \over n}∑_{j=1}^n f^{\rm FP}(j/n) + {σ_n \over n}
+= {1 \over n}∑_{j=1}^n f(j/n) + ∑_{j=1}^n δ_{j/n}^{\rm f}  + {σ_n \over n}
+= ∫_0^1 f(x) {\rm d}x + \underbrace{δ + ∑_{j=1}^n δ_{j/n}^{\rm f}  + {σ_n \over n}}_{-δ^{\rm FP}}
+$$
+where $δ$ is the error of the rectangular rule deduced in I.1 satisfying $|δ| ≤ M/n$. 
+We then bound
+$$
+|δ^{\rm FP}| ≤ |δ| +  ∑_{j=1}^n |δ_{j/n}^{\rm f}| + {|σ_n| \over n}
+             ≤ {M \over n} + c ϵ_{\rm m} n + E_{n-1,ϵ_{\rm m}/2} \sup |f| 
+$$
+∎
+
+
+
+
+
+**Problem 4(a)** Suppose $|ϵ_k| ≤ ϵ$ and $n ϵ < 1$. Show that
+$$
+∏_{k=1}^n (1+ϵ_k) = 1+θ_n
+$$
+for some constant $θ_n$ satisfying
+$$
+|θ_n| ≤ \underbrace{n ϵ \over 1-nϵ}_{E_{n,ϵ}}
+$$
+Hint: use induction.
+
+**SOLUTION**
+
+$$
+∏_{k=1}^{n+1} (1+ϵ_k) = ∏_{k=1}^n (1+ϵ_k) (1+ϵ_{n+1}) = (1+θ_n)(1+ϵ_{n+1}) = 1 + \underbrace{θ_n + ϵ_{n+1} + θ_nϵ_{n+1}}_{θ_{n+1}}
+$$
+where
+$$
+\begin{align*}
+|θ_{n+1}| &≤ {n ϵ \over 1-nϵ}(1+ϵ) + ϵ \\
+&={n ϵ + n ϵ^2 \over 1-(n+1)ϵ} {1-(n+1)ϵ \over 1-nϵ}  + {ϵ-(n+1)ϵ^2 \over 1-(n+1)ϵ} \\
+&≤ {(n+1)  - n ϵ \over 1-(n+1)ϵ} ϵ ≤ {(n+1) ϵ \over 1-(n+1)ϵ}
+\end{align*}
+$$
+
+**END**
+
+**Problem 4(b)** Show if $x_1,…,x_n ∈ F$ then
+$$
+x_1 ⊗ ⋯ ⊗ x_n = x_1 ⋯ x_n (1 + θ_{n-1})
+$$
+where $|θ_n| ≤ E_{n,ϵ_{\rm m}/2}$, assuming $n ϵ_{\rm m} < 2$.
+You may assume all operations are within the normalised range.
+
+**SOLUTION**
+
+We can expand out:
+$$
+x_1 ⊗ ⋯ ⊗ x_n = (⋯((x_1 x_2)(1+δ_1) x_3(1+δ_2)⋯ x_n(1+δ_{n-1})) = x_1 ⋯ x_n (1+δ_1) ⋯ (1+δ_{n-1})
+$$
+where $|δ_k| ≤ ϵ_{\rm m}/2$. The result then follows from the previous result.
+
+**END**
+
+**Problem 4(c)** Show if $x_1,…,x_n ∈ F_{∞,S}$ then
+$$
+x_1 ⊕ ⋯ ⊕ x_n = x_1 +  ⋯ + x_n + σ_n
+$$
+where, for $M = Σ_{k=1}^n |x_k|$, $|σ_n| ≤ M E_{n-1,ϵ_{\rm m}/2},$ assuming $n ϵ_{\rm m} < 2$.
+Hint: use part (a) to first write
+$$
+x_1 ⊕ ⋯ ⊕ x_n = x_1(1+θ_{n-1}) + ∑_{j=2}^n x_j (1 + θ_{n-j+1}).
+$$
+
+
+**SOLUTION**
+
+Using part (a) we write:
+$$
+(⋯((x_1 + x_2)(1+δ_1) + x_3)(1+δ_2)⋯+x_n)(1+δ_{n-1})
+= x_1 ∏_{k=1}^{n-1} (1+δ_k) +  ∑_{j=2}^n x_j ∏_{k=j-1}^{n-1} (1+δ_j)
+= x_1(1+θ_{n-1}) + ∑_{j=2}^n x_j (1 + θ_{n-j+1})
+$$
+where we have for $j = 2,…,n$
+$$
+|θ_{n-j+1}| ≤ E_{n-j+1,ϵ_{\rm m}/2} ≤ E_{n-1,ϵ_{\rm m}/2}.
+$$
+Thus we have
+$$
+∑_{j=1}^n x_j (1 + θ_{n-j+1})= ∑_{j=1}^n x_j + \underbrace{∑_{j=1}^n x_j θ_{n-j+1}}_{σ_n}
+$$
+where $|σ_n| ≤ M E_{n-1,ϵ_{\rm m}/2}$.
+∎
+
+
+**END**
