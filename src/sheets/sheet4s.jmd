@@ -179,6 +179,15 @@ $$
 
 **END**
 
+**Problem 5(a)** Show for $A = [a,b]$ and $B = [c,d]$ satisfying
+$0 < a < b$ and $0 < c < d$, and $n > 0$ that
+$$
+\meeq{
+A/n = [a/n,b/n] \ccr
+AB = [ac, bd]
+}
+$$
+
 
 
 A/n =  \begin{cases}

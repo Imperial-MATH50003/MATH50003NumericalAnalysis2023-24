@@ -14,7 +14,7 @@
 
 using SetRounding, Test
 
-# ## II.3 Floating Point Arithmetic
+# II.3 Floating Point Arithmetic
 
 # In Julia, the rounding mode is specified by tags `RoundUp`, `RoundDown`, and
 # `RoundNearest`. (There are also more exotic rounding strategies `RoundToZero`, `RoundNearestTiesAway` and
@@ -22,63 +22,9 @@ using SetRounding, Test
 
 
 
-# Let's try rounding a `Float64` to a `Float32`.
 
 
-printlnbits(1/3)  # 64 bits
-printbits(Float32(1/3))  # round to nearest 32-bit
-
-# The default rounding mode can be changed:
-
-printbits(Float32(1/3,RoundDown) )
-
-# Or alternatively we can change the rounding mode for a chunk of code
-# using `setrounding`. The following computes upper and lower bounds for `/`:
-
-x = 1f0
-setrounding(Float32, RoundDown) do
-    x/3
-end,
-setrounding(Float32, RoundUp) do
-    x/3
-end
-
-
-# **WARNING (compiled constants, non-examinable)**: Why did we first create a variable `x` instead of typing `1f0/3`?
-# This is due to a very subtle issue where the compiler is _too clever for it's own good_: 
-# it recognises `1f0/3` can be computed at compile time, but failed to recognise the rounding mode
-# was changed. 
-
-# **Problem 1** Complete functions `exp_t_3_down`/`exp_t_3_up` implementing the first
-# three terms of the Taylor expansion of $\exp(x)$, that is, $1 + x + x/2 + x^2/6$ but where
-# each operation is rounded down/up. Use `typeof(x)` to make sure you are changing the
-# rounding mode for the right floating point type.
-
-function exp_t_3_down(x)
-    ## TODO: use setrounding to compute 1 + x + x/2 + x^2/6 but rounding down
-    ## SOLUTION
-    setrounding(typeof(x), RoundDown) do
-        1 + x + x/2 + x^2/6
-    end
-    ## END
-end
-
-function exp_t_3_up(x)
-    ## TODO: use setrounding to compute 1 + x + x/2 + x^2/6 but rounding up
-    ## SOLUTION
-    setrounding(typeof(x), RoundUp) do
-        1 + x + x/2 + x^2/6
-    end
-    ## END
-end
-
-@test exp_t_3_down(Float32(1)) ≡ 2.6666665f0 # ≡ checks type and all bits are equal
-@test exp_t_3_up(Float32(1)) ≡ 2.6666667f0
-
-
-
-# ### High-precision floating-point numbers
-
+# ## 4. High-precision floating-point numbers
 
 # It is possible to set the precision of a floating-point number
 # using the `BigFloat` type, which results from the usage of `big`
@@ -108,6 +54,38 @@ setprecision(4_000) do # 4000 bit precision
     big(1)/3
   end
 end
+
+# In the labs we shall see how this can be used to rigorously bound ${\rm e}$,
+# accurate to 1000 digits. 
+
+
+
+# Let's try rounding a `Float64` to a `Float32`.
+
+
+printlnbits(1/3)  # 64 bits
+printbits(Float32(1/3))  # round to nearest 32-bit
+
+# The default rounding mode can be changed:
+
+printbits(Float32(1/3,RoundDown) )
+
+# Or alternatively we can change the rounding mode for a chunk of code
+# using `setrounding`. The following computes upper and lower bounds for `/`:
+
+x = 1f0
+setrounding(Float32, RoundDown) do
+    x/3
+end,
+setrounding(Float32, RoundUp) do
+    x/3
+end
+
+
+# **WARNING (compiled constants, non-examinable)**: Why did we first create a variable `x` instead of typing `1f0/3`?
+# This is due to a very subtle issue where the compiler is _too clever for it's own good_: 
+# it recognises `1f0/3` can be computed at compile time, but failed to recognise the rounding mode
+# was changed. 
 
 
 
@@ -205,15 +183,11 @@ function +(A::Interval, B::Interval)
     T = promote_type(typeof(A.a), typeof(B.a))
     a = setrounding(T, RoundDown) do
         ## TODO: lower bound
-        ## SOLUTION
-        A.a + B.a
-        ## END
+        
     end
     b = setrounding(T, RoundUp) do
         ## TODO: upper bound
-        ## SOLUTION
-        A.b + B.b
-        ## END
+        
     end
     Interval(a, b)
 end
@@ -241,23 +215,11 @@ function /(A::Interval, n::Integer)
     end
     a = setrounding(T, RoundDown) do
         ## TODO: lower bound
-        ## SOLUTION
-        if n > 0
-            A.a / n
-        else
-            A.b / n
-        end
-        ## END
+        
     end
     b = setrounding(T, RoundUp) do
         ## TODO: upper bound
-        ## SOLUTION
-        if n > 0
-            A.b / n
-        else
-            A.a / n
-        end
-        ## END
+        
     end
     Interval(a, b)
 end
@@ -294,31 +256,11 @@ function *(A::Interval, B::Interval)
     end
     a = setrounding(T, RoundDown) do
         ## TODO: lower bound
-        ## SOLUTION
-        if A.a < 0 && A.b < 0 && B.a < 0 && B.b < 0
-            B.b * A.b
-        elseif A.a < 0 && A.b < 0 && B.a > 0 && B.b > 0
-            A.a * B.b
-        elseif A.a > 0 && A.b > 0 && B.a < 0 && B.b < 0
-            A.b * B.a
-        else
-            A.a * B.a
-        end
-        ## END
+        
     end
     b = setrounding(T, RoundUp) do
         ## TODO: upper bound
-        ## SOLUTION
-        if A.a < 0 && A.b < 0 && B.a < 0 && B.b < 0
-            B.a * A.a
-        elseif A.a < 0 && A.b < 0 && B.a > 0 && B.b > 0
-            A.b * B.a
-        elseif A.a > 0 && A.b > 0 && B.a < 0 && B.b < 0
-            A.a * B.b
-        else
-            A.b * B.b
-        end
-        ## END
+        
     end
     Interval(a, b)
 end
@@ -349,14 +291,7 @@ end
 
 # **Problem 3.1⋆** Bound the tail of the Taylor series for ${\rm e}^x$ assuming $|x| ≤ 1$. 
 # (Hint: ${\rm e}^x ≤ 3$ for $x ≤ 1$.)
-# ## SOLUTION
-# From the Taylor remainder theorem we know the error is
-# $$
-# {f^{(n+1)}(ξ) \over (n+1)!} |x|^{n+1} ≤ {3 \over (n+1)!}
-# $$
-# Thus by widening the computation by this error we ensure that we have
-# captured the error by truncating the Taylor series.
-# ## END
+# 
 
 # 
 # **Problem 3.2** Use the bound
@@ -367,19 +302,7 @@ end
 
 function exp_bound(x::Interval, n)
     ## TODO: Return an Interval such that exp(x) is guaranteed to be a subset
-    ## SOLUTION
-    if abs(x.a) > 1 || abs(x.b) > 1
-        error("Interval must be a subset of [-1, 1]")
-    end
-    ret = exp_t(x, n) # the code for Taylor series should work on Interval unmodified
-    f = factorial(min(20, n + 1)) # avoid overflow in computing factorial
-    T = typeof(ret.a)
-
-    err = setrounding(T, RoundUp) do
-        3 / f
-    end
-    ret + Interval(-err,err)
-    ## END
+    
 end
 
 e_int = exp_bound(Interval(1.0,1.0), 20)
@@ -401,10 +324,3 @@ e_int = exp_bound(Interval(1.0,1.0), 20)
 # will use the number of significand bits specified by `NUMSIGBITS` for any `BigFloat` created
 # between the `do` and the `end`. 
 
-## SOLUTION
-
-setprecision(100_000) do
-    exp_bound(Interval(big(1.0),big(1.0)), 20)
-end
-
-## END
