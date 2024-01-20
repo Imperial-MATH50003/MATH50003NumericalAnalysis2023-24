@@ -37,28 +37,29 @@ $$
 This includes the case where the constants are integers (which are normally exactly floats
 but may be rounded if extremely large).
 
-**Example (decimal is not exact)** The Julia command `1.1+0.1` gives a different result than `1.2`.
+**Example (decimal is not exact)** On a computer `1.1+0.1` is close to but not exactly
+the same thing as `1.2`.
 This is because ${\rm fl}(1.1) ≠ 1+1/10$ and ${\rm fl}(0.1) ≠ 1/10$ since their
-expansion in _binary_ is not finite, but rather:
+expansion in _binary_ is not finite. For $F_{16}$ we have:
 $$
 \begin{align*}
-{\rm fl}(1.1) &= (1.0001100110011001100110011001100110011001100110011010)_2 \\
-{\rm fl}(0.1) &= 2^{-4} * (1.1001100110011001100110011001100110011001100110011010)_2 \\
-              &= (0.00011001100110011001100110011001100110011001100110011010)_2
+{\rm fl}(1.1) &= (1.0001100110)_2 \\
+{\rm fl}(0.1) &= 2^{-4} * (1.1001100110)_2 = (0.00011001100110)_2
 \end{align*}
 $$
 Thus when we add them we get
 $$
-{\rm fl}(1.1) + {\rm fl}(0.1) = (1.0011001100110011001100110011001100110011001100110011\red{1010})_2
+{\rm fl}(1.1) + {\rm fl}(0.1) = (1.0011001100\red{011})_2
 $$
-where the red digits indicate those beyond the 52 representable in $F_{54}$. In this case we round up and
+where the red digits indicate those beyond the 10 significant digits representable in $F_{16}$.
+In this case we round down and
 get
 $$
-{\rm fl}(1.1) ⊕ {\rm fl}(0.1) = (1.0011001100110011001100110011001100110011001100110100)_2
+{\rm fl}(1.1) ⊕ {\rm fl}(0.1) = (1.0011001100)_2
 $$
 On the other hand,
 $$
-{\rm fl}(1.2) = (1.0011001100110011001100110011001100110011001100110011)_2
+{\rm fl}(1.2) = {\rm fl}((1.0011001100\red{11001100…})_2) = (1.0011001101)_2
 $$
 which differs by 1 bit.
 ∎
@@ -138,7 +139,7 @@ x_+ &:= {\rm fl}^{\rm up}(x) = x_- + 2^{j-S} \\
 x_{\rm h} &:= {x_+ + x_- \over 2} = x_- + 2^{j-S-1}
 \end{align*}
 $$
-so that $x_- ≤ x ≤ x_+$. We consider two cases separately. 
+so that $x_- ≤ x ≤ x_+$. We consider two cases separately.
 
 (Round Down) First consider the case where $x$ is such that we round down: ${\rm fl}(x) = x_-$.
 Since $2^j ≤ x_- ≤ x ≤ x_{\rm h}$ we have
@@ -202,8 +203,10 @@ $$
 where $|δ| ≤  11 ϵ_{\rm m}.$
 First we find
 $$
-{\rm fl}(1.1) ⊕ {\rm fl}(1.2) = (1.1(1 + δ_1) + 1.2 (1+δ_2))(1 + δ_3)
+\meeq{
+{\rm fl}(1.1) ⊕ {\rm fl}(1.2) = (1.1(1 + δ_1) + 1.2 (1+δ_2))(1 + δ_3) \ccr
  = 2.3 + \underbrace{1.1 δ_1 + 1.2 δ_2 + 2.3 δ_3 + 1.1 δ_1 δ_3 + 1.2 δ_2 δ_3}_{δ_4}.
+}
 $$
 While $δ_1 δ_3$ and $δ_2 δ_3$ are absolutely tiny in practice
 we will bound them rather naïvely by $|ϵ_{\rm m}/2|$. Further we round up constants
@@ -227,11 +230,11 @@ $$
 We can use the bound on floating point arithmetic to deduce a bound on divided differences that
 captures the phenomena we observed where the error of divided differences became large as $h → 0$.
 We assume that the function we are attempting to differentiate is computing using floating point arithmetic
-in a way that achieves relative accuracy. 
+in a way that achieves relative accuracy.
 
 
-**Theorem (divided difference error bound)** Let $f$ be twice-differentiable in a neighbourhood of $x$ 
-and assume that 
+**Theorem (divided difference error bound)** Let $f$ be twice-differentiable in a neighbourhood of $x$
+and assume that
 $$
  f(x) = f^{\rm FP}(x) + δ_x^f
 $$
@@ -239,14 +242,14 @@ has uniform absolute accuracy in that neighbourhood, that is:
 $$
 |δ_x^f| ≤ c ϵ_{\rm m}
 $$
-for a fixed constant $c ≥ 0$. 
+for a fixed constant $c ≥ 0$.
 Assume we are working in idealised floating-point arithmetic $F_{∞,S}$
 and, for simplicity, $h = 2^{-n}$ where $n ≤ S$ and $|x| ≤ 1$.
 The divided difference approximation satisfies
 $$
 (f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x)) ⊘ h = f'(x) + δ_{x,h}^{\rm FD}
 $$
-where 
+where
 $$
 |δ_{x,h}^{\rm FD}| ≤ {|f'(x)| \over 2} ϵ_{\rm m} + M h +  {4c ϵ_{\rm m} \over h}
 $$
@@ -262,7 +265,7 @@ $$
 &= {f(x+h) - f(x) \over h} (1 + δ_1) + {δ^f_{x+h}- δ^f_x \over h} (1 + δ_1)
 \end{align*}
 $$
-where $|δ_1| ≤ {ϵ_{\rm m} / 2}$. Applying Taylor's theorem we get 
+where $|δ_1| ≤ {ϵ_{\rm m} / 2}$. Applying Taylor's theorem we get
 $$
 (f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x)) ⊘ h = f'(x) + \underbrace{f'(x) δ_1 + {f''(t) \over 2} h (1 + \delta_1) + {δ^f_{x+h}- δ^f_x \over h} (1 + δ_1)}_{δ_{x,h}^{\rm FD}}
 $$
@@ -273,7 +276,7 @@ The bound then follows, using the very pessimistic bound $|1 + δ_1| ≤ 2$.
 The three-terms of this bound tell us a story: the first term is a fixed (small) error, the second term tends to zero
 as $h \rightarrow 0$, while the last term grows like $ϵ_{\rm m}/h$ as $h \rightarrow 0$.  Thus we observe convergence
 while the second term dominates, until the last term takes over.
-Of course, a bad upper bound is not the same as a proof that something grows, but it is a good indication of 
+Of course, a bad upper bound is not the same as a proof that something grows, but it is a good indication of
 what happens _in general_ and suffices to motivate the following heuristic to balance the two sources of errors:
 
 
@@ -281,7 +284,7 @@ what happens _in general_ and suffices to motivate the following heuristic to ba
 in divided differences  so that $M h$ and ${4c ϵ_{\rm m} \over h}$ are roughly the same magnitude.
 
 In the case of double precision $\sqrt{ϵ_{\rm m}} ≈ 1.5× 10^{-8}$, which is close to when the observed error begins to increase
-in the examples we saw before. 
+in the examples we saw before.
 
 
 
@@ -291,4 +294,4 @@ if one wants something to compare with other numerical methods for differentiati
 
 **Remark** It is also possible to deduce an error bound for the rectangular rule showing that the error
 caused by round-off is on the order of $n ϵ_{\rm m}$, that is it does in fact grow but the error without
-round-off which was bounded by $M/n$ will be substantially greater for all reasonable values of $n$. 
+round-off which was bounded by $M/n$ will be substantially greater for all reasonable values of $n$.

@@ -1,54 +1,84 @@
 
 \section{Interval Arithmetic}
-We can use rounding modes of floating point arithmetic to do rigorous computation to compute bounds on, for example, $\E$ or $\ensuremath{\pi}$. To do this we will use set/interval arithmetic which is then easily implemented on a computer. 
-
-That is recall the set operations
+We can use rounding modes of floating point arithmetic to do rigorous computation to compute bounds on, for example, $\E$ or $\ensuremath{\pi}$. To do this we will use set/interval arithmetic. For sets $X,Y \ensuremath{\subseteq} \ensuremath{\bbR}$, the set arithmetic operations are defined as
 \[
-A + B = \{x + y : x \ensuremath{\in} A, y \ensuremath{\in} B\}, AB = \{xy : x \ensuremath{\in} A, y \ensuremath{\in} B\}, A/B = \{x/y : x \ensuremath{\in} A, y \ensuremath{\in} B\}
+X + Y := \{x + y : x \ensuremath{\in} X, y \ensuremath{\in} Y\}, XY := \{xy : x \ensuremath{\in} X, y \ensuremath{\in} Y\}, X/Y := \{x/y : x \ensuremath{\in} X, y \ensuremath{\in} Y\}
 \]
 We will use floating point arithmetic to construct approximate set operations \ensuremath{\oplus}, \ensuremath{\otimes} so that
 \[
-  A + B \ensuremath{\subseteq} A \ensuremath{\oplus} B, AB \ensuremath{\subseteq} A \ensuremath{\otimes} B, A/B \ensuremath{\subseteq} A \ensuremath{\oslash} B
+  X + Y \ensuremath{\subseteq} X \ensuremath{\oplus} Y, XY \ensuremath{\subseteq} X \ensuremath{\otimes} Y, X/Y \ensuremath{\subseteq} X \ensuremath{\oslash} Y
 \]
 thereby a complicated algorithm can be run on sets and the true result is guaranteed to be a subset of the output. E.g. we can do $\ensuremath{\euler} = {\rm exp}(1) \ensuremath{\in} {\rm exp}([1,1]) \ensuremath{\subseteq} {\rm exp}^{\rm FP}([1,1])$ where ${\rm exp}^{\rm FP}$ is implemented using $\ensuremath{\oplus}$ and $\ensuremath{\otimes}$.
 
-For intervals we can deduce formulas for basic arithmetic operations:
+When our sets are intervals we can deduce simple formulas for basic arithmetic operations. For simplicity we only consider the case where all values are positive.
 
-\begin{proposition}[interval bounds] For intervals  $A = [a,b]$ and $B = [c,d]$ such that $0 \ensuremath{\notin} A,B$ and integer $n \ensuremath{\neq} 0$, we have
+\begin{proposition}[interval bounds] For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying $0 < a < b$ and $0 < c < d$, and $n > 0$, we have:
 \meeq{
-A + B = [a+b, b+d] \ccr
-A/n =  \begin{cases}
-[a/n,b/n] & n > 0  \\
-[b/n,a/n] & n < 0 
-\end{cases} \ccr
-AB = \begin{cases}
-[ac, bd] & a, b, c, d \ensuremath{\geq} 0
-\end{cases}
+X + Y = [a+c, b+d] \ccr
+X/n = [a/n,b/n] \ccr
+XY = [ac, bd]
 }
 \end{proposition}
-\textbf{Proof}
+\textbf{Proof} We first show $X+Y \ensuremath{\subseteq} [a+c,b+d]$. If $z \ensuremath{\in} X + Y$ then $z = x+y$ such that $a \ensuremath{\leq} x \ensuremath{\leq} b$ and $c \ensuremath{\leq} y \ensuremath{\leq} d$ and therefore $a + c \ensuremath{\leq} z \ensuremath{\leq} c + d$ and $z \ensuremath{\in} [a+c,b+d]$. Equality follows from convexity. First note that $a+c, b+d \ensuremath{\in} X+Y$. Any point $z \ensuremath{\in}  [a+b,c+d]$ can be written  as a convex combination of the two endpoints: there exists $0 \ensuremath{\leq} t \ensuremath{\leq} 1$ such that
+\[
+z = t (a+c) + (1-t) (b+d) =  \underbrace{t a + (1-t) b}_x + \underbrace{t c + (1-t) d}_y
+\]
+Because intervals are convex we have $x \ensuremath{\in} X$ and $y \ensuremath{\in} Y$ and hence $z \ensuremath{\in} X+Y$. 
+
+The remaining two are left for the problem sheet. 
 
 \ensuremath{\QED}
 
-We want to  implement floating point variants of these operations. 
+We want to  implement floating point variants of these operations that are guaranteed to contain the true set arithmetic operations. We do so as foolws:
 
-\begin{definition}[floating point interval arithmetic]  such that, for $S = [a,b] + [c,d]$  $P = [a,b] * [c,d]$, and $D = [a,b]/n$ for an integer $n$,
+\begin{definition}[floating point interval arithmetic] For intervals  $A = [a,b]$ and $B = [c,d]$ satisfying $0 < a < b$ and $0 < c < d$, and $n > 0$, define:
 
 
 \begin{align*}
-[a,b] \ensuremath{\oplus} [c,d] &:= [{\rm fl}^{\rm down}(a+b), {\rm fl}^{\rm up}(b+d)] \\
-[a,b] \ensuremath{\oslash} n &:= [{\rm fl}^{\rm down}(\min D), {\rm fl}^{\rm up}(\max D)] \\
-[a,b] \ensuremath{\otimes} [c,d] &:= [{\rm fl}^{\rm down}(\min P), {\rm fl}^{\rm up}(\max P)]
+[a,b] \ensuremath{\oplus} [c,d] &:= [{\rm fl}^{\rm down}(a+c), {\rm fl}^{\rm up}(b+d)] \\
+[a,b] \ensuremath{\oslash} n &:= [{\rm fl}^{\rm down}(a/n), {\rm fl}^{\rm up}(b/n)] \\
+[a,b] \ensuremath{\otimes} [c,d] &:= [{\rm fl}^{\rm down}(ac), {\rm fl}^{\rm up}(bd)]
 \end{align*}
 \end{definition}
 
-This guarantees $S \ensuremath{\subseteq} [a,b] \ensuremath{\oplus} [c,d]$, $P \ensuremath{\subseteq} [a,b] \ensuremath{\otimes} [c,d]$, and $D \ensuremath{\subseteq} [a,b] \ensuremath{\oslash} n$. In other words, if $x \ensuremath{\in} [a,b]$ and $y \ensuremath{\in} [c,d]$ then $x +y \ensuremath{\in} [a,b] \ensuremath{\oplus} [c,d]$, and we thereby have  bounds on $x + y$.
-
-\begin{example}[exponential] As a motivating example, consider computing $\exp(x)$ from the Taylor series approximation:
+\begin{example}[small sum] consider evaluating the first few terms in the Taylor series of the exponential at $x = 1$ using interval arithmetic with half-precision $F_{16}$ arithmetic.  The first three terms are exact since all numbers involved are exactly floats, in particular if we evaluate $1 + x + x^2/2$ with $x = 1$ we get
 \[
-\exp(x) = \sum_{k=0}^{n-1} {x^k \over k!} + \ensuremath{\delta}
+1 + 1 + 1/2 \ensuremath{\in} 1 \ensuremath{\oplus} [1,1] \ensuremath{\oplus} ([1,1] \ensuremath{\otimes} [1,1]) \ensuremath{\oslash} 2 = [5/2, 5/2]
 \]
-If we can evaluate polynomials on intervals (eg., if we have access to \texttt{+} and \texttt{*} operations) then we can obtain a rigorous enclosure for the value of the polynomial on the right-hand side.  \end{example}
+Noting that 
+\[
+1/6 = (1/3)/2 = 2^{-3} (1.01010101\ensuremath{\ldots})_2
+\]
+we can extend the computation to another term:
+
+
+\begin{align*}
+1 + 1 + 1/2 + 1/6 &\ensuremath{\in} [5/2,5/2] \ensuremath{\oplus} ([1,1] \ensuremath{\oslash} 6) \ccr
+= [2 (1.01)_2, 2 (1.01)_2] \ensuremath{\oplus} 2^{-3}[(1.0101010101)_2, (1.0101010110)_2] \ccr
+= [{\rm fl}^{\rm down}(2 (1.01010101010101)_2), {\rm fl}^{\rm up}(2 (1.0101010101011)_2)] \ccr
+= [2(1.0101010101)_2, 2(1.0101010110)_2] \ccr 
+= [2.666015625, 2.66796875]
+\end{align*}
+\end{example}
+
+\begin{example}[exponential with intervals] Consider computing $\exp(x)$ for $0 \ensuremath{\leq} x \ensuremath{\leq} 1$ from the Taylor series approximation:
+\[
+\exp(x) = \sum_{k=0}^n {x^k \over k!} + \underbrace{\exp(t){x^{n+1} \over (n+1)!}}_{\ensuremath{\delta}_{x,n}}
+\]
+where we can bound the error by (using the fact that $\ensuremath{\euler} = 2.718\ensuremath{\ldots} \ensuremath{\leq} 3$)
+\[
+|\ensuremath{\delta}_{x,n}| \ensuremath{\leq} {\exp(1) \over (n+1)!} \ensuremath{\leq} {3 \over (n+1)!}.
+\]
+Put another way: $\ensuremath{\delta}_{x,n} \ensuremath{\in} \left[-{3 \over (n+1)!}, {3 \over (n+1)!}\right]$. We can use this to adjust the bounds derived from interval arithmetic for the interval arithmetic expression:
+\[
+\exp(X) \ensuremath{\subseteq} \ensuremath{\bigoplus}_{k=0}^n {X^k \ensuremath{\oslash} k!} \ensuremath{\oplus} \left[-{3 \over (n+1)!}, {3 \over (n+1)!}\right]
+\]
+For example, with $n = 3$ we have $|\ensuremath{\delta}_{1,2}| \ensuremath{\leq} 3/4! = 1/2^3$. Thus we know:
+\meeq{
+\ensuremath{\euler} = 1 + 1 + 1/2 + 1/6 + \ensuremath{\delta}_x \ensuremath{\in} [2(1.0101010101)_2, 2(1.0101010110)_2] \ensuremath{\oplus} [-1/2^3, 1/2^3] \ccr
+= [2(1.0100010101)_2, 2(1.0110010110)_2] = [2.541015625,2.79296875]
+}
+In the lab we get many more digits by using a computer to compute the bounds. \end{example}
 
 
 

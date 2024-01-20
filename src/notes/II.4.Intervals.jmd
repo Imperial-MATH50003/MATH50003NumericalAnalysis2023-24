@@ -3,13 +3,13 @@
 
 We can use rounding modes of floating point arithmetic to do rigorous computation
 to compute bounds on, for example, $\E$ or $π$. To do this we will use set/interval
-arithmetic. For sets $A,B ⊆ ℝ$, the set arithmetic operations are defined as
+arithmetic. For sets $X,Y ⊆ ℝ$, the set arithmetic operations are defined as
 $$
-A + B := \{x + y : x ∈ A, y ∈ B\}, AB := \{xy : x ∈ A, y ∈ B\}, A/B := \{x/y : x ∈ A, y ∈ B\}
+X + Y := \{x + y : x ∈ X, y ∈ Y\}, XY := \{xy : x ∈ X, y ∈ Y\}, X/Y := \{x/y : x ∈ X, y ∈ Y\}
 $$
 We will use floating point arithmetic to construct approximate set operations ⊕, ⊗ so that
 $$
-  A + B ⊆ A ⊕ B, AB ⊆ A ⊗ B, A/B ⊆ A ⊘ B
+  X + Y ⊆ X ⊕ Y, XY ⊆ X ⊗ Y, X/Y ⊆ X ⊘ Y
 $$
 thereby a complicated algorithm can be run on sets and the true result is guaranteed to be
 a subset of the output. E.g. we can do $ℯ = {\rm exp}(1) ∈ {\rm exp}([1,1]) ⊆ {\rm exp}^{\rm FP}([1,1])$
@@ -19,25 +19,25 @@ where ${\rm exp}^{\rm FP}$ is implemented using $⊕$ and $⊗$.
 When our sets are intervals we can deduce simple formulas for basic arithmetic operations.
 For simplicity we only consider the case where all values are positive.
 
-**Proposition (interval bounds)** For intervals  $A = [a,b]$ and $B = [c,d]$ satisfying
+**Proposition (interval bounds)** For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying
 $0 < a < b$ and $0 < c < d$, and $n > 0$, we have:
 $$
 \meeq{
-A + B = [a+c, b+d] \ccr
-A/n = [a/n,b/n] \ccr
-AB = [ac, bd]
+X + Y = [a+c, b+d] \ccr
+X/n = [a/n,b/n] \ccr
+XY = [ac, bd]
 }
 $$
 
 **Proof**
-We first show $A+B ⊆ [a+c,b+d]$. If $z ∈ A + B$ then $z = x+y$ such that $a ≤ x ≤ b$ and $c ≤ y ≤ d$ and
+We first show $X+Y ⊆ [a+c,b+d]$. If $z ∈ X + Y$ then $z = x+y$ such that $a ≤ x ≤ b$ and $c ≤ y ≤ d$ and
 therefore $a + c ≤ z ≤ c + d$ and $z ∈ [a+c,b+d]$. Equality follows from convexity. First note that
-$a+c, b+d ∈ A+B$. Any point $z ∈  [a+b,c+d]$ can be written  as a convex combination of the two endpoints:
+$a+c, b+d ∈ X+Y$. Any point $z ∈  [a+b,c+d]$ can be written  as a convex combination of the two endpoints:
 there exists $0 ≤ t ≤ 1$ such that
 $$
 z = t (a+c) + (1-t) (b+d) =  \underbrace{t a + (1-t) b}_x + \underbrace{t c + (1-t) d}_y
 $$
-Because intervals are convex we have $x ∈ A$ and $y ∈ B$ and hence $z ∈ A+B$. 
+Because intervals are convex we have $x ∈ X$ and $y ∈ Y$ and hence $z ∈ X+Y$. 
 
 The remaining two are left for the problem sheet. 
 
@@ -64,17 +64,21 @@ at $x = 1$ using interval arithmetic with half-precision $F_{16}$ arithmetic.
 The first three terms are exact since all numbers involved are exactly floats, in particular if we evaluate
 $1 + x + x^2/2$ with $x = 1$ we get
 $$
-1 + 1 + 1/2 ⊆ 1 ⊕ [1,1] ⊕ ([1,1] ⊗ [1,1]) ⊘ 2 = [5/2, 5/2]
+1 + 1 + 1/2 ∈ 1 ⊕ [1,1] ⊕ ([1,1] ⊗ [1,1]) ⊘ 2 = [5/2, 5/2]
 $$
 Noting that 
 $$
-1/6 = (1/3)/2 = 2^(-3) (1.01010101…)_2
+1/6 = (1/3)/2 = 2^{-3} (1.01010101…)_2
 $$
+we can extend the computation to another term:
 $$
-1 + 1 + 1/2 + 1/6 ∈ [5/2,5/2] ⊕ ([1,1] ⊘ 6)
-= [2 (1.01)_2, 2 (1.01)_2] ⊕ 2^(-3)[(1.0101010101)_2, (1.0101010110)_2]
-= [{\rm fl}^{\rm down}(2 (1.01010101010101)_2), {\rm fl}^{\rm up}(2 (1.0101010101011)_2)]
-= [2(1.0101010101)_2, 2(1.0101010110)_2] = [2.666015625, 2.66796875]
+\begin{align*}
+1 + 1 + 1/2 + 1/6 &∈ [5/2,5/2] ⊕ ([1,1] ⊘ 6) \ccr
+= [2 (1.01)_2, 2 (1.01)_2] ⊕ 2^{-3}[(1.0101010101)_2, (1.0101010110)_2] \ccr
+= [{\rm fl}^{\rm down}(2 (1.01010101010101)_2), {\rm fl}^{\rm up}(2 (1.0101010101011)_2)] \ccr
+= [2(1.0101010101)_2, 2(1.0101010110)_2] \ccr 
+= [2.666015625, 2.66796875]
+\end{align*}
 $$
 ∎
 
@@ -82,17 +86,24 @@ $$
 **Example (exponential with intervals)** Consider computing $\exp(x)$ for $0 ≤ x ≤ 1$
 from the Taylor series approximation:
 $$
-\exp(x) = \sum_{k=0}^{n-1} {x^k \over k!} + \underbrace{\exp(t){x^{k+1} \over (k+1)!}}_{δ_x}
+\exp(x) = \sum_{k=0}^n {x^k \over k!} + \underbrace{\exp(t){x^{n+1} \over (n+1)!}}_{δ_{x,n}}
 $$
 where we can bound the error by (using the fact that $ℯ = 2.718… ≤ 3$)
 $$
-|δ_x| ≤ {\exp(1) \over (k+1)!} ≤ {3 \over (k+1)!}.
+|δ_{x,n}| ≤ {\exp(1) \over (n+1)!} ≤ {3 \over (n+1)!}.
 $$
-We can use this to adjust the bounds derived from interval arithmetic. For example, with $k = 3$
-we have $|δ_1| ≤ 3/4! = 1/2^3$. Thus we know:
+Put another way: $δ_{x,n} ∈ \left[-{3 \over (n+1)!}, {3 \over (n+1)!}\right]$.
+We can use this to adjust the bounds derived from interval arithmetic for the interval
+arithmetic expression:
 $$
-ℯ = 1 + 1 + 1/2 + 1/6 + δ_x ∈ [2(1.0101010101)_2, 2(1.0101010110)_2] + [-1/2^3, 1/2^3]
+\exp(X) ⊆ ⨁_{k=0}^n {X^k ⊘ k!} ⊕ \left[-{3 \over (n+1)!}, {3 \over (n+1)!}\right]
+$$
+For example, with $n = 3$ we have $|δ_{1,2}| ≤ 3/4! = 1/2^3$. Thus we know:
+$$
+\meeq{
+ℯ = 1 + 1 + 1/2 + 1/6 + δ_x ∈ [2(1.0101010101)_2, 2(1.0101010110)_2] ⊕ [-1/2^3, 1/2^3] \ccr
 = [2(1.0100010101)_2, 2(1.0110010110)_2] = [2.541015625,2.79296875]
+}
 $$
 In the lab we get many more digits by using a computer to compute the bounds.
 ∎
