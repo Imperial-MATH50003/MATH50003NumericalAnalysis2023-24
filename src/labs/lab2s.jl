@@ -445,7 +445,7 @@ x = 0.1
 # $$
 # 1 + {x-1 \over 2 + {x-1 \over 2 + {x-1 \over 2 + ⋱}}}.
 # $$
-# Compare with divided differences to give evidence that your implementation is correct.
+# at the point $x = 0.1$. Compare with divided differences to give evidence that your implementation is correct.
 
 ## TODO: Use dual numbers to compute the derivatives of the 3 functions above.
 ## SOLUTION
