@@ -16,6 +16,28 @@ We use the notation ${\rm fl}$ when $σ,Q,S$ and the rounding mode are implied b
 with ${\rm fl}^{\rm nearest}$ being the default rounding mode.
 ∎
 
+In more detail on the behaviour of nearest mode, if a positive number $x$ is between two normal floats $x_- ≤ x ≤ x_+$ we can write its expansion as
+$$
+x = 2^{\green{q}-σ} (1.b_1b_2…b_Sb_{S+1}…)_2
+$$
+where
+$$
+\begin{align*}
+x_- &:= {\rm fl}^{\rm down}(x) = 2^{\green{q}-σ} (1.b_1b_2…b_S)_2 \\
+x_+ &:= {\rm fl}^{\rm up}(x) = x_- + 2^{j-S}
+\end{align*}
+$$
+Write the half-way point as:
+$$
+x_{\rm h} &:= {x_+ + x_- \over 2} = x_- + 2^{j-S-1} = 2^{\green{q}-σ} (1.b_1b_2…b_S\red{1})_2
+$$
+If $x_- ≤ x < x_{\rm h}$ then ${\rm fl}(x) = x_-$ and if $x_{\rm h} < x ≤ x_+$ then ${\rm fl}(x) = x_{\rm h}$.
+If $x = x_{\rm h}$ then it is exactly half-way between $x_-$ and $x_+$. The rule is if $b_S = 0$ 
+then ${\rm fl}(x) = x_-$ and otherwise ${\rm fl}(x) = x_+$.
+
+
+
+
 
 In IEEE arithmetic, the arithmetic operations `+`, `-`, `*`, `/` are defined by the property
 that they are exact up to rounding.  Mathematically we denote these operations as
@@ -113,7 +135,7 @@ If $x \in {\cal N}$ then
 $$
 {\rm fl}^{\rm mode}(x) = x (1 + δ_x^{\rm mode})
 $$
-where the _relative error_ is
+where the _relative error_ is bounded by:
 $$
 \begin{align*}
 |δ_x^{\rm nearest}| &≤ {ϵ_{\rm m} \over 2} \\
@@ -129,27 +151,27 @@ $$
 $$
 and hence it suffices to prove the result for positive $x$. Write
 $$
-x = 2^j (1.b_1b_2…b_Sb_{S+1} …)_2.
+x = 2^{\green{q}-σ} (1.b_1b_2…b_S\red{b_{S+1}…})_2.
 $$
 Define
 $$
 \begin{align*}
-x_- &:= {\rm fl}^{\rm down}(x) = 2^j (1.b_1b_2…b_S)_2 \\
+x_- &:= {\rm fl}^{\rm down}(x) = 2^{\green{q}-σ} (1.b_1b_2…b_S)_2 \\
 x_+ &:= {\rm fl}^{\rm up}(x) = x_- + 2^{j-S} \\
-x_{\rm h} &:= {x_+ + x_- \over 2} = x_- + 2^{j-S-1}
+x_{\rm h} &:= {x_+ + x_- \over 2} = x_- + 2^{j-S-1} = 2^{\green{q}-σ} (1.b_1b_2…b_S\red{1})_2
 \end{align*}
 $$
 so that $x_- ≤ x ≤ x_+$. We consider two cases separately.
 
-(Round Down) First consider the case where $x$ is such that we round down: ${\rm fl}(x) = x_-$.
-Since $2^j ≤ x_- ≤ x ≤ x_{\rm h}$ we have
+(**Round Down**) First consider the case where $x$ is such that we round down: ${\rm fl}(x) = x_-$.
+Since $2^{\green{q}-σ} ≤ x_- ≤ x ≤ x_{\rm h}$ we have
 $$
-|δ_x| = {x - x_- \over x} ≤ {x_{\rm h} - x_- \over x_-} = {2^{j-S-1} \over 2^j} = 2^{-S-1} = {ϵ_{\rm m} \over 2}.
+|δ_x| = {x - x_- \over x} ≤ {x_{\rm h} - x_- \over x_-} = {2^{j-S-1} \over 2^{\green{q}-σ}} = 2^{-S-1} = {ϵ_{\rm m} \over 2}.
 $$
 
-(Round Up) If ${\rm fl}(x) = x_+$ then $2^j ≤ x_- < x_{\rm h} ≤ x ≤ x_+$ and hence
+(**Round Up**) If ${\rm fl}(x) = x_+$ then $2^{\green{q}-σ} ≤ x_- < x_{\rm h} ≤ x ≤ x_+$ and hence
 $$
-|δ_x| = {x_+ - x \over x} ≤ {x_+ - x_{\rm h} \over x_-} = {2^{j-S-1} \over 2^j} = 2^{-S-1} = {ϵ_{\rm m} \over 2}.
+|δ_x| = {x_+ - x \over x} ≤ {x_+ - x_{\rm h} \over x_-} = {2^{j-S-1} \over 2^{\green{q}-σ}} = 2^{-S-1} = {ϵ_{\rm m} \over 2}.
 $$
 
 ∎
@@ -165,7 +187,8 @@ where (assuming the default nearest rounding) $|δ_1| ≤ {ϵ_{\rm m} \over 2}.$
 
 ## A simplified model of floating point
 
-With a complicated formula it is inelegant to work with normalised ranges. Extending the
+With a complicated formula it is mathematically inelegant to work with normalised ranges: one
+cannot guarantee apriori that a computation always results in a normal float. Extending the
 bounds to subnormal numbers is tedious, rarely relevant, and beyond the scope of this module. Thus to avoid this
 issue we will work with an alternative mathematical model:
 
@@ -177,7 +200,7 @@ $$
 ∎
 
 Note that $F^{\rm normal}_{σ,Q,S} ⊂ F_{∞,S}$ for all $σ,Q ∈ ℕ$.
-The definition of rounding ${\rm fl}^{\rm up} : ℝ → F_{∞,S}$ (etc.) naturllay extend to $F_{∞,S}$
+The definition of rounding ${\rm fl}_{∞,S}^{\rm up} : ℝ → F_{∞,S}$ (etc.) naturally extend to $F_{∞,S}$
 and hence we can consider bounds for floating point operations such as $⊕$, $⊖$, etc. And
 in this model the round bound is valid for all real numbers (including $x = 0$).
 
@@ -186,19 +209,16 @@ in this model the round bound is valid for all real numbers (including $x = 0$).
 
 
 
-**Example (bounding a simple computation)** We show how to bound the error in computing
-$$
-(1.1 + 1.2) + 1.3
-$$
+**Example (bounding a simple computation)** We show how to bound the error in computing $(1.1 + 1.2) * 1.3 = 2.99$
 using idealised floating-point arithmetic $F_{∞,S}$. First note that `1.1` on a computer is in
 fact ${\rm fl}(1.1)$, and we will always assume nearest rounding unless otherwise
 stated. Thus this computation becomes
 $$
-({\rm fl}(1.1) ⊕ {\rm fl}(1.2)) ⊕ {\rm fl}(1.3)
+({\rm fl}(1.1) ⊕ {\rm fl}(1.2)) ⊗ {\rm fl}(1.3)
 $$
 We will show the _absolute error_ is given by
 $$
-({\rm fl}(1.1) ⊕ {\rm fl}(1.2)) ⊕ {\rm fl}(1.3) = 3.6 + δ
+({\rm fl}(1.1) ⊕ {\rm fl}(1.2)) ⊗ {\rm fl}(1.3) = 2.99 + δ
 $$
 where $|δ| ≤  11 ϵ_{\rm m}.$
 First we find
@@ -209,18 +229,23 @@ $$
 }
 $$
 While $δ_1 δ_3$ and $δ_2 δ_3$ are absolutely tiny in practice
-we will bound them rather naïvely by $|ϵ_{\rm m}/2|$. Further we round up constants
+we will bound them rather naïvely by eg.
+$$
+|δ_1 δ_3| ≤ |ϵ_{\rm m}^2/4| ≤ |ϵ_{\rm m}/4|.
+$$
+Further we round up constants to integers
 in the bounds for simplicity. We thus have the bound
 $$
 |δ_4| ≤ (1+1+2+1+1) ϵ_{\rm m} = 6ϵ_{\rm m}
 $$
 Thus the computation becomes
 $$
-((2.3 + δ_4) + 1.3 (1 + δ_5)) (1 + δ_6) = 3.6 + \underbrace{δ_4 + 1.3 δ_5 + 3.6 δ_6 + δ_4 δ_6  + 1.3 δ_5 δ_6}_{δ_7}
+(2.3 + δ_4) 1.3 (1 + δ_5) (1 + δ_6) = 2.99 + \underbrace{1.3( δ_4 + 2.3δ_5 + 2.3δ_6 + 
+δ_4 δ_5 + δ_4 δ_6 + 2.3 δ_5 δ_6 + δ_4δ_5δ_6)}_{δ_7}
 $$
-where the _absolute error_ is
+where the _absolute error_ is bounded by
 $$
-|δ_7| ≤ (6 + 1 + 2 + 1 + 1) ϵ_{\rm m} = 11 ϵ_{\rm m}
+|δ_7| ≤ 2 (6 +  2 + 2 + 1/4 + 1/4 + 3/4 + 1/8) ϵ_{\rm m} ≤ 24 ϵ_{\rm m}
 $$
 ∎
 
@@ -277,11 +302,13 @@ The three-terms of this bound tell us a story: the first term is a fixed (small)
 as $h \rightarrow 0$, while the last term grows like $ϵ_{\rm m}/h$ as $h \rightarrow 0$.  Thus we observe convergence
 while the second term dominates, until the last term takes over.
 Of course, a bad upper bound is not the same as a proof that something grows, but it is a good indication of
-what happens _in general_ and suffices to motivate the following heuristic to balance the two sources of errors:
+what happens _in general_ and suffices to choose $h$ so that these errors are balanced (and thus minimised).
+Since in general we do not have access to the constants $c$ and $M$  
+we employ the following heuristic to balance the two sources of errors:
 
 
 **Heuristic (divided difference with floating-point step)** Choose $h$ proportional to $\sqrt{ϵ_{\rm m}}$
-in divided differences  so that $M h$ and ${4c ϵ_{\rm m} \over h}$ are roughly the same magnitude.
+in divided differences  so that $M h$ and ${4c ϵ_{\rm m} \over h}$ are (roughly) the same magnitude.
 
 In the case of double precision $\sqrt{ϵ_{\rm m}} ≈ 1.5× 10^{-8}$, which is close to when the observed error begins to increase
 in the examples we saw before.
