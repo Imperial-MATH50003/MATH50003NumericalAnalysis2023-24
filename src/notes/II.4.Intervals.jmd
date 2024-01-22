@@ -1,8 +1,9 @@
 # Interval Arithmetic
 
 
-We can use rounding modes of floating point arithmetic to do rigorous computation
-to compute bounds on, for example, $\E$ or $π$. To do this we will use set/interval
+It is possible to choose the rounding mode (up/down/nearest/etc.)
+which we can use to do rigorous computation
+to compute bounds on, for example, computing the digits of $\E$. To do this we will use set/interval
 arithmetic. For sets $X,Y ⊆ ℝ$, the set arithmetic operations are defined as
 $$
 X + Y := \{x + y : x ∈ X, y ∈ Y\}, XY := \{xy : x ∈ X, y ∈ Y\}, X/Y := \{x/y : x ∈ X, y ∈ Y\}
@@ -12,8 +13,7 @@ $$
   X + Y ⊆ X ⊕ Y, XY ⊆ X ⊗ Y, X/Y ⊆ X ⊘ Y
 $$
 thereby a complicated algorithm can be run on sets and the true result is guaranteed to be
-a subset of the output. E.g. we can do $ℯ = {\rm exp}(1) ∈ {\rm exp}([1,1]) ⊆ {\rm exp}^{\rm FP}([1,1])$
-where ${\rm exp}^{\rm FP}$ is implemented using $⊕$ and $⊗$.
+a subset of the output.
 
 
 When our sets are intervals we can deduce simple formulas for basic arithmetic operations.
@@ -39,12 +39,12 @@ z = t (a+c) + (1-t) (b+d) =  \underbrace{t a + (1-t) b}_x + \underbrace{t c + (1
 $$
 Because intervals are convex we have $x ∈ X$ and $y ∈ Y$ and hence $z ∈ X+Y$. 
 
-The remaining two are left for the problem sheet. 
+The remaining two proofs are left for the problem sheet. 
 
 ∎
 
 We want to  implement floating point variants of these operations that are guaranteed to contain
-the true set arithmetic operations. We do so as foolws:
+the true set arithmetic operations. We do so as follows:
 
 
 **Definition (floating point interval arithmetic)**
@@ -53,6 +53,7 @@ $0 < a < b$ and $0 < c < d$, and $n > 0$, define:
 $$
 \begin{align*}
 [a,b] ⊕ [c,d] &:= [{\rm fl}^{\rm down}(a+c), {\rm fl}^{\rm up}(b+d)] \\
+[a,b] ⊖ [c,d] &:= [{\rm fl}^{\rm down}(a-d), {\rm fl}^{\rm up}(b-c)] \\
 [a,b] ⊘ n &:= [{\rm fl}^{\rm down}(a/n), {\rm fl}^{\rm up}(b/n)] \\
 [a,b] ⊗ [c,d] &:= [{\rm fl}^{\rm down}(ac), {\rm fl}^{\rm up}(bd)]
 \end{align*}
@@ -75,7 +76,7 @@ $$
 \begin{align*}
 1 + 1 + 1/2 + 1/6 &∈ [5/2,5/2] ⊕ ([1,1] ⊘ 6) \ccr
 = [2 (1.01)_2, 2 (1.01)_2] ⊕ 2^{-3}[(1.0101010101)_2, (1.0101010110)_2] \ccr
-= [{\rm fl}^{\rm down}(2 (1.01010101010101)_2), {\rm fl}^{\rm up}(2 (1.0101010101011)_2)] \ccr
+= [{\rm fl}^{\rm down}(2 (1.0101010101\red{0101})_2), {\rm fl}^{\rm up}(2 (1.0101010101\red{011})_2)] \ccr
 = [2(1.0101010101)_2, 2(1.0101010110)_2] \ccr 
 = [2.666015625, 2.66796875]
 \end{align*}
@@ -96,9 +97,9 @@ Put another way: $δ_{x,n} ∈ \left[-{3 \over (n+1)!}, {3 \over (n+1)!}\right]$
 We can use this to adjust the bounds derived from interval arithmetic for the interval
 arithmetic expression:
 $$
-\exp(X) ⊆ ⨁_{k=0}^n {X^k ⊘ k!} ⊕ \left[-{3 \over (n+1)!}, {3 \over (n+1)!}\right]
+\exp(X) ⊆ \left(⨁_{k=0}^n {X^k ⊘ k!}\right) ⊕ \left[-{3 \over (n+1)!}, {3 \over (n+1)!}\right]
 $$
-For example, with $n = 3$ we have $|δ_{1,2}| ≤ 3/4! = 1/2^3$. Thus we know:
+For example, with $n = 3$ we have $|δ_{1,2}| ≤ 3/4! = 1/2^3$. Thus we can prove that:
 $$
 \meeq{
 ℯ = 1 + 1 + 1/2 + 1/6 + δ_x ∈ [2(1.0101010101)_2, 2(1.0101010110)_2] ⊕ [-1/2^3, 1/2^3] \ccr

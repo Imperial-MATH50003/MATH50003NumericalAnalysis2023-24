@@ -4,6 +4,23 @@ Arithmetic operations on floating-point numbers are  \emph{exact up to rounding}
 
 \begin{definition}[rounding] ${\rm fl}^{\rm up}_{\ensuremath{\sigma},Q,S} : \mathbb R \rightarrow F_{\ensuremath{\sigma},Q,S}$ denotes the function that rounds a real number up to the nearest floating-point number that is greater or equal. ${\rm fl}^{\rm down}_{\ensuremath{\sigma},Q,S} : \mathbb R \rightarrow F_{\ensuremath{\sigma},Q,S}$ denotes the function that rounds a real number down to the nearest floating-point number that is greater or equal. ${\rm fl}^{\rm nearest}_{\ensuremath{\sigma},Q,S} : \mathbb R \rightarrow F_{\ensuremath{\sigma},Q,S}$ denotes the function that rounds a real number to the nearest floating-point number. In case of a tie, it returns the floating-point number whose least significant bit is equal to zero. We use the notation ${\rm fl}$ when $\ensuremath{\sigma},Q,S$ and the rounding mode are implied by context, with ${\rm fl}^{\rm nearest}$ being the default rounding mode. \end{definition}
 
+In more detail on the behaviour of nearest mode, if a positive number $x$ is between two normal floats $x_- \ensuremath{\leq} x \ensuremath{\leq} x_+$ we can write its expansion as
+\[
+x = 2^{\green{q}-\ensuremath{\sigma}} (1.b_1b_2\ensuremath{\ldots}b_Sb_{S+1}\ensuremath{\ldots})_2
+\]
+where
+
+
+\begin{align*}
+x_- &:= {\rm fl}^{\rm down}(x) = 2^{\green{q}-\ensuremath{\sigma}} (1.b_1b_2\ensuremath{\ldots}b_S)_2 \\
+x_+ &:= {\rm fl}^{\rm up}(x) = x_- + 2^{j-S}
+\end{align*}
+Write the half-way point as:
+\[
+x_{\rm h} &:= {x_+ + x_- \over 2} = x_- + 2^{j-S-1} = 2^{\green{q}-\ensuremath{\sigma}} (1.b_1b_2\ensuremath{\ldots}b_S\red{1})_2
+\]
+If $x_- \ensuremath{\leq} x < x_{\rm h}$ then ${\rm fl}(x) = x_-$ and if $x_{\rm h} < x \ensuremath{\leq} x_+$ then ${\rm fl}(x) = x_{\rm h}$. If $x = x_{\rm h}$ then it is exactly half-way between $x_-$ and $x_+$. The rule is if $b_S = 0$  then ${\rm fl}(x) = x_-$ and otherwise ${\rm fl}(x) = x_+$.
+
 In IEEE arithmetic, the arithmetic operations \texttt{+}, \texttt{-}, \texttt{*}, \texttt{/} are defined by the property that they are exact up to rounding.  Mathematically we denote these operations as $\ensuremath{\oplus}, \ensuremath{\ominus}, \ensuremath{\otimes}, \ensuremath{\oslash} : F \ensuremath{\otimes} F \ensuremath{\rightarrow} F$ as follows:
 
 
@@ -73,7 +90,7 @@ We can use machine epsilon to determine bounds on rounding:
 \[
 {\rm fl}^{\rm mode}(x) = x (1 + \ensuremath{\delta}_x^{\rm mode})
 \]
-where the \emph{relative error} is
+where the \emph{relative error} is bounded by:
 
 
 \begin{align*}
@@ -89,25 +106,25 @@ We will show this result for the nearest rounding mode. Note first that
 \]
 and hence it suffices to prove the result for positive $x$. Write
 \[
-x = 2^j (1.b_1b_2\ensuremath{\ldots}b_Sb_{S+1} \ensuremath{\ldots})_2.
+x = 2^{\green{q}-\ensuremath{\sigma}} (1.b_1b_2\ensuremath{\ldots}b_S\red{b_{S+1}\ensuremath{\ldots}})_2.
 \]
 Define
 
 
 \begin{align*}
-x_- &:= {\rm fl}^{\rm down}(x) = 2^j (1.b_1b_2\ensuremath{\ldots}b_S)_2 \\
+x_- &:= {\rm fl}^{\rm down}(x) = 2^{\green{q}-\ensuremath{\sigma}} (1.b_1b_2\ensuremath{\ldots}b_S)_2 \\
 x_+ &:= {\rm fl}^{\rm up}(x) = x_- + 2^{j-S} \\
-x_{\rm h} &:= {x_+ + x_- \over 2} = x_- + 2^{j-S-1}
+x_{\rm h} &:= {x_+ + x_- \over 2} = x_- + 2^{j-S-1} = 2^{\green{q}-\ensuremath{\sigma}} (1.b_1b_2\ensuremath{\ldots}b_S\red{1})_2
 \end{align*}
 so that $x_- \ensuremath{\leq} x \ensuremath{\leq} x_+$. We consider two cases separately.
 
-(Round Down) First consider the case where $x$ is such that we round down: ${\rm fl}(x) = x_-$. Since $2^j \ensuremath{\leq} x_- \ensuremath{\leq} x \ensuremath{\leq} x_{\rm h}$ we have
+(\textbf{Round Down}) First consider the case where $x$ is such that we round down: ${\rm fl}(x) = x_-$. Since $2^{\green{q}-\ensuremath{\sigma}} \ensuremath{\leq} x_- \ensuremath{\leq} x \ensuremath{\leq} x_{\rm h}$ we have
 \[
-|\ensuremath{\delta}_x| = {x - x_- \over x} \ensuremath{\leq} {x_{\rm h} - x_- \over x_-} = {2^{j-S-1} \over 2^j} = 2^{-S-1} = {\ensuremath{\epsilon}_{\rm m} \over 2}.
+|\ensuremath{\delta}_x| = {x - x_- \over x} \ensuremath{\leq} {x_{\rm h} - x_- \over x_-} = {2^{j-S-1} \over 2^{\green{q}-\ensuremath{\sigma}}} = 2^{-S-1} = {\ensuremath{\epsilon}_{\rm m} \over 2}.
 \]
-(Round Up) If ${\rm fl}(x) = x_+$ then $2^j \ensuremath{\leq} x_- < x_{\rm h} \ensuremath{\leq} x \ensuremath{\leq} x_+$ and hence
+(\textbf{Round Up}) If ${\rm fl}(x) = x_+$ then $2^{\green{q}-\ensuremath{\sigma}} \ensuremath{\leq} x_- < x_{\rm h} \ensuremath{\leq} x \ensuremath{\leq} x_+$ and hence
 \[
-|\ensuremath{\delta}_x| = {x_+ - x \over x} \ensuremath{\leq} {x_+ - x_{\rm h} \over x_-} = {2^{j-S-1} \over 2^j} = 2^{-S-1} = {\ensuremath{\epsilon}_{\rm m} \over 2}.
+|\ensuremath{\delta}_x| = {x_+ - x \over x} \ensuremath{\leq} {x_+ - x_{\rm h} \over x_-} = {2^{j-S-1} \over 2^{\green{q}-\ensuremath{\sigma}}} = 2^{-S-1} = {\ensuremath{\epsilon}_{\rm m} \over 2}.
 \]
 \ensuremath{\QED}
 
@@ -118,7 +135,7 @@ x \ensuremath{\oplus} y = (x+y) (1 + \ensuremath{\delta}_1)
 where (assuming the default nearest rounding) $|\ensuremath{\delta}_1| \ensuremath{\leq} {\ensuremath{\epsilon}_{\rm m} \over 2}.$
 
 \subsection{A simplified model of floating point}
-With a complicated formula it is inelegant to work with normalised ranges. Extending the bounds to subnormal numbers is tedious, rarely relevant, and beyond the scope of this module. Thus to avoid this issue we will work with an alternative mathematical model:
+With a complicated formula it is mathematically inelegant to work with normalised ranges: one cannot guarantee apriori that a computation always results in a normal float. Extending the bounds to subnormal numbers is tedious, rarely relevant, and beyond the scope of this module. Thus to avoid this issue we will work with an alternative mathematical model:
 
 \begin{definition}[idealised floating point] An idealised mathematical model of floating point numbers for which the only subnormal number is zero can be defined as:
 \[
@@ -126,13 +143,9 @@ F_{\ensuremath{\infty},S} := \{\ensuremath{\pm} 2^q \ensuremath{\times} (1.b_1b_
 \]
 \end{definition}
 
-Note that $F^{\rm normal}_{\ensuremath{\sigma},Q,S} \ensuremath{\subset} F_{\ensuremath{\infty},S}$ for all $\ensuremath{\sigma},Q \ensuremath{\in} \ensuremath{\bbN}$. The definition of rounding ${\rm fl}^{\rm up} : \ensuremath{\bbR} \ensuremath{\rightarrow} F_{\ensuremath{\infty},S}$ (etc.) naturllay extend to $F_{\ensuremath{\infty},S}$ and hence we can consider bounds for floating point operations such as $\ensuremath{\oplus}$, $\ensuremath{\ominus}$, etc. And in this model the round bound is valid for all real numbers (including $x = 0$).
+Note that $F^{\rm normal}_{\ensuremath{\sigma},Q,S} \ensuremath{\subset} F_{\ensuremath{\infty},S}$ for all $\ensuremath{\sigma},Q \ensuremath{\in} \ensuremath{\bbN}$. The definition of rounding ${\rm fl}_{\ensuremath{\infty},S}^{\rm up} : \ensuremath{\bbR} \ensuremath{\rightarrow} F_{\ensuremath{\infty},S}$ (etc.) naturally extend to $F_{\ensuremath{\infty},S}$ and hence we can consider bounds for floating point operations such as $\ensuremath{\oplus}$, $\ensuremath{\ominus}$, etc. And in this model the round bound is valid for all real numbers (including $x = 0$).
 
-\begin{example}[bounding a simple computation] We show how to bound the error in computing
-\[
-(1.1 + 1.2) + 1.3
-\]
-using idealised floating-point arithmetic $F_{\ensuremath{\infty},S}$. First note that \texttt{1.1} on a computer is in fact ${\rm fl}(1.1)$, and we will always assume nearest rounding unless otherwise stated. Thus this computation becomes
+\begin{example}[bounding a simple computation] We show how to bound the error in computing $(1.1 + 1.2) * 1.3 = 2.99$ using idealised floating-point arithmetic $F_{\ensuremath{\infty},S}$. First note that \texttt{1.1} on a computer is in fact ${\rm fl}(1.1)$, and we will always assume nearest rounding unless otherwise stated. Thus this computation becomes
 \[
 ({\rm fl}(1.1) \ensuremath{\oplus} {\rm fl}(1.2)) \ensuremath{\oplus} {\rm fl}(1.3)
 \]

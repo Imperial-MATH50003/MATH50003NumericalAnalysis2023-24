@@ -1,0 +1,185 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.2ex}
+
+\hypersetup
+       {   pdfauthor = {  },
+           pdftitle={  },
+           colorlinks=TRUE,
+           linkcolor=black,
+           citecolor=blue,
+           urlcolor=blue
+       }
+
+
+
+
+\usepackage{upquote}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    upquote=true,
+    breaklines=true,
+    breakindent=0pt,
+    keepspaces=true,
+    showspaces=false,
+    columns=fullflexible,
+    showtabs=false,
+    showstringspaces=false,
+    escapeinside={(*@}{@*)},
+    extendedchars=true,
+}
+\newcommand{\HLJLt}[1]{#1}
+\newcommand{\HLJLw}[1]{#1}
+\newcommand{\HLJLe}[1]{#1}
+\newcommand{\HLJLeB}[1]{#1}
+\newcommand{\HLJLo}[1]{#1}
+\newcommand{\HLJLk}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkc}[1]{\textcolor[RGB]{59,151,46}{\textit{#1}}}
+\newcommand{\HLJLkd}[1]{\textcolor[RGB]{214,102,97}{\textit{#1}}}
+\newcommand{\HLJLkn}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkp}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkr}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkt}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLn}[1]{#1}
+\newcommand{\HLJLna}[1]{#1}
+\newcommand{\HLJLnb}[1]{#1}
+\newcommand{\HLJLnbp}[1]{#1}
+\newcommand{\HLJLnc}[1]{#1}
+\newcommand{\HLJLncB}[1]{#1}
+\newcommand{\HLJLnd}[1]{\textcolor[RGB]{214,102,97}{#1}}
+\newcommand{\HLJLne}[1]{#1}
+\newcommand{\HLJLneB}[1]{#1}
+\newcommand{\HLJLnf}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnfm}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnp}[1]{#1}
+\newcommand{\HLJLnl}[1]{#1}
+\newcommand{\HLJLnn}[1]{#1}
+\newcommand{\HLJLno}[1]{#1}
+\newcommand{\HLJLnt}[1]{#1}
+\newcommand{\HLJLnv}[1]{#1}
+\newcommand{\HLJLnvc}[1]{#1}
+\newcommand{\HLJLnvg}[1]{#1}
+\newcommand{\HLJLnvi}[1]{#1}
+\newcommand{\HLJLnvm}[1]{#1}
+\newcommand{\HLJLl}[1]{#1}
+\newcommand{\HLJLld}[1]{\textcolor[RGB]{148,91,176}{\textit{#1}}}
+\newcommand{\HLJLs}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsa}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsb}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsc}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsd}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdC}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLse}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLsh}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsi}[1]{#1}
+\newcommand{\HLJLso}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsr}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLss}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLssB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLnB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnbB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnfB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnh}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLni}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnil}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnoB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLoB}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLow}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLp}[1]{#1}
+\newcommand{\HLJLc}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLch}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcm}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcp}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcpB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcs}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcsB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLg}[1]{#1}
+\newcommand{\HLJLgd}[1]{#1}
+\newcommand{\HLJLge}[1]{#1}
+\newcommand{\HLJLgeB}[1]{#1}
+\newcommand{\HLJLgh}[1]{#1}
+\newcommand{\HLJLgi}[1]{#1}
+\newcommand{\HLJLgo}[1]{#1}
+\newcommand{\HLJLgp}[1]{#1}
+\newcommand{\HLJLgs}[1]{#1}
+\newcommand{\HLJLgsB}[1]{#1}
+\newcommand{\HLJLgt}[1]{#1}
+
+
+\def\endash{–}
+\def\bbD{ {\mathbb D} }
+
+\input{somacros}
+
+\begin{document}
+
+
+
+\textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Problem Sheet 4}
+
+\textbf{Problem 1} Suppose $x = 1.25$ and consider 16-bit floating point arithmetic ($F_{16}$). What is the error in approximating $x$ by the nearest float point number ${\rm fl}(x)$? What is the error in approximating $2x$, $x/2$, $x + 2$ and $x - 2$ by $2 \otimes x$, $x \oslash 2$, $x \ensuremath{\oplus} 2$ and $x \ominus 2$?
+
+\textbf{Problem 2} What are the exact bits for $1 \ensuremath{\oslash} 5$, $1 \ensuremath{\oslash} 5 \ensuremath{\oplus} 1$ computed using  half-precision arithmetic ($F_{16} := F_{15,5,10}$) (using default rounding)?
+
+\textbf{Problem 3} Prove the following bounds on the \emph{absolute error} of a floating point calculation in idealised floating-point arithmetic $F_{\ensuremath{\infty},S}$ (i.e., you may assume all operations involve normal floating point numbers):
+
+
+\begin{align*}
+(1.1 \ensuremath{\otimes} 1.2) &\ensuremath{\oplus} 1.3 = 2.62 + \ensuremath{\varepsilon}_1 \\
+(1.1 \ensuremath{\ominus} 1) & \ensuremath{\oslash} 0.1 = 1 + \ensuremath{\varepsilon}_2
+\end{align*}
+such that $|\ensuremath{\varepsilon}_1| \ensuremath{\leq} 11 \ensuremath{\epsilon}_{\rm m}$ and $|\ensuremath{\varepsilon}_2| \ensuremath{\leq} 40 \ensuremath{\epsilon}_{\rm m}$, where $\ensuremath{\epsilon}_{\rm m}$ is machine epsilon.
+
+\textbf{Problem 4} Assume that
+\[
+f^{\rm FP}(x) = f(x) + \ensuremath{\delta}_x
+\]
+where $|\ensuremath{\delta}_x| \ensuremath{\leq} c \ensuremath{\epsilon}_{\rm m}$ for all $x$. Using idealised floating point arithmetic $F_{\ensuremath{\infty},S}$, for
+\[
+{f^{\rm FP}(x+h) \ensuremath{\ominus} f^{\rm FP}(x-h) \over  2h} = f'(x) + \ensuremath{\varepsilon}
+\]
+show the absolute error is bounded by
+\[
+\ensuremath{\varepsilon} \ensuremath{\leq} {|f'(x)| \over 2} \ensuremath{\epsilon}_{\rm m} + {M \over 3} h^2 + {2 c \ensuremath{\epsilon}_{\rm m} \over h},
+\]
+where we assume $x \ensuremath{\in} [0,1]$, $h = 2^{-n}$ for $n \ensuremath{\leq} S$ so that $x \ensuremath{\oplus} h  = x+ h$ and $x \ensuremath{\ominus} h = x-h$.
+
+\textbf{Problem 5(a)} For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying $0 < a < b$ and $0 < c < d$, and $n > 0$ prove that
+\meeq{
+X/n = [a/n,b/n] \ccr
+XY = [ac, bd]
+}
+Generalise (without proof) these formul\ensuremath{\ae} to the case $n < 0$ and to where there are no restrictions on positivity of $a,b,c,d$. 
+
+\textbf{Problem 6(a)} Compute the following floating point interval arithmetic expression assuming half-precision $F_{16}$ arithmetic:
+\[
+[1,1] \ensuremath{\ominus} ([1,1] \ensuremath{\oslash} 6)
+\]
+Hint: it might help to write $1 = (0.1111\ensuremath{\ldots})_2$ when doing subtraction
+
+\textbf{Problem 6(b)} Writing 
+\[
+\sin\ x = \ensuremath{\sum}_{k=0}^n {(-1)^k x^{2k+1} \over (2k+1)!} + \ensuremath{\delta}_{x,2n+1}
+\]
+Prove the bound $|\ensuremath{\delta}_{x,2n+1}| \ensuremath{\leq} 1/(2n+3)!$, assuming $x \ensuremath{\in} [0,1]$.
+
+\textbf{Problem 6(c)} Combine the previous parts to prove that:
+\[
+\sin 1 \ensuremath{\in} [0.11010011000, 0.11010111101] = [0.82421875, 0.84228515625]
+\]
+You may use without proof that $1/120 = 2^{-7} (1.000100010001\ensuremath{\ldots})_2$. 
+
+
+
+\end{document}
