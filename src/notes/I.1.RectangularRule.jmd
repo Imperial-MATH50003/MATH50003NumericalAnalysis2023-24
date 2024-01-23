@@ -52,7 +52,7 @@ $$
 The lemma thus follows since
 $$
 \begin{align*}
-\abs{∫_a^b (x-a) f'(x) {\rm d} x} &≤ (b-a) \sup_{a ≤ x ≤ b}|(x-a) f'(x)| ≤ (b-a) \sup_{a ≤ x ≤ b}|(x-a) f'(x)| \\
+\abs{∫_a^b (x-a) f'(x) {\rm d} x} &≤ (b-a) \sup_{a ≤ x ≤ b}|(x-a) f'(x)|  \\
 &≤ (b-a) \sup_{a ≤ x ≤ b}|x-a| \sup_{a ≤ x ≤ b}|f'(x)|\\
 &≤ M (b-a)^2.
 \end{align*}
