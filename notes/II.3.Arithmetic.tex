@@ -6,18 +6,18 @@ Arithmetic operations on floating-point numbers are  \emph{exact up to rounding}
 
 In more detail on the behaviour of nearest mode, if a positive number $x$ is between two normal floats $x_- \ensuremath{\leq} x \ensuremath{\leq} x_+$ we can write its expansion as
 \[
-x = 2^{\green{q}-\ensuremath{\sigma}} (1.b_1b_2\ensuremath{\ldots}b_Sb_{S+1}\ensuremath{\ldots})_2
+x = 2^{\green{q}-\ensuremath{\sigma}} (1.\blue{b_1b_2\ensuremath{\ldots}b_S}\red{b_{S+1}\ensuremath{\ldots}})_2
 \]
 where
 
 
 \begin{align*}
-x_- &:= {\rm fl}^{\rm down}(x) = 2^{\green{q}-\ensuremath{\sigma}} (1.b_1b_2\ensuremath{\ldots}b_S)_2 \\
+x_- &:= {\rm fl}^{\rm down}(x) = 2^{\green{q}-\ensuremath{\sigma}} (1.\blue{b_1b_2\ensuremath{\ldots}b_S})_2 \\
 x_+ &:= {\rm fl}^{\rm up}(x) = x_- + 2^{j-S}
 \end{align*}
 Write the half-way point as:
 \[
-x_{\rm h} &:= {x_+ + x_- \over 2} = x_- + 2^{j-S-1} = 2^{\green{q}-\ensuremath{\sigma}} (1.b_1b_2\ensuremath{\ldots}b_S\red{1})_2
+x_{\rm h} := {x_+ + x_- \over 2} = x_- + 2^{j-S-1} = 2^{\green{q}-\ensuremath{\sigma}} (1.\blue{b_1b_2\ensuremath{\ldots}b_S}\red{1})_2
 \]
 If $x_- \ensuremath{\leq} x < x_{\rm h}$ then ${\rm fl}(x) = x_-$ and if $x_{\rm h} < x \ensuremath{\leq} x_+$ then ${\rm fl}(x) = x_{\rm h}$. If $x = x_{\rm h}$ then it is exactly half-way between $x_-$ and $x_+$. The rule is if $b_S = 0$  then ${\rm fl}(x) = x_-$ and otherwise ${\rm fl}(x) = x_+$.
 
@@ -147,28 +147,33 @@ Note that $F^{\rm normal}_{\ensuremath{\sigma},Q,S} \ensuremath{\subset} F_{\ens
 
 \begin{example}[bounding a simple computation] We show how to bound the error in computing $(1.1 + 1.2) * 1.3 = 2.99$ using idealised floating-point arithmetic $F_{\ensuremath{\infty},S}$. First note that \texttt{1.1} on a computer is in fact ${\rm fl}(1.1)$, and we will always assume nearest rounding unless otherwise stated. Thus this computation becomes
 \[
-({\rm fl}(1.1) \ensuremath{\oplus} {\rm fl}(1.2)) \ensuremath{\oplus} {\rm fl}(1.3)
+({\rm fl}(1.1) \ensuremath{\oplus} {\rm fl}(1.2)) \ensuremath{\otimes} {\rm fl}(1.3)
 \]
 We will show the \emph{absolute error} is given by
 \[
-({\rm fl}(1.1) \ensuremath{\oplus} {\rm fl}(1.2)) \ensuremath{\oplus} {\rm fl}(1.3) = 3.6 + \ensuremath{\delta}
+({\rm fl}(1.1) \ensuremath{\oplus} {\rm fl}(1.2)) \ensuremath{\otimes} {\rm fl}(1.3) = 2.99 + \ensuremath{\delta}
 \]
 where $|\ensuremath{\delta}| \ensuremath{\leq}  11 \ensuremath{\epsilon}_{\rm m}.$ First we find
 \meeq{
 {\rm fl}(1.1) \ensuremath{\oplus} {\rm fl}(1.2) = (1.1(1 + \ensuremath{\delta}_1) + 1.2 (1+\ensuremath{\delta}_2))(1 + \ensuremath{\delta}_3) \ccr
  = 2.3 + \underbrace{1.1 \ensuremath{\delta}_1 + 1.2 \ensuremath{\delta}_2 + 2.3 \ensuremath{\delta}_3 + 1.1 \ensuremath{\delta}_1 \ensuremath{\delta}_3 + 1.2 \ensuremath{\delta}_2 \ensuremath{\delta}_3}_{\ensuremath{\delta}_4}.
 }
-While $\ensuremath{\delta}_1 \ensuremath{\delta}_3$ and $\ensuremath{\delta}_2 \ensuremath{\delta}_3$ are absolutely tiny in practice we will bound them rather naïvely by $|\ensuremath{\epsilon}_{\rm m}/2|$. Further we round up constants in the bounds for simplicity. We thus have the bound
+While $\ensuremath{\delta}_1 \ensuremath{\delta}_3$ and $\ensuremath{\delta}_2 \ensuremath{\delta}_3$ are absolutely tiny in practice we will bound them rather naïvely by eg.
+\[
+|\ensuremath{\delta}_1 \ensuremath{\delta}_3| \ensuremath{\leq} |\ensuremath{\epsilon}_{\rm m}^2/4| \ensuremath{\leq} |\ensuremath{\epsilon}_{\rm m}/4|.
+\]
+Further we round up constants to integers in the bounds for simplicity. We thus have the bound
 \[
 |\ensuremath{\delta}_4| \ensuremath{\leq} (1+1+2+1+1) \ensuremath{\epsilon}_{\rm m} = 6\ensuremath{\epsilon}_{\rm m}
 \]
 Thus the computation becomes
 \[
-((2.3 + \ensuremath{\delta}_4) + 1.3 (1 + \ensuremath{\delta}_5)) (1 + \ensuremath{\delta}_6) = 3.6 + \underbrace{\ensuremath{\delta}_4 + 1.3 \ensuremath{\delta}_5 + 3.6 \ensuremath{\delta}_6 + \ensuremath{\delta}_4 \ensuremath{\delta}_6  + 1.3 \ensuremath{\delta}_5 \ensuremath{\delta}_6}_{\ensuremath{\delta}_7}
+(2.3 + \ensuremath{\delta}_4) 1.3 (1 + \ensuremath{\delta}_5) (1 + \ensuremath{\delta}_6) = 2.99 + \underbrace{1.3( \ensuremath{\delta}_4 + 2.3\ensuremath{\delta}_5 + 2.3\ensuremath{\delta}_6 + 
+\ensuremath{\delta}_4 \ensuremath{\delta}_5 + \ensuremath{\delta}_4 \ensuremath{\delta}_6 + 2.3 \ensuremath{\delta}_5 \ensuremath{\delta}_6 + \ensuremath{\delta}_4\ensuremath{\delta}_5\ensuremath{\delta}_6)}_{\ensuremath{\delta}_7}
 \]
-where the \emph{absolute error} is
+where the \emph{absolute error} is bounded by
 \[
-|\ensuremath{\delta}_7| \ensuremath{\leq} (6 + 1 + 2 + 1 + 1) \ensuremath{\epsilon}_{\rm m} = 11 \ensuremath{\epsilon}_{\rm m}
+|\ensuremath{\delta}_7| \ensuremath{\leq} 2 (6 +  2 + 2 + 1/4 + 1/4 + 3/4 + 1/8) \ensuremath{\epsilon}_{\rm m} \ensuremath{\leq} 24 \ensuremath{\epsilon}_{\rm m}
 \]
 \end{example}
 
@@ -211,9 +216,9 @@ The bound then follows, using the very pessimistic bound $|1 + \ensuremath{\delt
 
 \ensuremath{\QED}
 
-The three-terms of this bound tell us a story: the first term is a fixed (small) error, the second term tends to zero as $h \rightarrow 0$, while the last term grows like $\ensuremath{\epsilon}_{\rm m}/h$ as $h \rightarrow 0$.  Thus we observe convergence while the second term dominates, until the last term takes over. Of course, a bad upper bound is not the same as a proof that something grows, but it is a good indication of what happens \emph{in general} and suffices to motivate the following heuristic to balance the two sources of errors:
+The three-terms of this bound tell us a story: the first term is a fixed (small) error, the second term tends to zero as $h \rightarrow 0$, while the last term grows like $\ensuremath{\epsilon}_{\rm m}/h$ as $h \rightarrow 0$.  Thus we observe convergence while the second term dominates, until the last term takes over. Of course, a bad upper bound is not the same as a proof that something grows, but it is a good indication of what happens \emph{in general} and suffices to choose $h$ so that these errors are balanced (and thus minimised). Since in general we do not have access to the constants $c$ and $M$   we employ the following heuristic to balance the two sources of errors:
 
-\textbf{Heuristic (divided difference with floating-point step)} Choose $h$ proportional to $\sqrt{\ensuremath{\epsilon}_{\rm m}}$ in divided differences  so that $M h$ and ${4c \ensuremath{\epsilon}_{\rm m} \over h}$ are roughly the same magnitude.
+\textbf{Heuristic (divided difference with floating-point step)} Choose $h$ proportional to $\sqrt{\ensuremath{\epsilon}_{\rm m}}$ in divided differences  so that $M h$ and ${4c \ensuremath{\epsilon}_{\rm m} \over h}$ are (roughly) the same magnitude.
 
 In the case of double precision $\sqrt{\ensuremath{\epsilon}_{\rm m}} \ensuremath{\approx} 1.5\ensuremath{\times} 10^{-8}$, which is close to when the observed error begins to increase in the examples we saw before.
 

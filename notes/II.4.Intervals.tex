@@ -12,7 +12,7 @@ thereby a complicated algorithm can be run on sets and the true result is guaran
 
 When our sets are intervals we can deduce simple formulas for basic arithmetic operations. For simplicity we only consider the case where all values are positive.
 
-\begin{proposition}[interval bounds] For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying $0 < a < b$ and $0 < c < d$, and $n > 0$, we have:
+\begin{proposition}[interval bounds] For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying $0 < a \ensuremath{\leq} b$ and $0 < c \ensuremath{\leq} d$, and $n > 0$, we have:
 \meeq{
 X + Y = [a+c, b+d] \ccr
 X/n = [a/n,b/n] \ccr
@@ -31,11 +31,12 @@ The remaining two proofs are left for the problem sheet.
 
 We want to  implement floating point variants of these operations that are guaranteed to contain the true set arithmetic operations. We do so as follows:
 
-\begin{definition}[floating point interval arithmetic] For intervals  $A = [a,b]$ and $B = [c,d]$ satisfying $0 < a < b$ and $0 < c < d$, and $n > 0$, define:
+\begin{definition}[floating point interval arithmetic] For intervals  $A = [a,b]$ and $B = [c,d]$ satisfying $0 < a \ensuremath{\leq} b$ and $0 < c \ensuremath{\leq} d$, and $n > 0$, define:
 
 
 \begin{align*}
 [a,b] \ensuremath{\oplus} [c,d] &:= [{\rm fl}^{\rm down}(a+c), {\rm fl}^{\rm up}(b+d)] \\
+[a,b] \ensuremath{\ominus} [c,d] &:= [{\rm fl}^{\rm down}(a-d), {\rm fl}^{\rm up}(b-c)] \\
 [a,b] \ensuremath{\oslash} n &:= [{\rm fl}^{\rm down}(a/n), {\rm fl}^{\rm up}(b/n)] \\
 [a,b] \ensuremath{\otimes} [c,d] &:= [{\rm fl}^{\rm down}(ac), {\rm fl}^{\rm up}(bd)]
 \end{align*}
