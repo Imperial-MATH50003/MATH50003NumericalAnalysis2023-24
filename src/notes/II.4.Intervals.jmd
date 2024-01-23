@@ -20,7 +20,7 @@ When our sets are intervals we can deduce simple formulas for basic arithmetic o
 For simplicity we only consider the case where all values are positive.
 
 **Proposition (interval bounds)** For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying
-$0 < a < b$ and $0 < c < d$, and $n > 0$, we have:
+$0 < a ≤ b$ and $0 < c ≤ d$, and $n > 0$, we have:
 $$
 \meeq{
 X + Y = [a+c, b+d] \ccr
@@ -49,7 +49,7 @@ the true set arithmetic operations. We do so as follows:
 
 **Definition (floating point interval arithmetic)**
 For intervals  $A = [a,b]$ and $B = [c,d]$ satisfying
-$0 < a < b$ and $0 < c < d$, and $n > 0$, define:
+$0 < a ≤ b$ and $0 < c ≤ d$, and $n > 0$, define:
 $$
 \begin{align*}
 [a,b] ⊕ [c,d] &:= [{\rm fl}^{\rm down}(a+c), {\rm fl}^{\rm up}(b+d)] \\
