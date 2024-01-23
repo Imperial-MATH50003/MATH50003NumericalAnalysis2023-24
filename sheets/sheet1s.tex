@@ -1,0 +1,293 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.2ex}
+
+\hypersetup
+       {   pdfauthor = {  },
+           pdftitle={  },
+           colorlinks=TRUE,
+           linkcolor=black,
+           citecolor=blue,
+           urlcolor=blue
+       }
+
+
+
+
+\usepackage{upquote}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    upquote=true,
+    breaklines=true,
+    breakindent=0pt,
+    keepspaces=true,
+    showspaces=false,
+    columns=fullflexible,
+    showtabs=false,
+    showstringspaces=false,
+    escapeinside={(*@}{@*)},
+    extendedchars=true,
+}
+\newcommand{\HLJLt}[1]{#1}
+\newcommand{\HLJLw}[1]{#1}
+\newcommand{\HLJLe}[1]{#1}
+\newcommand{\HLJLeB}[1]{#1}
+\newcommand{\HLJLo}[1]{#1}
+\newcommand{\HLJLk}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkc}[1]{\textcolor[RGB]{59,151,46}{\textit{#1}}}
+\newcommand{\HLJLkd}[1]{\textcolor[RGB]{214,102,97}{\textit{#1}}}
+\newcommand{\HLJLkn}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkp}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkr}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkt}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLn}[1]{#1}
+\newcommand{\HLJLna}[1]{#1}
+\newcommand{\HLJLnb}[1]{#1}
+\newcommand{\HLJLnbp}[1]{#1}
+\newcommand{\HLJLnc}[1]{#1}
+\newcommand{\HLJLncB}[1]{#1}
+\newcommand{\HLJLnd}[1]{\textcolor[RGB]{214,102,97}{#1}}
+\newcommand{\HLJLne}[1]{#1}
+\newcommand{\HLJLneB}[1]{#1}
+\newcommand{\HLJLnf}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnfm}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnp}[1]{#1}
+\newcommand{\HLJLnl}[1]{#1}
+\newcommand{\HLJLnn}[1]{#1}
+\newcommand{\HLJLno}[1]{#1}
+\newcommand{\HLJLnt}[1]{#1}
+\newcommand{\HLJLnv}[1]{#1}
+\newcommand{\HLJLnvc}[1]{#1}
+\newcommand{\HLJLnvg}[1]{#1}
+\newcommand{\HLJLnvi}[1]{#1}
+\newcommand{\HLJLnvm}[1]{#1}
+\newcommand{\HLJLl}[1]{#1}
+\newcommand{\HLJLld}[1]{\textcolor[RGB]{148,91,176}{\textit{#1}}}
+\newcommand{\HLJLs}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsa}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsb}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsc}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsd}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdC}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLse}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLsh}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsi}[1]{#1}
+\newcommand{\HLJLso}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsr}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLss}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLssB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLnB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnbB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnfB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnh}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLni}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnil}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnoB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLoB}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLow}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLp}[1]{#1}
+\newcommand{\HLJLc}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLch}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcm}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcp}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcpB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcs}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcsB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLg}[1]{#1}
+\newcommand{\HLJLgd}[1]{#1}
+\newcommand{\HLJLge}[1]{#1}
+\newcommand{\HLJLgeB}[1]{#1}
+\newcommand{\HLJLgh}[1]{#1}
+\newcommand{\HLJLgi}[1]{#1}
+\newcommand{\HLJLgo}[1]{#1}
+\newcommand{\HLJLgp}[1]{#1}
+\newcommand{\HLJLgs}[1]{#1}
+\newcommand{\HLJLgsB}[1]{#1}
+\newcommand{\HLJLgt}[1]{#1}
+
+
+\def\endash{–}
+\def\bbD{ {\mathbb D} }
+\def\bbZ{ {\mathbb Z} }
+
+\input{somacros}
+
+\begin{document}
+
+
+
+\textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Problem Sheet 1}
+
+\rule{\textwidth}{1pt}
+\textbf{Problem 1} Assuming $f$ is differentiable, prove the left-point Rectangular rule error formula
+\[
+\ensuremath{\int}_a^b f(x) {\rm d}x =  h \ensuremath{\sum}_{j=0}^{n-1} f(x_j) +  \ensuremath{\delta}
+\]
+where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a) h$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f'(x)|$, $h = (b-a)/n$ and $x_j = a + jh$.
+
+\textbf{SOLUTION}
+
+This proof is very similar to the right-point rule, the only difference is we use a different constant in the indefinite integration in the integration-by-parts. First we need to adapt \textbf{Lemma 1 (Rect. rule error on one panel)}:
+\meeq{
+\ensuremath{\int}_a^b f(x) {\rm d}x = \ensuremath{\int}_a^b (x-b)' f(x)  {\rm d}x = [(x-b) f(x)]_a^b - \ensuremath{\int}_a^b (x-b) f'(x) {\rm d} x \ccr
+= (b-a) f(a) + \underbrace{\left(-\ensuremath{\int}_a^b (x-b) f'(x) {\rm d} x \right)}_\ensuremath{\varepsilon}.
+}
+where
+\[
+\abs{\ensuremath{\varepsilon}} \ensuremath{\leq} (b-a) \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|(x-b) f'(x)| \ensuremath{\leq} M (b-a)^2
+\]
+Applying this result on $[x_{j-1},x_j]$ we get
+\[
+\ensuremath{\int}_{x_{j-1}}^{x_j} f(x) {\rm d}x = h f(x_{j-1}) + \ensuremath{\delta}_j
+\]
+where $|\ensuremath{\delta}_j| \ensuremath{\leq} M h^2$. Splitting the integral into a sum of smaller integrals:
+\[
+\ensuremath{\int}_a^b f(x) {\rm d}x = \ensuremath{\sum}_{j=1}^n  \ensuremath{\int}_{x_{j-1}}^{x_j} f(x) {\rm d}x =
+h \ensuremath{\sum}_{j=1}^n f(x_{j-1}) +  \underbrace{\ensuremath{\sum}_{j=1}^n \ensuremath{\delta}_j}_\ensuremath{\delta}
+\]
+where using the triangular inequality we have
+\[
+|\ensuremath{\delta}| = \abs{ \ensuremath{\sum}_{j=1}^n \ensuremath{\delta}_j} \ensuremath{\leq} \ensuremath{\sum}_{j=1}^n |\ensuremath{\delta}_j| \ensuremath{\leq} M n h^2 = M(b-a)h.
+\]
+\textbf{END}
+
+\textbf{Problem 2(a)}  Assuming $f$ is twice-differentiable, prove a one-panel Trapezium rule error bound:
+\[
+\ensuremath{\int}_a^b f(x) {\rm d}x = (b-a) {f(a) + f(b) \over 2} +  \ensuremath{\delta}
+\]
+where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a)^3$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f''(x)|$.
+
+\emph{Hint}: Recall from the notes
+\[
+\ensuremath{\int}_a^b {(b-x) f(a) + (x-a) f(b) \over b-a} \dx = (b-a) {f(a) + f(b) \over 2}
+\]
+and you may need to use Taylor's theorem. Note that the bound is not sharp and so you may arrive at something sharper like $|\ensuremath{\delta}| \ensuremath{\leq} 3(b-a)^3 M/4$. The sharpest bound is $|\ensuremath{\delta}| \ensuremath{\leq} (b-a)^3 M/12$ but that would be a significantly harder challenge to show!
+
+\textbf{SOLUTION}
+
+Recall from the notes:
+\[
+\ensuremath{\int}_a^b {(b-x) f(a) + (x-a) f(b) \over b-a} \dx = (b-a) {f(a) + f(b) \over 2}
+\]
+Thus we can find by integration by parts twice (noting that the integrand vanishes at $a$ and $b$):
+\meeq{
+\ensuremath{\delta} = \ensuremath{\int}_a^b \br[f(x) - {(b-x) f(a) + (x-a) f(b) \over b-a}] {\rm d}x \ccr
+ = -\ensuremath{\int}_a^b (x-b) \br[f'(x) - {f(b)-f(a) \over b-a}] {\rm d}x \ccr
+ = {(b-a)^2 \over 2} \br[f'(a) - {f(b)-f(a) \over b-a}] + \ensuremath{\int}_a^b {(x-b)^2 \over 2} f''(x) {\rm d}x
+}
+Applying \textbf{Proposition 1} we know
+\[
+\abs{f'(a) - {f(b)-f(a) \over b-a}} \ensuremath{\leq} M (b-a)/2
+\]
+Further we have
+\[
+\abs{\ensuremath{\int}_a^b {(x-b)^2 \over 2} f''(x) {\rm d}x } \ensuremath{\leq} {(b-a)^3 \over 2} M
+\]
+Thus we have the bound
+\[
+|\ensuremath{\delta}| \ensuremath{\leq} {(b-a)^2 \over 2} M (b-a)/2 + {(b-a)^3 \over 2} M \ensuremath{\leq} {3 (b-a)^3 \over 4} M \ensuremath{\leq} (b-a)^3 M.
+\]
+For the sharper $1/12$ constant check out the \href{https://en.wikipedia.org/wiki/Euler\ensuremath{\endash}Maclaurin_formula}{Euler\ensuremath{\endash}Maclaurin formula}.
+
+\textbf{END}
+
+\textbf{Problem 2(b)} Assuming $f$ is twice-differentiable, prove a bound for the Trapezium rule error:
+\[
+\ensuremath{\int}_a^b f(x) {\rm d}x = h \br[{f(a) \over 2} + \ensuremath{\sum}_{j=1}^{n-1} f(x_j) + {f(b) \over 2}] +  \ensuremath{\delta}
+\]
+where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a) h^2$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f''(x)|$.
+
+\textbf{SOLUTION}
+
+This is very similar to the rectangular rules: applying the preceding result on $[x_{j-1},x_j]$ we get
+\[
+\ensuremath{\int}_{x_{j-1}}^{x_j} f(x) {\rm d}x = h {f(x_{j-1}) + f(x_j) \over 2} + \ensuremath{\delta}_j
+\]
+where $|\ensuremath{\delta}_j| \ensuremath{\leq} M h^3$. Splitting the integral into a sum of smaller integrals:
+\[
+\ensuremath{\int}_a^b f(x) {\rm d}x = \ensuremath{\sum}_{j=1}^n  \ensuremath{\int}_{x_{j-1}}^{x_j} f(x) {\rm d}x =
+h \br[{f(a) \over 2} + \ensuremath{\sum}_{j=1}^{n-1} f(x_j) + {f(b) \over 2}] +  \underbrace{\ensuremath{\sum}_{j=1}^n \ensuremath{\delta}_j}_\ensuremath{\delta}
+\]
+where using the triangular inequality we have
+\[
+|\ensuremath{\delta}| = \abs{ \ensuremath{\sum}_{j=1}^n \ensuremath{\delta}_j} \ensuremath{\leq} \ensuremath{\sum}_{j=1}^n |\ensuremath{\delta}_j| \ensuremath{\leq} M n h^3 = M(b-a) h^2.
+\]
+\textbf{END}
+
+\rule{\textwidth}{1pt}
+\textbf{Problem 3} Assuming $f$ is twice-differentiable, for the left difference approximation
+\[
+f'(x) = {f(x) - f(x - h) \over h} + \ensuremath{\delta},
+\]
+show that $|\ensuremath{\delta}| \ensuremath{\leq} Mh/2$ for $M = \sup_{x-h \ensuremath{\leq} t \ensuremath{\leq} x}\abs{f''(t)}$.
+
+\textbf{SOLUTION}
+
+Almost identical to the right-difference. Use Taylor series to right:
+\[
+f(x-h) = f(x) + f'(x) (-h) + {f''(t) \over 2} h^2
+\]
+where $t \ensuremath{\in} [x-h,x]$, so that
+\[
+f'(x) = {f(x) - f(x-h) \over h} + \underbrace{f''(t)/2 h}_\ensuremath{\delta}
+\]
+The bound follows immediately:
+\[
+|\ensuremath{\delta}| \ensuremath{\leq} |f''(t)/2 h| \ensuremath{\leq} Mh/2.
+\]
+\textbf{END}
+
+\textbf{Problem 4} Assuming $f$ is thrice-differentiable, for the central differences approximation
+\[
+f'(x) = {f(x + h) - f(x - h) \over 2h} + \ensuremath{\delta},
+\]
+show that $|\ensuremath{\delta}| \ensuremath{\leq} Mh^2/6$ for $M = \sup_{x-h \ensuremath{\leq} t \ensuremath{\leq} x+h}\abs{f'''(t)}$.
+
+\textbf{SOLUTION}
+
+By Taylor's theorem, the approximation around $x+h$ is
+\[
+f(x+h) = f(x) + f'(x)h + \frac{f''(x)}{2}h^2 + \frac{f'''(t_1)}{6}h^3,
+\]
+for some $t_1 \ensuremath{\in} (x, x+h)$ and similarly $f(x-h) = f(x) + f'(x)(-h) + \frac{f''(x)}{2}h^2 - \frac{f'''(t_2)}{6}h^3,$ for some $t_2 \ensuremath{\in} (x-h, x)$.
+
+Subtracting the second expression from the first we obtain $f(x+h)-f(x-h) = f'(x)(2h) + \frac{f'''(t_1)+f'''(t_2)}{6}h^3.$ Hence,
+\[
+\frac{f(x+h)-f(x-h)}{2h} = f'(x)  + \underbrace{\frac{f'''(t_1)+f'''(t_2)}{12}h^2}_{\ensuremath{\delta}}.
+\]
+Thus, the error can be bounded by $\left|\ensuremath{\delta}\right| \ensuremath{\leq} {M \over 6} h^2.$
+
+\textbf{END}
+
+\textbf{Problem 5}  Assuming $f$ is thrice-differentiable, for the second-order derivative approximation
+\[
+{f(x+h) - 2f(x) + f(x-h) \over h^2} = f''(x) + \ensuremath{\delta}
+\]
+show that $|\ensuremath{\delta}| \ensuremath{\leq} Mh/3$ for $M = \sup_{x-h \ensuremath{\leq} t \ensuremath{\leq} x+h}\abs{f'''(t)}$.
+
+\textbf{SOLUTION} Using the same two formulas as in 1.1 we have $f(x+h) = f(x) + f'(x)h + \frac{f''(x)}{2}h^2 + \frac{f'''(t_1)}{6}h^3,$ for some $t_1 \ensuremath{\in} (x, x+h)$ and $f(x-h) = f(x) + f'(x)(-h) + \frac{f''(x)}{2}h^2 - \frac{f'''(t_2)}{6}h^3,$ for some $t_2 \ensuremath{\in} (x-h, x)$.
+
+Summing the two we obtain $f(x+h) + f(x-h) = 2f(x) + f''(x)h^2 + \frac{f'''(t_1)}{6}h^3 - \frac{f'''(t_2)}{6}h^3.$
+
+Thus, $f''(x) = \frac{f(x+h) - 2f(x) + f(x-h)}{h^2} + \frac{f'''(t_2) - f'''(t_1)}{6}h.$
+
+Hence, the error is
+\[
+|\ensuremath{\delta}| = \left|f''(x) - {f(x+h) - 2f(x) + f(x-h) \over h^2} \right| = \left|\frac{f'''(t_2) - f'''(t_1)}{6}h\right|\ensuremath{\leq} {Mh \over 3}.
+\]
+\textbf{END}
+
+
+
+\end{document}

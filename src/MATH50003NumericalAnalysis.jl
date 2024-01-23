@@ -62,9 +62,25 @@ function compilesheet(filename)
     write(path, replace(read(path, String), r"\\\[\n\\meeq\{(.*?)\}\n\\\]"s => s"\\meeq{\1}"))
 end
 
+
+function compilesheetsolutions(filename)
+    weave("src/sheets/$(filename)s.jmd"; out_path="sheets/", doctype="md2tex", template="src/sheets/template.tpl")
+    path = "sheets/$(filename)s.tex"
+    # work around double newline before equation
+    write(path, replace(read(path, String), "\n\n\\[" => "\n\\["))
+    # work around meeq 
+    write(path, replace(read(path, String), r"\\\[\n\\meeq\{(.*?)\}\n\\\]"s => s"\\meeq{\1}"))
+end
+
 for k = 1:3
     compilesheet("sheet$k")
 end
+
+for k = 1:2
+    compilesheetsolutions("sheet$k")
+end
+
+
 
 # notebook("sheets/sheet1.jmd"; pkwds...)
 # notebook("src/sheets/sheet1s.jmd"; pkwds...)
@@ -80,6 +96,10 @@ import Literate
 for k = 1:3
     write("labs/lab$k.jl", replace(replace(read("src/labs/lab$(k)s.jl", String), r"## SOLUTION(.*?)## END"s => "")))
     Literate.notebook("labs/lab$k.jl", "labs/"; execute=false)
+end
+
+for k = 1:2
+    Literate.notebook("src/labs/lab$(k)s.jl", "labs/"; execute=false)
 end
 
 
