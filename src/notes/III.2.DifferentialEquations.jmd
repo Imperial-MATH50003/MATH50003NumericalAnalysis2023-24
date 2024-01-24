@@ -1,0 +1,273 @@
+# Differential Equations via Finite Differences
+
+We now see our first application: solving differential equations.
+We will focus on the following differential equations:
+
+1. Indefinite integration for $a ≤ x ≤ b$:
+$$
+\begin{align*}
+u(a) = c, u' = f(x)
+\end{align*}
+$$
+2. Linear time-evolution problems for $0 ≤ t ≤ T$:
+$$
+\begin{align*}
+u(0) = c, u' - a(t) u = f(t)
+\end{align*}
+$$
+3. Poisson equation with Dirichlet conditions for $a ≤ x ≤ b$:
+$$
+\begin{align*}
+u(a) &= c_0, u(b) = c_1, \\
+u'' &= f(x)
+\end{align*}
+$$
+
+
+Our approach to solving these is to
+1. Approximate the solution on $[a,b]$ evaluated on a $n$-point grid
+$x_1,…,x_n$ (labelled $t_k$ for time-evolution problems) with _step size_
+$$
+x_{k+1}-x_k = h = {b-a \over n-1}
+$$
+for a vector $𝐮 ∈ ℝ^n$
+that will be determined by solving a linear system:
+$$
+\begin{bmatrix}
+u(x_1) \\
+⋮ \\
+u(x_n)
+\end{bmatrix} ≈ \underbrace{\begin{bmatrix}
+u_1 \\
+⋮ \\
+u_n
+\end{bmatrix}}_𝐮
+$$
+2. Replace the derivatives with the finite-difference approximations (here $m_k = (x_{k+1} + x_k)/2$ is the mid-point
+of the grid):
+$$
+\begin{align*}
+u'(x_k) &≈ {u(x_{k+1}) - u(x_k) \over h} ≈ {u_{k+1} - u_k \over h} \qquad\hbox{(Forward-difference)} \\
+u'(m_k) &≈ {u(x_{k+1}) - u(x_k) \over h} ≈ {u_{k+1} - u_k \over h} \qquad\hbox{(Central-difference)} \\
+u'(x_k) &≈ {u(x_k) - u(x_{k-1}) \over h} ≈ {u_k - u_{k-1} \over h} \qquad\hbox{(Backward-difference)} \\
+u''(x_k) &≈ {u(x_{k+1}) - 2u(x_k) + u_{k-1} \over h^2} ≈ {u_{k+1} - 2u_k + u_{k-1} \over h^2}
+\end{align*}
+$$
+3. Recast the differential equation as a linear system whose solution
+is $𝐮$, which we solve using numerical linear algebra.
+Add the initial/boundary conditions as extra rows to make sure the
+system is square.
+
+
+
+
+# 1.  Time-evolution problems
+
+In this section we consider the forward and backward Euler methods, which are based on forward and backward difference
+approximations to the derivative. In the problem sheet we will investigate a rule that that takes the average of the two
+(with significant benefits). We first discuss the simplest case of indefinite integration, where central differences is also
+applicable, then introduce forward and backward
+Euler for linear scalar, linear vector, and nonlinear differential equations.
+
+
+## Indefinite integration
+
+We begin with the simplest differential equation on an interval $[a,b]$:
+$$
+\begin{align*}
+u(a) &= c \\
+u'(x) &= f(x)
+\end{align*}
+$$
+Using the forward-difference (which is the standard finite-difference) approximation we 
+choose $u_k ≈ u(x_k)$ so that, for $k = 1, …, n-1$:
+$$
+f(x_k) = u'(x_k) ≈ {u_{k+1} - u_k \over h} = f(x_k)
+$$
+That is, where $u$ satisfies the differential equation exactly, 
+$u_k$ satisfies the _difference equation_ exactly.
+We do not include $k = n$ to avoid going outside our grid.
+
+This condition can be recast as a linear system:
+$$
+\underbrace{{1 \over h} \begin{bmatrix}
+-1 & 1\\
+& \ddots & \ddots \\
+&& -1 & 1
+\end{bmatrix}}_{D_h} 𝐮^{\rm f} = \underbrace{\begin{bmatrix} f(x_1) \\ \vdots \\ f(x_{n-1})
+\end{bmatrix}}_{𝐟^{\rm f}}
+$$
+where the super-script ${\rm f}$ denotes that we are using 
+forward differences (and is leading towards the
+forward Euler method).
+Here $D_h ∈ ℝ^{n-1,n}$ so this system is not-invertible. Thus we need to
+add an extra row, coming from the initial condition: $𝐞_1^⊤ 𝐮^{\rm f} = c$,
+that is:
+$$
+\begin{bmatrix}
+𝐞_1^⊤ \\
+D_h
+\end{bmatrix} 𝐮^{\rm f} = \underbrace{ \begin{bmatrix}
+1 \\
+-1/h & 1/h\\
+& \ddots & \ddots \\
+&& -1/h & 1/h
+\end{bmatrix}}_{L_h} 𝐮^{\rm f} = \begin{bmatrix} c \\ 𝐟^{\rm f} \end{bmatrix}
+$$
+This is a lower-triangular bidiagonal system, so can be solved using
+forward substitution in $O(n)$ operations. 
+
+We can also consider discretisation at the mid-point $m_k = {x_{k+1} + x_k \over 2}$,
+which is the analogue of using central-differences:
+$$
+u'(m_k) ≈ {u_{k+1} - u_k \over h} = f(m_k)
+$$
+That is, we have the exact same system with a different right-hand side:
+$$
+\underbrace{{1 \over h} \begin{bmatrix}
+-1 & 1\\
+& \ddots & \ddots \\
+&& -1 & 1
+\end{bmatrix}}_{D_h} 𝐮^{\rm m} = 
+\underbrace{\begin{bmatrix} f(m_1) \\ \vdots \\ f(m_{n-1})
+\end{bmatrix}}_{𝐟^{\rm m}}
+$$
+
+And of course there is $𝐮^{\rm B}$ coming from the backwards-difference
+formula:
+$$
+u'(x_k) ≈ {u_k - u_{k-1} \over h} = f(x_k)
+$$
+which we leave as an exercise.
+
+
+
+
+## Forward Euler
+
+Now consider a scalar linear time-evolution problem for $0 ≤ t ≤ T$:
+$$
+\begin{align*}
+u(0 ) &= c \\
+u'(t) - a(t) u(t) &= f(t)
+\end{align*}
+$$
+Label the $n$-point grid as $t_k = (k-1)h$ for $h = T/(n-1)$.
+
+**Definition (Restriction matrices)**
+Define the $n-1 × n$ _restriction matrices_ as
+$$
+\begin{align*}
+    I_n^{\rm f} := \begin{bmatrix} 1 \\ &⋱ \\ &&1 & 0 \end{bmatrix}\\
+I_n^{\rm b} := \begin{bmatrix} 0 & 1 \\ &&⋱ \\ &&&1  \end{bmatrix} \\
+\end{align*}
+$$
+
+
+Again we can replace the discretisation using finite-differences, giving us
+$$
+{u_{k+1} - u_k \over h} - a(t_k) u_k = f(u_k)
+$$
+for $k = 1,…,n-1$. We need to add the term $a(t_k) u_k$ to our differential equation,
+that is. We do this using the $n-1 × n$ _(left) restriction matrix_ that takes a vector
+evaluated at $x_1,…,x_n$ and restricts it to $x_1,…,x_{n-1}$,
+as well as the $n × n$ _multiplication matrix_
+$$
+A_n = \begin{bmatrix} a(t_1) \\ &⋱\\&& a(t_n) \end{bmatrix}
+$$
+Putting everything together we have the system:
+$$
+\begin{bmatrix}
+𝐞_1^⊤ \\
+D_h -  I_n^{\rm f}  A_n
+\end{bmatrix} 𝐮^{\rm f} = \underbrace{ \begin{bmatrix}
+1 \\
+-a(t_1)-1/h & 1/h\\
+& \ddots & \ddots \\
+&& -a(t_{n-1})-1/h & 1/h
+\end{bmatrix}}_L 𝐮^{\rm f} = \begin{bmatrix} c \\ I_n^{\rm f} 𝐟 \end{bmatrix}
+$$
+where $𝐟 = \begin{bmatrix} f(t_1) \\ ⋮ \\ f(t_n) \end{bmatrix}$.
+
+
+
+
+## Backward Euler
+
+
+In Backward Euler we replace the forward-difference with a backward-difference,
+that is
+$$
+{u_k - u_{k-1} \over h} - a(t_k) u_k = f(u_k)
+$$
+This leads to the system:
+$$
+\begin{bmatrix}
+𝐞_1^⊤ \\
+D_h -  I_n^{\rm b}  A_n
+\end{bmatrix} 𝐮^{\rm b} = \underbrace{ \begin{bmatrix}
+1 \\
+-1/h & 1/h -a(t_2)\\
+& \ddots & \ddots \\
+&& -1/h & 1/h-a(t_n)
+\end{bmatrix}}_L 𝐮^{\rm b} = \begin{bmatrix} c \\ I_n^{\rm b} 𝐟 \end{bmatrix}
+$$
+Again this is a bidiagonal forward-substitution:
+$$
+\begin{align*}
+u_1 &= c \\
+(1 - h a(t_{k+1})) u_{k+1} &= u_k + h f(t_{k+1})
+\end{align*}
+$$
+That is,
+$$
+u_{k+1} = (1 - h a(t_{k+1}))^{-1}(u_k + h f(t_{k+1}))
+$$
+
+
+
+
+
+
+
+## Poisson equation
+
+Here we will only consider one discretisation as it is symmetric:
+$$
+u''(x_k) ≈ {u_{k-1} - 2u_k + u_{k+1} \over h^2}
+$$
+That is we use the $n-1 × n+1$ matrix:
+$$
+D_h^2 := {1 \over h^2} \begin{bmatrix}
+1 & -2 & 1 \\ & ⋱ & ⋱ & ⋱ \\
+&& 1 & -2 & 1 
+\end{bmatrix}
+$$
+
+
+**Example (Poisson)** Consider the Poisson equation with Dirichlet conditions:
+$$
+\begin{align*}
+u(0) &= c_0 \\
+u'' &= f(x) \\
+u(1) &= c_1
+\end{align*}
+$$
+which we discretise as
+$$
+\begin{align*}
+u_0 &= c_0 \\
+ {u_{k-1} - 2u_k + u_{k+1} \over h^2} &= f(x_k) \\
+u_1 &= c_1
+\end{align*}
+$$
+As a linear system this equation becomes:
+$$
+\begin{bmatrix}
+𝐞_1^⊤ \\
+D_h^2 \\
+𝐞_{n+1}^⊤
+\end{bmatrix} 𝐮 = \begin{bmatrix} c_0 \\ f(x_2) \\ ⋮ \\ f(x_{n-1}) \\ c_1 \end{bmatrix}
+$$
+
+

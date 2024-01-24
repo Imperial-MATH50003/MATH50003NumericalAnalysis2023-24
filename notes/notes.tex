@@ -131,13 +131,15 @@ computed using floating point operations. We also introduce some basic applicati
 In particular we discuss:
 
 \begin{enumerate}
-\item III.1 Polynomial Regression: often if statistics one needs to approximate data by a polynomial.
-We discuss how to set up and solve the resulting rectangular systems.
-\item III.2 Least Squares: 
-\item III.3 Structured Matrices: 
-\item III.4 QR Factorisation: 
-\item III.5 Differential Equations:
-\item III.6 Cholesky Factorisation:
+    \item III.1 Structured Matrices: we discuss special structured matrices such as triangular and tridiagonal.
+    \item III.2 Differential Equations: using divided differences we can reduce differential equations
+    to linear systems. This motivates the investigation of numerical algorithms for solving linear systems.
+    \item III.3 Cholesky Factorisation: we look at computing a factorisation of a square matrix as a product of a lower and upper triangular matrix in the special case where the matrix is symmetric positive
+    definite. Hidden in this is an algorithm to prove positive definiteness.
+\item III.4 Polynomial Regression: often if statistics one needs to approximate data by a polynomial.
+We discuss how to reduce this to solving a rectangular least squares problem.
+\item III.5 Orthogonal Matrices: we discuss different types of orthogonal matrices, which will be used to simplify rectangular least squares problems.
+\item III.6 QR Factorisation: we introduce an algorithm to compute a factorisation of a rectangular matrix as a product of an orthogonal and upper triangular matrix, thereby solving least squares problems.
 \end{enumerate}
 
 \end{document}
