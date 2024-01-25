@@ -6,11 +6,19 @@ which we can use to do rigorous computation
 to compute bounds on, for example, computing the digits of $\E$. To do this we will use set/interval
 arithmetic. For sets $X,Y ⊆ ℝ$, the set arithmetic operations are defined as
 $$
-X + Y := \{x + y : x ∈ X, y ∈ Y\}, XY := \{xy : x ∈ X, y ∈ Y\}, X/Y := \{x/y : x ∈ X, y ∈ Y\}
+\begin{align*}
+X + Y &:= \{x + y : x ∈ X, y ∈ Y\}, \\
+XY &:= \{xy : x ∈ X, y ∈ Y\}, \\
+X/Y &:= \{x/y : x ∈ X, y ∈ Y\}
+\end{align*}
 $$
-We will use floating point arithmetic to construct approximate set operations ⊕, ⊗ so that
+We will use floating point arithmetic to construct approximate set operations $⊕$, $⊗$ so that
 $$
-  X + Y ⊆ X ⊕ Y, XY ⊆ X ⊗ Y, X/Y ⊆ X ⊘ Y
+\begin{align*}
+  X + Y &⊆ X ⊕ Y, \\
+   XY &⊆ X ⊗ Y,\\
+    X/Y &⊆ X ⊘ Y
+    \end{align*}
 $$
 thereby a complicated algorithm can be run on sets and the true result is guaranteed to be
 a subset of the output.

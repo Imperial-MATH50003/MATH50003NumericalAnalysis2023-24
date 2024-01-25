@@ -26,6 +26,11 @@ function replacedefinition(path, thrm, Thrm)
     write(path, str)
 end
 
+function fixwhitespace(path)
+    write(path, replace(read(path, String), "\n\n\\[" => "\n\\["))
+    write(path, replace(read(path, String), "\n\n\n\\begin{align" => "\n\\begin{align"))
+end
+
 function compilenotes(filename) 
     weave("src/notes/$filename.jmd"; out_path="notes/", doctype="md2tex", template="src/notes/template.tpl")
     path = "notes/$filename.tex"
@@ -35,7 +40,7 @@ function compilenotes(filename)
     replacedefinition(path, "example", "Example")
     replacedefinition(path, "definition", "Definition")
     # work around double newline before equation
-    write(path, replace(read(path, String), "\n\n\\[" => "\n\\["))
+    fixwhitespace(path)
     # work around meeq 
     write(path, replace(read(path, String), r"\\\[\n\\meeq\{(.*?)\}\n\\\]"s => s"\\meeq{\1}"))
 end
@@ -59,7 +64,7 @@ function compilesheet(filename)
     weave("sheets/$filename.jmd"; out_path="sheets/", doctype="md2tex", template="src/sheets/template.tpl")
     path = "sheets/$filename.tex"
     # work around double newline before equation
-    write(path, replace(read(path, String), "\n\n\\[" => "\n\\["))
+    fixwhitespace(path)
     # work around meeq 
     write(path, replace(read(path, String), r"\\\[\n\\meeq\{(.*?)\}\n\\\]"s => s"\\meeq{\1}"))
 end
@@ -69,7 +74,7 @@ function compilesheetsolutions(filename)
     weave("src/sheets/$(filename)s.jmd"; out_path="sheets/", doctype="md2tex", template="src/sheets/template.tpl")
     path = "sheets/$(filename)s.tex"
     # work around double newline before equation
-    write(path, replace(read(path, String), "\n\n\\[" => "\n\\["))
+    fixwhitespace(path)
     # work around meeq 
     write(path, replace(read(path, String), r"\\\[\n\\meeq\{(.*?)\}\n\\\]"s => s"\\meeq{\1}"))
 end

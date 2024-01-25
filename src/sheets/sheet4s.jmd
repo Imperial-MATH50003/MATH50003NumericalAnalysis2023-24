@@ -11,41 +11,35 @@ None of these computations have errors since they are all exactly representable 
 
 
 
-**Problem 2** What are the exact bits for $1 ⊘ 5$, $1 ⊘ 5 ⊕ 1$ computed
+**Problem 2** Show that $1/5 = 2^{-3} (1.1001100110011…)_2$.
+What are the exact bits for $1 ⊘ 5$, $1 ⊘ 5 ⊕ 1$ computed
 using  half-precision arithmetic ($F_{16} := F_{15,5,10}$) (using default rounding)?
 
 **SOLUTION**
 
-From Problem 2.1 in Lab 2 we know that
+For the first part we use Geometric series:
 $$
-1/5 = 2^{-3} * (1.10011001100…)_2 ≈ 2^{-3} * (1.1001100110)_2
+\meeq{
+ 2^{-3} (1.1001100110\red{011…})_2 =  2^{-3} \left(∑_{k=0}^∞ {1 \over 2^{4k}} + 
+{1 \over 2} ∑_{k=0}^∞ {1 \over 2^{4k}}\right) ↻
+= {3 \over 2^4} {1 \over 1-1/2^4} = {3 \over 2^4-1} = {1 \over 5}
+}
 $$
-where the $≈$ is rounded to the nearest 10 bits (in this case rounded down).
-This can be shown using Geometric series:
-$$
-\begin{align*}
-(0.00110011001100…)_2 &= (2^{-3} + 2^{-4})(1.00010001000…)_2 =  (2^{-3} + 2^{-4}) \sum_{k=0}^∞ {1 \over 16^k} \\
-&= {2^{-3} + 2^{-4} \over 1 - {1\over 2^4}} = {3 \over 15} = {1 \over 5}
-\end{align*}
-$$
-
-
-We write $-3 = 12 - 15$
+Write $-3 = 12 - 15$
 hence we have $q = 12 = (01100)_2$.
-so  we get the bits:
-```julia
-printbits(Float16(1)/5)
-```
-
-Adding `1` we get:
+Since $1/5$ is below the midpoint we round down and hence have the bits:
 $$
-1 + 2^{-3} * (1.1001100110)_2 = (1.001100110011)_2 ≈ (1.0011001101)_2
+\red{0}\ \green{01100}\ \red{1001100110}
+$$
+Adding $1$ we get:
+$$
+1 + 2^{-3} * (1.1001100110)_2 = (1.0011001100\red{11})_2 ≈ (1.0011001101)_2
 $$
 Here we write the exponent as $0 = 15 - 15$ where $q = 15 = (01111)_2$.
-Thus we get:
-```julia
-printbits(1 + Float16(1)/5)
-```
+Thus we have the bits:
+$$
+\red{0}\ \green{01111}\ \red{0011001101}
+$$
 
 **END**
 
@@ -179,7 +173,7 @@ $$
 
 **END**
 
-**Problem 5(a)** For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying
+**Problem 5** For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying
 $0 < a < b$ and $0 < c < d$, and $n > 0$ prove that
 $$
 \meeq{

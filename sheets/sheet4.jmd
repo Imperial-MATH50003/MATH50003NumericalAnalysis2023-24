@@ -9,7 +9,8 @@ What is the error in approximating $2x$, $x/2$, $x + 2$ and $x - 2$ by $2 \otime
 
 
 
-**Problem 2** What are the exact bits for $1 ⊘ 5$, $1 ⊘ 5 ⊕ 1$ computed
+**Problem 2** Show that $1/5 = 2^{-3} (1.1001100110011…)_2$.
+What are the exact bits for $1 ⊘ 5$, $1 ⊘ 5 ⊕ 1$ computed
 using  half-precision arithmetic ($F_{16} := F_{15,5,10}$) (using default rounding)?
 
 
@@ -53,7 +54,7 @@ where we assume $x ∈ [0,1]$, $h = 2^{-n}$ for $n ≤ S$ so that $x ⊕ h  = x+
 
 
 
-**Problem 5(a)** For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying
+**Problem 5** For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying
 $0 < a < b$ and $0 < c < d$, and $n > 0$ prove that
 $$
 \meeq{

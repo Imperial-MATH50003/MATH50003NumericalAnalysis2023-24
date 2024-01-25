@@ -119,6 +119,7 @@
 
 \def\endash{–}
 \def\bbD{ {\mathbb D} }
+\def\bbZ{ {\mathbb Z} }
 
 \input{somacros}
 
@@ -130,11 +131,9 @@
 
 \textbf{Problem 1} Suppose $x = 1.25$ and consider 16-bit floating point arithmetic ($F_{16}$). What is the error in approximating $x$ by the nearest float point number ${\rm fl}(x)$? What is the error in approximating $2x$, $x/2$, $x + 2$ and $x - 2$ by $2 \otimes x$, $x \oslash 2$, $x \ensuremath{\oplus} 2$ and $x \ominus 2$?
 
-\textbf{Problem 2} What are the exact bits for $1 \ensuremath{\oslash} 5$, $1 \ensuremath{\oslash} 5 \ensuremath{\oplus} 1$ computed using  half-precision arithmetic ($F_{16} := F_{15,5,10}$) (using default rounding)?
+\textbf{Problem 2} Show that $1/5 = 2^{-3} (1.1001100110011\ensuremath{\ldots})_2$. What are the exact bits for $1 \ensuremath{\oslash} 5$, $1 \ensuremath{\oslash} 5 \ensuremath{\oplus} 1$ computed using  half-precision arithmetic ($F_{16} := F_{15,5,10}$) (using default rounding)?
 
 \textbf{Problem 3} Prove the following bounds on the \emph{absolute error} of a floating point calculation in idealised floating-point arithmetic $F_{\ensuremath{\infty},S}$ (i.e., you may assume all operations involve normal floating point numbers):
-
-
 \begin{align*}
 (1.1 \ensuremath{\otimes} 1.2) &\ensuremath{\oplus} 1.3 = 2.62 + \ensuremath{\varepsilon}_1 \\
 (1.1 \ensuremath{\ominus} 1) & \ensuremath{\oslash} 0.1 = 1 + \ensuremath{\varepsilon}_2
@@ -155,7 +154,7 @@ show the absolute error is bounded by
 \]
 where we assume $x \ensuremath{\in} [0,1]$, $h = 2^{-n}$ for $n \ensuremath{\leq} S$ so that $x \ensuremath{\oplus} h  = x+ h$ and $x \ensuremath{\ominus} h = x-h$.
 
-\textbf{Problem 5(a)} For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying $0 < a < b$ and $0 < c < d$, and $n > 0$ prove that
+\textbf{Problem 5} For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying $0 < a < b$ and $0 < c < d$, and $n > 0$ prove that
 \meeq{
 X/n = [a/n,b/n] \ccr
 XY = [ac, bd]

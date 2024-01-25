@@ -119,6 +119,7 @@
 
 \def\endash{–}
 \def\bbD{ {\mathbb D} }
+\def\bbZ{ {\mathbb Z} }
 
 \input{somacros}
 
@@ -133,13 +134,13 @@
 \[
 \ensuremath{\int}_a^b f(x) {\rm d}x =  h \ensuremath{\sum}_{j=0}^{n-1} f(x_j) +  \ensuremath{\delta}
 \]
-where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a) h$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f'(x)|$, $h = (b-a)/n$ and $x_j = a + jh$. 
+where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a) h$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f'(x)|$, $h = (b-a)/n$ and $x_j = a + jh$.
 
 \textbf{Problem 2(a)}  Assuming $f$ is twice-differentiable, prove a one-panel Trapezium rule error bound:
 \[
 \ensuremath{\int}_a^b f(x) {\rm d}x = (b-a) {f(a) + f(b) \over 2} +  \ensuremath{\delta}
 \]
-where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a)^3$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f''(x)|$.  
+where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a)^3$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f''(x)|$.
 
 \emph{Hint}: Recall from the notes
 \[
@@ -151,7 +152,7 @@ and you may need to use Taylor's theorem. Note that the bound is not sharp and s
 \[
 \ensuremath{\int}_a^b f(x) {\rm d}x = h \br[{f(a) \over 2} + \ensuremath{\sum}_{j=1}^{n-1} f(x_j) + {f(b) \over 2}] +  \ensuremath{\delta}
 \]
-where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a) h^2$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f''(x)|$.  
+where $|\ensuremath{\delta}| \ensuremath{\leq} M (b-a) h^2$ for $M = \sup_{a \ensuremath{\leq} x \ensuremath{\leq} b}|f''(x)|$.
 
 \rule{\textwidth}{1pt}
 \textbf{Problem 3} Assuming $f$ is twice-differentiable, for the left difference approximation
