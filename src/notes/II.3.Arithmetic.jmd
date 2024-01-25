@@ -185,7 +185,7 @@ x ⊕ y = (x+y) (1 + δ_1)
 $$
 where (assuming the default nearest rounding) $|δ_1| ≤ {ϵ_{\rm m} \over 2}.$
 
-## A simplified model of floating point
+## Idealised floating point
 
 With a complicated formula it is mathematically inelegant to work with normalised ranges: one
 cannot guarantee apriori that a computation always results in a normal float. Extending the
@@ -258,18 +258,19 @@ We assume that the function we are attempting to differentiate is computing usin
 in a way that achieves relative accuracy.
 
 
-**Theorem (divided difference error bound)** Let $f$ be twice-differentiable in a neighbourhood of $x$
+**Theorem (divided difference error bound)** Assume we are working in idealised floating-point arithmetic $F_{∞,S}$.
+Let $f$ be twice-differentiable in a neighbourhood of $x$
 and assume that
 $$
  f(x) = f^{\rm FP}(x) + δ_x^f
 $$
+where $f^{\rm FP} : F_{S,∞} → F_{S,∞}$
 has uniform absolute accuracy in that neighbourhood, that is:
 $$
 |δ_x^f| ≤ c ϵ_{\rm m}
 $$
 for a fixed constant $c ≥ 0$.
-Assume we are working in idealised floating-point arithmetic $F_{∞,S}$
-and, for simplicity, $h = 2^{-n}$ where $n ≤ S$ and $|x| ≤ 1$.
+For simplicity assume that $h = 2^{-n}$ where $n ≤ S$ and $|x| ≤ 1$.
 The divided difference approximation satisfies
 $$
 (f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x)) ⊘ h = f'(x) + δ_{x,h}^{\rm FD}

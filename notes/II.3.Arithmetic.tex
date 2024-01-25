@@ -134,7 +134,7 @@ x \ensuremath{\oplus} y = (x+y) (1 + \ensuremath{\delta}_1)
 \]
 where (assuming the default nearest rounding) $|\ensuremath{\delta}_1| \ensuremath{\leq} {\ensuremath{\epsilon}_{\rm m} \over 2}.$
 
-\subsection{A simplified model of floating point}
+\subsection{Idealised floating point}
 With a complicated formula it is mathematically inelegant to work with normalised ranges: one cannot guarantee apriori that a computation always results in a normal float. Extending the bounds to subnormal numbers is tedious, rarely relevant, and beyond the scope of this module. Thus to avoid this issue we will work with an alternative mathematical model:
 
 \begin{definition}[idealised floating point] An idealised mathematical model of floating point numbers for which the only subnormal number is zero can be defined as:
@@ -180,15 +180,15 @@ where the \emph{absolute error} is bounded by
 \subsection{Divided differences floating point error bound}
 We can use the bound on floating point arithmetic to deduce a bound on divided differences that captures the phenomena we observed where the error of divided differences became large as $h \ensuremath{\rightarrow} 0$. We assume that the function we are attempting to differentiate is computing using floating point arithmetic in a way that achieves relative accuracy.
 
-\begin{theorem}[divided difference error bound] Let $f$ be twice-differentiable in a neighbourhood of $x$ and assume that
+\begin{theorem}[divided difference error bound] Assume we are working in idealised floating-point arithmetic $F_{\ensuremath{\infty},S}$. Let $f$ be twice-differentiable in a neighbourhood of $x$ and assume that
 \[
  f(x) = f^{\rm FP}(x) + \ensuremath{\delta}_x^f
 \]
-has uniform absolute accuracy in that neighbourhood, that is:
+where $f^{\rm FP} : F_{\ensuremath{\sigma},Q,S} \ensuremath{\rightarrow} F_{\ensuremath{\sigma},Q,S}$ has uniform absolute accuracy in that neighbourhood, that is:
 \[
 |\ensuremath{\delta}_x^f| \ensuremath{\leq} c \ensuremath{\epsilon}_{\rm m}
 \]
-for a fixed constant $c \ensuremath{\geq} 0$. Assume we are working in idealised floating-point arithmetic $F_{\ensuremath{\infty},S}$ and, for simplicity, $h = 2^{-n}$ where $n \ensuremath{\leq} S$ and $|x| \ensuremath{\leq} 1$. The divided difference approximation satisfies
+for a fixed constant $c \ensuremath{\geq} 0$. For simplicity assume that $h = 2^{-n}$ where $n \ensuremath{\leq} S$ and $|x| \ensuremath{\leq} 1$. The divided difference approximation satisfies
 \[
 (f^{\rm FP}(x + h) \ensuremath{\ominus} f^{\rm FP}(x)) \ensuremath{\oslash} h = f'(x) + \ensuremath{\delta}_{x,h}^{\rm FD}
 \]
