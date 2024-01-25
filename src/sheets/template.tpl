@@ -38,6 +38,7 @@
 
 \def\endash{–}
 \def\bbD{ {\mathbb D} }
+\def\bbZ{ {\mathbb Z} }
 
 \input{somacros}
 

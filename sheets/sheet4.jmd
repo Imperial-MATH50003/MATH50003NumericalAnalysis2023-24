@@ -9,7 +9,8 @@ What is the error in approximating $2x$, $x/2$, $x + 2$ and $x - 2$ by $2 \otime
 
 
 
-**Problem 2** What are the exact bits for $1 ⊘ 5$, $1 ⊘ 5 ⊕ 1$ computed
+**Problem 2** Show that $1/5 = 2^{-3} (1.1001100110011…)_2$.
+What are the exact bits for $1 ⊘ 5$, $1 ⊘ 5 ⊕ 1$ computed
 using  half-precision arithmetic ($F_{16} := F_{15,5,10}$) (using default rounding)?
 
 
@@ -36,24 +37,21 @@ machine epsilon.
 
 
 **Problem 4**
-Assume that
-$$
-f^{\rm FP}(x) = f(x) + δ_x
-$$
-where $|δ_x| ≤ c ϵ_{\rm m}$ for all $x$. Using idealised floating point arithmetic $F_{∞,S}$,
-for
+Let $x ∈ [0,1] ∩ F_{∞,S}$.
+Assume that $f^{\rm FP} : F_{∞,S} → F_{∞,S}$ satisfies $f^{\rm FP}(x) = f(x) + δ_x$ where $|δ_x| ≤ c ϵ_{\rm m}$ for all $x ∈ [0,1]$.
+Show that
 $$
 {f^{\rm FP}(x+h) ⊖ f^{\rm FP}(x-h) \over  2h} = f'(x) + ε
 $$
-show the absolute error is bounded by
+where absolute error is bounded by
 $$
-ε ≤ {|f'(x)| \over 2} ϵ_{\rm m} + {M \over 3} h^2 + {2 c ϵ_{\rm m} \over h},
+|ε| ≤ {|f'(x)| \over 2} ϵ_{\rm m} + {M \over 3} h^2 + {2 c ϵ_{\rm m} \over h},
 $$
-where we assume $x ∈ [0,1]$, $h = 2^{-n}$ for $n ≤ S$ so that $x ⊕ h  = x+ h$ and $x ⊖ h = x-h$.
+where we assume  that $h = 2^{-n}$ for $n ≤ S$.
 
 
 
-**Problem 5(a)** For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying
+**Problem 5** For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying
 $0 < a < b$ and $0 < c < d$, and $n > 0$ prove that
 $$
 \meeq{
@@ -62,7 +60,7 @@ XY = [ac, bd]
 }
 $$
 Generalise (without proof) these formulæ to the case $n < 0$ and to where there are no restrictions
-on positivity of $a,b,c,d$. 
+on positivity of $a,b,c,d$. You may use the $\min$ or $\max$ functions.
 
 
 
@@ -72,7 +70,7 @@ expression assuming half-precision $F_{16}$ arithmetic:
 $$
 [1,1] ⊖ ([1,1] ⊘ 6)
 $$
-Hint: it might help to write $1 = (0.1111…)_2$ when doing subtraction
+Hint: it might help to write $1 = (0.1111…)_2$ when doing subtraction.
 
 
 

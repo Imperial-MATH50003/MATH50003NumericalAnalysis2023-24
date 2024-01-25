@@ -1,13 +1,17 @@
 
 \section{Interval Arithmetic}
-It is possible to choose the rounding mode (up/down/nearest/etc.) which we can use to do rigorous computation to compute bounds on, for example, computing the digits of $\E$. To do this we will use set/interval arithmetic. For sets $X,Y \ensuremath{\subseteq} \ensuremath{\bbR}$, the set arithmetic operations are defined as
-\[
-X + Y := \{x + y : x \ensuremath{\in} X, y \ensuremath{\in} Y\}, XY := \{xy : x \ensuremath{\in} X, y \ensuremath{\in} Y\}, X/Y := \{x/y : x \ensuremath{\in} X, y \ensuremath{\in} Y\}
-\]
-We will use floating point arithmetic to construct approximate set operations \ensuremath{\oplus}, \ensuremath{\otimes} so that
-\[
-  X + Y \ensuremath{\subseteq} X \ensuremath{\oplus} Y, XY \ensuremath{\subseteq} X \ensuremath{\otimes} Y, X/Y \ensuremath{\subseteq} X \ensuremath{\oslash} Y
-\]
+It is possible to use rounding modes (up/down)  to do rigorous computation to compute bounds on the error in, for example, the digits of $\E$. To do this we will use set/interval arithmetic. For sets $X,Y \ensuremath{\subseteq} \ensuremath{\bbR}$, the set arithmetic operations are defined as
+\begin{align*}
+X + Y &:= \{x + y : x \ensuremath{\in} X, y \ensuremath{\in} Y\}, \\
+XY &:= \{xy : x \ensuremath{\in} X, y \ensuremath{\in} Y\}, \\
+X/Y &:= \{x/y : x \ensuremath{\in} X, y \ensuremath{\in} Y\}
+\end{align*}
+We will use floating point arithmetic to construct approximate set operations $\ensuremath{\oplus}$, $\ensuremath{\otimes}$ so that
+\begin{align*}
+  X + Y &\ensuremath{\subseteq} X \ensuremath{\oplus} Y, \\
+   XY &\ensuremath{\subseteq} X \ensuremath{\otimes} Y,\\
+    X/Y &\ensuremath{\subseteq} X \ensuremath{\oslash} Y
+    \end{align*}
 thereby a complicated algorithm can be run on sets and the true result is guaranteed to be a subset of the output.
 
 When our sets are intervals we can deduce simple formulas for basic arithmetic operations. For simplicity we only consider the case where all values are positive.
@@ -21,7 +25,7 @@ XY = [ac, bd]
 \end{proposition}
 \textbf{Proof} We first show $X+Y \ensuremath{\subseteq} [a+c,b+d]$. If $z \ensuremath{\in} X + Y$ then $z = x+y$ such that $a \ensuremath{\leq} x \ensuremath{\leq} b$ and $c \ensuremath{\leq} y \ensuremath{\leq} d$ and therefore $a + c \ensuremath{\leq} z \ensuremath{\leq} c + d$ and $z \ensuremath{\in} [a+c,b+d]$. Equality follows from convexity. First note that $a+c, b+d \ensuremath{\in} X+Y$. Any point $z \ensuremath{\in}  [a+b,c+d]$ can be written  as a convex combination of the two endpoints: there exists $0 \ensuremath{\leq} t \ensuremath{\leq} 1$ such that
 \[
-z = t (a+c) + (1-t) (b+d) =  \underbrace{t a + (1-t) b}_x + \underbrace{t c + (1-t) d}_y
+z = (1-t) (a+c) + t (b+d) =  \underbrace{(1-t) a + t b}_x + \underbrace{(1-t) c + t d}_y
 \]
 Because intervals are convex we have $x \ensuremath{\in} X$ and $y \ensuremath{\in} Y$ and hence $z \ensuremath{\in} X+Y$. 
 
@@ -32,8 +36,6 @@ The remaining two proofs are left for the problem sheet.
 We want to  implement floating point variants of these operations that are guaranteed to contain the true set arithmetic operations. We do so as follows:
 
 \begin{definition}[floating point interval arithmetic] For intervals  $A = [a,b]$ and $B = [c,d]$ satisfying $0 < a \ensuremath{\leq} b$ and $0 < c \ensuremath{\leq} d$, and $n > 0$, define:
-
-
 \begin{align*}
 [a,b] \ensuremath{\oplus} [c,d] &:= [{\rm fl}^{\rm down}(a+c), {\rm fl}^{\rm up}(b+d)] \\
 [a,b] \ensuremath{\ominus} [c,d] &:= [{\rm fl}^{\rm down}(a-d), {\rm fl}^{\rm up}(b-c)] \\
@@ -51,8 +53,6 @@ Noting that
 1/6 = (1/3)/2 = 2^{-3} (1.01010101\ensuremath{\ldots})_2
 \]
 we can extend the computation to another term:
-
-
 \begin{align*}
 1 + 1 + 1/2 + 1/6 &\ensuremath{\in} [5/2,5/2] \ensuremath{\oplus} ([1,1] \ensuremath{\oslash} 6) \ccr
 = [2 (1.01)_2, 2 (1.01)_2] \ensuremath{\oplus} 2^{-3}[(1.0101010101)_2, (1.0101010110)_2] \ccr

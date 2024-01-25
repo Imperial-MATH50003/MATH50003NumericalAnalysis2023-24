@@ -1,0 +1,50 @@
+using MATH50003NumericalAnalysis
+
+
+####
+# Notes
+####
+
+compilenotes("I.1.RectangularRule")
+compilenotes("I.2.DividedDifferences")
+compilenotes("I.3.DualNumbers")
+compilenotes("I.4.NewtonMethod")
+
+compilenotes("II.1.Integers")
+compilenotes("II.2.Reals")
+compilenotes("II.3.Arithmetic")
+compilenotes("II.4.Intervals")
+
+
+####
+# Sheets
+####
+
+for k = 1:4
+    compilesheet(k)
+end
+
+for k = 1:2
+    compilesheetsolutions(k)
+end
+
+####
+# Labs
+####
+for k = 1:4
+    compilelab(k)
+end
+
+for k = 1:2
+    compilelabsolution(k)
+end
+
+
+#####
+# extras
+#####
+
+using Weave
+
+nkwds = (out_path="notes/", jupyter_path="$(homedir())/.julia/conda/3/x86_64/bin/jupyter", nbconvert_options="--allow-errors")
+notebook("src/notes/A.Julia.jmd"; nkwds...)

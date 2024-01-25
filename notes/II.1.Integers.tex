@@ -25,8 +25,6 @@ To translate between integers and bits we will need to write integers in binary 
 
 \subsection{Unsigned Integers}
 Computers represent integers by a finite number of $p$-bits, with $2^p$ possible combinations of 0s and 1s. Denote these $p$-bits as $B_{p-1}\ensuremath{\ldots}B_1B_0$ where $B_k \ensuremath{\in} \{0,1\}$. For \emph{unsigned integers} (non-negative integers) these bits dictate the first $p$ binary digits: $(B_{p-1}\ldots B_1B_0)_2$. Integers represented with $p$-bits on a computer are interpreted as  representing elements of ${\mathbb Z}_{2^p}$ and integer arithmetic on a computer is equivalent to arithmetic modulo $2^p$. We denote modular arithmetic with $m = 2^p$ as follows:
-
-
 \begin{align*}
 x \ensuremath{\oplus}_m y &:= (x+y)\ ({\rm mod}\ m) \\
 x \ensuremath{\ominus}_m y &:= (x-y)\ ({\rm mod}\ m) \\
@@ -35,8 +33,6 @@ x \ensuremath{\otimes}_m y &:= (x*y)\ ({\rm mod}\ m)
 When $m$ is implied by context we just write $\ensuremath{\oplus}, \ensuremath{\ominus}, \ensuremath{\otimes}$. Note that  the $({\rm mod}\ m)$ function simply drops all bits except for the first $p$-bits when writing a number in binary.
 
 \begin{example}[arithmetic with  8-bit unsigned integers] If  the result of an operation lies between $0$ and $m = 2^8 = 256$ then airthmetic works exactly like standard integer arithmetic. For example,
-
-
 \begin{align*}
 17 \ensuremath{\oplus}_{256} 3 = 20\ ({\rm mod}\ 256) = 20 \\
 17 \ensuremath{\ominus}_{256} 3 = 14\ ({\rm mod}\ 256) = 14
@@ -84,8 +80,6 @@ x\ ({\rm mod}^{\rm s}\ 2^p) := \begin{cases} y & 0 \ensuremath{\leq} y \ensurem
 Note that if $R_p(x) = x\ ({\rm mod}^{\rm s}\ 2^p)$ then it can be viewed as a map $R_p : \ensuremath{\bbZ} \ensuremath{\rightarrow} \ensuremath{\bbZ}_{2^p}^{\rm s}$ or a one-to-one map $R_p : \ensuremath{\bbZ}_{2^p} \ensuremath{\rightarrow} \ensuremath{\bbZ}_{2^p}^{\rm s}$ whose inverse is $R_p^{-1}(x) = x\ ({\rm mod}\ 2^p)$. It can also be viewed as the identity map on signed integers $R_p : \ensuremath{\bbZ}_{2^p}^{\rm s} \ensuremath{\rightarrow} \ensuremath{\bbZ}_{2^p}^{\rm s}$, that is,  $R_p(x) = x$ if $x \in \ensuremath{\bbZ}_{2^p}^{\rm s}$.
 
 Arithmetic works precisely the same for signed and unsigned integers up to the mapping $R_p$, e.g. we have for $m = 2^p$
-
-
 \begin{align*}
 x \ensuremath{\oplus}_{m}^{\rm s} y &:= (x+y)\ ({\rm mod}^{\rm s}\ m) \\
 x \ensuremath{\ominus}_{m}^{\rm s} y &:= (x-y)\ ({\rm mod}^{\rm s}\ m) \\
@@ -96,8 +90,6 @@ x \ensuremath{\otimes}_{m}^{\rm s} y &:= (x*y)\ ({\rm mod}^{\rm s}\ m)
 -1 \ensuremath{\oplus}_{256}^{\rm s} 1 = -1 + 1 \ ({\rm mod}^{\rm s}\ 256) = 0
 \]
 On the bit level this computation is exactly the same as unsigned integers. We represent the number $-1$ using the same bits as the unsigned integer $2^8 - 1 = 255$, that is  using the bits \texttt{11111111} (i.e., we store it equivalently to  $(11111111)_2 = 255$) and the  number $1$ is stored using the bits \texttt{00000001}. When we add this with true integer arithmetic we have
-
-
 \begin{align*}
 (0 11111111)_2 &\ + \\
 (0 00000001)_2 &\ = \\
@@ -110,8 +102,6 @@ Modular arithmetic drops the leading $1$ and we are left with all zeros. \end{ex
 127 \ensuremath{\oplus}_{256}^{\rm s} 1 = 128\  ({\rm mod}^{\rm s}\ 256) = 128 - 256 = -128.
 \]
 Again on the bit level this computation is exactly the same as unsigned integers. We represent the number $127$ using the bits \texttt{01111111} and the  number $1$ is stored using the bits \texttt{00000001}. When we add this with true integer arithmetic we have
-
-
 \begin{align*}
 (01111111)_2 &\ + \\
 (00000001)_2 &\ = \\
@@ -128,8 +118,6 @@ Because the first bit is \texttt{1} we interpret this as a negative number using
 (-2) \ensuremath{\otimes}_{2^p}^{\rm s} 2 = -4 \ ({\rm mod}^{\rm s}\ 2^p) = -4
 \]
 On the bit level, the bits of $-2$ (which is one less than $-1$) are \texttt{11111110}. Multiplying by 2 is like multiplying by 10 in base-10, that is, we shift the bits. Hence in true arithmetic we have
-
-
 \begin{align*}
 (0 11111110)_2 & * 2 = \\
 (1 11111100)_2&

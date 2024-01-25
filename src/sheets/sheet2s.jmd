@@ -40,7 +40,7 @@ State  the domain where these definitions are valid.
 **SOLUTION**
 
 $$
-f(a+ bϵ) = f(a) + b f'(a) ϵ = a^100 + 100ba^{99} ϵ
+f(a+ bϵ) = f(a) + b f'(a) ϵ = a^{100} + 100ba^{99} ϵ
 $$
 valid everywhere.
 
@@ -110,10 +110,11 @@ $$
 We now compute the derivatives of the three functions by evaluating for $x = 0.1 + ϵ$. For the first function we have:
 $$
 \begin{align*}
-\exp(\exp(0.1 + ϵ)\cos(0.1+ϵ) + \sin(0.1+ϵ)) &=
-\exp((\exp(0.1) + ϵ\exp(0.1))(\cos(0.1)-\sin(0.1)ϵ) + \sin(0.1)+\cos(0.1)ϵ) \\
+&\exp(\exp(0.1 + ϵ)\cos(0.1+ϵ) + \sin(0.1+ϵ)) \\
+&=\exp((\exp(0.1) + ϵ\exp(0.1))(\cos(0.1)-\sin(0.1)ϵ) + \sin(0.1)+\cos(0.1)ϵ) \\
 &= \exp(\exp(0.1)\cos(0.1)+ \sin(0.1) + (\exp(0.1)(\cos(0.1)-\sin(0.1))+\cos(0.1))ϵ) \\
-&= \exp(\exp(0.1)\cos(0.1)+ \sin(0.1)) + \exp(\exp(0.1)\cos(0.1)+ \sin(0.1))\exp(0.1)(\cos(0.1)-\sin(0.1))+\cos(0.1))ϵ 
+&= \exp(\exp(0.1)\cos(0.1)+ \sin(0.1))\\
+&\qquad + \exp(\exp(0.1)\cos(0.1)+ \sin(0.1))\exp(0.1)(\cos(0.1)-\sin(0.1))+\cos(0.1))ϵ 
 \end{align*}
 $$
 therefore the derivative is the dual part
