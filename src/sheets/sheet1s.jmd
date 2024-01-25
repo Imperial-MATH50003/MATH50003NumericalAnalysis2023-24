@@ -190,7 +190,7 @@ $$
 show that $|δ| ≤ Mh/3$ for $M = \sup_{x-h ≤ t ≤ x+h}\abs{f'''(t)}$.
 
 **SOLUTION**
-Using the same two formulas as in 1.1 we have
+Using the same two formulas as in the previous problem we have
 $$f(x+h) = f(x) + f'(x)h + \frac{f''(x)}{2}h^2 + \frac{f'''(t_1)}{6}h^3,$$
 for some $t_1 ∈ (x, x+h)$
 and
