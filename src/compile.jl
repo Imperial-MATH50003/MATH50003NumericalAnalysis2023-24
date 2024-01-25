@@ -15,12 +15,15 @@ compilenotes("II.2.Reals")
 compilenotes("II.3.Arithmetic")
 compilenotes("II.4.Intervals")
 
+compilenotes("III.1.StructuredMatrices")
+compilenotes("III.2.DifferentialEquations")
+
 
 ####
 # Sheets
 ####
 
-for k = 1:4
+for k = 1:5
     compilesheet(k)
 end
 
@@ -31,7 +34,7 @@ end
 ####
 # Labs
 ####
-for k = 1:4
+for k = 1:5
     compilelab(k)
 end
 
