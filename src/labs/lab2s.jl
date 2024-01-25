@@ -452,9 +452,18 @@ x = 0.1
 
 ## Define the functions
 f = x -> exp(exp(x)cos(x) + sin(x))
-g = x -> prod([x] ./ (1:1000) .- 1)
+/(x::Dual, k::Int) = Dual(x.a/k, x.b/k) # missing overload from above
+-(x::Dual, k::Int) = Dual(x.a-k, x.b) # missing overload from above
+*(k::Int, x::Dual) = Dual(k*x.a, k*x.b) # missing overload from above
+g = function(x)
+    ret = 1
+    for k = 1:1000
+        ret *= x/k - 1
+    end
+    ret
+end
 function cont(n, x)
-    ret = 2*one(x)
+    ret = 2
     for k = 1:n-1
         ret = 2 + (x-1)/ret
     end

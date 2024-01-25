@@ -1,0 +1,260 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.2ex}
+
+\hypersetup
+       {   pdfauthor = {  },
+           pdftitle={  },
+           colorlinks=TRUE,
+           linkcolor=black,
+           citecolor=blue,
+           urlcolor=blue
+       }
+
+
+
+
+\usepackage{upquote}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    upquote=true,
+    breaklines=true,
+    breakindent=0pt,
+    keepspaces=true,
+    showspaces=false,
+    columns=fullflexible,
+    showtabs=false,
+    showstringspaces=false,
+    escapeinside={(*@}{@*)},
+    extendedchars=true,
+}
+\newcommand{\HLJLt}[1]{#1}
+\newcommand{\HLJLw}[1]{#1}
+\newcommand{\HLJLe}[1]{#1}
+\newcommand{\HLJLeB}[1]{#1}
+\newcommand{\HLJLo}[1]{#1}
+\newcommand{\HLJLk}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkc}[1]{\textcolor[RGB]{59,151,46}{\textit{#1}}}
+\newcommand{\HLJLkd}[1]{\textcolor[RGB]{214,102,97}{\textit{#1}}}
+\newcommand{\HLJLkn}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkp}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkr}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkt}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLn}[1]{#1}
+\newcommand{\HLJLna}[1]{#1}
+\newcommand{\HLJLnb}[1]{#1}
+\newcommand{\HLJLnbp}[1]{#1}
+\newcommand{\HLJLnc}[1]{#1}
+\newcommand{\HLJLncB}[1]{#1}
+\newcommand{\HLJLnd}[1]{\textcolor[RGB]{214,102,97}{#1}}
+\newcommand{\HLJLne}[1]{#1}
+\newcommand{\HLJLneB}[1]{#1}
+\newcommand{\HLJLnf}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnfm}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnp}[1]{#1}
+\newcommand{\HLJLnl}[1]{#1}
+\newcommand{\HLJLnn}[1]{#1}
+\newcommand{\HLJLno}[1]{#1}
+\newcommand{\HLJLnt}[1]{#1}
+\newcommand{\HLJLnv}[1]{#1}
+\newcommand{\HLJLnvc}[1]{#1}
+\newcommand{\HLJLnvg}[1]{#1}
+\newcommand{\HLJLnvi}[1]{#1}
+\newcommand{\HLJLnvm}[1]{#1}
+\newcommand{\HLJLl}[1]{#1}
+\newcommand{\HLJLld}[1]{\textcolor[RGB]{148,91,176}{\textit{#1}}}
+\newcommand{\HLJLs}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsa}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsb}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsc}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsd}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdC}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLse}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLsh}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsi}[1]{#1}
+\newcommand{\HLJLso}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsr}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLss}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLssB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLnB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnbB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnfB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnh}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLni}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnil}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnoB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLoB}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLow}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLp}[1]{#1}
+\newcommand{\HLJLc}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLch}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcm}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcp}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcpB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcs}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcsB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLg}[1]{#1}
+\newcommand{\HLJLgd}[1]{#1}
+\newcommand{\HLJLge}[1]{#1}
+\newcommand{\HLJLgeB}[1]{#1}
+\newcommand{\HLJLgh}[1]{#1}
+\newcommand{\HLJLgi}[1]{#1}
+\newcommand{\HLJLgo}[1]{#1}
+\newcommand{\HLJLgp}[1]{#1}
+\newcommand{\HLJLgs}[1]{#1}
+\newcommand{\HLJLgsB}[1]{#1}
+\newcommand{\HLJLgt}[1]{#1}
+
+
+\def\endash{–}
+\def\bbD{ {\mathbb D} }
+\def\bbZ{ {\mathbb Z} }
+
+\input{somacros}
+
+\begin{document}
+
+
+
+\textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Problem Sheet 2}
+
+\textbf{Problem 1} Using dual number arithmetic, compute the following polynomials evaluated at the dual number $2+\ensuremath{\epsilon}$ and use this to deduce their derivative at $2$:
+\[
+2x^2 + 3x + 4, (x+1)(x+2)(x+3), (2x+1)x^3
+\]
+\textbf{SOLUTION} (a)
+\[
+2(2+\ensuremath{\epsilon})^2 + 3(2+\ensuremath{\epsilon}) + 4 = 2(4+4\ensuremath{\epsilon}) + 6+3\ensuremath{\epsilon} + 4 = 18 + 11\ensuremath{\epsilon}
+\]
+so the derivative is 11.
+
+(b) 
+\[
+(3+\ensuremath{\epsilon})(4+\ensuremath{\epsilon})(5+\ensuremath{\epsilon}) = (12+7\ensuremath{\epsilon})(5+\ensuremath{\epsilon}) = 60+47\ensuremath{\epsilon}
+\]
+so the derivative is 47.
+
+(c)
+\[
+(2(2+\ensuremath{\epsilon})+1)(2+\ensuremath{\epsilon})^3 = 
+(5+2\ensuremath{\epsilon})(4+4\ensuremath{\epsilon})(2+\ensuremath{\epsilon}) = 
+(20 + 28\ensuremath{\epsilon})(2+\ensuremath{\epsilon}) = 40 + 76\ensuremath{\epsilon}
+\]
+so the derivative is 76.
+
+\textbf{END}
+
+\textbf{Problem 2} What should the following functions applied to dual numbers return for $x = a+b \ensuremath{\epsilon}$:
+\[
+f(x) = x^{100}    + 1, g(x) = 1/x, h(x) = \tan x
+\]
+State  the domain where these definitions are valid.
+
+\textbf{SOLUTION}
+\[
+f(a+ b\ensuremath{\epsilon}) = f(a) + b f'(a) \ensuremath{\epsilon} = a^{100} + 100ba^{99} \ensuremath{\epsilon}
+\]
+valid everywhere.
+\[
+g(a+ b\ensuremath{\epsilon}) =  {1 \over a} - {b \over a^2} \ensuremath{\epsilon}
+\]
+valid for $a \ensuremath{\neq} 0$.
+\[
+h(a+b\ensuremath{\epsilon}) = \tan a + b \sec^2 a \ensuremath{\epsilon}
+\]
+valid for $a \ensuremath{\notin} \{ k\ensuremath{\pi}+\ensuremath{\pi}/2 : k \ensuremath{\in} \ensuremath{\bbZ}\}$.
+
+\textbf{END}
+
+\textbf{Problem 3(a)} What is the correct definition of division on dual numbers, i.e.,
+\[
+(a + b \ensuremath{\epsilon} )/(c + d \ensuremath{\epsilon} ) = s + t \ensuremath{\epsilon}
+\]
+for what choice of $s$ and $t$? 
+
+\textbf{SOLUTION}
+
+As with complex numbers, division is easiest to understand by first multiplying with the conjugate, that is:
+\[
+\frac{a+b\ensuremath{\epsilon}}{c+d\ensuremath{\epsilon}} = \frac{(a+b\ensuremath{\epsilon})(c-d\ensuremath{\epsilon})}{(c+d\ensuremath{\epsilon})(c-d\ensuremath{\epsilon})}.
+\]
+Expanding the products and dropping terms with $\ensuremath{\epsilon}^2$ then leaves us with the definition of division for dual numbers (where the denominator must have non-zero real part):
+\[
+\frac{a}{c} + \frac{bc - ad}{c^2}\ensuremath{\epsilon}.
+\]
+Thus we have $s = \frac{a}{c}$ and $t = \frac{bc - ad}{c^2}$.
+
+\textbf{END}
+
+\textbf{Problem 3(b)} A \emph{field} is a commutative ring such that $0 \ensuremath{\neq} 1$ and all nonzero elements have a multiplicative inverse, i.e., there exists $a^{-1}$ such that $a a^{-1} = 1$. Can we use the previous part to define $a^{-1} := 1/a$ to make $\ensuremath{\bbD}$ a field? Why or why not?
+
+\textbf{SOLUTION}
+
+Fields require that all nonzero elements have a unique multiplicative inverse. However, this is not the case for dual numbers. To give an explicit counter example, we show that there is no dual number $z$ which is the inverse of $0+\ensuremath{\epsilon}$, i.e. a dual number $z$ such that
+\[
+\frac{(0+\ensuremath{\epsilon})}{(z_r+z_d \ensuremath{\epsilon})} = 1 + 0 \ensuremath{\epsilon}.
+\]
+By appropriate multiplication with the conjugate we show that
+\[
+\frac{(0+\ensuremath{\epsilon})(z_r-z_d \ensuremath{\epsilon})}{(z_r+z_d \ensuremath{\epsilon})(z_r-z_d \ensuremath{\epsilon})} = \frac{z_r \ensuremath{\epsilon}}{z_r^2} = \frac{\ensuremath{\epsilon}}{z_r}.
+\]
+This proves that no choice of real part $z_r$ can reach the multiplicative identity $1+0 \ensuremath{\epsilon}$ when starting from the number $0+\ensuremath{\epsilon}$. More general results for zero real part dual numbers can also be proved.
+
+\textbf{END}
+
+\textbf{Problem 4} Use dual numbers to compute the derivative of the following functions at $x = 0.1$:
+\[
+\exp(\exp x \cos x + \sin x), \prod_{k=1}^3 \left({x \over k}-1\right),\hbox{ and } f^{\rm s}_2(x) = {1 + {x - 1 \over 2 + {x-1 \over 2}}}
+\]
+\textbf{SOLUTION}
+
+We now compute the derivatives of the three functions by evaluating for $x = 0.1 + \ensuremath{\epsilon}$. For the first function we have:
+
+
+\begin{align*}
+&\exp(\exp(0.1 + \ensuremath{\epsilon})\cos(0.1+\ensuremath{\epsilon}) + \sin(0.1+\ensuremath{\epsilon})) \\
+&=\exp((\exp(0.1) + \ensuremath{\epsilon}\exp(0.1))(\cos(0.1)-\sin(0.1)\ensuremath{\epsilon}) + \sin(0.1)+\cos(0.1)\ensuremath{\epsilon}) \\
+&= \exp(\exp(0.1)\cos(0.1)+ \sin(0.1) + (\exp(0.1)(\cos(0.1)-\sin(0.1))+\cos(0.1))\ensuremath{\epsilon}) \\
+&= \exp(\exp(0.1)\cos(0.1)+ \sin(0.1))\\
+&\qquad + \exp(\exp(0.1)\cos(0.1)+ \sin(0.1))\exp(0.1)(\cos(0.1)-\sin(0.1))+\cos(0.1))\ensuremath{\epsilon} 
+\end{align*}
+therefore the derivative is the dual part
+\[
+\exp(\exp(0.1)\cos(0.1)+ \sin(0.1))(\exp(0.1)(\cos(0.1)-\sin(0.1))+\cos(0.1))
+\]
+For the second function we have:
+
+
+\begin{align*}
+ \left(0.1+\ensuremath{\epsilon}-1\right) \left({0.1 + \ensuremath{\epsilon} \over 2}-1\right)\left({0.1 + \ensuremath{\epsilon} \over 3}-1\right)
+ &=\left(-0.9+\ensuremath{\epsilon}\right) \left(-0.95 + \ensuremath{\epsilon}/2\right)\left(-29/30 + \ensuremath{\epsilon}/3\right) \\
+&=\left(171/200 -1.4\ensuremath{\epsilon}\right)\left(-29/30 + \ensuremath{\epsilon}/3\right)  \\
+&= -1653/2000 + 983\ensuremath{\epsilon}/600
+\end{align*}
+Thus the derivative is $983/600$.
+
+For the third function we have:
+
+
+\begin{align*}
+{1 + {0.1+\ensuremath{\epsilon} - 1 \over 2 + {0.1+\ensuremath{\epsilon}-1 \over 2}}} &=  {1 + {-0.9+\ensuremath{\epsilon} \over 1.55 + \ensuremath{\epsilon}/2}}\\
+&= 1 -18/31 + 2\ensuremath{\epsilon}/1.55^2
+\end{align*}
+Thus the derivative is $2/1.55^2$.
+
+\textbf{END}
+
+
+
+\end{document}

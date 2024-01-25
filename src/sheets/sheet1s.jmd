@@ -8,7 +8,7 @@
 $$
 ∫_a^b f(x) {\rm d}x =  h ∑_{j=0}^{n-1} f(x_j) +  δ
 $$
-where $|δ| ≤ M (b-a) h$ for $M = \sup_{a ≤ x ≤ b}|f'(x)|$, $h = (b-a)/n$ and $x_j = a + jh$. 
+where $|δ| ≤ M (b-a) h$ for $M = \sup_{a ≤ x ≤ b}|f'(x)|$, $h = (b-a)/n$ and $x_j = a + jh$.
 
 **SOLUTION**
 
@@ -21,7 +21,7 @@ $$
 = (b-a) f(a) + \underbrace{\left(-∫_a^b (x-b) f'(x) {\rm d} x \right)}_ε.
 }
 $$
-where 
+where
 $$
 \abs{ε} ≤ (b-a) \sup_{a ≤ x ≤ b}|(x-b) f'(x)| ≤ M (b-a)^2
 $$
@@ -29,13 +29,13 @@ Applying this result on $[x_{j-1},x_j]$ we get
 $$
 ∫_{x_{j-1}}^{x_j} f(x) {\rm d}x = h f(x_{j-1}) + δ_j
 $$
-where $|δ_j| ≤ M h^2$. 
+where $|δ_j| ≤ M h^2$.
 Splitting the integral into a sum of smaller integrals:
 $$
 ∫_a^b f(x) {\rm d}x = ∑_{j=1}^n  ∫_{x_{j-1}}^{x_j} f(x) {\rm d}x =
 h ∑_{j=1}^n f(x_{j-1}) +  \underbrace{∑_{j=1}^n δ_j}_δ
 $$
-where using the triangular inequality we have 
+where using the triangular inequality we have
 $$
 |δ| = \abs{ ∑_{j=1}^n δ_j} ≤ ∑_{j=1}^n |δ_j| ≤ M n h^2 = M(b-a)h.
 $$
@@ -50,7 +50,7 @@ $$
 $$
 ∫_a^b f(x) {\rm d}x = (b-a) {f(a) + f(b) \over 2} +  δ
 $$
-where $|δ| ≤ M (b-a)^3$ for $M = \sup_{a ≤ x ≤ b}|f''(x)|$.  
+where $|δ| ≤ M (b-a)^3$ for $M = \sup_{a ≤ x ≤ b}|f''(x)|$.
 
 _Hint_: Recall from the notes
 $$
@@ -68,11 +68,13 @@ $$
 $$
 Thus we can find by integration by parts twice (noting that the integrand vanishes at $a$ and $b$):
 $$
-δ = ∫_a^b \br[f(x) - {(b-x) f(a) + (x-a) f(b) \over b-a}] {\rm d}x
- = -∫_a^b (x-b) \br[f'(x) - {f(b)-f(a) \over b-a}] {\rm d}x = 
-    {(b-a)^2 \over 2} \br[f'(a) - {f(b)-f(a) \over b-a}] + ∫_a^b {(x-b)^2 \over 2} f''(x) {\rm d}x 
+\meeq{
+δ = ∫_a^b \br[f(x) - {(b-x) f(a) + (x-a) f(b) \over b-a}] {\rm d}x \ccr
+ = -∫_a^b (x-b) \br[f'(x) - {f(b)-f(a) \over b-a}] {\rm d}x \ccr
+ = {(b-a)^2 \over 2} \br[f'(a) - {f(b)-f(a) \over b-a}] + ∫_a^b {(x-b)^2 \over 2} f''(x) {\rm d}x
+}
 $$
-Applying **Proposition 1** we know 
+Applying **Proposition 1** we know
 $$
 \abs{f'(a) - {f(b)-f(a) \over b-a}} ≤ M (b-a)/2
 $$
@@ -93,21 +95,21 @@ For the sharper $1/12$ constant check out the [Euler–Maclaurin formula](https:
 $$
 ∫_a^b f(x) {\rm d}x = h \br[{f(a) \over 2} + ∑_{j=1}^{n-1} f(x_j) + {f(b) \over 2}] +  δ
 $$
-where $|δ| ≤ M (b-a) h^2$ for $M = \sup_{a ≤ x ≤ b}|f''(x)|$.  
+where $|δ| ≤ M (b-a) h^2$ for $M = \sup_{a ≤ x ≤ b}|f''(x)|$.
 
 **SOLUTION**
 
-This is very simple to the rectangular rules: applying the preceding result on $[x_{j-1},x_j]$ we get
+This is very similar to the rectangular rules: applying the preceding result on $[x_{j-1},x_j]$ we get
 $$
 ∫_{x_{j-1}}^{x_j} f(x) {\rm d}x = h {f(x_{j-1}) + f(x_j) \over 2} + δ_j
 $$
-where $|δ_j| ≤ M h^3$. 
+where $|δ_j| ≤ M h^3$.
 Splitting the integral into a sum of smaller integrals:
 $$
 ∫_a^b f(x) {\rm d}x = ∑_{j=1}^n  ∫_{x_{j-1}}^{x_j} f(x) {\rm d}x =
 h \br[{f(a) \over 2} + ∑_{j=1}^{n-1} f(x_j) + {f(b) \over 2}] +  \underbrace{∑_{j=1}^n δ_j}_δ
 $$
-where using the triangular inequality we have 
+where using the triangular inequality we have
 $$
 |δ| = \abs{ ∑_{j=1}^n δ_j} ≤ ∑_{j=1}^n |δ_j| ≤ M n h^3 = M(b-a) h^2.
 $$
@@ -124,8 +126,25 @@ for the left difference approximation
 $$
 f'(x) = {f(x) - f(x - h) \over h} + δ,
 $$
-show that $|δ| ≤ Mh/2$ for $M = \sup_{x ≤ t ≤ x+h}\abs{f''(t)}$.
+show that $|δ| ≤ Mh/2$ for $M = \sup_{x-h ≤ t ≤ x}\abs{f''(t)}$.
 
+
+**SOLUTION**
+
+Almost identical to the right-difference. Use Taylor series to right:
+$$
+f(x-h) = f(x) + f'(x) (-h) + {f''(t) \over 2} h^2
+$$
+where $t ∈ [x-h,x]$, so that
+$$
+f'(x) = {f(x) - f(x-h) \over h} + \underbrace{f''(t)/2 h}_δ
+$$
+The bound follows immediately:
+$$
+|δ| ≤ |f''(t)/2 h| ≤ Mh/2.
+$$
+
+**END**
 
 
 
@@ -141,18 +160,18 @@ show that $|δ| ≤ Mh^2/6$ for $M = \sup_{x-h ≤ t ≤ x+h}\abs{f'''(t)}$.
 
 By Taylor's theorem, the approximation around $x+h$ is
 $$
-f(x+h) = f(x) + f'(x)h + \frac{f''(x)}{2}h^2 + \frac{f'''(z_1)}{6}h^3,
+f(x+h) = f(x) + f'(x)h + \frac{f''(x)}{2}h^2 + \frac{f'''(t_1)}{6}h^3,
 $$
-for some $z_1 ∈ (x, x+h)$ and similarly
-$$f(x-h) = f(x) + f'(x)(-h) + \frac{f''(x)}{2}h^2 - \frac{f'''(z_2)}{6}h^3,$$
-for some $z_2 ∈ (x-h, x)$.
+for some $t_1 ∈ (x, x+h)$ and similarly
+$$f(x-h) = f(x) + f'(x)(-h) + \frac{f''(x)}{2}h^2 - \frac{f'''(t_2)}{6}h^3,$$
+for some $t_2 ∈ (x-h, x)$.
 
 Subtracting the second expression from the first we obtain
-$$f(x+h)-f(x-h) = f'(x)(2h) + \frac{f'''(z_1)+f'''(z_2)}{6}h^3.$$
+$$f(x+h)-f(x-h) = f'(x)(2h) + \frac{f'''(t_1)+f'''(t_2)}{6}h^3.$$
 Hence,
 
 $$
-\frac{f(x+h)-f(x-h)}{2h} = f'(x)  + \underbrace{\frac{f'''(z_1)+f'''(z_2)}{12}h^2}_{δ}.
+\frac{f(x+h)-f(x-h)}{2h} = f'(x)  + \underbrace{\frac{f'''(t_1)+f'''(t_2)}{12}h^2}_{δ}.
 $$
 
 Thus, the error can be bounded by
@@ -171,22 +190,22 @@ $$
 show that $|δ| ≤ Mh/3$ for $M = \sup_{x-h ≤ t ≤ x+h}\abs{f'''(t)}$.
 
 **SOLUTION**
-Using the same two formulas as in 1.1 we have
-$$f(x+h) = f(x) + f'(x)h + \frac{f''(x)}{2}h^2 + \frac{f'''(z_1)}{6}h^3,$$
-for some $z_1 ∈ (x, x+h)$
+Using the same two formulas as in the previous problem we have
+$$f(x+h) = f(x) + f'(x)h + \frac{f''(x)}{2}h^2 + \frac{f'''(t_1)}{6}h^3,$$
+for some $t_1 ∈ (x, x+h)$
 and
-$$f(x-h) = f(x) + f'(x)(-h) + \frac{f''(x)}{2}h^2 - \frac{f'''(z_2)}{6}h^3,$$
-for some $z_2 ∈ (x-h, x)$.
+$$f(x-h) = f(x) + f'(x)(-h) + \frac{f''(x)}{2}h^2 - \frac{f'''(t_2)}{6}h^3,$$
+for some $t_2 ∈ (x-h, x)$.
 
 Summing the two we obtain
-$$f(x+h) + f(x-h) = 2f(x) + f''(x)h^2 + \frac{f'''(z_1)}{6}h^3 - \frac{f'''(z_2)}{6}h^3.$$
+$$f(x+h) + f(x-h) = 2f(x) + f''(x)h^2 + \frac{f'''(t_1)}{6}h^3 - \frac{f'''(t_2)}{6}h^3.$$
 
 Thus,
-$$f''(x) = \frac{f(x+h) - 2f(x) + f(x-h)}{h^2} + \frac{f'''(z_2) - f'''(z_1)}{6}h.$$
+$$f''(x) = \frac{f(x+h) - 2f(x) + f(x-h)}{h^2} + \frac{f'''(t_2) - f'''(t_1)}{6}h.$$
 
-Hence, the error is 
+Hence, the error is
 $$
-|δ| = \left|f''(x) - {f(x+h) - 2f(x) + f(x-h) \over h^2} \right| = \left|\frac{f'''(z_2) - f'''(z_1)}{6}h\right|≤ {Mh \over 3}.
+|δ| = \left|f''(x) - {f(x+h) - 2f(x) + f(x-h) \over h^2} \right| = \left|\frac{f'''(t_2) - f'''(t_1)}{6}h\right|≤ {Mh \over 3}.
 $$
 
 
