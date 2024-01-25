@@ -48,7 +48,7 @@ for the left difference approximation
 $$
 f'(x) = {f(x) - f(x - h) \over h} + δ,
 $$
-show that $|δ| ≤ Mh/2$ for $M = \sup_{x ≤ t ≤ x+h}\abs{f''(t)}$.
+show that $|δ| ≤ Mh/2$ for $M = \sup_{x-h ≤ t ≤ x}\abs{f''(t)}$.
 
 
 
