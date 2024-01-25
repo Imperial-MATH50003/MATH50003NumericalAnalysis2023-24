@@ -1,6 +1,6 @@
 
 \section{Interval Arithmetic}
-It is possible to choose the rounding mode (up/down/nearest/etc.) which we can use to do rigorous computation to compute bounds on, for example, computing the digits of $\E$. To do this we will use set/interval arithmetic. For sets $X,Y \ensuremath{\subseteq} \ensuremath{\bbR}$, the set arithmetic operations are defined as
+It is possible to use rounding modes (up/down)  to do rigorous computation to compute bounds on the error in, for example, the digits of $\E$. To do this we will use set/interval arithmetic. For sets $X,Y \ensuremath{\subseteq} \ensuremath{\bbR}$, the set arithmetic operations are defined as
 \begin{align*}
 X + Y &:= \{x + y : x \ensuremath{\in} X, y \ensuremath{\in} Y\}, \\
 XY &:= \{xy : x \ensuremath{\in} X, y \ensuremath{\in} Y\}, \\
@@ -25,7 +25,7 @@ XY = [ac, bd]
 \end{proposition}
 \textbf{Proof} We first show $X+Y \ensuremath{\subseteq} [a+c,b+d]$. If $z \ensuremath{\in} X + Y$ then $z = x+y$ such that $a \ensuremath{\leq} x \ensuremath{\leq} b$ and $c \ensuremath{\leq} y \ensuremath{\leq} d$ and therefore $a + c \ensuremath{\leq} z \ensuremath{\leq} c + d$ and $z \ensuremath{\in} [a+c,b+d]$. Equality follows from convexity. First note that $a+c, b+d \ensuremath{\in} X+Y$. Any point $z \ensuremath{\in}  [a+b,c+d]$ can be written  as a convex combination of the two endpoints: there exists $0 \ensuremath{\leq} t \ensuremath{\leq} 1$ such that
 \[
-z = t (a+c) + (1-t) (b+d) =  \underbrace{t a + (1-t) b}_x + \underbrace{t c + (1-t) d}_y
+z = (1-t) (a+c) + t (b+d) =  \underbrace{(1-t) a + t b}_x + \underbrace{(1-t) c + t d}_y
 \]
 Because intervals are convex we have $x \ensuremath{\in} X$ and $y \ensuremath{\in} Y$ and hence $z \ensuremath{\in} X+Y$. 
 

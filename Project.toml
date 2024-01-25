@@ -1,3 +1,9 @@
+name = "MATH50003NumericalAnalysis"
+uuid = "9f559201-c820-4d08-baf1-f1369a1016bd"
+authors = ["Sheehan Olver <solver@mac.com>"]
+version = "0.1.0"
+
+
 [deps]
 ColorBitstring = "ce91de38-7578-4b98-aebb-6a5df05791d6"
 ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"

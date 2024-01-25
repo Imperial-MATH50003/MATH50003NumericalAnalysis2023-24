@@ -11,15 +11,15 @@ x = 2^{\green{q}-\ensuremath{\sigma}} (1.\blue{b_1b_2\ensuremath{\ldots}b_S}\red
 where
 \begin{align*}
 x_- &:= {\rm fl}^{\rm down}(x) = 2^{\green{q}-\ensuremath{\sigma}} (1.\blue{b_1b_2\ensuremath{\ldots}b_S})_2 \\
-x_+ &:= {\rm fl}^{\rm up}(x) = x_- + 2^{j-S}
+x_+ &:= {\rm fl}^{\rm up}(x) = x_- + 2^{\green{q}-S}
 \end{align*}
 Write the half-way point as:
 \[
-x_{\rm h} := {x_+ + x_- \over 2} = x_- + 2^{j-S-1} = 2^{\green{q}-\ensuremath{\sigma}} (1.\blue{b_1b_2\ensuremath{\ldots}b_S}\red{1})_2
+x_{\rm h} := {x_+ + x_- \over 2} = x_- + 2^{\green{q}-S-1} = 2^{\green{q}-\ensuremath{\sigma}} (1.\blue{b_1b_2\ensuremath{\ldots}b_S}\red{1})_2
 \]
 If $x_- \ensuremath{\leq} x < x_{\rm h}$ then ${\rm fl}(x) = x_-$ and if $x_{\rm h} < x \ensuremath{\leq} x_+$ then ${\rm fl}(x) = x_{\rm h}$. If $x = x_{\rm h}$ then it is exactly half-way between $x_-$ and $x_+$. The rule is if $b_S = 0$  then ${\rm fl}(x) = x_-$ and otherwise ${\rm fl}(x) = x_+$.
 
-In IEEE arithmetic, the arithmetic operations \texttt{+}, \texttt{-}, \texttt{*}, \texttt{/} are defined by the property that they are exact up to rounding.  Mathematically we denote these operations as $\ensuremath{\oplus}, \ensuremath{\ominus}, \ensuremath{\otimes}, \ensuremath{\oslash} : F \ensuremath{\otimes} F \ensuremath{\rightarrow} F$ as follows:
+In IEEE arithmetic, the arithmetic operations \texttt{+}, \texttt{-}, \texttt{*}, \texttt{/} are defined by the property that they are exact up to rounding.  Mathematically we denote these operations as $\ensuremath{\oplus}, \ensuremath{\ominus}, \ensuremath{\otimes}, \ensuremath{\oslash} : F_{\ensuremath{\sigma},Q,S} \ensuremath{\otimes} F_{\ensuremath{\sigma},Q,S} \ensuremath{\rightarrow} F_{\ensuremath{\sigma},Q,S}$ as follows:
 \begin{align*}
 x \ensuremath{\oplus} y &:= {\rm fl}(x+y) \\
 x \ensuremath{\ominus} y &:= {\rm fl}(x - y) \\
@@ -34,8 +34,8 @@ This includes the case where the constants are integers (which are normally exac
 
 \begin{example}[decimal is not exact] On a computer \texttt{1.1+0.1} is close to but not exactly the same thing as \texttt{1.2}. This is because ${\rm fl}(1.1) \ensuremath{\neq} 1+1/10$ and ${\rm fl}(0.1) \ensuremath{\neq} 1/10$ since their expansion in \emph{binary} is not finite. For $F_{16}$ we have:
 \begin{align*}
-{\rm fl}(1.1) &= (1.0001100110)_2 \\
-{\rm fl}(0.1) &= 2^{-4} * (1.1001100110)_2 = (0.00011001100110)_2
+{\rm fl}(1.1) &= {\rm fl}((1.0001100110\red{011\ensuremath{\ldots}})_2) =  (1.0001100110)_2 \\
+{\rm fl}(0.1) &= {\rm fl}(2^{-4}(1.1001100110\red{011\ensuremath{\ldots}})_2) =  2^{-4} * (1.1001100110)_2 = (0.00011001100110)_2
 \end{align*}
 Thus when we add them we get
 \[
@@ -133,9 +133,9 @@ F_{\ensuremath{\infty},S} := \{\ensuremath{\pm} 2^q \ensuremath{\times} (1.b_1b_
 \]
 \end{definition}
 
-Note that $F^{\rm normal}_{\ensuremath{\sigma},Q,S} \ensuremath{\subset} F_{\ensuremath{\infty},S}$ for all $\ensuremath{\sigma},Q \ensuremath{\in} \ensuremath{\bbN}$. The definition of rounding ${\rm fl}_{\ensuremath{\infty},S}^{\rm up} : \ensuremath{\bbR} \ensuremath{\rightarrow} F_{\ensuremath{\infty},S}$ (etc.) naturally extend to $F_{\ensuremath{\infty},S}$ and hence we can consider bounds for floating point operations such as $\ensuremath{\oplus}$, $\ensuremath{\ominus}$, etc. And in this model the round bound is valid for all real numbers (including $x = 0$).
+Note that $F^{\rm normal}_{\ensuremath{\sigma},Q,S} \ensuremath{\subset} F_{\ensuremath{\infty},S}$ for all $\ensuremath{\sigma},Q \ensuremath{\in} \ensuremath{\bbN}$. The definition of rounding ${\rm fl}_{\ensuremath{\infty},S}^{mode} : \ensuremath{\bbR} \ensuremath{\rightarrow} F_{\ensuremath{\infty},S}$ naturally extend to $F_{\ensuremath{\infty},S}$ and hence we can consider bounds for floating point operations such as $\ensuremath{\oplus}$, $\ensuremath{\ominus}$, etc. And in this model the round bound is valid for all real numbers (including $x = 0$).
 
-\begin{example}[bounding a simple computation] We show how to bound the error in computing $(1.1 + 1.2) * 1.3 = 2.99$ using idealised floating-point arithmetic $F_{\ensuremath{\infty},S}$. First note that \texttt{1.1} on a computer is in fact ${\rm fl}(1.1)$, and we will always assume nearest rounding unless otherwise stated. Thus this computation becomes
+\begin{example}[bounding a simple computation] We show how to bound the error in computing $(1.1 + 1.2) * 1.3 = 2.99$ and we may assume idealised floating-point arithmetic $F_{\ensuremath{\infty},S}$. First note that \texttt{1.1} on a computer is in fact ${\rm fl}(1.1)$, and we will always assume nearest rounding unless otherwise stated. Thus this computation becomes
 \[
 ({\rm fl}(1.1) \ensuremath{\oplus} {\rm fl}(1.2)) \ensuremath{\otimes} {\rm fl}(1.3)
 \]
@@ -168,9 +168,9 @@ where the \emph{absolute error} is bounded by
 \end{example}
 
 \subsection{Divided differences floating point error bound}
-We can use the bound on floating point arithmetic to deduce a bound on divided differences that captures the phenomena we observed where the error of divided differences became large as $h \ensuremath{\rightarrow} 0$. We assume that the function we are attempting to differentiate is computing using floating point arithmetic in a way that achieves relative accuracy.
+We can use the bound on floating point arithmetic to deduce a bound on divided differences that captures the phenomena we observed where the error of divided differences became large as $h \ensuremath{\rightarrow} 0$. We assume that the function we are attempting to differentiate is computed using floating point arithmetic in a way that has a small absolute error.
 
-\begin{theorem}[divided difference error bound] Assume we are working in idealised floating-point arithmetic $F_{\ensuremath{\infty},S}$. Let $f$ be twice-differentiable in a neighbourhood of $x$ and assume that
+\begin{theorem}[divided difference error bound] Assume we are working in idealised floating-point arithmetic $F_{\ensuremath{\infty},S}$. Let $f$ be twice-differentiable in a neighbourhood of $x \ensuremath{\in} F_{\ensuremath{\infty},S}$ and assume that
 \[
  f(x) = f^{\rm FP}(x) + \ensuremath{\delta}_x^f
 \]

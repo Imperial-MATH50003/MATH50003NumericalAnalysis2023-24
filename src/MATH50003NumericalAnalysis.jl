@@ -1,17 +1,14 @@
-#####
-# extras
-#####
+module MATH50003NumericalAnalysis
 
 using Weave
 
-nkwds = (out_path="notes/", jupyter_path="$(homedir())/.julia/conda/3/x86_64/bin/jupyter", nbconvert_options="--allow-errors")
-notebook("src/notes/A.Julia.jmd"; nkwds...)
+export compilenotes, compilesheet, compilesheetsolutions, compilelab, compilelabsolutions
+
 
 #####
 # notes
 #####
 
-using Weave
 
 
 function replacetheorem(path, thrm, Thrm)
@@ -45,21 +42,15 @@ function compilenotes(filename)
     write(path, replace(read(path, String), r"\\\[\n\\meeq\{(.*?)\}\n\\\]"s => s"\\meeq{\1}"))
 end
 
-compilenotes("I.1.RectangularRule")
-compilenotes("I.2.DividedDifferences")
-compilenotes("I.3.DualNumbers")
-compilenotes("I.4.NewtonMethod")
-compilenotes("II.1.Integers")
-compilenotes("II.2.Reals")
-compilenotes("II.3.Arithmetic")
-compilenotes("II.4.Intervals")
+
 
 
 ###
 # sheets
 ###
 
-function compilesheet(filename)
+function compilesheet(k)
+    filename = "sheet$k"
     write("sheets/$filename.jmd", replace(read("src/sheets/$(filename)s.jmd", String), r"\*\*SOLUTION\*\*(.*?)\*\*END\*\*"s => ""))
     weave("sheets/$filename.jmd"; out_path="sheets/", doctype="md2tex", template="src/sheets/template.tpl")
     path = "sheets/$filename.tex"
@@ -70,7 +61,8 @@ function compilesheet(filename)
 end
 
 
-function compilesheetsolutions(filename)
+function compilesheetsolutions(k)
+    filename = "sheet$k"
     weave("src/sheets/$(filename)s.jmd"; out_path="sheets/", doctype="md2tex", template="src/sheets/template.tpl")
     path = "sheets/$(filename)s.tex"
     # work around double newline before equation
@@ -79,13 +71,6 @@ function compilesheetsolutions(filename)
     write(path, replace(read(path, String), r"\\\[\n\\meeq\{(.*?)\}\n\\\]"s => s"\\meeq{\1}"))
 end
 
-for k = 1:4
-    compilesheet("sheet$k")
-end
-
-for k = 1:2
-    compilesheetsolutions("sheet$k")
-end
 
 
 
@@ -99,17 +84,13 @@ end
 
 import Literate
 
-# Make Labs
-for k = 1:4
+function compilelab(k)
     write("labs/lab$k.jl", replace(replace(read("src/labs/lab$(k)s.jl", String), r"## SOLUTION(.*?)## END"s => "")))
     Literate.notebook("labs/lab$k.jl", "labs/"; execute=false)
 end
 
-for k = 1:2
+function compilelabsolution(k)
     Literate.notebook("src/labs/lab$(k)s.jl", "labs/"; execute=false)
 end
 
-
-# Make Solutions
-# Literate.notebook("src/labs/lab1s.jl", "labs/"; execute=false)
-
+end # module

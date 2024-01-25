@@ -137,20 +137,17 @@ This is quite pessimistic but still captures that we are on the order of $ϵ_{\r
 
 
 **Problem 4**
-Assume that
-$$
-f^{\rm FP}(x) = f(x) + δ_x
-$$
-where $|δ_x| ≤ c ϵ_{\rm m}$ for all $x$. Using idealised floating point arithmetic $F_{∞,S}$,
-for
+Let $x ∈ [0,1] ∩ F_{∞,S}$.
+Assume that $f^{\rm FP} : F_{∞,S} → F_{∞,S}$ satisfies $f^{\rm FP}(x) = f(x) + δ_x$ where $|δ_x| ≤ c ϵ_{\rm m}$ for all $x ∈ [0,1]$.
+Show that
 $$
 {f^{\rm FP}(x+h) ⊖ f^{\rm FP}(x-h) \over  2h} = f'(x) + ε
 $$
-show the absolute error is bounded by
+where absolute error is bounded by
 $$
-ε ≤ {|f'(x)| \over 2} ϵ_{\rm m} + {M \over 3} h^2 + {2 c ϵ_{\rm m} \over h},
+|ε| ≤ {|f'(x)| \over 2} ϵ_{\rm m} + {M \over 3} h^2 + {2 c ϵ_{\rm m} \over h},
 $$
-where we assume $x ∈ [0,1]$, $h = 2^{-n}$ for $n ≤ S$ so that $x ⊕ h  = x+ h$ and $x ⊖ h = x-h$.
+where we assume  that $h = 2^{-n}$ for $n ≤ S$.
 
 **SOLUTION**
 
@@ -182,21 +179,40 @@ XY = [ac, bd]
 }
 $$
 Generalise (without proof) these formulæ to the case $n < 0$ and to where there are no restrictions
-on positivity of $a,b,c,d$. 
+on positivity of $a,b,c,d$. You may use the $\min$ or $\max$ functions.
 
 **SOLUTION**
 
+For $X/n$: if $x ∈ X$ then $a/n ≤ x/n ≤ b/n$ means $x ∈ [a/n,b/n]$. Similarly, 
+if $z ∈ [a/n,b/n]$ then $a ≤ nz ≤ b$ hence $nz ∈ X$ and therefore $z ∈ X/n$.
+
+For $XY$: if $x ∈ X$ and $y ∈ Y then $ac ≤ xy ≤ bd$ means $xy ∈ [ac,bd]$.
+Note $ac,bd ∈ XY$. To employ convexity we take logarithms. In particular
+if $z ∈ [ac,bd]$ then $\log a + \log c ≤ \log z ≤ \log b + \log d$. Hence write
+$$
+\log z = (1-t) (\log a + \log c) + t (\log b + \log d) =
+        \underbrace{(1-t)\log a + t \log b}_{\log x} + \underbrace{(1-t)\log c + t \log d}_{\log y}
+$$
+i.e. we have $z = xy$ where
+$$
+\meeq{
+x = \exp((1-t)\log a + t \log b) = a^{1-t} b^t ∈ X \ccr
+y = \exp((1-t)\log c + t \log d) = c^{1-t} d^t ∈ Y.
+}
+$$
+
+The generalisation to negative cases proceeds by being a bit careful
+with the signs. Eg if $n < 0$ we need to swap the order hence we get:
 $$
 A/n =  \begin{cases}
  & n > 0  \\
 [b/n,a/n] & n < 0 
-\end{cases} \ccr
-AB = \begin{cases}
-[ac, bd] & a, b, c, d > 0 \\
-[bd, ac] & a,b,c,d < 0 \\
-[ad, bc] & a,b  < 0, c,d > 0 \\
-[ad, bc] & a,b  > 0, c,d < 0
 \end{cases}
+$$
+
+For multiplication we just use $\min$ and $\max$ in a naive fashion:
+$$
+AB = [\min(ac,ad,bc,bd), \max(ac,ad,bc,bd)].
 $$
 
 **END**
@@ -207,7 +223,7 @@ expression assuming half-precision $F_{16}$ arithmetic:
 $$
 [1,1] ⊖ ([1,1] ⊘ 6)
 $$
-Hint: it might help to write $1 = (0.1111…)_2$ when doing subtraction
+Hint: it might help to write $1 = (0.1111…)_2$ when doing subtraction.
 
 **SOLUTION** 
 Note that

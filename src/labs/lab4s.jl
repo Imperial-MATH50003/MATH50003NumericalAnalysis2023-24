@@ -25,7 +25,7 @@
 
 # We need the following packages:
 
-using SetRounding, Test
+using ColorBitstring, SetRounding, Test
 
 # ## II.3 Floating Point Arithmetic
 
@@ -127,7 +127,8 @@ end
 
 
 # **Problem 2** Inbuilt functions like `exp`, `sqrt`, etc. support `BigFloat`.
-# Compute at least the first thousand decimal digits of `ℯ` using `setprecision`.
+# Compute at least the first thousand decimal digits of `ℯ` using `setprecision`
+# and the inbuilt `exp` function.
 
 ## TODO: Use big and setprecision to compute the first thousand digits of ℯ.
 ## SOLUTION
@@ -146,10 +147,10 @@ length(string(x)) == 1207 # we have 1205 digits
 # ## II.4 Interval Arithmetic
 
 # 
-# We will now create a Type to represent an interval, which we will call `Interval`.
-# We need two fields: the left endpoint (`a`) and a right endpoint (`b`):
+# We will now create a Type to represent an interval $[a,b] = {x : a ≤ x ≤ b}$, which we will call `Interval`.
+# We need fields for the left endpoint (`a`) and a right endpoint (`b`):
 
-struct Interval # represents the set {x : a ≤ x ≤ b}
+struct Interval # represents the set [a,b]
     a # left endpoint
     b # right endpoint
 end
@@ -159,7 +160,7 @@ Interval(x) = Interval(x,x) # Support Interval(1) to represent [1,1]
 # For example, if we say `X = Interval(1, 2)` this corresponds to the mathematical interval
 # $[1, 2]$, and the fields are accessed via `X.a` and `X.b`.
 # We will overload `*`, `+`, `-`, `/` to use interval arithmetic. That is, whenever we do arithmetic with
-# an instance of `Interval` we want it to use correctly rounded interval varients. 
+# an instance of `Interval` we want it to use correctly rounded interval variants. 
 # We also need to support `one` (a function that creates an interval containing a single point `1`)
 # and `in` functions (a function to test if a number is within an interval).
 # To overload these functions we need to import them as follows:
@@ -221,6 +222,9 @@ end
 
 ## following example was the non-associative example but now we have bounds
 Interval(1.1) + Interval(1.2) + Interval(1.3)
+
+## note we are actually doing computations on ${\rm fl}^{nearest}(1.1)$, etc.,
+## that is, we haven't accounted in the errors from making the constants. 
 
 
 # We now implement division, checking that our assumptions 
@@ -350,26 +354,10 @@ function *(X::Interval, Y::Interval)
         error("Empty intervals not supported.")
     end
     α = setrounding(T, RoundDown) do
-        if a < 0 && b < 0 && c < 0 && d < 0
-            d * b
-        elseif a < 0 && b < 0 && c > 0 && d > 0
-            a * d
-        elseif a > 0 && b > 0 && c < 0 && d < 0
-            b * c
-        else
-            a * c
-        end
+        min(a*c,a*d,b*c,b*d)
     end
     β = setrounding(T, RoundUp) do
-        if a < 0 && b < 0 && c < 0 && d < 0
-            c * a
-        elseif a < 0 && b < 0 && c > 0 && d > 0
-            b * c
-        elseif a > 0 && b > 0 && c < 0 && d < 0
-            a * d
-        else
-            b * d
-        end
+        max(a*c,a*d,b*c,b*d)
     end
     Interval(α, β)
 end
@@ -384,7 +372,8 @@ end
 @test Interval(1.0,2.0)/3 ≡ Interval(0.3333333333333333, 0.6666666666666667)
 @test Interval(1.0,2.0)/(-3) ≡ Interval(-0.6666666666666667, -0.3333333333333333)
 
-@test Interval(-1., 1) * Interval(2,3) ≡ Interval(-3.0, -3.0)
+@test Interval(-1., 2) * Interval(2,3) ≡ Interval(-3.0, 6.0)
+@test Interval(-1., 2) * Interval(-3,5) ≡ Interval(-6.0, 10.0)
 
 # -----
 
@@ -429,7 +418,10 @@ function exp_bound(X::Interval, n)
     ret + Interval(-δ,δ)
 end
 
-E = exp_bound(Interval(1.0,1.0), 20)
+E = exp_bound(Interval(1.0), 20)
+
+# Here we test that the bounds match our expectations:
+
 @test exp(big(1)) in E
 @test E.b - E.a ≤ 1E-13 # we want our bounds to be sharp
 
@@ -438,8 +430,10 @@ E = exp_bound(Interval(1.0,1.0), 20)
 
 
 e_int_big = setprecision(4_000) do
-    exp_bound(Interval(big(1.0),big(1.0)), 1000)
+    exp_bound(Interval(big(1.0)), 1000)
 end
+
+# Our tests show that this has computed more than 1000 digits:
 
 @test ℯ in e_int_big # we contain ℯ
 @test e_int_big.b - e_int_big.a ≤ big(10.0)^(-1200) # with 1200 digits of accuracy!
@@ -472,7 +466,7 @@ function exp_bound(X::Interval, n)
 end
 ## END
 
-@test exp(big(-2)) in exp_bound(Interval(-2.0,-2.0), 20)
+@test exp(big(-2)) in exp_bound(Interval(-2.0), 20)
 
 # **Problem 5(a)** Complete the implementation of a function `sin_t(x,n)` computing the
 # first `2n+1` terms of the Taylor series:
@@ -517,6 +511,6 @@ function sin_bound(X::Interval, n)
 end
 
 
-S = sin_bound(Interval(1.0,1.0), 20)
+S = sin_bound(Interval(1.0), 20)
 @test sin(big(1)) in S
 @test S.b - S.a ≤ 1E-13 # we want our bounds to be sharp
