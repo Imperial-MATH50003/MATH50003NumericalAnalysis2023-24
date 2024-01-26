@@ -220,7 +220,7 @@ We will show the _absolute error_ is given by
 $$
 ({\rm fl}(1.1) ⊕ {\rm fl}(1.2)) ⊗ {\rm fl}(1.3) = 2.99 + δ
 $$
-where $|δ| ≤  11 ϵ_{\rm m}.$
+where $|δ| ≤  22 ϵ_{\rm m}.$
 First we find
 $$
 \meeq{
@@ -231,21 +231,25 @@ $$
 While $δ_1 δ_3$ and $δ_2 δ_3$ are absolutely tiny in practice
 we will bound them rather naïvely by eg.
 $$
-|δ_1 δ_3| ≤ |ϵ_{\rm m}^2/4| ≤ |ϵ_{\rm m}/4|.
+|δ_1 δ_3| ≤ ϵ_{\rm m}^2/4 ≤ ϵ_{\rm m}/4.
 $$
 Further we round up constants to integers
 in the bounds for simplicity. We thus have the bound
 $$
-|δ_4| ≤ (1+1+2+1+1) ϵ_{\rm m} = 6ϵ_{\rm m}
+|δ_4| ≤ (2+2+3+1+1) {ϵ_{\rm m} \over 2} = 5ϵ_{\rm m}.
 $$
-Thus the computation becomes
+Writing ${\rm fl}(1.3) = 1.3 (1+δ_5)$ and also incorporating an error from the rounding
+in $⊗$ we arrive at 
 $$
-(2.3 + δ_4) 1.3 (1 + δ_5) (1 + δ_6) = 2.99 + \underbrace{1.3( δ_4 + 2.3δ_5 + 2.3δ_6 + 
-δ_4 δ_5 + δ_4 δ_6 + 2.3 δ_5 δ_6 + δ_4δ_5δ_6)}_{δ_7}
+\meeq{
+({\rm fl}(1.1) ⊕ {\rm fl}(1.2)) ⊗ {\rm fl}(1.3) =
+                (2.3 + δ_4) 1.3 (1 + δ_5) (1 + δ_6) \ccr 
+                 = 2.99 + \underbrace{1.3( δ_4 + 2.3δ_5 + 2.3δ_6 + δ_4 δ_5 + δ_4 δ_6 + 2.3 δ_5 δ_6 + δ_4δ_5δ_6)}_δ
+}
 $$
 where the _absolute error_ is bounded by
 $$
-|δ_7| ≤ 2 (6 +  2 + 2 + 1/4 + 1/4 + 3/4 + 1/8) ϵ_{\rm m} ≤ 24 ϵ_{\rm m}
+|δ| ≤ 2 (5 +  2 + 2 + 1/4 + 1/4 + 3/4 + 1/8) ϵ_{\rm m} ≤ 22 ϵ_{\rm m}
 $$
 ∎
 
@@ -287,13 +291,13 @@ We have (noting by our assumptions $x ⊕ h = x + h$ and that dividing by $h$ wi
 is exact)
 $$
 \begin{align*}
-(f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x)) ⊘ h &= {f(x + h) +  δ^f_{x+h} - f(x) - δ^f_x \over h} (1 + δ_1) \\
-&= {f(x+h) - f(x) \over h} (1 + δ_1) + {δ^f_{x+h}- δ^f_x \over h} (1 + δ_1)
+(f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x)) ⊘ h &= {f(x + h) -  δ^f_{x+h} - f(x) + δ^f_x \over h} (1 + δ_1) \\
+&= {f(x+h) - f(x) \over h} (1 + δ_1) + { δ^f_x - δ^f_{x+h} \over h} (1 + δ_1)
 \end{align*}
 $$
 where $|δ_1| ≤ {ϵ_{\rm m} / 2}$. Applying Taylor's theorem we get
 $$
-(f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x)) ⊘ h = f'(x) + \underbrace{f'(x) δ_1 + {f''(t) \over 2} h (1 + \delta_1) + {δ^f_{x+h}- δ^f_x \over h} (1 + δ_1)}_{δ_{x,h}^{\rm FD}}
+(f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x)) ⊘ h = f'(x) + \underbrace{f'(x) δ_1 + {f''(t) \over 2} h (1 + \delta_1) + {δ^f_x  - δ^f_{x+h}\over h} (1 + δ_1)}_{δ_{x,h}^{\rm FD}}
 $$
 The bound then follows, using the very pessimistic bound $|1 + δ_1| ≤ 2$.
 
