@@ -1,2 +1,124 @@
 # Structured Matrices
 
+
+We have seen how algebraic operations (`+`, `-`, `*`, `/`) are
+defined exactly in terms of rounding ($⊕$, $⊖$, $⊗$, $⊘$) 
+for floating point numbers. Now we see how this allows us
+to do (approximate) linear algebra operations on matrices. 
+
+
+A matrix can be stored in different formats, in particular we can take advantage of
+_sparsity_: if we know a matrix has entries that are guaranteed to be zero we can implement faster algorithms.
+We shall see that this comes up naturally in numerical methods for solving differential equations. 
+In particular, we will discuss some basic matrices:
+
+1. _Dense_: This can be considered unstructured, where we need to store all entries in a vector or matrix. Matrix multiplication reduces directly to standard algebraic operations. Solving linear systems with dense matrices will be discussed later.
+2. _Triangular_: If a matrix is upper or lower triangular, we can immediately invert using back-substitution. In practice we store a dense matrix and ignore the upper/lower entries.
+3. _Banded_: If a matrix is zero apart from entries a fixed distance from  the diagonal it is called banded and this allows for more efficient algorithms. We discuss diagonal, tridiagonal and bidiagonal matrices.
+
+**Remark** For those who took the first half of the module, there was an important emphasis on working with _linear operators_ rather than _matrices_. That is, there was
+an emphasis on basis-independent mathematical techniques. However, in terms of practical computation we need to work with some representation of an operator and the 
+most natural is a matrix, a table of numbers. Hence we will only consider the case where we use the canonical basis. (This is also important as some of the students have not taken the first half of the module.)
+
+## Dense matrices
+
+
+
+A basic operation is matrix-vector multiplication. For a field $𝔽$ (typically $ℝ$ or $ℂ$, or this can be relaxed to be a ring), $A ∈ 𝔽^{m × n}$ and $𝐱 ∈ 𝔽^n$ we have
+the usual definition of matrix multiplication:
+$$
+A𝐱 := \begin{bmatrix} ∑_{j=1}^n a_{1,j} x_j \\ ⋮ \\ ∑_{j=1}^n a_{m,j} x_j \end{bmatrix}.
+$$
+When we are working with floating point numbers $A ∈ F^{m × n}$ we obtain an approximation:
+$$
+A𝐱 ≈ \begin{bmatrix} ⨁_{j=1}^n (a_{1,j}  ⊗ x_j) \\ ⋮ \\  ⨁_{j=1}^n (a_{m,j}  ⊗ x_j) \end{bmatrix}.
+$$
+This actually encodes an algorithm for computing the entries. And this algorithm uses $O(m n)$ floating point operations (FLOPs): each of the $m$ entry consists
+of $n$ multiplications and $n-1$ additions, hence we $2n-1 = O(n)$ per row for a total of $m(2n-1) = O(mn)$ operations. In the problem sheet we see how
+the floating point error can be bounded in terms of norms, thus reducing the problem to a purely mathematical concept.
+
+
+Sometimes there are multiple ways of implementing numerical algorithms. We have an alternative formula where we multiple by columns:
+if we write
+$$
+A = \begin{bmatrix} 𝐚_1 | ⋯ | 𝐚_n \end{bmatrix}
+$$
+where $𝐚_j = A 𝐞_j ∈ 𝔽^m$ being the columns of $A$ we also have
+$$
+A 𝐱 = x_1 𝐚_1  + ⋯ + x_n 𝐚_n.
+$$
+The floating point formula for this is exactly the same as the previous algorithm and the number of operations is the same. Just the order of operations has changed. 
+Suprisingly, this latter version is significantly faster.
+
+
+## Triangular matrices
+
+The simplest sparsity case is being triangular: where all entries above or below the diagonal are zero. 
+Matrix multiplication can be modified to take advantage of this. Eg., if $U ∈ 𝔽^{n × n}$ is upper triangular we have:
+$$
+U𝐱 = \begin{bmatrix} ∑_{j=1}^n a_{1,j} x_j \\ ∑_{j=2}^n a_{2,j} x_j  \\ ⋮ \\ ∑_{j=n}^n a_{m,j} x_j \end{bmatrix}.
+$$
+When implemented in floating point this uses roughly half the number of multiplications: $n + (n-1) + … + 1 = n(n+1)/2$ multiplications.
+The complexity is still $O(n^2)$ however. 
+
+Triangularity allows us to also invert systems using forward- or back-substitution. In particular if $𝐱$ solves $U 𝐱 = 𝐛$ then we have:
+$$
+x_k = {b_k - ∑_{j=k+1}^n u_{kj} x_j \over u_{kk}}
+$$
+Thus we can compute $x_n, x_{n-1},…,x_1$ in sequence (using floating point operations).
+
+
+
+## Banded matrices
+
+A _banded matrix_ is zero off a prescribed number of diagonals. 
+We call the number of (potentially) non-zero diagonals the _bandwidths_:
+
+
+**Definition (bandwidths)** A matrix $A$ has _lower-bandwidth_ $l$ if 
+$A[k,j] = 0$ for all $k-j > l$ and _upper-bandwidth_ $u$ if
+$A[k,j] = 0$ for all $j-k > u$. We say that it has _strictly lower-bandwidth_ $l$
+if it has lower-bandwidth $l$ and there exists a $j$ such that $A[j+l,j] \neq 0$.
+We say that it has _strictly upper-bandwidth_ $u$
+if it has upper-bandwidth $u$ and there exists a $k$ such that $A[k,k+u] \neq 0$.
+
+
+A banded matrix has better complexity for matrix multiplication and solving linear systems:  we can multiple in $O(\min(m,n))$ operations.
+We consider two cases in particular (in addition to diagonal): bidiagonal and tridiagonal. 
+
+
+**Definition (Bidiagonal)** If a square matrix has bandwidths $(l,u) = (1,0)$ it is _lower-bidiagonal_ and
+if it has bandwidths $(l,u) = (0,1)$ it is _upper-bidiagonal_. 
+
+For example, if
+$$
+U = \begin{bmatrix} u_{1,1} & u_{1,2} \\ & ⋱ & ⋱ \\
+&&                                 u_{n-1,n-1} & u_{n-1,n} \\
+&&& u_{n,n}
+\end{bmatrix}
+$$
+is upper-bidiagonal multiplication becomes
+$$
+U𝐱 = \begin{bmatrix} u_{1,1} x_1 + u_{1,2} x_2 \\ u_{2,2} x_2 + u_{2,3} x_3  \\ ⋮ \\ u_{n-1,n-1} x_{n-1} + u_{n-1,n} x_n \\u_{n,n} x_n \end{bmatrix}.
+$$
+This requires only $O(n)$ operations. A bidiagonal matrix is always triangular and we can also invert in $O(n)$ operations: if $U 𝐱 = 𝐛$ then $x_n = b_n/u{n,n}$
+and for $k = n-1,…,1$
+$$
+x_k = {b_k - u_{k,k+1} x_{k+1} \over u_{k,k}}.
+$$
+
+
+**Definition (Tridiagonal)** If a square matrix has bandwidths $l = u = 1$ it is _tridiagonal_.
+
+
+For example, 
+$$
+A = \begin{bmatrix} a_{1,1} & a_{1,2} \\
+a_{2,1} & a_{2,2} & a_{2,3} \\
+ & ⋱ & ⋱ & ⋱ \\
+&& a_{n-1,n-2} &                                 a_{n-1,n-1} & a_{n-1,n} \\
+&&&a_{n,n-1} & a_{n,n}
+\end{bmatrix}
+$$
+is tridiagonal. Matrix multiplication is clearly $O(n)$ operations. But so is solving linear systems. 
+We will see why later. 

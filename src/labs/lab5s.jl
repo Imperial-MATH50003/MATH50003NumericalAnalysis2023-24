@@ -18,123 +18,61 @@ plot(u)
 # However, even in these automated packages one has a choice of different methods with
 # different behaviour, so it is important to understand what is happening.
 
-
-We have seen how algebraic operations (`+`, `-`, `*`, `/`) are
-defined exactly in terms of rounding ($⊕$, $⊖$, $⊗$, $⊘$) 
-for floating point numbers. Now we see how this allows us
-to do (approximate) linear algebra operations on matrices. 
-
-A matrix can be stored in different formats. Here we consider the following structures:
-
-
-1. _Dense_: This can be considered unstructured, where we need to store all entries in a
-vector or matrix. Matrix multiplication reduces directly to standard algebraic operations. 
-Solving linear systems with dense matrices will be discussed later.
-2. _Triangular_: If a matrix is upper or lower triangular, we can immediately invert using
-back-substitution. In practice we store a dense matrix and ignore the upper/lower entries.
-3. _Banded_: If a matrix is zero apart from entries a fixed distance from  the diagonal it is
-called banded and this allows for more efficient algorithms. We discuss diagonal, 
-tridiagonal and bidiagonal matrices.
-
-In the next chapter we consider more complicated orthogonal matrices.
-
-
-```julia
-# LinearAlgebra contains routines for doing linear algebra
-# BenchmarkTools is a package for reliable timing
+## LinearAlgebra contains routines for doing linear algebra
+## BenchmarkTools is a package for reliable timing
 using LinearAlgebra, Plots, BenchmarkTools, Test
-```
-
------
-
-## 1. Dense vectors and matrices
-
-A `Vector` of a primitive type (like `Int` or `Float64`) is stored
-consecutively in memory: that is, a vector consists of a memory address (a _pointer_)
-to the first entry and a length. E.g. if we have a `Vector{Int8}` of length
-`n` then it is stored as `8n` bits (`n` bytes) in a row.
-That is, if the memory address of the first entry is `k` and the type
-is `T`, the memory
-address of the second entry is `k + sizeof(T)`. 
-
---------
-
-**Remark (advanced)** We can actually experiment with this
-(NEVER DO THIS IN PRACTICE!!), beginning with an 8-bit type:
-```julia
-a = Int8[2, 4, 5]
-p = pointer(a) # pointer(a) returns memory address of the first entry, which is the displayed hex number
-# We can think of a pointer as simply a UInt64 alongside a Type to interpret what is stored
-```
-We can see what's stored at a pointer as follows:
-```julia
-Base.unsafe_load(p) # loads data at `p`. Knows its an `Int8` because of type of `Ptr`
-```
-Adding an integer to a pointer gives a new pointer with the address incremented:
-```julia
-p + 1 # memory address of next entry, which is 1 more than first
-```
-We see that this gives us the next entry:
-```julia
-Base.unsafe_load(p) # loads data at `p+1`, which is second entry of the vector
-```
-For other types we need to increment the address by the size of the type:
-```julia
-a = [2.0, 1.3, 1.4]
-p = pointer(a)
-Base.unsafe_load(p + 8) # sizeof(Float64) == 8
-```
-Why not do this in practice? It's unsafe because there's nothing stopping us from going past the end of an array:
-```julia
-Base.unsafe_load(p + 3 * 8) # whatever bits happened to be next in memory, usually nonsense
-```
-This may even crash Julia! (I got lucky that it didn't when producing the notes.)
-
-------
 
 
-A  `Matrix` is stored consecutively in memory, going down column-by-
-column (_column-major_). That is,
-```julia
+#-----
+
+# ## 1. Dense vectors and matrices
+
+# A `Vector` of a primitive type (like `Int` or `Float64`) is stored
+# consecutively in memory: that is, a vector consists of a memory address (a _pointer_)
+# to the first entry and a length. E.g. if we have a `Vector{Int8}` of length
+# `n` then it is stored as `8n` bits (`n` bytes) in a row.
+# That is, if the memory address of the first entry is `k` and the type
+# is `T`, the memory
+# address of the second entry is `k + sizeof(T)`. 
+
+
+# A  `Matrix` is stored consecutively in memory, going down column-by-
+# column (_column-major_). That is,
+
 A = [1 2;
      3 4;
      5 6]
-```
-Is actually stored equivalently to a length `6` vector:
-```julia
+
+# Is actually stored equivalently to a length `6` vector:
+
 vec(A)
-```
-which in this case would be stored using in `8 * 6 = 48` consecutive
-memory addresses. That is, a matrix is a pointer to the first entry alongside two integers
-dictating the row and column sizes.
 
------
+# which in this case would be stored using in `8 * 6 = 48` consecutive
+# memory addresses. That is, a matrix is a pointer to the first entry alongside two integers
+# dictating the row and column sizes.
 
-**Remark (advanced)** Note that transposing `A` is done lazyily 
-and so `transpose(A)` (which is equivalent to the adjoint/conjugate-transpose
-`A'` when the entries are real),
-is just a special type with a single field: `transpose(A).parent == A`.
-This is equivalent to 
-_row-major_ format, where the next address in memory of `transpose(A)` corresponds to
-moving along the row.
+# -----
 
------
+# **Remark (advanced)** Note that transposing `A` is done lazily 
+# and so `transpose(A)` (which is equivalent to the adjoint/conjugate-transpose
+# `A'` when the entries are real),
+# is just a special type with a single field: `transpose(A).parent == A`.
+# This is equivalent to 
+# _row-major_ format, where the next address in memory of `transpose(A)` corresponds to
+# moving along the row.
 
-Matrix-vector multiplication works as expected:
-```julia
+# -----
+
+# Matrix-vector multiplication works as expected:
+
 x = [7, 8]
 A * x
-```
 
-Note there are two ways this can be implemented: 
+# Note there are two ways this can be implemented: 
 
-**Algorithm 1 (matrix-vector multiplication by rows)**
-For a ring $R$ (typically $ℝ$ or $ℂ$), $A ∈ R^{m × n}$ and $𝐱 ∈ R^n$ we have
-$$
-A𝐱 = \begin{bmatrix} ∑_{j=1}^n a_{1,j} x_j \\ ⋮ \\ ∑_{j=1}^n a_{m,j} x_j \end{bmatrix}.
-$$
-In code this can be implemented for any types that support `*` and `+` as follows:
-```julia
+
+# In code this can be implemented for any types that support `*` and `+` as follows:
+
 function mul_rows(A, x)
     m,n = size(A)
     # promote_type type finds a type that is compatible with both types, eltype gives the type of the elements of a vector / matrix
@@ -145,16 +83,9 @@ function mul_rows(A, x)
     end
     c
 end
-```
 
-**Algorithm 2 (matrix-vector multiplication by columns)**
-For a ring $R$ (typically $ℝ$ or $ℂ$), $A ∈ R^{m × n}$ and $𝐱 ∈ R^n$ we have
-$$
-A 𝐱 = x_1 𝐚_1  + ⋯ + x_n 𝐚_n
-$$
-where $𝐚_j := A 𝐞_j ∈ R^m$ (that is, the $j$-th column of $A$). In code this can be implemented for any types that support `*` and `+` 
-as follows:
-```julia
+
+
 function mul_cols(A, x)
     m,n = size(A)
     # promote_type type finds a type that is compatible with both types, eltype gives the type of the elements of a vector / matrix
@@ -165,19 +96,18 @@ function mul_cols(A, x)
     end
     c
 end
-```
 
-Both implementations match exactly for integer inputs:
-```julia
+
+# Both implementations match exactly for integer inputs:
+
 mul_rows(A, x), mul_cols(A, x) # also matches `A*x`
-```
 
 
-Either implementation will be $O(mn)$ operations. However, the implementation 
-`mul_cols` accesses the entries of `A` going down the column,
-which happens to be _significantly faster_ than `mul_rows`, due to accessing
-memory of `A` in order. We can see this by measuring the time it takes using `@btime`:
-```julia
+# Either implementation will be $O(mn)$ operations. However, the implementation 
+# `mul_cols` accesses the entries of `A` going down the column,
+# which happens to be _significantly faster_ than `mul_rows`, due to accessing
+# memory of `A` in order. We can see this by measuring the time it takes using `@btime`:
+
 n = 1000
 A = randn(n,n) # create n x n matrix with random normal entries
 x = randn(n) # create length n vector with random normal entries
@@ -185,76 +115,72 @@ x = randn(n) # create length n vector with random normal entries
 @btime mul_rows(A,x)
 @btime mul_cols(A,x)
 @btime A*x; # built-in, high performance implementation. USE THIS in practice
-```
-Here `ms` means milliseconds (`0.001 = 10^(-3)` seconds) and `μs` means microseconds (`0.000001 = 10^(-6)` seconds).
-So we observe that `mul` is roughly 3x faster than `mul_rows`, while the optimised `*` is roughly 5x faster than `mul`.
 
------
+# Here `ms` means milliseconds (`0.001 = 10^(-3)` seconds) and `μs` means microseconds (`0.000001 = 10^(-6)` seconds).
+# So we observe that `mul` is roughly 3x faster than `mul_rows`, while the optimised `*` is roughly 5x faster than `mul`.
 
-**Remark (advanced)** For floating point types, `A*x` is implemented in BLAS which is generally multi-threaded
-and is not identical to `mul_cols(A,x)`, that is, some inputs will differ in how the computations
-are rounded.
+# -----
 
------
+# **Remark (advanced)** For floating point types, `A*x` is implemented in BLAS which is generally multi-threaded
+# and is not identical to `mul_cols(A,x)`, that is, some inputs will differ in how the computations
+# are rounded.
+
+# -----
 
 
-Note that the rules of floating point arithmetic apply here: matrix multiplication with floats
-will incur round-off error (the precise details of which are subject to the implementation):
+# Note that the rules of floating point arithmetic apply here: matrix multiplication with floats
+# will incur round-off error (the precise details of which are subject to the implementation):
 
-```julia
+
 A = [1.4 0.4;
      2.0 1/2]
 A * [1, -1] # First entry has round-off error, but 2nd entry is exact
-```
-And integer arithmetic will be subject to overflow:
-```julia
+
+# And integer arithmetic will be subject to overflow:
+
 A = fill(Int8(2^6), 2, 2) # make a matrix whose entries are all equal to 2^6
 A * Int8[1,1] # we have overflowed and get a negative number -2^7
-```
 
+# Solving a linear system is done using `\`:
 
-Solving a linear system is done using `\`:
-```julia
 A = [1 2 3;
      1 2 4;
      3 7 8]
 b = [10; 11; 12]
 A \ b
-```
-Despite the answer being integer-valued, 
-here we see that it resorted to using floating point arithmetic,
-incurring rounding error. 
-But it is "accurate to (roughly) 16-digits".
-As we shall see, the way solving a linear system works is we first write `A` as a
-product of matrices that are easy to invert, e.g., a product of triangular matrices or a product of an orthogonal
-and triangular matrix.
+
+# Despite the answer being integer-valued, 
+# here we see that it resorted to using floating point arithmetic,
+# incurring rounding error. 
+# But it is "accurate to (roughly) 16-digits".
+# As we shall see, the way solving a linear system works is we first write `A` as a
+# product of matrices that are easy to invert, e.g., a product of triangular matrices or a product of an orthogonal
+# and triangular matrix.
 
 
-## 2. Triangular matrices
+# ## 2. Triangular matrices
 
-Triangular matrices are represented by dense square matrices where the entries below the
-diagonal
-are ignored:
-```julia
+# Triangular matrices are represented by dense square matrices where the entries below the
+# diagonal are ignored:
+
 A = [1 2 3;
      4 5 6;
      7 8 9]
 U = UpperTriangular(A)
-```
-We can see that `U` is storing all the entries of `A` in a field called `data`:
-```julia
+
+# We can see that `U` is storing all the entries of `A` in a field called `data`:
+
 U.data
-```
-Similarly we can create a lower triangular matrix by ignoring the entries above the diagonal:
-```julia
+
+# Similarly we can create a lower triangular matrix by ignoring the entries above the diagonal:
+
 L = LowerTriangular(A)
-```
 
-If we know a matrix is triangular we can do matrix-vector multiplication in roughly half
-the number of operations by skipping over the entries we know are zero:
+# If we know a matrix is triangular we can do matrix-vector multiplication in roughly half
+# the number of operations by skipping over the entries we know are zero:
 
-**Algorithm 3 (upper-triangular matrix-vector multiplication by columns)**
-```julia
+# **Algorithm 3 (upper-triangular matrix-vector multiplication by columns)**
+
 function mul_cols(U::UpperTriangular, x)
     n = size(U,1)
     # promote_type type finds a type that is compatible with both types, eltype gives the type of the elements of a vector / matrix
@@ -269,48 +195,36 @@ end
 x = [10, 11, 12]
 # matches built-in *
 @test mul_cols(U, x) == U*x
-```
 
 
-Moreover, we can easily invert matrices. 
-Consider a simple 3×3 example, which can be solved with `\`:
-```julia
+
+# Moreover, we can easily invert matrices. 
+# Consider a simple 3×3 example, which can be solved with `\`:
+
 b = [5, 6, 7]
 x = U \ b # Excercise: why does this return a float vector?
-```
-Behind the seens, `\` is doing back-substitution: considering the last row, we have all
-zeros apart from the last column so we know that `x[3]` must be equal to:
-```julia
+
+# Behind the seens, `\` is doing back-substitution: considering the last row, we have all
+# zeros apart from the last column so we know that `x[3]` must be equal to:
+
 b[3] / U[3,3]
-```
-Once we know `x[3]`, the second row states `U[2,2]*x[2] + U[2,3]*x[3] == b[2]`, rearranging
-we get that `x[2]` must be:
-```julia
+
+# Once we know `x[3]`, the second row states `U[2,2]*x[2] + U[2,3]*x[3] == b[2]`, rearranging
+# we get that `x[2]` must be:
+
 (b[2] - U[2,3]*x[3])/U[2,2]
-```
-Finally, the first row states `U[1,1]*x[1] + U[1,2]*x[2] + U[1,3]*x[3] == b[1]` i.e.
-`x[1]` is equal to
-```julia
+
+# Finally, the first row states `U[1,1]*x[1] + U[1,2]*x[2] + U[1,3]*x[3] == b[1]` i.e.
+# `x[1]` is equal to
+
 (b[1] - U[1,2]*x[2] - U[1,3]*x[3])/U[1,1]
-```
 
-More generally, we can solve the upper-triangular system using _back-substitution_:
 
-**Algorithm 4 (back-substitution)** Let $𝔽$ be a field (typically $ℝ$ or $ℂ$).
- Suppose $U ∈ 𝔽^{n × n}$ is upper-triangular
-and invertible. Then for $𝐛 ∈ 𝔽^n$ the solution $𝐱 ∈ 𝔽^n$ to $U 𝐱 = 𝐛$, that is,
-$$
-\begin{bmatrix}
-u_{11} & ⋯ & u_{1n} \\ & ⋱ & ⋮ \\ && u_{nn}
-\end{bmatrix} \begin{bmatrix} x_1 \\ ⋮ \\ x_n \end{bmatrix} = 
-\begin{bmatrix} b_1 \\ ⋮ \\ b_n \end{bmatrix}
-$$
-is given by computing $x_n, x_{n-1}, …, x_1$ via:
-$$
-x_k = {b_k - ∑_{j=k+1}^n u_{kj} x_j \over u_{kk}}
-$$
-In code this can be implemented for any types that support `*`, `+` and `/` as follows:
-```julia
+# More generally, we can solve the upper-triangular system using _back-substitution_:
+
+
+# In code this can be implemented for any types that support `*`, `+` and `/` as follows:
+
 # ldiv(U, b) is our implementation of U\b
 function ldiv(U::UpperTriangular, b)
     n = size(U,1)
@@ -333,63 +247,28 @@ function ldiv(U::UpperTriangular, b)
 end
 
 @test ldiv(U, x) ≈ U\x
-```
-
-The problem sheet will explore implementing multiplication and forward substitution 
-for lower triangular matrices. 
-The cost of multiplying and solving linear systems with a
-triangular matrix is $O(n^2)$.
-
-------
-
-## 3. Banded matrices
-
-A _banded matrix_ is zero off a prescribed number of diagonals. 
-We call the number of (potentially) non-zero diagonals the _bandwidths_:
 
 
-**Definition 1 (bandwidths)** A matrix $A$ has _lower-bandwidth_ $l$ if 
-$A[k,j] = 0$ for all $k-j > l$ and _upper-bandwidth_ $u$ if
-$A[k,j] = 0$ for all $j-k > u$. We say that it has _strictly lower-bandwidth_ $l$
-if it has lower-bandwidth $l$ and there exists a $j$ such that $A[j+l,j] \neq 0$.
-We say that it has _strictly upper-bandwidth_ $u$
-if it has upper-bandwidth $u$ and there exists a $k$ such that $A[k,k+u] \neq 0$.
+# Diagonal matrices in Julia are stored as a vector containing the diagonal entries:
 
-
-### Diagonal
-
-**Definition 2 (Diagonal)** _Diagonal matrices_ are square matrices with bandwidths $l = u = 0$.
-
-
-Diagonal matrices in Julia are stored as a vector containing the diagonal entries:
-```julia
 x = [1,2,3]
 D = Diagonal(x) # the type Diagonal has a single field: D.diag
-```
-It is clear that we can perform diagonal-vector multiplications and solve linear systems involving diagonal matrices efficiently
-(in $O(n)$ operations).
 
-### Bidiagonal
+# It is clear that we can perform diagonal-vector multiplications and solve linear systems involving diagonal matrices efficiently
+# (in $O(n)$ operations).
 
-**Definition 3 (Bidiagonal)** If a square matrix has bandwidths $(l,u) = (1,0)$ it is _lower-bidiagonal_ and
-if it has bandwidths $(l,u) = (0,1)$ it is _upper-bidiagonal_. 
 
-We can create Bidiagonal matrices in Julia by specifying the diagonal and off-diagonal:
+# We can create Bidiagonal matrices in Julia by specifying the diagonal and off-diagonal:
 
-```julia
+
 L = Bidiagonal([1,2,3], [4,5], :L) # the type Bidiagonal has three fields: L.dv (diagonal), L.ev (lower-diagonal), L.uplo (either 'L', 'U')
-```
-```julia
+##
 Bidiagonal([1,2,3], [4,5], :U)
-```
-
-Multiplication and solving linear systems with Bidiagonal systems is also $O(n)$ operations, using the standard
-multiplications/back-substitution algorithms but being careful in the loops to only access the non-zero entries. 
 
 
-### Tridiagonal
+# Multiplication and solving linear systems with Bidiagonal systems is also $O(n)$ operations, using the standard
+# multiplications/back-substitution algorithms but being careful in the loops to only access the non-zero entries. 
 
-**Definition 4 (Tridiagonal)** If a square matrix has bandwidths $l = u = 1$ it is _tridiagonal_.
 
 Julia has a type `Tridiagonal` for representing a tridiagonal matrix from its sub-diagonal, diagonal, and super-diagonal:
 ```julia
@@ -734,3 +613,763 @@ plot!(ns, ns .^ (-2); label="1/n^2")
 ```
 
 
+
+
+## 2. Indefinite integration
+
+**Problem 2.1 (B)** Implement backward differences to approximate
+indefinite-integration. How does the error compare to forward
+and mid-point versions  for $f(x) = \cos x$ on the interval $[0,1]$?
+Use the method to approximate the integrals of
+$$
+\exp(\exp x \cos x + \sin x), \prod_{k=1}^{1000} \left({x \over k}-1\right), \hbox{ and } f^{\rm s}_{1000}(x)
+$$
+to 3 digits, where $f^{\rm s}_{1000}(x)$ was defined in PS2.
+
+**SOLUTION**
+
+We can implement the backward difference solution as follows:
+```julia
+c = 0 # u(0) = 0
+f = x -> cos(x)
+n = 10
+
+x = range(0,1;length=n)
+h=step(x)
+A = Bidiagonal([1; fill(1/h, n-1)], fill(-1/h, n-1), :L)
+ub = A\[c; f.(x[2:end])]
+
+##adding the forward and midpoint solutions here as well for comparison
+m = (x[1:end-1] + x[2:end])/2
+
+uf = A \ [c; f.(x[1:end-1])]
+um = A \ [c; f.(m)]
+
+plot(x, sin.(x); label="sin(x)", legend=:bottomright)
+scatter!(x, ub; label="backward")
+scatter!(x, um; label="mid")
+scatter!(x, uf; label="forward")
+```
+
+Comparing each method's errors, we see that the backward method has the same error as the forward method:
+
+```julia
+function indefint(x)
+    h = step(x) # x[k+1]-x[k]
+    n = length(x)
+    L = Bidiagonal([1; fill(1/h, n-1)], fill(-1/h, n-1), :L)
+end
+
+function forward_err(u, c, f, n)
+    x = range(0, 1; length = n)
+    uᶠ = indefint(x) \ [c; f.(x[1:end-1])]
+    norm(uᶠ - u.(x), Inf)
+end
+
+function mid_err(u, c, f, n)
+    x = range(0, 1; length = n)
+    m = (x[1:end-1] + x[2:end]) / 2 # midpoints
+    uᵐ = indefint(x) \ [c; f.(m)]
+    norm(uᵐ - u.(x), Inf)
+end
+
+function back_err(u, c, f, n)
+    x = range(0,1;length=n)
+    h=step(x)
+    A = Bidiagonal([1; fill(1/h, n-1)], fill(-1/h, n-1), :L)
+    ub = A\[c; f.(x[2:end])]
+    norm(ub - u.(x), Inf)
+end
+
+c = 0 # u(0) = 0
+f = x -> cos(x)
+m = (x[1:end-1] + x[2:end])/2 # midpoints
+ns = 10 .^ (1:8) # solve up to n = 10 million
+
+
+scatter(ns, forward_err.(sin, 0, f, ns); xscale=:log10, yscale=:log10, label="forward")
+scatter!(ns, mid_err.(sin, 0, f, ns); label="mid")
+scatter!(ns, back_err.(sin, 0, f, ns); label="back",alpha=0.5)
+plot!(ns, ns .^ (-1); label="1/n")
+plot!(ns, ns .^ (-2); label="1/n^2")
+```
+
+Part two:
+
+```julia
+c = 0 # u(0) = 0
+n = 10000
+
+#functions defined in the solutions to problem sheet 2
+f = x -> exp(exp(x)cos(x) + sin(x))
+g = x -> prod([x] ./ (1:1000) .- 1)
+function cont(n, x)
+    ret = 2*one(x)
+    for k = 1:n-1
+        ret = 2 + (x-1)/ret
+    end
+    1 + (x-1)/ret
+end
+
+x = range(0,1;length=n)
+h=step(x)
+A = Bidiagonal([1; fill(1/h, n-1)], fill(-1/h, n-1), :L)
+uf = A\[c; f.(x[2:end])]
+ug = A\[c; g.(x[2:end])]
+ucont = A\[c; cont.(1000, x[2:end])]
+
+uf_int = uf[end]
+ug_int = ug[end]
+ucont_int = ucont[end]
+
+println("first function: ")
+println(uf_int)
+println("second functions: ")
+println(ug_int)
+println("third function: ")
+println(ucont_int)
+```
+
+**Problem 2.2 (A)** Implement indefinite-integration 
+where we take the average of the two grid points:
+$$
+{u'(x_{k+1}) + u'(x_k) \over 2} ≈ {u_{k+1} - u_k \over h}
+$$
+What is the observed rate-of-convergence using the ∞-norm for $f(x) = \cos x$
+on the interval $[0,1]$?
+Does the method converge if the error is measured in the $1$-norm?
+
+**SOLUTION**
+
+The implementation is as follows:
+
+```julia
+n = 10
+x = range(0, 1; length=n+1)
+h = 1/n
+A = Bidiagonal([1; fill(1/h, n)], fill(-1/h, n), :L)
+c = 0 # u(0) = 0
+f = x -> cos(x)
+
+𝐟 = f.(x) # evaluate f at all but last points
+uₙ = A \ [c; (𝐟[1:end-1] + 𝐟[2:end])/2]
+
+plot(x, sin.(x); label="sin(x)", legend=:bottomright)
+scatter!(x, uₙ; label="average grid point")
+
+# print(norm(uₙ - sin.(x),Inf))
+# norm(uₙ - sin.(x),1)
+```
+
+Comparing the error to the midpoint method, we see that the errors are very similar:
+
+```julia
+function average_err(u, c, f, n)
+    x = range(0,1;length=n)
+    h=step(x)
+    A = Bidiagonal([1; fill(1/h, n-1)], fill(-1/h, n-1), :L)
+    ua = A\[c; (f.(x[1:end-1]) + f.(x[2:end]))/2]
+    norm(ua - u.(x), Inf)
+end
+
+c = 0 # u(0) = 0
+f = x -> cos(x)
+m = (x[1:end-1] + x[2:end])/2 # midpoints
+ns = 10 .^ (1:8) # solve up to n = 10 million
+
+
+scatter(ns, mid_err.(sin, 0, f, ns); xscale=:log10, yscale=:log10, label="mid")
+scatter!(ns, average_err.(sin, 0, f, ns); label="average")
+plot!(ns, ns .^ (-1); label="1/n")
+plot!(ns, ns .^ (-2); label="1/n^2")
+```
+
+```julia
+print(mid_err.(sin, 0, f, ns) - average_err.(sin, 0, f, ns))
+```
+
+Now looking at the $L_1$ norm, we see it is converging, but to a smaller error before it starts to increase:
+
+```julia
+function average_err_l1(u, c, f, n)
+    x = range(0,1;length=n)
+    h=step(x)
+    A = Bidiagonal([1; fill(1/h, n-1)], fill(-1/h, n-1), :L)
+    ua = A\[c; (f.(x[1:end-1]) + f.(x[2:end]))/2]
+    norm(ua - u.(x), 1)
+end
+
+scatter(ns, average_err_l1.(sin, 0, f, ns); xscale=:log10, yscale=:log10, label="L_1")
+scatter!(ns, average_err.(sin, 0, f, ns); label="Inf")
+plot!(ns, ns .^ (-1); label="1/n")
+plot!(ns, ns .^ (-2); label="1/n^2")
+```
+
+## 3. Euler methods
+
+**Problem 3.1 (B)** Solve the following ODEs 
+using forward and/or backward Euler and increasing $n$, the number of time-steps, 
+until $u(1)$ is determined to 3 digits:
+$$
+\begin{align*}
+u(0) &= 1, u'(t) = \cos(t) u(t) + t \\
+v(0) &= 1, v'(0) = 0, v''(t) = \cos(t) v(t) + t \\
+w(0) &= 1, w'(0) = 0, w''(t) = t w(t) + 2 w(t)^2
+\end{align*}
+$$
+If we increase the initial condition $w(0) = c > 1$, $w'(0)$
+the solution may blow up in finite time. Find the smallest positive integer $c$
+such that the numerical approximation suggests the equation
+does not blow up.
+
+**SOLUTION**
+```julia
+function first_eq(n)
+    #this function takes n and returns the estimate of u(1) using n steps
+    #define the range of t
+    t = range(0, 1; length=n)
+    #find the step-size h
+    h = step(t)
+
+    #preallocate memory
+    u = zeros(n)
+    #set initial condition
+    u[1] = 1
+    for k=1:n-1
+       u[k+1] = (1+h*cos(t[k]))*u[k] + h*t[k] 
+    end
+    u[end]
+end
+ns = 2 .^ (1:13)
+println(first_eq.(ns)')
+```
+
+We see that $u(1) = 2.96$ to three digits.
+
+```julia
+#define A(t)
+A = t -> [0 1; cos(t) 0]
+
+function second_eq(n)
+    #this function takes n and returns the estimate of v(1) using n steps
+    #define the range of t
+    t = range(0, 1; length=n)
+    #find the step-size h
+    h = step(t)
+    
+    #preallocate memory
+    u = zeros(2,n)
+    #set initial condition
+    u[:,1] = [1.0, 0.0]
+    for k=1:n-1
+       u[:,k+1] = (I + h .* A(t[k]))*u[:,k] + h .* [0, t[k]] 
+    end
+    u[1,end]
+end
+ns = 2 .^ (1:13)
+println(second_eq.(ns)')
+```
+We see that $v(1)$ is 1.66 to three digits. Finally,
+```julia
+#define F(t)
+function F(t, w)
+   [w[2], t*w[1] + 2*w[1]*w[1]]
+end
+
+function third_eq(n=1000, c=1.0)
+    #this function takes n and returns the estimate of w(1)
+    #using n steps and with initial condition w(0) = c, with c defaulting to 0
+    #if no argument is passed
+    
+    #define the range of t
+    t = range(0, 1; length=n)
+    #find the step-size h
+    h = step(t)
+    #preallocate memory
+    w = zeros(2,n)
+    #set initial condition
+    w[:,1] = [c, 0.0]
+    for k=1:n-1
+       w[:,k+1] = w[:,k] + h .* F(t[k], w[:,k])
+    end
+    w[1,end]
+end
+ns = 2 .^ (1:18)
+println(third_eq.(ns)')
+```
+For $c = 1$, we see that $w(1) = 2.80$ to 3 digits. Now consider for $c > 1$:
+```julia
+function third_eq(c)
+    #this function takes n and returns the estimate of w(1)
+    #using n steps and with initial condition w(0) = c, with c defaulting to 0
+    #if no argument is passed
+    n=100000
+    #define the range of t
+    t = range(0, 1; length=n)
+    #find the step-size h
+    h = step(t)
+    #preallocate memory
+    w = zeros(2,n)
+    #set initial condition
+    w[:,1] = [c, 0.0]
+    for k=1:n-1
+       w[:,k+1] = w[:,k] + h .* F(t[k], w[:,k])
+    end
+    w[1,end]
+end
+cs = 2:10
+c_vals = third_eq.(cs)
+```
+
+It appears that $c = 2$ is the smallest positive integer greater than 1 for which the numerical approximation suggests the equation does not blow up.
+
+**Problem 3.2⋆ (B)** For an evenly spaced grid $t_1, …, t_n$, use the approximation
+$$
+{u'(t_{k+1}) + u'(t_k) \over 2} ≈ {u_{k+1} - u_k \over h}
+$$
+to recast
+$$
+\begin{align*}
+u(0) &= c \\
+u'(t) &= a(t) u(t) + f(t)
+\end{align*}
+$$
+as a lower bidiagonal linear system. Use forward-substitution to extend this to vector linear problems:
+$$
+\begin{align*}
+𝐮(0) &= 𝐜 \\
+𝐮'(t) &= A(t) 𝐮(t) + 𝐟(t)
+\end{align*}
+$$
+
+**SOLUTION**
+
+We have,
+\begin{align*}
+\frac{u_{k+1} - u_k}{h} \approx \frac{u'(t_{k+1}) + u'(t_k)}{2} = \frac{a(t_{k+1})u_{k+1} + a(t_{k})u_{k}}{2} + \frac{1}{2}(f(t_{k+1}) + f(t_k)),
+\end{align*}
+so we can write,
+\begin{align*}
+\left(\frac{1}{h} - \frac{a(t_{k+1})}{2}\right)u_{k+1} + \left(-\frac{1}{h} - \frac{a(t_{k})}{2}\right)u_k = \frac{1}{2}(f(t_{k+1}) + f(t_k)).
+\end{align*}
+With the initial condition $u(0) = c$, we can write the whole system as,
+$$
+\left[\begin{matrix}
+1 \\
+-\frac{1}{h} - \frac{a(t_1)}{2} && \frac{1}{h} - \frac{a(t_2)}{2} \\
+& \ddots && \ddots \\
+ & & -\frac{1}{h} - \frac{a(t_{n-1})}{2} && \frac{1}{h} - \frac{a(t_n)}{2}
+\end{matrix}\right]\mathbf{u} =  \left[\begin{matrix} 
+c \\
+\frac{1}{2}\left(f(t_1) + f(t_2)\right) \\
+\vdots \\
+\frac{1}{2}\left(f(t_{n-1}) + f(t_n)\right)
+\end{matrix}\right],
+$$
+which is lower bidiagonal.
+
+Now if we wish to use forward substitution in a vector linear problem, we can derive in much the same way as above:
+$$
+\left(\frac{1}{h}I - \frac{A(t_{k+1})}{2}\right)\mathbf{u}_{k+1} + \left(-\frac{1}{h}I - \frac{A(t_{k})}{2}\right)\mathbf{u}_k = \frac{1}{2}(\mathbf{f}(t_{k+1}) + \mathbf{f}(t_k)),
+$$
+to make the update equation,
+$$
+\mathbf{u}_{k+1} = \left(I - \frac{h}{2}A(t_{k+1})\right)^{-1}\left(\left(I + \frac{h}{2}A(t_{k})\right)\mathbf{u}_k + \frac{h}{2}(\mathbf{f}(t_{k+1}) + \mathbf{f}(t_k)) \right),
+$$
+with initial value,
+$$
+\mathbf{u}_1 = \mathbf{c}.
+$$
+
+**Problem 3.3 (B)** Implement the method designed in Problem 3.1 for the negative time Airy equation 
+$$
+u(0) = 1, u'(0) = 0, u''(t) = -t u(t)
+$$
+on $[0,50]$.
+How many time-steps are needed to get convergence to 1% accuracy (the "eyeball norm")?
+
+**SOLUTION**
+We will work with,
+$
+\mathbf{u}(t) = \left[\begin{matrix}
+u(t) \\ u'(t)
+\end{matrix} \right],
+$
+so that our differential equation is:
+$$
+\mathbf{u}'(t) = \left[\begin{matrix}
+u'(t) \\ u''(t)
+\end{matrix} \right] =
+\left[\begin{matrix}
+0 & 1 \\ -t & 0
+\end{matrix} \right] \mathbf{u}(t),
+$$
+so that,
+$$
+A(t) = \left[\begin{matrix}
+0 & 1 \\ -t & 0
+\end{matrix} \right],
+$$
+and with initial conditions,
+$$
+\mathbf{u}(0) = \left[\begin{matrix}
+1 \\ 0
+\end{matrix} \right].
+$$
+
+We will use the method described in Problem 3.1, with $\mathbf{f}(t) = \mathbf{0}$:
+
+$$
+\mathbf{u}_1 = \left[\begin{matrix}
+1 \\ 0
+\end{matrix} \right], \hspace{5mm}
+\mathbf{u}_{k+1} = \left(I - \frac{h}{2}A(t_{k+1})\right)^{-1}\left(I + \frac{h}{2}A(t_{k})\right)\mathbf{u}_k.
+$$
+```julia
+using SpecialFunctions
+n = 1000
+#define the range of t
+t = range(0, 50; length=n)
+#find the step-size h
+h = step(t)
+#define the function a
+a = t -> [0 1; -t 0]
+
+#initialise storage vector and set initial conditions
+U=zeros(2, n)
+U[:,1] = [1.0, 0.0]
+
+#now iterate forward
+for k = 1:n-1
+    U[:,k+1] = (I - h/2 .* a(t[k+1])) \ ((I + h/2 .* a(t[k])) * U[:,k])
+end
+
+#solution found on wolfram alpha
+u = t -> real(1/2 * 3^(1/6) * gamma(2/3) * (sqrt(3)airyai((-1 + 0im)^(1/3)*t) + airybi((-1+0im)^(1/3)*t)))
+
+plot(t, u.(t), label="Airy function")
+scatter!(t, U[1,:], label="uf", legend=:bottomright, markersize=2)
+```
+
+To see when the error goes below 1%, consider the below:
+
+```julia
+n = 2 .^(7:14)
+function relative_err(n)
+    t = range(0, 50; length=n)
+    #find the step-size h
+    h = step(t)
+    #initialise storage vector and set initial conditions
+    U=zeros(2, n)
+    U[:,1] = [1.0, 0.0]
+    #now iterate forward
+    for k = 1:n-1
+        U[:,k+1] = (I - h/2 .* a(t[k+1])) \ ((I + h/2 .* a(t[k])) * U[:,k])
+    end
+    norm(U[1,:] - u.(t), Inf)/norm(u.(t), Inf)
+end
+
+plot(n, relative_err.(n), xscale=:log10)
+plot!([0.01], seriestype=:hline)
+```
+
+
+**Problem 3.4 (A)** Implement Heat on a graph with $m = 50$ nodes with no forcing
+and initial condition $u_{m/2}(0) = 1$ and $u_k(0) = 0$, but where the first and last node are fixed
+to  zero, that is replace the first and last rows of the differential equation with
+the conditions:
+$$
+u_1(t) = u_m(t) = 0.
+$$
+Find the time $t$ such that  $\|𝐮(t)\|_∞ <10^{-3}$ to 2 digits.
+Hint: Differentiate to recast the conditions as a differential equation.
+Vary $n$, the number of time-steps used in Forward Euler, and increase $T$ in the interval $[0,T]$
+until the answer doesn't change.
+Do a for loop over the time-slices to find the first that satisfies the condition.
+(You may wish to call `println` to print the answer and `break` to exit the for loop).
+
+**SOLUTION**
+
+Following the hint, we will begin by writing a function called ```heat_dissipation(T)```, which runs a simulation of the heat equation with the specified conditions up to time $T$. If the condition $\|\mathbf{u}(t)\|_∞ < 10^{-3}$ is met at a time $t^* < T$, then it will return $t^*$, else it will return $T$. We choose the value $n=1000$ not too large so that we can run this on a large range of values for $T$. Also note that we use Backward Euler, which is more stable for smaller values of $n$; $T$ can potentially be quite large, so Forward Euler may be unstable for even moderately large values of $n$.
+
+```julia
+function heat_dissipation(T)
+    n=1000
+    t = range(0, T; length=n)
+    m=50
+    #find the step-size h
+    h = step(t)
+    #define the matrix
+    Δ = Tridiagonal([fill(1.0, m-2); 0], [0; fill(-2.0, m-2); 0], [0; fill(1.0, m-2)])
+    
+    #set initial conditions
+    u = zeros(m,n)
+    u[Int(m/2), 1] = 1
+    for k = 1:n-1
+        u[:,k+1] = (I - h*Δ)\u[:,k]
+        u_inf = norm(u[:,k+1], Inf)
+        if(u_inf < 0.001)
+           return t[k+1] 
+        end
+    end
+    return t[n]
+end
+```
+
+We run this on a large range of values for $T$. The function returns approximately constant ($\approx 905$) values when $T > 905$, so this suggests that our answer lies somewhere around 905.
+
+```julia
+Ts = 10:10:1000
+ts = heat_dissipation.(Ts)
+```
+
+Plotting, we can clearly see that the time output by the function becomes the same towards the end of our range, so we will restrict our search to the end of this range.
+
+```julia
+plot(Ts, ts, label = "Time threshold reached", legend=:bottomright)
+```
+
+Zooming in:
+
+```julia
+Ts = range(900, 910,20)
+ts = heat_dissipation.(Ts)
+plot(Ts,ts)
+```
+This looks promising, but it seems like the time-output is somewhat unstable even after $T$ is large enough. Inspecting the actual values of the output, we see that this is likely due to the step size we are using - it will be different for different values of $T$ (as $h = \frac{T}{n}$), and so the smallest $t$ in the discretise range may jump up and down if $n$ is not large enough. To be sure of the answer to 2 decimal places, we will need $n$ to be larger than $2 \frac{T}{0.01} \approx 180000$. We will redefine our function with $n = 200000$, and run it on a few different values of $T$ (that are definitely larger than our target time) to be sure we get the same answer to 2 decimal places.
+
+```julia
+function heat_dissipation_large_n(T)
+    n=200000
+    t = range(0, T; length=n)
+    m=50
+    #find the step-size h
+    h = step(t)
+    #define the matrix
+    Δ = Tridiagonal([fill(1.0, m-2); 0], [0; fill(-2.0, m-2); 0], [0; fill(1.0, m-2)])
+    
+    #set initial conditions
+    u = zeros(m,n)
+    u[Int(m/2), 1] = 1
+    for k = 1:n-1
+        u[:,k+1] = (I - h*Δ)\u[:,k]
+        u_inf = norm(u[:,k+1], Inf)
+        if(u_inf < 0.001)
+           return t[k+1] 
+        end
+    end
+    return t[n]
+end
+
+Ts = [903, 904, 905, 906, 907]
+ts = heat_dissipation_large_n.(Ts)
+```
+
+We can see that each time we get 902.38 to 2 decimal places, so this is our answer.
+
+
+**Problem 3.5 (B)** Consider the equation
+$$
+u(0) = 1, u'(t) = -10u(t)
+$$
+What behaviour do you observe on $[0,10]$ of forward, backward, and that of Problem 3.1
+with a step-size of 0.5? What happens if you decrease the step-size to $0.01$? (Hint: you may wish to do a plot and scale the $y$-axis logarithmically,)
+
+**SOLUTION**
+
+```julia
+h = 0.5
+t = range(0, 10; step=h)
+n = length(t)
+uᶠ = zeros(n)
+uᵇ = zeros(n)
+uᵗ = zeros(n)
+uᶠ[1] = uᵇ[1] = uᵗ[1] = 1
+a = -10
+for k = 1:n-1
+    uᶠ[k+1] = (1+h*a) * uᶠ[k]
+    uᵇ[k+1] = (1-h*a) \ uᵇ[k]
+    uᵗ[k+1] = (1-h*a/2) \ (1 + h*a/2) * uᵗ[k]
+end
+
+plot(t, abs.(uᶠ); yscale=:log10)
+plot!(t, abs.(uᵇ); yscale=:log10)
+plot!(t, abs.(uᵗ); yscale=:log10)
+```
+We observe that for the stepsize $h=0.5$, the forward method blows up while the other methods appear to converge.
+
+```julia
+h = 0.01
+t = range(0, 10; step=h)
+n = length(t)
+uᶠ = zeros(n)
+uᵇ = zeros(n)
+uᵗ = zeros(n)
+uᶠ[1] = uᵇ[1] = uᵗ[1] = 1
+for k = 1:n-1
+    uᶠ[k+1] = (1+h*a) * uᶠ[k]
+    uᵇ[k+1] = (1-h*a) \ uᵇ[k]
+    uᵗ[k+1] = (1-h*a/2) \ (1 + h*a/2) * uᵗ[k]
+end
+
+nanabs(x) = iszero(x) ? NaN : abs(x)
+
+plot(t, nanabs.(uᶠ); yscale=:log10)
+plot!(t, nanabs.(uᵇ); yscale=:log10)
+plot!(t, nanabs.(uᵗ); yscale=:log10)
+```
+
+For a smaller stepsize ($h = 0.01$), the forward method is also able to converge.
+
+## 1. Two-point boundary value problems
+
+**Problem 1.1 (C)** Construct a finite-difference approximation to the
+forced Helmholtz equation
+$$
+\begin{align*}
+u(0) &= 0 \\
+u(1) &= 0 \\
+u'' + k^2 u &= {\rm e}^x
+\end{align*}
+$$
+and find an $n$ such  the error is less than $10^{-4}$ when compared
+with the true solution for $k=10$:
+$$
+u(x) = (-\cos(k x) + {\rm e}^x \cos(k x)^2 + \cot(k) \sin(k x) - {\rm e} \cos(k) \cot(k) \sin(k x) - {\rm e} \sin(k) \sin(k x) + {\rm e}^x \sin(k x)^2)/(1 + k^2)
+$$
+
+```julia
+function helm(k, n)
+    x = range(0, 1; length = n)
+    h = step(x)
+    # TODO: Create a SymTridiagonal discretisation
+    T = SymTridiagonal(ones(n-2)*(-2/h^2 + k^2),ones(n-3)*1/h^2)
+    u = T \ exp.(x[2:end-1])
+    [0; u; 0]
+end
+
+k = 10
+u = x -> (-cos(k*x) + exp(x)cos(k*x)^2 + cot(k)sin(k*x) - ℯ*cos(k)cot(k)sin(k*x) - ℯ*sin(k)sin(k*x) + exp(x)sin(k*x)^2)/(1 + k^2)
+
+n = 2048 # TODO: choose n to get convergence
+x = range(0, 1; length=n)
+@test norm(helm(k, n) - u.(x)) ≤ 1E-4
+```
+
+
+**Problem 1.2 (A)** Discretisations can also be used to solve eigenvalue problems.
+Consider the Schrödinger equation with quadratic oscillator:
+$$
+u(-L) = u(L) = 0, -u'' + x^2 u = λ u
+$$
+(a) Use the finite-difference approximation to discretise this equation as eigenvalues of a
+matrix. Hint: write
+$$
+\begin{align*}
+u(-L) = 0 \\
+-u'' + x^2 u - λu = 0\\
+u(L) = 0
+\end{align*}
+$$
+and discretise as before, doing row eliminations to arrive at a symmetric tridiagonal
+matrix eigenvalue problem. 
+(b) Approximate the eigenvalues using `eigvals(A)` (which returns the eigenvalues of a
+matrix `A`) with $L = 10$. 
+Can you conjecture their exact value if $L = ∞$? Hint: they are integers and the eigenvalues
+closest to zero are most accurate.
+
+**SOLUTION**
+We discretise on a grid $u_1,u_2,…,u_n$ for an evenly spaced grid between $[-L,L]$, with
+step size $h = 2L/(n-1)$. That is, we have the equations:
+$$
+\begin{bmatrix}
+1 \\
+-1/h^2 & 2/h^2 + x_2^2  - λ & -1/h^2 \\
+    & ⋱ & ⋱ & ⋱ \\
+    && -1/h^2 &  2/h^2 + x_{n-1}^2  - λ & -1/h^2 \\
+    &&&& 1 \end{bmatrix} 
+    \begin{bmatrix} u_1 \\ \vdots \\ u_n \end{bmatrix} = 0
+$$
+Row eliminations at the top and bottom reduce this equation to:
+$$
+\begin{bmatrix}
+ 2/h^2 + x_2^2   & -1/h^2 \\
+    & ⋱ & ⋱ & ⋱ \\
+    && -1/h^2 &  2/h^2 + x_{n-1}^2   \end{bmatrix} 
+    \begin{bmatrix} u_2 \\ \vdots \\ u_{n-1} \end{bmatrix} = λ\begin{bmatrix} u_2 \\ \vdots \\ u_{n-1} \end{bmatrix} 
+$$
+This is a standard eigenvalue problem and we can compute the eigenvalues using `eigvals`:
+```julia
+L = 10
+n = 1000
+x = range(-L,L; length=n)
+h = step(x)
+eigvals(SymTridiagonal(fill(2/h^2,n-2)  + x[2:end-1].^2, fill(-1/h^2, n-3)))
+```
+
+On inspection of the smallest values, it seems that the positive odd integers are the eigenvalues for $L = \infty$. Increasing $L$ (and also $n$) it becomes more obvious:
+
+```julia
+L = 100
+n = 10000
+x = range(-L,L; length = n)
+h = step(x)
+A = SymTridiagonal(x[2:end-1] .^ 2 .+ 2/h^2,ones(n-3)* (-1)/h^2)
+sort((eigvals(A)))[1:20]
+```
+
+
+**Problem 1.3⋆ (A)** Consider Helmholtz with Neumann conditions:
+$$
+u'(0) = c_0 \\
+u'(1) = c_1 \\
+u_{xx} + k^2 u = f(x)
+$$
+Write down the finite difference approximation approximating
+$u(x_k) ≈ u_k$ on
+ an evenly spaced grid $x_k = (k-1)/(n-1)$ for $k=1,…,n$
+using the first order derivative approximation conditions:
+$$
+\begin{align*}
+u'(0) &≈ (u_2-u_1)/h = c_0 \\
+u'(1) &≈ (u_n-u_{n-1})/h  = c_1
+\end{align*}
+$$
+Use pivoting to reduce the equation to one involving a
+symmetric tridiagonal matrix.
+
+**SOLUTION**
+
+We have, with $u(x_k) = u_k$ (and using $\kappa$ instead of $k$ in the equation $u_{xx} + k^2u = f(x)$ so as to avoid confusion with the indices):
+\begin{align*}
+\frac{u_2 - u_1}{h} &= c_0, \\
+\frac{u_{k-1} - 2u_k + u_{k+1}}{h^2} + \kappa^2u_k &= f(x_k), \hspace{5mm} \textrm{ for } k=2:n-1\\
+\frac{u_n - u_{n-1}}{h} &= c_1, 
+\end{align*}
+which we write in matrix form as:
+
+$$
+\left[\begin{matrix}
+-\frac{1}{h} & \frac{1}{h} \\
+\frac{1}{h^2} & \kappa^2 - \frac{2}{h^2} & \frac{1}{h^2} \\
+&\ddots & \ddots & \ddots \\
+&&\frac{1}{h^2} & \kappa^2 - \frac{2}{h^2} & \frac{1}{h^2} \\
+&&& -\frac{1}{h} & \frac{1}{h}
+\end{matrix}
+\right] \mathbf{u} = \left[\begin{matrix}
+c_0 \\ f(x_2)\\ \vdots \\f(x_{n-1}) \\ c_1
+\end{matrix}\right],
+$$
+which we can make symmetric tridiagonal by multiplying the first row by $1/h$ and the final row by $-1/h$:
+$$
+\left[\begin{matrix}
+-\frac{1}{h^2} & \frac{1}{h^2} \\
+\frac{1}{h^2} & \kappa^2 - \frac{2}{h^2} & \frac{1}{h^2} \\
+&\ddots & \ddots & \ddots \\
+&&\frac{1}{h^2} & \kappa^2 - \frac{2}{h^2} & \frac{1}{h^2} \\
+&&& \frac{1}{h^2} & -\frac{1}{h^2}
+\end{matrix}
+\right] \mathbf{u} = \left[\begin{matrix}
+\frac{c_0}{h} \\ f(x_2)\\ \vdots \\f(x_{n-1}) \\ -\frac{c_1}{h}
+\end{matrix}\right],
+$$

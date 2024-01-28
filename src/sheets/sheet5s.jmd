@@ -1,0 +1,162 @@
+**Numerical Analysis MATH50003 (2023–24) Problem Sheet 5**
+
+
+
+**Problem 1(a)**  Suppose $|ϵ_k| ≤ ϵ$ and $n ϵ < 1$. Use induction to show that
+$$
+∏_{k=1}^n (1+ϵ_k) = 1+θ_n
+$$
+for some constant $θ_n$ satisfying
+$$
+|θ_n| ≤ \underbrace{n ϵ \over 1-nϵ}_{E_{n,ϵ}}
+$$
+
+**SOLUTION**
+
+$$
+∏_{k=1}^{n+1} (1+ϵ_k) = ∏_{k=1}^n (1+ϵ_k) (1+ϵ_{n+1}) = (1+θ_n)(1+ϵ_{n+1}) = 1 + \underbrace{θ_n + ϵ_{n+1} + θ_nϵ_{n+1}}_{θ_{n+1}}
+$$
+where
+$$
+\begin{align*}
+|θ_{n+1}| &≤ {n ϵ \over 1-nϵ}(1+ϵ) + ϵ \\
+&={n ϵ + n ϵ^2 \over 1-(n+1)ϵ} {1-(n+1)ϵ \over 1-nϵ}  + {ϵ-(n+1)ϵ^2 \over 1-(n+1)ϵ} \\
+&≤ {(n+1)  - n ϵ \over 1-(n+1)ϵ} ϵ ≤ {(n+1) ϵ \over 1-(n+1)ϵ} 
+\end{align*}
+$$
+
+**END**
+
+
+**Problem 1(b)** Show for an idealised floating point vector $𝐱 ∈ F_{∞,S}^n$ 
+that
+$$
+x_1 ⊕ ⋯ ⊕ x_n = x_1 +  ⋯ + x_n + σ_n
+$$
+where
+$$
+|σ_n| ≤ \| 𝐱 \|_∞ E_{n-1,ϵ_{\rm m}/2},
+$$
+assuming $n ϵ_{\rm m} < 2$ and where $\|𝐱\|_∞ := \max_k |x_k|$.
+Hint: use the previous part to first write
+$$
+x_1 ⊕ ⋯ ⊕ x_n = x_1(1+θ_{n-1}) + ∑_{j=2}^n x_j (1 + θ_{n-j+1}).
+$$
+
+
+**SOLUTION**
+
+Using Problem 2.1 we write:
+$$
+(⋯((x_1 + x_2)(1+δ_1) + x_3)(1+δ_2)⋯+x_n)(1+δ_{n-1})
+= x_1 ∏_{k=1}^{n-1} (1+δ_k) +  ∑_{j=2}^n x_j ∏_{k=j-1}^{n-1} (1+δ_j)
+= x_1(1+θ_{n-1}) + ∑_{j=2}^n x_j (1 + θ_{n-j+1})
+$$
+where we have for $j = 2,…,n$
+$$
+|θ_{n-j+1}| ≤ E_{n-j+1,ϵ_{\rm m}/2} ≤ E_{n-1,ϵ_{\rm m}/2}.
+$$
+Thus we have 
+$$
+∑_{j=1}^n x_j (1 + θ_{n-j+1})= ∑_{j=1}^n x_j + \underbrace{∑_{j=1}^n x_j θ_{n-j+1}}_{σ_n}
+$$
+where $|σ_n| ≤ M E_{n-1,ϵ_{\rm m}/2}$.
+∎
+
+
+**END**
+
+**Problem 1(c)** For $A ∈ F_{∞,S}^{n × n}$ and $𝐱 ∈ F_{∞,S}^n$ consider the error
+in approximating matrix multiplication with idealised floating point:
+$$
+A 𝐱 =  \begin{pmatrix}
+⨁_{j=1}^n A_{1,j} ⊗ x_j\\
+⋮ \\
+⨁_{j=1}^n A_{1,j} ⊗ x_j
+\end{pmatrix} + δ
+$$
+Show that
+$$
+\| δ \|_∞ ≤ 2 \|A\|_∞ \| 𝐱 \|_∞ E_{n,ϵ_{\rm m}/2}
+$$
+where  $n ϵ_{\rm m} < 2$.
+We use the standard notation $\|A \|_∞ := \max_k ∑_{j=1}^n |a_{kj}|$ and $\|𝐱\|_∞ := \max_k |x_k|$.
+
+**SOLUTION**
+We have for the $k$=th row
+$$
+⨁_{j=1}^n A_{k,j} ⊗ x_j =  ⨁_{j=1}^n A_{k,j} x_j (1+δ_j) = 
+∑_{j=1}^n A_{k,j} x_k (1+δ_j) + σ_{k,n}
+$$
+where we know $|σ_n| ≤ M_k E_{n-1,ϵ_{\rm m}/2}$, where
+$$
+M_k ≤ Σ_{j=1}^n |A_{k,j}| |x_k| (1+|δ_j|)  ≤ 2 \max |x_k| Σ_{j=1}^n |A_{k,j}|
+≤ 2 \|𝐱\|_∞ \|A \|_∞
+$$
+Similarly, we also have 
+$$
+|∑_{j=1}^n A_{k,j} x_k δ_j| ≤ \|𝐱\|_∞ \|A \|_∞ ϵ_{\rm m}/2
+$$
+and so the result follows from
+$$
+ϵ_{\rm m}/2 + 2E_{n-1,ϵ_{\rm m}/2} ≤ {ϵ_{\rm m}/2 + ϵ_{\rm m} (n-1) \over 1-(n-1)ϵ_{\rm m}/2} ≤ {ϵ_{\rm m} n \over 1-nϵ_{\rm m}/2} = 2E_{n,ϵ_{\rm m}/2}.
+$$
+**END**
+
+
+
+---------
+
+
+**Problem 2** Derive  Backward Euler: use the left-sided divided difference approximation
+$$
+u'(x) ≈ {u(x) - u(x-h)  \over h}
+$$
+to reduce the first order ODE
+$$
+\meeq{
+u(a) =  c \\
+u'(x) + ω(x) u(x) = f(x)
+}
+$$
+to a lower triangular system. Hint: only impose the ODE on the
+gridpoints $x_1,…,x_n$ so that the divided difference does not depend on behaviour at $x_{-1}$.
+
+
+
+
+## Backward Euler
+
+
+In Backward Euler we replace the forward-difference with a backward-difference,
+that is
+$$
+{u_k - u_{k-1} \over h} - a(t_k) u_k = f(u_k)
+$$
+This leads to the system:
+$$
+\begin{bmatrix}
+𝐞_1^⊤ \\
+D_h -  I_n^{\rm b}  A_n
+\end{bmatrix} 𝐮^{\rm b} = \underbrace{ \begin{bmatrix}
+1 \\
+-1/h & 1/h -a(t_2)\\
+& \ddots & \ddots \\
+&& -1/h & 1/h-a(t_n)
+\end{bmatrix}}_L 𝐮^{\rm b} = \begin{bmatrix} c \\ I_n^{\rm b} 𝐟 \end{bmatrix}
+$$
+Again this is a bidiagonal forward-substitution:
+$$
+\begin{align*}
+u_1 &= c \\
+(1 - h a(t_{k+1})) u_{k+1} &= u_k + h f(t_{k+1})
+\end{align*}
+$$
+That is,
+$$
+u_{k+1} = (1 - h a(t_{k+1}))^{-1}(u_k + h f(t_{k+1}))
+$$
+
+
+
+
