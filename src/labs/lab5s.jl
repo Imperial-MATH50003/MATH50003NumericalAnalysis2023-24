@@ -2,7 +2,17 @@
 # # Lab 5: III.1 Structured Matrices and III.2 Differential Equations
 
 
-# **Remark** One should normally not need to implement these methods oneselves as there
+# In this lab we explore the construction of vectors and matrices, in particular those with sparsity structure
+# which we capture using special types. We also explore the reduction of differential equations to
+# banded linear systems. 
+
+
+## LinearAlgebra contains routines for doing linear algebra
+## BenchmarkTools is a package for reliable timing
+using LinearAlgebra, Plots, BenchmarkTools, Test
+
+
+# **Remark** One should normally not need to implement these methods oneself as there
 # are packages available, e.g. [DifferentialEquations.jl](https://github.com/SciML/DifferentialEquations.jl). Moreover Forward and Backward
 # Euler are only the first baby steps to a wide range of time-steppers, with Runge–Kutta being
 # one of the most successful.
@@ -16,24 +26,157 @@ u = solve(ODEProblem((u,_,x) -> [u[2], -sin(u[1])], [1,0], (0,10)))
 plot(u)
 
 # However, even in these automated packages one has a choice of different methods with
-# different behaviour, so it is important to understand what is happening.
-
-## LinearAlgebra contains routines for doing linear algebra
-## BenchmarkTools is a package for reliable timing
-using LinearAlgebra, Plots, BenchmarkTools, Test
+# different behaviour, so it is important to understand on a mathematical level what is happening under the hood.
 
 
-#-----
+# **Learning Outcomes**
+#
+# Mathematical knowledge:
+#
+# 1. Banded matrices and their utilisation them for better complexity linear algebra.
+# 2. Reduction of differential equations to linear systems
+# 3. Two-point boundary value problems
+#
+# Coding knowledge:
+#
+# 1. Construction of a dense `Vector` or `Matrix` either directly or via comprehensions or broadcasting
+# 2. The `vec`, `transpose`, `zeros`, `ones` and `fill` functions.
+# 3. Using `\` to solve linear systems.
 
-# ## 1. Dense vectors and matrices
 
-# A `Vector` of a primitive type (like `Int` or `Float64`) is stored
-# consecutively in memory: that is, a vector consists of a memory address (a _pointer_)
-# to the first entry and a length. E.g. if we have a `Vector{Int8}` of length
-# `n` then it is stored as `8n` bits (`n` bytes) in a row.
-# That is, if the memory address of the first entry is `k` and the type
-# is `T`, the memory
-# address of the second entry is `k + sizeof(T)`. 
+# ## III.1 Structured Matrices
+
+# Before discussing structured matrices we give an overview of creating arrays  (vectors and matrices)
+# in Julia.
+
+# ### III.1.1 Dense matrices
+
+
+# One can create arrays in multiple ways. For example, the function `zeros(Int, 10)` creates
+# a 10-element `Vector` whose entries are all `zero(Int) == 0`. Or `fill(x, 10)` creates a 
+# 10-element `Vector` whose entries are all equal to `x`. Or you can use a comprehension:
+# for example `[k^2 for k = 1:10]` creates a vector whose entries are `[1^2, 2^2, …, 10^2]`.
+# This also works for matrices: `zeros(Int, 10, 5)` creates a 10 × 5 matrix of all zeros,
+# and `[k^2 + j for k=1:3, j=1:4]` creates the following:
+
+[k^2 + j for k=1:3, j=1:4] # k is the row, j is the column
+
+# Note sometimes it is best to create a vector/matrix and populate it. For example, the
+# previous matrix could also been constructed as follows:
+
+A = zeros(Int, 3, 4) # create a 3 × 4 matrix whose entries are `Int`
+for k = 1:3, j = 1:4
+    A[k,j] = k^2 + j # set the entries of A
+end
+A
+
+# Be careful: a `Matrix` or `Vector` can only ever contain entries of the right
+# type. It will attempt to convert an assignment to the right type but will throw
+# an error if not successful:
+
+A[2,3] = 2.0 # works because 2.0 is a Float64 that is exactly equal to an Int
+A[1,2] = 2.3 # fails since 2.3 is a Float64 that cannot be converted to an Int
+
+
+# **Problem 1(a)** Create a 5×6 matrix whose entries are `Int` which is
+# one in all entries. Hint: use a for-loop, `ones`, `fill`, or a comprehension.
+## TODO: 
+## SOLUTION
+
+## 1. For-loop:
+
+ret = zeros(Int, 5, 6)
+for k=1:5, j=1:6
+    ret[k,j] = 1
+end
+ret
+
+## 2. Ones:
+
+ones(Int, 5, 6)
+
+## 3. Fill:
+
+fill(1, 5, 6)
+
+## 4. Comprehension:
+
+[1 for k=1:5, j=1:6]
+
+
+## END
+
+# **Problem 1(b)** Create a 1 × 5 `Matrix{Int}` with entries `A[k,j] = j`. Hint: use a for-loop or a comprehension.
+
+## TODO: 
+## SOLUTION
+
+## 1. For-loop
+
+A = zeros(Int, 1, 5)
+for j = 1:5
+    A[1,j] = j
+end
+
+## 2. Comprehension
+
+[j for k=1:1, j=1:5]
+
+## 3. convert transpose:
+
+## Note: (1:5)' is a "row-vector" which behaves differently than a matrix
+Matrix((1:5)')
+
+
+## END
+
+# **Problem 1(c)** Create a vector of length 5 whose entries are `Float64`
+# approximations of `exp(-k)`. Hint: one use a for-loop or broadcasting `f.(x)` notation.
+## TODO: 
+## SOLUTION
+
+## 1. For-loop
+v = zeros(5) # defaults to Float64
+for k = 1:5
+    v[k] = exp(-k)
+end
+
+## 2. Broadcast:
+exp.(-(1:5))
+
+## 3. Explicit broadcsat:
+broadcast(k -> exp(-k), 1:5)
+
+## 4. Comprehension:
+[exp(-k) for k=1:5]
+
+
+## END
+
+# **Problem 1(d)** Create a 5 × 6 matrix `A` whose entries `A[k,j] == cos(k+j)`.
+## TODO: 
+
+## SOLUTION
+
+#  1. For-loop:
+
+A = zeros(5,6)
+for k = 1:5, j = 1:6
+    A[k,j] = cos(k+j)
+end
+A
+
+# 2. Broadcasting:
+
+k = 1:5
+j = 1:6
+cos.(k .+ j')
+
+# 3. Broadcasting (explicit):
+
+broadcast((k,j) -> cos(k+j), 1:5, (1:6)')
+
+## END
 
 
 # A  `Matrix` is stored consecutively in memory, going down column-by-
@@ -47,21 +190,10 @@ A = [1 2;
 
 vec(A)
 
-# which in this case would be stored using in `8 * 6 = 48` consecutive
-# memory addresses. That is, a matrix is a pointer to the first entry alongside two integers
+# which in this case would be stored using `8 * 6 = 48` consecutive bytes.
+# Behind the scenes, a matrix is a "pointer" to the location of the first entry alongside two integers
 # dictating the row and column sizes.
 
-# -----
-
-# **Remark (advanced)** Note that transposing `A` is done lazily 
-# and so `transpose(A)` (which is equivalent to the adjoint/conjugate-transpose
-# `A'` when the entries are real),
-# is just a special type with a single field: `transpose(A).parent == A`.
-# This is equivalent to 
-# _row-major_ format, where the next address in memory of `transpose(A)` corresponds to
-# moving along the row.
-
-# -----
 
 # Matrix-vector multiplication works as expected:
 
@@ -89,7 +221,7 @@ end
 function mul_cols(A, x)
     m,n = size(A)
     # promote_type type finds a type that is compatible with both types, eltype gives the type of the elements of a vector / matrix
-    T = promote_type(eltype(x),eltype(A))
+    T = promote_type(eltype(x), eltype(A))
     c = zeros(T, m) # the returned vector, begins of all zeros
     for j = 1:n, k = 1:m
         c[k] += A[k, j] * x[j] # equivalent to c[k] = c[k] + A[k, j] * x[j]
@@ -119,13 +251,6 @@ x = randn(n) # create length n vector with random normal entries
 # Here `ms` means milliseconds (`0.001 = 10^(-3)` seconds) and `μs` means microseconds (`0.000001 = 10^(-6)` seconds).
 # So we observe that `mul` is roughly 3x faster than `mul_rows`, while the optimised `*` is roughly 5x faster than `mul`.
 
-# -----
-
-# **Remark (advanced)** For floating point types, `A*x` is implemented in BLAS which is generally multi-threaded
-# and is not identical to `mul_cols(A,x)`, that is, some inputs will differ in how the computations
-# are rounded.
-
-# -----
 
 
 # Note that the rules of floating point arithmetic apply here: matrix multiplication with floats
@@ -156,6 +281,264 @@ A \ b
 # As we shall see, the way solving a linear system works is we first write `A` as a
 # product of matrices that are easy to invert, e.g., a product of triangular matrices or a product of an orthogonal
 # and triangular matrix.
+
+
+# The following problem compares the behaviour of `mul_cols` defined in lectures
+
+function mul_cols(A, x)
+    m,n = size(A)
+    c = zeros(eltype(x), m) # eltype is the type of the elements of a vector/matrix
+    for j = 1:n, k = 1:m
+        c[k] += A[k, j] * x[j]
+    end
+    c
+end
+
+# to the inbuilt matrix-vector multiplication operation `A*x`. The point is that
+# sometimes the choice of algorithm, despite being mathematically equivalent, can change the exact results
+# when using floating point.
+
+# **Problem 2** Show that `A*x` is not
+# implemented as `mul_cols(A, x)` from the lecture notes
+# by finding a `Float64` example  where the bits do not match.
+# Hint: either guess-and-check, perhaps using `randn(n,n)` to make a random `n × n` matrix.
+
+
+## SOLUTION
+
+## Then we can easily find examples, in fact we can write a function that searches for examples:
+
+using ColorBitstring
+
+function findblasmuldifference(n, l)
+	for j = 1:n
+		A = randn(l,l)
+		x = rand(l)
+		if A*x != mul_cols(A,x) 
+			return (A,x)
+		end
+	end
+end
+
+n = 100 # number of attempts
+l = 10 # size of objects
+A,x = findblasmuldifference(n,l) # find a difference
+
+println("Bits of obtained A*x")
+printlnbits.(A*x);
+println("Bits of obtained mul_cols(A,x)")
+printlnbits.(mul_cols(A,x));
+println("Difference vector between the two solutions:")
+println(A*x-mul_cols(A,x))
+
+## END
+
+# We can also transpose a matrix `A`, This is done lazily 
+# and so `transpose(A)` (which is equivalent to the adjoint/conjugate-transpose
+# `A'` when the entries are real),
+# is just a special type with a single field: `transpose(A).parent == A`.
+# This is equivalent to 
+# _row-major_ format, where the next address in memory of `transpose(A)` corresponds to
+# moving along the row.
+
+# ## 3. Triangular Matrices
+
+# In lectures we covered algorithms involving upper-triangular matrices. Here we want to implement
+# the lower-triangular analogues.
+
+# **Problem 3.1** Complete the following function for lower triangular matrix-vector
+# multiplication without ever accessing the zero entries of `L` above the diagonal.
+# Hint: just copy code for `mul_cols` and modify the for-loop ranges a la the `UpperTriangular`
+# case.
+
+function mul_cols(L::LowerTriangular, x)
+    n = size(L,1)
+
+    ## promote_type type finds a type that is compatible with both types, eltype gives the type of the elements of a vector / matrix
+    T = promote_type(eltype(x),eltype(L))
+    b = zeros(T,n) # the returned vector, begins of all zeros
+
+    ## TODO: populate b so that L*x ≈ b
+    ## SOLUTION
+    for j = 1:n, k = j:n
+        b[k] += L[k, j] * x[j]
+    end
+    ## END
+
+    b
+end
+
+L = LowerTriangular(randn(5,5))
+x = randn(5)
+@test L*x ≈ mul_cols(L, x)
+
+
+# **Problem 3.2** Complete the following function for solving linear systems with
+# lower triangular systems by implementing forward-substitution.
+
+
+function ldiv(L::LowerTriangular, b)
+    n = size(L,1)
+    
+    if length(b) != n
+        error("The system is not compatible")
+    end
+        
+    x = zeros(n)  # the solution vector
+    ## TODO: populate x using forward-substitution so that L*x ≈ b
+    ## SOLUTION
+    for k = 1:n  # start with k = 1
+        r = b[k]  # dummy variable
+        for j = 1:k-1
+            r -= L[k,j]*x[j]
+        end
+        x[k] = r/L[k,k]
+    end
+    ## END
+    x
+end
+
+
+L = LowerTriangular(randn(5,5))
+b = randn(5)
+@test L\b ≈ ldiv(L, b)
+
+
+# ## 4. Banded matrices
+
+# Banded matrices are very important in differential equations and enable much faster algorithms. 
+# Here we look at banded upper triangular matrices by implementing a type that encodes this
+# property:
+
+struct UpperTridiagonal{T} <: AbstractMatrix{T}
+    d::Vector{T}   # diagonal entries: d[k] == U[k,k]
+    du::Vector{T}  # super-diagonal enries: du[k] == U[k,k+1]
+    du2::Vector{T} # second-super-diagonal entries: du2[k] == U[k,k+2]
+end
+
+# This uses the notation `<: AbstractMatrix{T}`: this tells Julia that our type is in fact a matrix.
+# In order for it to behave a matrix we have to overload the function `size` for our type to return
+# the dimensions (in this case we just use the length of the diagonal):
+
+size(U::UpperTridiagonal) = (length(U.d),length(U.d))
+
+# Julia still doesn't know what the entries of the matrix are. To do this we need to overload `getindex`.
+# We also overload `setindex!` to allow changing the non-zero entries.
+
+# **Problem 4.1** Complete the implementation of `UpperTridiagonal` which represents a banded matrix with
+# bandwidths $(l,u) = (0,2)$ by overloading `getindex` and `setindex!`. Return zero (of the same type as the other entries)
+# if we are off the bands.
+
+## getindex(U, k, j) is another way to write U[k,j].
+## This function will therefore be called when we call U[k,j]
+function getindex(U::UpperTridiagonal, k::Int, j::Int)
+    d,du,du2 = U.d,U.du,U.du2
+    ## TODO: return U[k,j]
+    ## SOLUTION
+    if j == k+2
+    	return U.du2[k]    
+    elseif j == k+1
+    	return U.du[k]
+    elseif j == k
+    	return U.d[k]
+    else # off band entries are zero
+    	return zero(eltype(U))
+    end
+    ## END
+end
+
+## setindex!(U, v, k, j) gets called when we write (U[k,j] = v).
+function setindex!(U::UpperTridiagonal, v, k::Int, j::Int)
+    d,du,du2 = U.d,U.du,U.du2
+    if j > k+2 || j < k
+        error("Cannot modify off-band")
+    end
+
+    ## TODO: modify d,du,du2 so that U[k,j] == v
+    ## SOLUTION
+    if j == k+2
+    	du2[k] = v  
+    elseif j == k+1
+    	du[k] = v
+    elseif j == k
+    	d[k] = v
+    end
+    ## END
+    U # by convention we return the matrix
+end
+
+U = UpperTridiagonal([1,2,3,4,5], [1,2,3,4], [1,2,3])
+@test U == [1 1 1 0 0;
+            0 2 2 2 0;
+            0 0 3 3 3;
+            0 0 0 4 4;
+            0 0 0 0 5]
+
+U[3,4] = 2
+@test U == [1 1 1 0 0;
+            0 2 2 2 0;
+            0 0 3 2 3;
+            0 0 0 4 4;
+            0 0 0 0 5]
+
+
+
+
+# **Problem 4.2** Complete the following implementations of `*` and `\` for `UpperTridiagonal` so that
+# they take only $O(n)$ operations. Hint: the function `max(a,b)` returns the larger of `a` or `b`
+# and `min(a,b)` returns the smaller. They may help to avoid accessing zeros.
+
+function *(U::UpperTridiagonal, x::AbstractVector)
+    n = size(U,1)
+    ## promote_type type finds a type that is compatible with both types, eltype gives the type of the elements of a vector / matrix
+    T = promote_type(eltype(x),eltype(U))
+    b = zeros(T, n) # the returned vector, begins of all zeros
+    ## TODO: populate b so that U*x ≈ b (up to rounding)
+    ## SOLUTION
+    for j = 1:n, k = max(j-2,1):j
+        b[k] += U[k, j] * x[j]
+    end
+    ## END
+    b
+end
+
+function \(U::UpperTridiagonal, b::AbstractVector)
+    n = size(U,1)
+    T = promote_type(eltype(b),eltype(U))
+
+    if length(b) != n
+        error("The system is not compatible")
+    end
+        
+    x = zeros(T, n)  # the solution vector
+    ## TODO: populate x so that U*x ≈ b
+    ## SOLUTION
+    for k = n:-1:1  # start with k=n, then k=n-1, ...
+        r = b[k]  # dummy variable
+        for j = k+1:min(n, k+2)
+            r -= U[k,j]*x[j] # equivalent to r = r - U[k,j]*x[j]
+        end
+        ## after this for loop, r = b[k] - ∑_{j=k+1}^n U[k,j]x[j]  
+        x[k] = r/U[k,k]
+    end
+    ## END
+    x
+end
+
+n = 1_000_000 # under-scores are like commas: so this is a million: 1,000,000
+U = UpperTridiagonal(ones(n), fill(0.5,n-1), fill(0.1,n-2))
+x = ones(n)
+b = [fill(1.6,n-2); 1.5; 1] # exact result
+## note following should take much less than a second
+@test U*x ≈ b
+@test U\b ≈ x
+
+
+
+#-----
+
+
+
 
 
 # ## 2. Triangular matrices
@@ -270,21 +653,20 @@ Bidiagonal([1,2,3], [4,5], :U)
 # multiplications/back-substitution algorithms but being careful in the loops to only access the non-zero entries. 
 
 
-Julia has a type `Tridiagonal` for representing a tridiagonal matrix from its sub-diagonal, diagonal, and super-diagonal:
-```julia
+# Julia has a type `Tridiagonal` for representing a tridiagonal matrix from its sub-diagonal, diagonal, and super-diagonal:
+
 T = Tridiagonal([1,2], [3,4,5], [6,7]) # The type Tridiagonal has three fields: T.dl (sub), T.d (diag), T.du (super)
-```
-Tridiagonal matrices will come up in solving second-order differential equations and orthogonal polynomials.
-We will later see how linear systems involving tridiagonal matrices can be solved in $O(n)$ operations.
+
+# Tridiagonal matrices will come up in solving second-order differential equations and orthogonal polynomials.
+# We will later see how linear systems involving tridiagonal matrices can be solved in $O(n)$ operations.
 
 
-**Example**
+# **Example**
 
-Let's do an example of integrating $\cos x$, and see if our method matches
-the true answer of $\sin x$. First we construct the system
-as a lower-triangular, `Bidiagonal` matrix:
-```julia
-using LinearAlgebra, Plots
+# Let's do an example of integrating $\cos x$, and see if our method matches
+# the true answer of $\sin x$. First we construct the system
+# as a lower-triangular, `Bidiagonal` matrix:
+
 
 function indefint(x)
     h = step(x) # x[k+1]-x[k]
@@ -295,10 +677,10 @@ end
 n = 10
 x = range(0, 1; length=n)
 L = indefint(x)
-```
-We can now solve for our particular problem using both the left and 
-mid-point rules:
-```julia
+
+# We can now solve for our particular problem using both the left and 
+# mid-point rules:
+
 c = 0 # u(0) = 0
 f = x -> cos(x)
 
@@ -314,11 +696,11 @@ m = (x[1:end-1] + x[2:end])/2 # midpoints
 plot(x, sin.(x); label="sin(x)", legend=:bottomright)
 scatter!(x, 𝐮ᶠ; label="forward")
 scatter!(x, 𝐮ᵐ; label="mid")
-```
-They both are close though the mid-point version is significantly
-more accurate.
- We can estimate how fast it converges:
-```julia
+
+# They both are close though the mid-point version is significantly
+# more accurate.
+#  We can estimate how fast it converges:
+
 # Error from indefinite integration with c and f
 function forward_err(u, c, f, n)
     x = range(0, 1; length = n)
