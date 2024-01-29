@@ -24,8 +24,8 @@ for k = 1:4
     compilesheet(k)
 end
 
-for k = 1:2
-    compilesheetsolutions(k)
+for k = 1:3
+    compilesheetsolution(k)
 end
 
 ####
@@ -35,9 +35,11 @@ for k = 1:4
     compilelab(k)
 end
 
-for k = 1:2
-    compilelabsolution(k)
-end
+
+compilelabsolution(1)
+compilelabsolution(2)
+compilelabsolution(3)
+
 
 
 #####
