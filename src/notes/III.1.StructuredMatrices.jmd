@@ -7,24 +7,28 @@ for floating point numbers. Now we see how this allows us
 to do (approximate) linear algebra operations on matrices. 
 
 
-A matrix can be stored in different formats, in particular we can take advantage of
+A matrix can be stored in different formats, in particular it is important for large scale
+simulations that we take advantage of
 _sparsity_: if we know a matrix has entries that are guaranteed to be zero we can implement faster algorithms.
 We shall see that this comes up naturally in numerical methods for solving differential equations. 
-In particular, we will discuss some basic matrices:
 
-1. _Dense_: This can be considered unstructured, where we need to store all entries in a vector or matrix. Matrix multiplication reduces directly to standard algebraic operations. Solving linear systems with dense matrices will be discussed later.
-2. _Triangular_: If a matrix is upper or lower triangular, we can immediately invert using back-substitution. In practice we store a dense matrix and ignore the upper/lower entries.
-3. _Banded_: If a matrix is zero apart from entries a fixed distance from  the diagonal it is called banded and this allows for more efficient algorithms. We discuss diagonal, tridiagonal and bidiagonal matrices.
+
+In particular, we will discuss some basic types of structure in matrices:
+
+1. _Dense_: This can be considered unstructured, where we need to store all entries in a vector or matrix. Matrix-vector multiplication reduces directly to standard algebraic operations. Solving linear systems with dense matrices will be discussed later.
+2. _Triangular_: If a matrix is upper or lower triangular multiplication requires roughly half the number of operations. Crucially, we can apply the inverse of a triangular matrix using forward-elimination or back-substitution.
+3. _Banded_: If a matrix is zero apart from entries a fixed distance from  the diagonal it is called banded and matrix-vector multiplication has a lower _complexity_: the number of operations scales linearly with the dimension (instead of quadratically).
+ We discuss diagonal, tridiagonal and bidiagonal matrices.
 
 **Remark** For those who took the first half of the module, there was an important emphasis on working with _linear operators_ rather than _matrices_. That is, there was
-an emphasis on basis-independent mathematical techniques. However, in terms of practical computation we need to work with some representation of an operator and the 
-most natural is a matrix, a table of numbers. Hence we will only consider the case where we use the canonical basis. (This is also important as some of the students have not taken the first half of the module.)
+an emphasis on basis-independent mathematical techniques, which is critical for extension of results to infinite-dimensional spaces (which might not have a complete basis). However, in terms of practical computation we need to work with some representation of an operator and the 
+most natural is a matrix. And indeed we will see in the next section how infinite-dimensional differential equations can be solved by reduction to finite-dimensional matrices. (Restricting attention to matrices is also important as some of the students have not taken the first half of the module.)
 
 ## Dense matrices
 
 
 
-A basic operation is matrix-vector multiplication. For a field $𝔽$ (typically $ℝ$ or $ℂ$, or this can be relaxed to be a ring), $A ∈ 𝔽^{m × n}$ and $𝐱 ∈ 𝔽^n$ we have
+A basic operation is matrix-vector multiplication. For a field $𝔽$ (typically $ℝ$ or $ℂ$, or this can be relaxed to be a ring), consider a matrix $A ∈ 𝔽^{m × n}$ and vector $𝐱 ∈ 𝔽^n$. Recall
 the usual definition of matrix multiplication:
 $$
 A𝐱 := \begin{bmatrix} ∑_{j=1}^n a_{1,j} x_j \\ ⋮ \\ ∑_{j=1}^n a_{m,j} x_j \end{bmatrix}.

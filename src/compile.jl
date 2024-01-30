@@ -18,6 +18,8 @@ compilenotes("II.4.Intervals")
 compilenotes("III.1.StructuredMatrices")
 compilenotes("III.2.DifferentialEquations")
 
+compilenotes("A.Asymptotics")
+
 
 ####
 # Sheets
