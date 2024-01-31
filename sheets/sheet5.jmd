@@ -11,21 +11,7 @@ $$
 |θ_n| ≤ \underbrace{n ϵ \over 1-nϵ}_{E_{n,ϵ}}
 $$
 
-**SOLUTION**
 
-$$
-∏_{k=1}^{n+1} (1+ϵ_k) = ∏_{k=1}^n (1+ϵ_k) (1+ϵ_{n+1}) = (1+θ_n)(1+ϵ_{n+1}) = 1 + \underbrace{θ_n + ϵ_{n+1} + θ_nϵ_{n+1}}_{θ_{n+1}}
-$$
-where
-$$
-\begin{align*}
-|θ_{n+1}| &≤ {n ϵ \over 1-nϵ}(1+ϵ) + ϵ \\
-&={n ϵ + n ϵ^2 \over 1-(n+1)ϵ} {1-(n+1)ϵ \over 1-nϵ}  + {ϵ-(n+1)ϵ^2 \over 1-(n+1)ϵ} \\
-&≤ {(n+1)  - n ϵ \over 1-(n+1)ϵ} ϵ ≤ {(n+1) ϵ \over 1-(n+1)ϵ} 
-\end{align*}
-$$
-
-**END**
 
 
 **Problem 1(b)** Show for an idealised floating point vector $𝐱 ∈ F_{∞,S}^n$ 
@@ -44,27 +30,7 @@ x_1 ⊕ ⋯ ⊕ x_n = x_1(1+θ_{n-1}) + ∑_{j=2}^n x_j (1 + θ_{n-j+1}).
 $$
 
 
-**SOLUTION**
 
-Using Problem 2.1 we write:
-$$
-(⋯((x_1 + x_2)(1+δ_1) + x_3)(1+δ_2)⋯+x_n)(1+δ_{n-1})
-= x_1 ∏_{k=1}^{n-1} (1+δ_k) +  ∑_{j=2}^n x_j ∏_{k=j-1}^{n-1} (1+δ_j)
-= x_1(1+θ_{n-1}) + ∑_{j=2}^n x_j (1 + θ_{n-j+1})
-$$
-where we have for $j = 2,…,n$
-$$
-|θ_{n-j+1}| ≤ E_{n-j+1,ϵ_{\rm m}/2} ≤ E_{n-1,ϵ_{\rm m}/2}.
-$$
-Thus we have 
-$$
-∑_{j=1}^n x_j (1 + θ_{n-j+1})= ∑_{j=1}^n x_j + \underbrace{∑_{j=1}^n x_j θ_{n-j+1}}_{σ_n}
-$$
-where $|σ_n| ≤ M E_{n-1,ϵ_{\rm m}/2}$.
-∎
-
-
-**END**
 
 **Problem 1(c)** For $A ∈ F_{∞,S}^{n × n}$ and $𝐱 ∈ F_{∞,S}^n$ consider the error
 in approximating matrix multiplication with idealised floating point: for
@@ -81,26 +47,7 @@ $$
 $$
 where  $n ϵ_{\rm m} < 2$ and the matrix norm is $\|A \|_∞ := \max_k ∑_{j=1}^n |a_{kj}|$.
 
-**SOLUTION**
-We have for the $k$=th row
-$$
-⨁_{j=1}^n A_{k,j} ⊗ x_j =  ⨁_{j=1}^n A_{k,j} x_j (1+δ_j) = 
-∑_{j=1}^n A_{k,j} x_k (1+δ_j) + σ_{k,n}
-$$
-where we know $|σ_n| ≤ M_k E_{n-1,ϵ_{\rm m}/2}$, where
-$$
-M_k ≤ Σ_{j=1}^n |A_{k,j}| |x_k| (1+|δ_j|)  ≤ 2 \max |x_k| Σ_{j=1}^n |A_{k,j}|
-≤ 2 \|𝐱\|_∞ \|A \|_∞
-$$
-Similarly, we also have 
-$$
-|∑_{j=1}^n A_{k,j} x_k δ_j| ≤ \|𝐱\|_∞ \|A \|_∞ ϵ_{\rm m}/2
-$$
-and so the result follows from
-$$
-ϵ_{\rm m}/2 + 2E_{n-1,ϵ_{\rm m}/2} ≤ {ϵ_{\rm m}/2 + ϵ_{\rm m} (n-1) \over 1-(n-1)ϵ_{\rm m}/2} ≤ {ϵ_{\rm m} n \over 1-nϵ_{\rm m}/2} = 2E_{n,ϵ_{\rm m}/2}.
-$$
-**END**
+
 
 
 

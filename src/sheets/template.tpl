@@ -13,6 +13,9 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1.2ex}
 
+
+
+
 \hypersetup
        {   pdfauthor = { {{{:author}}} },
            pdftitle={ {{{:title}}} },
@@ -39,6 +42,13 @@
 \def\endash{–}
 \def\bbD{ {\mathbb D} }
 \def\bbZ{ {\mathbb Z} }
+
+\def\x{ {\vc x} }
+\def\a{ {\vc a} }
+\def\b{ {\vc b} }
+\def\e{ {\vc e} }
+\def\f{ {\vc f} }
+\def\u{ {\vc u} }
 
 \input{somacros}
 

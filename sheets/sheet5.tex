@@ -137,54 +137,57 @@
 
 
 
-\textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Problem Sheet 4}
+\textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Problem Sheet 5}
 
-\textbf{Problem 1} Suppose $x = 1.25$ and consider 16-bit floating point arithmetic ($F_{16}$). What is the error in approximating $x$ by the nearest float point number ${\rm fl}(x)$? What is the error in approximating $2x$, $x/2$, $x + 2$ and $x - 2$ by $2 \otimes x$, $x \oslash 2$, $x \ensuremath{\oplus} 2$ and $x \ominus 2$?
-
-\textbf{Problem 2} Show that $1/5 = 2^{-3} (1.1001100110011\ensuremath{\ldots})_2$. What are the exact bits for $1 \ensuremath{\oslash} 5$, $1 \ensuremath{\oslash} 5 \ensuremath{\oplus} 1$ computed using  half-precision arithmetic ($F_{16} := F_{15,5,10}$) (using default rounding)?
-
-\textbf{Problem 3} Prove the following bounds on the \emph{absolute error} of a floating point calculation in idealised floating-point arithmetic $F_{\ensuremath{\infty},S}$ (i.e., you may assume all operations involve normal floating point numbers):
-\begin{align*}
-(1.1 \ensuremath{\otimes} 1.2) &\ensuremath{\oplus} 1.3 = 2.62 + \ensuremath{\varepsilon}_1 \\
-(1.1 \ensuremath{\ominus} 1) & \ensuremath{\oslash} 0.1 = 1 + \ensuremath{\varepsilon}_2
-\end{align*}
-such that $|\ensuremath{\varepsilon}_1| \ensuremath{\leq} 11 \ensuremath{\epsilon}_{\rm m}$ and $|\ensuremath{\varepsilon}_2| \ensuremath{\leq} 40 \ensuremath{\epsilon}_{\rm m}$, where $\ensuremath{\epsilon}_{\rm m}$ is machine epsilon.
-
-\textbf{Problem 4} Let $x \ensuremath{\in} [0,1] \ensuremath{\cap} F_{\ensuremath{\infty},S}$. Assume that $f^{\rm FP} : F_{\ensuremath{\infty},S} \ensuremath{\rightarrow} F_{\ensuremath{\infty},S}$ satisfies $f^{\rm FP}(x) = f(x) + \ensuremath{\delta}_x$ where $|\ensuremath{\delta}_x| \ensuremath{\leq} c \ensuremath{\epsilon}_{\rm m}$ for all $x \ensuremath{\in} [0,1]$. Show that
+\textbf{Problem 1(a)}  Suppose $|\ensuremath{\epsilon}_k| \ensuremath{\leq} \ensuremath{\epsilon}$ and $n \ensuremath{\epsilon} < 1$. Use induction to show that
 \[
-{f^{\rm FP}(x+h) \ensuremath{\ominus} f^{\rm FP}(x-h) \over  2h} = f'(x) + \ensuremath{\varepsilon}
+\ensuremath{\prod}_{k=1}^n (1+\ensuremath{\epsilon}_k) = 1+\ensuremath{\theta}_n
 \]
-where absolute error is bounded by
+for some constant $\ensuremath{\theta}_n$ satisfying
 \[
-|\ensuremath{\varepsilon}| \ensuremath{\leq} {|f'(x)| \over 2} \ensuremath{\epsilon}_{\rm m} + {M \over 3} h^2 + {2 c \ensuremath{\epsilon}_{\rm m} \over h},
+|\ensuremath{\theta}_n| \ensuremath{\leq} \underbrace{n \ensuremath{\epsilon} \over 1-n\ensuremath{\epsilon}}_{E_{n,\ensuremath{\epsilon}}}
 \]
-where we assume  that $h = 2^{-n}$ for $n \ensuremath{\leq} S$.
+\textbf{Problem 1(b)} Show for an idealised floating point vector $\ensuremath{\bm{\x}} \ensuremath{\in} F_{\ensuremath{\infty},S}^n$  that
+\[
+x_1 \ensuremath{\oplus} \ensuremath{\cdots} \ensuremath{\oplus} x_n = x_1 +  \ensuremath{\cdots} + x_n + \ensuremath{\sigma}_n
+\]
+where
+\[
+|\ensuremath{\sigma}_n| \ensuremath{\leq} \| \ensuremath{\bm{\x}} \|_\ensuremath{\infty} E_{n-1,\ensuremath{\epsilon}_{\rm m}/2},
+\]
+assuming $n \ensuremath{\epsilon}_{\rm m} < 2$ and where $\|\ensuremath{\bm{\x}}\|_\ensuremath{\infty} := \max_k |x_k|$. Hint: use the previous part to first write
+\[
+x_1 \ensuremath{\oplus} \ensuremath{\cdots} \ensuremath{\oplus} x_n = x_1(1+\ensuremath{\theta}_{n-1}) + \ensuremath{\sum}_{j=2}^n x_j (1 + \ensuremath{\theta}_{n-j+1}).
+\]
+\textbf{Problem 1(c)} For $A \ensuremath{\in} F_{\ensuremath{\infty},S}^{n \ensuremath{\times} n}$ and $\ensuremath{\bm{\x}} \ensuremath{\in} F_{\ensuremath{\infty},S}^n$ consider the error in approximating matrix multiplication with idealised floating point: for
+\[
+A \ensuremath{\bm{\x}} =  \begin{pmatrix}
+\ensuremath{\bigoplus}_{j=1}^n A_{1,j} \ensuremath{\otimes} x_j\\
+\ensuremath{\vdots} \\
+\ensuremath{\bigoplus}_{j=1}^n A_{1,j} \ensuremath{\otimes} x_j
+\end{pmatrix} + \ensuremath{\delta}
+\]
+show that
+\[
+\| \ensuremath{\delta} \|_\ensuremath{\infty} \ensuremath{\leq} 2 \|A\|_\ensuremath{\infty} \| \ensuremath{\bm{\x}} \|_\ensuremath{\infty} E_{n,\ensuremath{\epsilon}_{\rm m}/2}
+\]
+where  $n \ensuremath{\epsilon}_{\rm m} < 2$ and the matrix norm is $\|A \|_\ensuremath{\infty} := \max_k \ensuremath{\sum}_{j=1}^n |a_{kj}|$.
 
-\textbf{Problem 5} For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying $0 < a < b$ and $0 < c < d$, and $n > 0$ prove that
+\rule{\textwidth}{1pt}
+\textbf{Problem 2} Derive  Backward Euler: use the left-sided divided difference approximation
+\[
+u'(x) \ensuremath{\approx} {u(x) - u(x-h)  \over h}
+\]
+to reduce the first order ODE
 \meeq{
-X/n = [a/n,b/n] \ccr
-XY = [ac, bd]
+u(a) =  c, \qquad u'(x) + \ensuremath{\omega}(x) u(x) = f(x)
 }
-Generalise (without proof) these formul\ensuremath{\ae} to the case $n < 0$ and to where there are no restrictions on positivity of $a,b,c,d$. You may use the $\min$ or $\max$ functions.
+to a lower triangular system by discretising on the grid $x_j = a + j h$ for $h = (b-a)/n$. Hint: only impose the ODE on the gridpoints $x_1,\ensuremath{\ldots},x_n$ so that the divided difference does not depend on behaviour at $x_{-1}$.
 
-\textbf{Problem 6(a)} Compute the following floating point interval arithmetic expression assuming half-precision $F_{16}$ arithmetic:
-\[
-[1,1] \ensuremath{\ominus} ([1,1] \ensuremath{\oslash} 6)
-\]
-Hint: it might help to write $1 = (0.1111\ensuremath{\ldots})_2$ when doing subtraction.
-
-\textbf{Problem 6(b)} Writing 
-\[
-\sin\ x = \ensuremath{\sum}_{k=0}^n {(-1)^k x^{2k+1} \over (2k+1)!} + \ensuremath{\delta}_{x,2n+1}
-\]
-Prove the bound $|\ensuremath{\delta}_{x,2n+1}| \ensuremath{\leq} 1/(2n+3)!$, assuming $x \ensuremath{\in} [0,1]$.
-
-\textbf{Problem 6(c)} Combine the previous parts to prove that:
-\[
-\sin 1 \ensuremath{\in} [0.11010011000, 0.11010111101] = [0.82421875, 0.84228515625]
-\]
-You may use without proof that $1/120 = 2^{-7} (1.000100010001\ensuremath{\ldots})_2$. 
-
+\textbf{Problem 3} Reduce a Schrödinger equation to a tridiagonal linear system by discretising on the grid $x_j = a + j h$ for $h = (b-a)/n$:
+\meeq{
+u(a) =  c, u''(x) + V(x) u(x) = f(x), u(b) = d.
+}
 
 
 \end{document}

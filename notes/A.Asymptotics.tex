@@ -101,16 +101,23 @@ We will use Big-O notation to describe the computational cost of algorithms. Con
 \]
 which we might implement as:
 
-\begin{verbatim}
-function sumsq(x)
-    n = length(x)
-    ret = 0.0
-    for k = 1:n
-        ret = ret + x[k]^2
-    end
-    ret
-end
-\end{verbatim}
+
+\begin{lstlisting}
+(*@\HLJLk{function}@*) (*@\HLJLnf{sumsq}@*)(*@\HLJLp{(}@*)(*@\HLJLn{x}@*)(*@\HLJLp{)}@*)
+    (*@\HLJLn{n}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{length}@*)(*@\HLJLp{(}@*)(*@\HLJLn{x}@*)(*@\HLJLp{)}@*)
+    (*@\HLJLn{ret}@*) (*@\HLJLoB{=}@*) (*@\HLJLnfB{0.0}@*)
+    (*@\HLJLk{for}@*) (*@\HLJLn{k}@*) (*@\HLJLoB{=}@*) (*@\HLJLni{1}@*)(*@\HLJLoB{:}@*)(*@\HLJLn{n}@*)
+        (*@\HLJLn{ret}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{ret}@*) (*@\HLJLoB{+}@*) (*@\HLJLn{x}@*)(*@\HLJLp{[}@*)(*@\HLJLn{k}@*)(*@\HLJLp{]}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)
+    (*@\HLJLk{end}@*)
+    (*@\HLJLn{ret}@*)
+(*@\HLJLk{end}@*)
+\end{lstlisting}
+
+\begin{lstlisting}
+sumsq (generic function with 1 method)
+\end{lstlisting}
+
+
 Each step of this algorithm consists of one memory look-up (\texttt{z = x[k]}), one multiplication (\texttt{w = z*z}) and one addition (\texttt{ret = ret + w}). We will ignore the memory look-up in the following discussion. The number of CPU operations per step is therefore 2 (the addition and multiplication). Thus the total number of CPU operations is $2n$. But the constant $2$ here is misleading: we didn't count the memory look-up, thus it is more sensible to just talk about the asymptotic complexity, that is, the \emph{computational cost} is $O(n)$.
 
 Now consider a double sum like:
@@ -119,18 +126,25 @@ Now consider a double sum like:
 \]
 which we might implement as:
 
-\begin{verbatim}
-function sumsq2(x)
-    n = length(x)
-    ret = 0.0
-    for k = 1:n
-        for j = 1:k
-            ret = ret + x[j]^2
-        end
-    end
-    ret
-end
-\end{verbatim}
+
+\begin{lstlisting}
+(*@\HLJLk{function}@*) (*@\HLJLnf{sumsq2}@*)(*@\HLJLp{(}@*)(*@\HLJLn{x}@*)(*@\HLJLp{)}@*)
+    (*@\HLJLn{n}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{length}@*)(*@\HLJLp{(}@*)(*@\HLJLn{x}@*)(*@\HLJLp{)}@*)
+    (*@\HLJLn{ret}@*) (*@\HLJLoB{=}@*) (*@\HLJLnfB{0.0}@*)
+    (*@\HLJLk{for}@*) (*@\HLJLn{k}@*) (*@\HLJLoB{=}@*) (*@\HLJLni{1}@*)(*@\HLJLoB{:}@*)(*@\HLJLn{n}@*)
+        (*@\HLJLk{for}@*) (*@\HLJLn{j}@*) (*@\HLJLoB{=}@*) (*@\HLJLni{1}@*)(*@\HLJLoB{:}@*)(*@\HLJLn{k}@*)
+            (*@\HLJLn{ret}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{ret}@*) (*@\HLJLoB{+}@*) (*@\HLJLn{x}@*)(*@\HLJLp{[}@*)(*@\HLJLn{j}@*)(*@\HLJLp{]}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)
+        (*@\HLJLk{end}@*)
+    (*@\HLJLk{end}@*)
+    (*@\HLJLn{ret}@*)
+(*@\HLJLk{end}@*)
+\end{lstlisting}
+
+\begin{lstlisting}
+sumsq2 (generic function with 1 method)
+\end{lstlisting}
+
+
 Now the inner loop is $O(1)$ operations (we don't try to count the precise number), which we do $k$ times for $O(k)$ operations as $k \ensuremath{\rightarrow} \ensuremath{\infty}$. The outer loop therefore takes
 \[
 \ensuremath{\sum}_{k = 1}^n O(k) = O\left(\ensuremath{\sum}_{k = 1}^n k\right) = O\left( {n (n+1) \over 2} \right) = O(n^2)

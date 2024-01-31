@@ -109,7 +109,7 @@ $$
 \sum_{k=1}^n x_k^2
 $$
 which we might implement as:
-```
+```julia
 function sumsq(x)
     n = length(x)
     ret = 0.0
@@ -132,7 +132,7 @@ $$
 \sum_{k=1}^n \sum_{j=1}^k x_j^2
 $$
 which we might implement as:
-```
+```julia
 function sumsq2(x)
     n = length(x)
     ret = 0.0
