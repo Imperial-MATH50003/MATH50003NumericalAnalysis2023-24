@@ -91,54 +91,12 @@ A[1,2] = 2.3 # fails since 2.3 is a Float64 that cannot be converted to an Int
 # **Problem 1(a)** Create a 5×6 matrix whose entries are `Int` which is
 # one in all entries. Hint: use a for-loop, `ones`, `fill`, or a comprehension.
 ## TODO: Create a matrix of ones, 4 different ways
-## SOLUTION
 
-## 1. For-loop:
-
-ret = zeros(Int, 5, 6)
-for k = 1:5, j = 1:6
-    ret[k,j] = 1
-end
-ret
-
-## 2. Ones:
-
-ones(Int, 5, 6)
-
-## 3. Fill:
-
-fill(1, 5, 6)
-
-## 4. Comprehension:
-
-[1 for k=1:5, j=1:6]
-
-
-## END
 
 # **Problem 1(b)** Create a 1 × 5 `Matrix{Int}` with entries `A[k,j] = j`. Hint: use a for-loop or a comprehension.
 
 ## TODO: Create a 1 × 5  matrix whose entries equal the column, 2 different ways
-## SOLUTION
 
-## 1. For-loop
-
-A = zeros(Int, 1, 5)
-for j = 1:5
-    A[1,j] = j
-end
-
-## 2. Comprehension
-
-[j for k=1:1, j=1:5]
-
-## There is also a third way: 
-## 3. convert transpose:
-
-## Note: (1:5)' is a "row-vector" which behaves differently than a matrix
-Matrix((1:5)')
-
-## END
 
 # -------
 
@@ -193,50 +151,12 @@ r[2] = 3   # Not allowed
 # **Problem 1(c)** Create a vector of length 5 whose entries are `Float64`
 # approximations of `exp(-k)`. Hint: use a for-loop, broadcasting `f.(x)` notation, or a comprehension.
 ## TODO: Create a vector whose entries are exp(-k), 3 different ways
-## SOLUTION
 
-## 1. For-loop
-v = zeros(5) # defaults to Float64
-for k = 1:5
-    v[k] = exp(-k)
-end
-
-## 2. Broadcast:
-exp.(-(1:5))
-
-## we can also do this explicitly
-broadcast(k -> exp(-k), 1:5)
-
-## 4. Comprehension:
-[exp(-k) for k=1:5]
-
-
-## END
 
 # **Problem 1(d)** Create a 5 × 6 matrix `A` whose entries `A[k,j] == cos(k+j)`.
 ## TODO: 
 
-## SOLUTION
 
-#  1. For-loop:
-
-A = zeros(5,6)
-for k = 1:5, j = 1:6
-    A[k,j] = cos(k+j)
-end
-A
-
-# 2. Broadcasting:
-
-k = 1:5
-j = 1:6
-cos.(k .+ j')
-
-# 3. Broadcasting (explicit):
-
-broadcast((k,j) -> cos(k+j), 1:5, (1:6)')
-
-## END
 
 
 # A  `Matrix` is stored consecutively in memory, going down column-by-
@@ -266,7 +186,7 @@ A * x
 
 function mul_rows(A, x)
     m,n = size(A)
-    ## promote_type type finds a type that is compatible with both types, eltype gives the type of the elements of a vector / matrix
+    # promote_type type finds a type that is compatible with both types, eltype gives the type of the elements of a vector / matrix
     T = promote_type(eltype(x), eltype(A))
     c = zeros(T, m) # the returned vector, begins of all zeros
     for k = 1:m # for each column
@@ -282,7 +202,7 @@ end
 
 function mul_cols(A, x)
     m,n = size(A)
-    ## promote_type type finds a type that is compatible with both types, eltype gives the type of the elements of a vector / matrix
+    # promote_type type finds a type that is compatible with both types, eltype gives the type of the elements of a vector / matrix
     T = promote_type(eltype(x), eltype(A))
     c = zeros(T, m) # the returned vector, begins of all zeros
     for j = 1:n # for each column
@@ -362,34 +282,7 @@ A \ b
 # Hint: either guess-and-check, perhaps using `randn(n,n)` to make a random `n × n` matrix.
 
 
-## SOLUTION
 
-## Then we can easily find examples, in fact we can write a function that searches for examples:
-
-using ColorBitstring
-
-function findblasmuldifference(n, l)
-	for j = 1:n
-		A = randn(l,l)
-		x = rand(l)
-		if A*x != mul_cols(A,x) 
-			return (A,x)
-		end
-	end
-end
-
-n = 100 # number of attempts
-l = 10 # size of objects
-A,x = findblasmuldifference(n,l) # find a difference
-
-println("Bits of obtained A*x")
-printlnbits.(A*x);
-println("Bits of obtained mul_cols(A,x)")
-printlnbits.(mul_cols(A,x));
-println("Difference vector between the two solutions:")
-println(A*x-mul_cols(A,x))
-
-## END
 
 # We can also transpose a matrix `A`, This is done lazily 
 # and so `transpose(A)` (which is equivalent to the adjoint/conjugate-transpose
@@ -458,15 +351,7 @@ function ldiv(L::LowerTriangular, b)
         
     x = zeros(n)  # the solution vector
     ## TODO: populate x using forward-substitution so that L*x ≈ b
-    ## SOLUTION
-    for k = 1:n  # start with k = 1
-        r = b[k]  # dummy variable
-        for j = 1:k-1
-            r -= L[k,j]*x[j]
-        end
-        x[k] = r/L[k,k]
-    end
-    ## END
+    
     x
 end
 
@@ -520,11 +405,7 @@ function mul_cols(L::LowerTriangular, x)
     b = zeros(T,n) # the returned vector, begins of all zeros
 
     ## TODO: populate b so that L*x ≈ b
-    ## SOLUTION
-    for j = 1:n, k = j:n
-        b[k] += L[k, j] * x[j]
-    end
-    ## END
+    
 
     b
 end
@@ -595,17 +476,7 @@ size(U::UpperTridiagonal) = (length(U.d),length(U.d))
 function getindex(U::UpperTridiagonal, k::Int, j::Int)
     d,du,du2 = U.d,U.du,U.du2
     ## TODO: return U[k,j]
-    ## SOLUTION
-    if j == k+2
-    	return U.du2[k]    
-    elseif j == k+1
-    	return U.du[k]
-    elseif j == k
-    	return U.d[k]
-    else # off band entries are zero
-    	return zero(eltype(U))
-    end
-    ## END
+    
 end
 
 ## setindex!(U, v, k, j) gets called when we write (U[k,j] = v).
@@ -616,15 +487,7 @@ function setindex!(U::UpperTridiagonal, v, k::Int, j::Int)
     end
 
     ## TODO: modify d,du,du2 so that U[k,j] == v
-    ## SOLUTION
-    if j == k+2
-    	du2[k] = v  
-    elseif j == k+1
-    	du[k] = v
-    elseif j == k
-    	d[k] = v
-    end
-    ## END
+    
     U # by convention we return the matrix
 end
 
@@ -655,11 +518,7 @@ function *(U::UpperTridiagonal, x::AbstractVector)
     T = promote_type(eltype(x),eltype(U))
     b = zeros(T, n) # the returned vector, begins of all zeros
     ## TODO: populate b so that U*x ≈ b (up to rounding)
-    ## SOLUTION
-    for j = 1:n, k = max(j-2,1):j
-        b[k] += U[k, j] * x[j]
-    end
-    ## END
+    
     b
 end
 
@@ -673,16 +532,7 @@ function \(U::UpperTridiagonal, b::AbstractVector)
         
     x = zeros(T, n)  # the solution vector
     ## TODO: populate x so that U*x ≈ b
-    ## SOLUTION
-    for k = n:-1:1  # start with k=n, then k=n-1, ...
-        r = b[k]  # dummy variable
-        for j = k+1:min(n, k+2)
-            r -= U[k,j]*x[j] # equivalent to r = r - U[k,j]*x[j]
-        end
-        ## after this for loop, r = b[k] - ∑_{j=k+1}^n U[k,j]x[j]  
-        x[k] = r/U[k,k]
-    end
-    ## END
+    
     x
 end
 
@@ -779,179 +629,7 @@ plot!(ns, ns .^ (-2); label="1/n^2")
 # $$
 # to 3 digits, where $f^{\rm s}_{1000}(x)$ was defined in PS2.
 
-## SOLUTION
 
-
-c = 0 # u(0) = 0
-f = x -> cos(x)
-n = 10
-
-x = range(0,1;length=n)
-h=step(x)
-A = Bidiagonal([1; fill(1/h, n-1)], fill(-1/h, n-1), :L)
-ub = A\[c; f.(x[2:end])]
-
-##adding the forward and midpoint solutions here as well for comparison
-m = (x[1:end-1] + x[2:end])/2
-
-uf = A \ [c; f.(x[1:end-1])]
-um = A \ [c; f.(m)]
-
-plot(x, sin.(x); label="sin(x)", legend=:bottomright)
-scatter!(x, ub; label="backward")
-scatter!(x, um; label="mid")
-scatter!(x, uf; label="forward")
-
-
-# Comparing each method's errors, we see that the backward method has the same error as the forward method:
-
-
-function indefint(x)
-    h = step(x) # x[k+1]-x[k]
-    n = length(x)
-    L = Bidiagonal([1; fill(1/h, n-1)], fill(-1/h, n-1), :L)
-end
-
-function forward_err(u, c, f, n)
-    x = range(0, 1; length = n)
-    uᶠ = indefint(x) \ [c; f.(x[1:end-1])]
-    norm(uᶠ - u.(x), Inf)
-end
-
-function mid_err(u, c, f, n)
-    x = range(0, 1; length = n)
-    m = (x[1:end-1] + x[2:end]) / 2 # midpoints
-    uᵐ = indefint(x) \ [c; f.(m)]
-    norm(uᵐ - u.(x), Inf)
-end
-
-function back_err(u, c, f, n)
-    x = range(0,1;length=n)
-    h=step(x)
-    A = Bidiagonal([1; fill(1/h, n-1)], fill(-1/h, n-1), :L)
-    ub = A\[c; f.(x[2:end])]
-    norm(ub - u.(x), Inf)
-end
-
-c = 0 # u(0) = 0
-f = x -> cos(x)
-m = (x[1:end-1] + x[2:end])/2 # midpoints
-ns = 10 .^ (1:8) # solve up to n = 10 million
-
-
-scatter(ns, forward_err.(sin, 0, f, ns); xscale=:log10, yscale=:log10, label="forward")
-scatter!(ns, mid_err.(sin, 0, f, ns); label="mid")
-scatter!(ns, back_err.(sin, 0, f, ns); label="back",alpha=0.5)
-plot!(ns, ns .^ (-1); label="1/n")
-plot!(ns, ns .^ (-2); label="1/n^2")
-
-
-# Part two:
-
-
-c = 0 # u(0) = 0
-n = 10000
-
-#functions defined in the solutions to problem sheet 2
-f = x -> exp(exp(x)cos(x) + sin(x))
-g = x -> prod([x] ./ (1:1000) .- 1)
-function cont(n, x)
-    ret = 2*one(x)
-    for k = 1:n-1
-        ret = 2 + (x-1)/ret
-    end
-    1 + (x-1)/ret
-end
-
-x = range(0,1;length=n)
-h=step(x)
-A = Bidiagonal([1; fill(1/h, n-1)], fill(-1/h, n-1), :L)
-uf = A\[c; f.(x[2:end])]
-ug = A\[c; g.(x[2:end])]
-ucont = A\[c; cont.(1000, x[2:end])]
-
-uf_int = uf[end]
-ug_int = ug[end]
-ucont_int = ucont[end]
-
-println("first function: ")
-println(uf_int)
-println("second functions: ")
-println(ug_int)
-println("third function: ")
-println(ucont_int)
-
-## END
-
-# **Problem 2.2 (A)** Implement indefinite-integration 
-# where we take the average of the two grid points:
-# $$
-# {u'(x_{k+1}) + u'(x_k) \over 2} ≈ {u_{k+1} - u_k \over h}
-# $$
-# What is the observed rate-of-convergence using the ∞-norm for $f(x) = \cos x$
-# on the interval $[0,1]$?
-# Does the method converge if the error is measured in the $1$-norm?
-
-## SOLUTION
-
-
-n = 10
-x = range(0, 1; length=n+1)
-h = 1/n
-A = Bidiagonal([1; fill(1/h, n)], fill(-1/h, n), :L)
-c = 0 # u(0) = 0
-f = x -> cos(x)
-
-𝐟 = f.(x) # evaluate f at all but last points
-uₙ = A \ [c; (𝐟[1:end-1] + 𝐟[2:end])/2]
-
-plot(x, sin.(x); label="sin(x)", legend=:bottomright)
-scatter!(x, uₙ; label="average grid point")
-
-## print(norm(uₙ - sin.(x),Inf))
-## norm(uₙ - sin.(x),1)
-
-
-## Comparing the error to the midpoint method, we see that the errors are very similar:
-
-function average_err(u, c, f, n)
-    x = range(0,1;length=n)
-    h=step(x)
-    A = Bidiagonal([1; fill(1/h, n-1)], fill(-1/h, n-1), :L)
-    ua = A\[c; (f.(x[1:end-1]) + f.(x[2:end]))/2]
-    norm(ua - u.(x), Inf)
-end
-
-c = 0 # u(0) = 0
-f = x -> cos(x)
-m = (x[1:end-1] + x[2:end])/2 # midpoints
-ns = 10 .^ (1:8) # solve up to n = 10 million
-
-
-scatter(ns, mid_err.(sin, 0, f, ns); xscale=:log10, yscale=:log10, label="mid")
-scatter!(ns, average_err.(sin, 0, f, ns); label="average")
-plot!(ns, ns .^ (-1); label="1/n")
-plot!(ns, ns .^ (-2); label="1/n^2")
-##
-print(mid_err.(sin, 0, f, ns) - average_err.(sin, 0, f, ns))
-
-
-## Now looking at the $L_1$ norm, we see it is converging, but to a smaller error before it starts to increase:
-
-function average_err_l1(u, c, f, n)
-    x = range(0,1;length=n)
-    h=step(x)
-    A = Bidiagonal([1; fill(1/h, n-1)], fill(-1/h, n-1), :L)
-    ua = A\[c; (f.(x[1:end-1]) + f.(x[2:end]))/2]
-    norm(ua - u.(x), 1)
-end
-
-scatter(ns, average_err_l1.(sin, 0, f, ns); xscale=:log10, yscale=:log10, label="L_1")
-scatter!(ns, average_err.(sin, 0, f, ns); label="Inf")
-plot!(ns, ns .^ (-1); label="1/n")
-plot!(ns, ns .^ (-2); label="1/n^2")
-
-## END
 
 # ----
 
@@ -1005,30 +683,7 @@ norm(L \ [c; exp.(t[1:end-1])] - u.(t),Inf)
 # such that the numerical approximation suggests the equation
 # does not blow up.
 
-## SOLUTION
 
-function first_eq(n)
-    #this function takes n and returns the estimate of u(1) using n steps
-    #define the range of t
-    t = range(0, 1; length=n)
-    #find the step-size h
-    h = step(t)
-
-    #preallocate memory
-    u = zeros(n)
-    #set initial condition
-    u[1] = 1
-    for k=1:n-1
-       u[k+1] = (1+h*cos(t[k]))*u[k] + h*t[k] 
-    end
-    u[end]
-end
-ns = 2 .^ (1:13)
-println(first_eq.(ns)')
-
-# We see that $u(1) = 2.96$ to three digits.
-
-## END
 
 
 
@@ -1084,24 +739,7 @@ plot!(ns, ns .^ (-2); label="1/n^2")
 # u(x) = (-\cos(k x) + {\rm e}^x \cos(k x)^2 + \cot(k) \sin(k x) - {\rm e} \cos(k) \cot(k) \sin(k x) - {\rm e} \sin(k) \sin(k x) + {\rm e}^x \sin(k x)^2)/(1 + k^2)
 # $$
 
-## SOLUTION
-function helm(k, n)
-    x = range(0, 1; length = n)
-    h = step(x)
-    # TODO: Create a SymTridiagonal discretisation
-    T = SymTridiagonal(ones(n-2)*(-2/h^2 + k^2),ones(n-3)*1/h^2)
-    u = T \ exp.(x[2:end-1])
-    [0; u; 0]
-end
 
-k = 10
-u = x -> (-cos(k*x) + exp(x)cos(k*x)^2 + cot(k)sin(k*x) - ℯ*cos(k)cot(k)sin(k*x) - ℯ*sin(k)sin(k*x) + exp(x)sin(k*x)^2)/(1 + k^2)
-
-n = 2048 # TODO: choose n to get convergence
-x = range(0, 1; length=n)
-@test norm(helm(k, n) - u.(x)) ≤ 1E-4
-
-## END
 
 
 # **Problem 1.2 (A)** Discretisations can also be used to solve eigenvalue problems.

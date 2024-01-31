@@ -3,9 +3,10 @@ uuid = "9f559201-c820-4d08-baf1-f1369a1016bd"
 authors = ["Sheehan Olver <solver@mac.com>"]
 version = "0.1.0"
 
-
 [deps]
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
 ColorBitstring = "ce91de38-7578-4b98-aebb-6a5df05791d6"
+DifferentialEquations = "0c46a032-eb83-5123-abaf-570d42b7fbaa"
 ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
 IJulia = "7073ff75-c697-5162-941a-fcdaad2a7d2a"
 IntervalSets = "8197267c-284f-5f27-9208-e0e47529a953"
