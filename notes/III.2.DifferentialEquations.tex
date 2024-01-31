@@ -2,53 +2,47 @@
 \section{Differential Equations via Finite Differences}
 Linear algebra is a powerful tool for solving linear equations, including \ensuremath{\infty}-dimensional ones like differential equations. In this section we discuss \emph{finite differences}: an algorithmic way of reducing ODEs to linear systems by replacing derivatives with divided differences approximations. 
 
-We will focus on the following differential equations:
-
-\begin{itemize}
-\item[1. ] Indefinite integration for $a \ensuremath{\leq} x \ensuremath{\leq} b$:
-
-\end{itemize}
-
-\begin{align*}
+We will focus on the following differential equations. Indefinite integration for $a \ensuremath{\leq} x \ensuremath{\leq} b$ can be viewed as solving a very simple first-order linear ODE:
+\[
 u(a) = c, u'(x) = f(x)
-\end{align*}
-\begin{itemize}
-\item[2. ] First-order linear ODEs:
-\end{itemize}
-
-\begin{align*}
+\]
+We will then allow for more complicated first order linear ODEs with variable coefficients:
+\[
 u(a) = c, u'(x) - \ensuremath{\omega}(x) u(x) = f(x)
-\end{align*}
-\begin{itemize}
-\item[3. ] Poisson equation with Dirichlet conditions:
-
-\end{itemize}
-
+\]
+For second-order differential equations you may have seen \emph{initial value problems} where the value and derivative at an initial point $x=a$ are provided.  Instead, we will consider \emph{boundary value problems} where the value at the left and right endpoints are imposed. In particular we will consider the Poisson equation with \emph{Dirichlet conditions}:
 \begin{align*}
 u(a) &= c_0, u(b) = c_1, \\
 u''(x) &= f(x)
 \end{align*}
-Briefly, the basic idea of finite differences is as follows:
+In higher dimensions, the Poisson equation (and other \emph{elliptic} partial differential equations) typically have boundary conditions and the techniques we discuss for our simple 1D model problem extend to these more challenging settings.
+
+Briefly, the basic idea of finite differences is a systematic way of reducing a differential equation to a linear system. For each problem we will do the following steps:
 
 \begin{itemize}
-\item[1. ] Discretise $[a,b]$ by a grid of points $x_0,\ensuremath{\ldots},x_n$.
+\item[1. ] Discretise $[a,b]$ by a grid of points $x_0,\ensuremath{\ldots},x_n$ and write the ODE on each grid point.
 
 
-\item[2. ] Replace derivatives with divided difference approximations.
+\item[2. ] Replace derivatives of the solution $u$ with its values on a grid $u(x_j)$ by using a divided difference formula.
 
 
-\item[3. ] Use this to deduce a linear system whose solution approximates $u(x_j)$. 
+\item[3. ] In the formula replace unknown values of $u(x_j)$ at the grid by new unknowns $u_j$.
+
+
+\item[4. ] Deduce from this  a linear system that can be solved to compute $u_j$ so that $u_j \ensuremath{\approx} u(x_j)$. 
 
 \end{itemize}
+\textbf{Remark} One can prove convergence of finite difference approximations but this is beyond the scope of this module.
+
 \subsection{Indefinite integration}
 We begin with the simplest differential equation on an interval $[a,b]$:
 \begin{align*}
 u(a) &= c \\
 u'(x) &= f(x)
 \end{align*}
-As in integration we will use an evenly spaced grid $a = x_0 , x_1 , \ensuremath{\ldots}, x_n = b$ defined by $x_j :=  a + h j$ where $h := (b-a)/n$. The solution is of course $u(x) = c + \ensuremath{\int}_a^x f(x) {\rm d}x$. We could use Rectangular or Trapezium rules to to obtain approximations to $u(x_j)$ for each $j$, however, we shall take another (equivalent) approach that will generalise to other differential equations. 
+As in integration we will use an evenly spaced grid $a = x_0 < x_1 < \ensuremath{\ldots} < x_n = b$ defined by $x_j :=  a + h j$ where $h := (b-a)/n$. The solution is of course $u(x) = c + \ensuremath{\int}_a^x f(x) {\rm d}x$ and we could use Rectangular or Trapezium rules to to obtain approximations to $u(x_j)$ for each $j$, however, we shall take another (equivalent) approach that will generalise to other differential equations. 
 
-Finite differences consists of three stages to reduce the problem to a linear system. Consider a divided difference approximation like right-sided divided differences: 
+Consider a divided difference approximation like right-sided divided differences: 
 \[
 u'(x) \ensuremath{\approx} {u(x+h) - u(x)\over h}.
 \]
@@ -58,10 +52,7 @@ u'(x_j) \ensuremath{\approx} {u(x_j+h) - u(x_j)\over h} = {u(x_{j+1}) - u(x_j)\o
 \]
 Note that $x_n$ is not permitted since that would go past the interval. We use this approximation as follows:
 
-\begin{itemize}
-\item[1. ] Write the ODE and initial conditions on the grid. Since right-sided differences will depend on $x_j$ and $x_{j+1}$ we stop at $x_{n-1}$ to avoid going past our grid: 
-
-\end{itemize}
+(1) Write the ODE and initial conditions on the grid. Since right-sided differences will depend on $x_j$ and $x_{j+1}$ we stop at $x_{n-1}$ to avoid going past our grid: 
 \[
 \Vectt[u(x_0) , 
      u'(x_0) ,
@@ -69,10 +60,7 @@ u'(x_1) ,
 \ensuremath{\vdots} ,
 u'(x_{n-1})] = \underbrace{\Vectt[c, f(x_0), f(x_1), \ensuremath{\vdots} , f(x_{n-1})]}_{\ensuremath{\bm{\b}}}
 \]
-\begin{itemize}
-\item[2. ] Replace derivatives with divided differences:
-
-\end{itemize}
+(2) Replace derivatives with divided differences:
 \[
 \Vectt[u(x_0) \\ 
 (u(x_1) - u(x_0))/h \\
@@ -80,11 +68,7 @@ u'(x_{n-1})] = \underbrace{\Vectt[c, f(x_0), f(x_1), \ensuremath{\vdots} , f(x_{
 \ensuremath{\vdots} \\
 (u(x_n) - u(x_{n-1})/h] \ensuremath{\approx} \ensuremath{\bm{\b}}
 \]
-\begin{itemize}
-\item[3. ] We do not know $u(x_j)$ hence we replace it with other unknowns $u_j$,
-
-\end{itemize}
-but where the approximation becomes equality:
+(3) We do not know $u(x_j)$ hence we replace it with other unknowns $u_j$, but where the approximation becomes equality:
 \[
 \Vectt[u_0 \\ 
 (u_1 - u_0)/h \\
@@ -92,10 +76,7 @@ but where the approximation becomes equality:
 \ensuremath{\vdots} \\
 (u_n - u_{n-1})/h] = \ensuremath{\bm{\b}}
 \]
-\begin{itemize}
-\item[4. ] This is actually a lower bidiagonal linear system:
-
-\end{itemize}
+(4) This is actually a lower bidiagonal linear system:
 \[
 \underbrace{\begin{bmatrix}
     1 \\ 
@@ -103,7 +84,7 @@ but where the approximation becomes equality:
     & \ensuremath{\ddots} & \ensuremath{\ddots} \\
     && -1/h & 1/h \end{bmatrix}}_L \underbrace{\Vectt[u_0,u_1,\ensuremath{\vdots},u_n]}_{\ensuremath{\bm{\u}}} = \ensuremath{\bm{\b}}
 \]
-We can solve $L \ensuremath{\bm{\u}} = \ensuremath{\bm{\b}}$ using forward-substitution.
+We can solve $L \ensuremath{\bm{\u}} = \ensuremath{\bm{\b}}$ using forward-substitution as discussed in the previous section.
 
 \subsection{Forward Euler}
 We can extend this to more general first-order linear differential equations with a variable coefficient:
@@ -113,10 +94,7 @@ u'(x) - \ensuremath{\omega}(x) u(x) &= f(x)
 \end{align*}
 The steps proceed very similar to before:
 
-\begin{itemize}
-\item[1. ] Write the ODE and initial conditions on the grid:
-
-\end{itemize}
+(1) Write the ODE and initial conditions on the grid:
 \[
 \Vectt[u(x_0) \\ 
 u'(x_0) + \ensuremath{\omega}(x_0) u(x_0) \\
@@ -124,10 +102,7 @@ u'(x_1) + \ensuremath{\omega}(x_1) u(x_1) \\
 \ensuremath{\vdots} \\
 u'(x_{n-1})+ \ensuremath{\omega}(x_{n-1}) u(x_{n-1})] = \underbrace{\Vectt[c, f(x_0), f(x_1), \ensuremath{\vdots} , f(x_{n-1})]}_{\ensuremath{\bm{\b}}}
 \]
-\begin{itemize}
-\item[2. ] Replace derivatives with divided differences:
-
-\end{itemize}
+(2) Replace derivatives with divided differences:
 \[
 \Vectt[u(x_0) \\ 
 (u(x_1) - u(x_0))/h + \ensuremath{\omega}(x_0)u(x_0) \\
@@ -135,10 +110,7 @@ u'(x_{n-1})+ \ensuremath{\omega}(x_{n-1}) u(x_{n-1})] = \underbrace{\Vectt[c, f(
 \ensuremath{\vdots} \\
 (u(x_n) - u(x_{n-1})/h + \ensuremath{\omega}(x_{n-1})u(x_{n-1})] \ensuremath{\approx} \ensuremath{\bm{\b}}
 \]
-\begin{itemize}
-\item[3. ] Replace $u(x_j)$  by its approximation $u_j$:
-
-\end{itemize}
+(3) Replace $u(x_j)$  by its approximation $u_j$:
 \[
 \Vectt[u_0 \\ 
 (u_1 - u_0)/h + \ensuremath{\omega}(x_0) u_0 \\
@@ -146,10 +118,7 @@ u'(x_{n-1})+ \ensuremath{\omega}(x_{n-1}) u(x_{n-1})] = \underbrace{\Vectt[c, f(
 \ensuremath{\vdots} \\
 (u_n - u_{n-1})/h  + \ensuremath{\omega}(x_{n-1}) u_{n-1}] = \ensuremath{\bm{\b}}
 \]
-\begin{itemize}
-\item[4. ] We now get the linear system:
-
-\end{itemize}
+(4) We now get the linear system:
 \[
 \underbrace{\begin{bmatrix}
     1 \\ 
@@ -176,10 +145,7 @@ u'(x_j) \ensuremath{\approx} {u(x_j-h) - 2u(x_j) + u(x_j+h)\over h^2} = {u(x_{j-
 \]
 Note that $x_0$ and $x_n$ is not permitted since that would go past the interval. We use this approximation as follows:
 
-\begin{itemize}
-\item[1. ] Write the ODE and boundary conditions on the grid:
-
-\end{itemize}
+(1) Write the ODE and boundary conditions on the grid:
 \[
 \Vectt[u(x_0) \\ 
 u''(x_1) \\
@@ -188,10 +154,7 @@ u''(x_1) \\
 u''(x_{n-1}) \\
 u(x_n)] = \underbrace{\Vectt[c, f(x_0), f(x_1), \ensuremath{\vdots} , f(x_{n-1}), d]}_{\ensuremath{\bm{\b}}}
 \]
-\begin{itemize}
-\item[2. ] Replace derivatives with divided differences:
-
-\end{itemize}
+(2) Replace derivatives with divided differences:
 \[
 \Vectt[u(x_0) \\ 
 {u(x_0) - 2u(x_1) + u(x_2)\over h^2} \\
@@ -200,10 +163,7 @@ u(x_n)] = \underbrace{\Vectt[c, f(x_0), f(x_1), \ensuremath{\vdots} , f(x_{n-1})
 {u(x_{n-2}) - 2u(x_{n-1}) + u(x_n)\over h^2} \\
 u(x_n)] \ensuremath{\approx} \ensuremath{\bm{\b}}
 \]
-\begin{itemize}
-\item[3. ] Replace $u(x_j)$  by its approximation $u_j$:
-
-\end{itemize}
+(3) Replace $u(x_j)$  by its approximation $u_j$:
 \[
 \Vectt[u_0 \\ 
 {u_0 - 2u_1 + u_2\over h^2} \\
@@ -212,10 +172,7 @@ u(x_n)] \ensuremath{\approx} \ensuremath{\bm{\b}}
 {u_{n-2} - 2u_{n-1} + u_n\over h^2} \\
 u_n] = \ensuremath{\bm{\b}}
 \]
-\begin{itemize}
-\item[4. ] We now get a tridiagonal linear system:
-
-\end{itemize}
+(4) We now get a tridiagonal linear system:
 \[
 \underbrace{\begin{bmatrix}
     1 \\ 

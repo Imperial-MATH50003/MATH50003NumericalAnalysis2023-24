@@ -1,82 +1,118 @@
 
 \section{Structured Matrices}
-We have seen how algebraic operations (\texttt{+}, \texttt{-}, \texttt{*}, \texttt{/}) are defined exactly in terms of rounding ($\ensuremath{\oplus}$, $\ensuremath{\ominus}$, $\ensuremath{\otimes}$, $\ensuremath{\oslash}$)  for floating point numbers. Now we see how this allows us to do (approximate) linear algebra operations on matrices. 
+We have seen how algebraic operations (\texttt{+}, \texttt{-}, \texttt{*}, \texttt{/}) are defined exactly in terms of rounding ($\ensuremath{\oplus}$, $\ensuremath{\ominus}$, $\ensuremath{\otimes}$, $\ensuremath{\oslash}$) for floating point numbers. Now we see how this allows us to do (approximate) linear algebra operations on matrices.
 
-A matrix can be stored in different formats, in particular we can take advantage of \emph{sparsity}: if we know a matrix has entries that are guaranteed to be zero we can implement faster algorithms. We shall see that this comes up naturally in numerical methods for solving differential equations.  In particular, we will discuss some basic matrices:
+A matrix can be stored in different formats, in particular it is important for large scale simulations that we take advantage of \emph{sparsity}: if we know a matrix has entries that are guaranteed to be zero we can implement faster algorithms. We shall see that this comes up naturally in numerical methods for solving differential equations.
+
+In particular, we will discuss some basic types of structure in matrices:
 
 \begin{itemize}
-\item[1. ] \emph{Dense}: This can be considered unstructured, where we need to store all entries in a vector or matrix. Matrix multiplication reduces directly to standard algebraic operations. Solving linear systems with dense matrices will be discussed later.
+\item[1. ] \emph{Dense}: This can be considered unstructured, where we need to store all entries in a vector or matrix. Matrix-vector multiplication reduces directly to standard algebraic operations. Solving linear systems with dense matrices will be discussed later.
 
 
-\item[2. ] \emph{Triangular}: If a matrix is upper or lower triangular, we can immediately invert using back-substitution. In practice we store a dense matrix and ignore the upper/lower entries.
+\item[2. ] \emph{Triangular}: If a matrix is upper or lower triangular, multiplication requires roughly half the number of operations. Crucially, we can apply the inverse of a triangular matrix using forward-elimination or back-substitution.
 
 
-\item[3. ] \emph{Banded}: If a matrix is zero apart from entries a fixed distance from  the diagonal it is called banded and this allows for more efficient algorithms. We discuss diagonal, tridiagonal and bidiagonal matrices.
+\item[3. ] \emph{Banded}: If a matrix is zero apart from entries a fixed distance from  the diagonal it is called banded and matrix-vector multiplication has a lower \emph{complexity}: the number of operations scales linearly with the dimension (instead of quadratically). We discuss three cases: diagonal, tridiagonal and bidiagonal matrices.
 
 \end{itemize}
-\textbf{Remark} For those who took the first half of the module, there was an important emphasis on working with \emph{linear operators} rather than \emph{matrices}. That is, there was an emphasis on basis-independent mathematical techniques. However, in terms of practical computation we need to work with some representation of an operator and the  most natural is a matrix, a table of numbers. Hence we will only consider the case where we use the canonical basis. (This is also important as some of the students have not taken the first half of the module.)
+\textbf{Remark} For those who took the first half of the module, there was an important emphasis on working with \emph{linear operators} rather than \emph{matrices}. That is, there was an emphasis on basis-independent mathematical techniques, which is critical for extension of results to infinite-dimensional spaces (which might not have a complete basis). However, in terms of practical computation we need to work with some representation of an operator and the most natural is a matrix. And indeed we will see in the next section how infinite-dimensional differential equations can be solved by reduction to finite-dimensional matrices. (Restricting attention to matrices is also important as some of the students have not taken the first half of the module.)
 
 \subsection{Dense matrices}
-A basic operation is matrix-vector multiplication. For a field $\ensuremath{\bbF}$ (typically $\ensuremath{\bbR}$ or $\ensuremath{\bbC}$, or this can be relaxed to be a ring), $A \ensuremath{\in} \ensuremath{\bbF}^{m \ensuremath{\times} n}$ and $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbF}^n$ we have the usual definition of matrix multiplication:
+A basic operation is matrix-vector multiplication. For a field $\ensuremath{\bbF}$ (typically $\ensuremath{\bbR}$ or $\ensuremath{\bbC}$, or this can be relaxed to be a ring), consider a matrix and vector whose entries are in $\ensuremath{\bbF}$:
 \[
-A\ensuremath{\bm{\x}} := \begin{bmatrix} \ensuremath{\sum}_{j=1}^n a_{1,j} x_j \\ \ensuremath{\vdots} \\ \ensuremath{\sum}_{j=1}^n a_{m,j} x_j \end{bmatrix}.
+A = \begin{bmatrix}
+a_{11} & \ensuremath{\cdots} & a_{1n} \\
+\ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
+a_{m1} & \ensuremath{\cdots} & a_{mn}
+\end{bmatrix} = \begin{bmatrix} \ensuremath{\bm{\a}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\a}}_n \end{bmatrix} \ensuremath{\in} \ensuremath{\bbF}^{m \ensuremath{\times} n}, \qquad
+\ensuremath{\bm{\x}} = \Vectt[x_1,\ensuremath{\vdots},x_n] \ensuremath{\in} \ensuremath{\bbF}^n.
+\]
+where $\ensuremath{\bm{\a}}_j = A \ensuremath{\bm{\e}}_j \ensuremath{\in} \ensuremath{\bbF}^m$ are the columns of $A$. Recall the usual definition of matrix multiplication:
+\[
+A\ensuremath{\bm{\x}} := \begin{bmatrix} \ensuremath{\sum}_{j=1}^n a_{1j} x_j \\ \ensuremath{\vdots} \\ \ensuremath{\sum}_{j=1}^n a_{mj} x_j \end{bmatrix}.
 \]
 When we are working with floating point numbers $A \ensuremath{\in} F^{m \ensuremath{\times} n}$ we obtain an approximation:
 \[
-A\ensuremath{\bm{\x}} \ensuremath{\approx} \begin{bmatrix} \ensuremath{\bigoplus}_{j=1}^n (a_{1,j}  \ensuremath{\otimes} x_j) \\ \ensuremath{\vdots} \\  \ensuremath{\bigoplus}_{j=1}^n (a_{m,j}  \ensuremath{\otimes} x_j) \end{bmatrix}.
+A\ensuremath{\bm{\x}} \ensuremath{\approx} \begin{bmatrix} \ensuremath{\bigoplus}_{j=1}^n (a_{1j}  \ensuremath{\otimes} x_j) \\ \ensuremath{\vdots} \\  \ensuremath{\bigoplus}_{j=1}^n (a_{mj}  \ensuremath{\otimes} x_j) \end{bmatrix}.
 \]
-This actually encodes an algorithm for computing the entries. And this algorithm uses $O(m n)$ floating point operations (FLOPs): each of the $m$ entry consists of $n$ multiplications and $n-1$ additions, hence we $2n-1 = O(n)$ per row for a total of $m(2n-1) = O(mn)$ operations. In the problem sheet we see how the floating point error can be bounded in terms of norms, thus reducing the problem to a purely mathematical concept.
+This actually encodes an algorithm for computing the entries.
 
-Sometimes there are multiple ways of implementing numerical algorithms. We have an alternative formula where we multiple by columns: if we write
-\[
-A = \begin{bmatrix} \ensuremath{\bm{\a}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\a}}_n \end{bmatrix}
-\]
-where $\ensuremath{\bm{\a}}_j = A \ensuremath{\bm{\e}}_j \ensuremath{\in} \ensuremath{\bbF}^m$ being the columns of $A$ we also have
+This algorithm uses $O(m n)$ floating point operations (see the appendix if you are unaware of Big-O notation): each of the $m$ entry consists of $n$ multiplications and $n-1$ additions, hence we have a total of $2n-1 = O(n)$ operations per row for a total of $m(2n-1) = O(mn)$ operations. For a square matrix this is $O(n^2)$ operations which we call \emph{quadratic complexity}. In the problem sheet we see how the floating point error can be bounded in terms of norms, thus reducing the problem to a purely mathematical concept.
+
+Sometimes there are multiple ways of implementing numerical algorithms. We have an alternative formula where we multiple by columns:
 \[
 A \ensuremath{\bm{\x}} = x_1 \ensuremath{\bm{\a}}_1  + \ensuremath{\cdots} + x_n \ensuremath{\bm{\a}}_n.
 \]
-The floating point formula for this is exactly the same as the previous algorithm and the number of operations is the same. Just the order of operations has changed.  Suprisingly, this latter version is significantly faster.
+The floating point formula for this is exactly the same as the previous algorithm and the number of operations is the same. Just the order of operations has changed. Suprisingly, this latter version is significantly faster.
+
+\textbf{Remark} Floating point operations are sometimes called FLOPs, which are a standard measurement  of speed of CPUs. However, FLOP sometimes uses an alternative definitions that combines an addition and multiplication as a single FLOP. In the lab we give an example showing that counting the precise number of operations is somewhat of a fools errand: algorithms such as the two approaches for matrix multiplication with the exact same number of operations can have widely different speeds. We will therefore only be concerned with \emph{complexity}; the asymptotic growth (Big-O) of operations as $n \ensuremath{\rightarrow} \ensuremath{\infty}$, in which case the difference between FLOPs and operations is immaterial.
 
 \subsection{Triangular matrices}
-The simplest sparsity case is being triangular: where all entries above or below the diagonal are zero.  Matrix multiplication can be modified to take advantage of this. Eg., if $U \ensuremath{\in} \ensuremath{\bbF}^{n \ensuremath{\times} n}$ is upper triangular we have:
+The simplest sparsity case is being triangular: where all entries above or below the diagonal are zero. We consider upper and lower triangular matrices:
 \[
-U\ensuremath{\bm{\x}} = \begin{bmatrix} \ensuremath{\sum}_{j=1}^n a_{1,j} x_j \\ \ensuremath{\sum}_{j=2}^n a_{2,j} x_j  \\ \ensuremath{\vdots} \\ \ensuremath{\sum}_{j=n}^n a_{m,j} x_j \end{bmatrix}.
+U = \begin{bmatrix}
+u_{11} & \ensuremath{\cdots} & u_{1n} \\
+ & \ensuremath{\ddots} & \ensuremath{\vdots} \\
+ &  & u_{mn}
+\end{bmatrix}, \qquad L = \begin{bmatrix}
+\ensuremath{\ell}_{11} &  \\
+\ensuremath{\vdots} & \ensuremath{\ddots} & \\
+\ensuremath{\ell}_{m1} & \ensuremath{\cdots} & \ensuremath{\ell}_{mn}
+\end{bmatrix}.
 \]
-When implemented in floating point this uses roughly half the number of multiplications: $n + (n-1) + \ensuremath{\ldots} + 1 = n(n+1)/2$ multiplications. The complexity is still $O(n^2)$ however. 
+Matrix multiplication can be modified to take advantage of the zero pattern of the matrix. Eg., if $L \ensuremath{\in} \ensuremath{\bbF}^{n \ensuremath{\times} n}$ is lower triangular we have:
+\[
+L\ensuremath{\bm{\x}} = \begin{bmatrix} \ensuremath{\ell}_{1,1} x_1 \\ \ensuremath{\sum}_{j=1}^2 \ensuremath{\ell}_{2j} x_j  \\ \ensuremath{\vdots} \\ \ensuremath{\sum}_{j=1}^n \ensuremath{\ell}_{m,j} x_j \end{bmatrix}.
+\]
+When implemented in floating point this uses roughly half the number of multiplications: $n + (n-1) + \ensuremath{\ldots} + 1 = n(n+1)/2$ multiplications. (It is also about twice as fast in practice.) The complexity is still quadratic: $O(n^2)$ operations.
 
-Triangularity allows us to also invert systems using forward- or back-substitution. In particular if $\ensuremath{\bm{\x}}$ solves $U \ensuremath{\bm{\x}} = \ensuremath{\bm{\b}}$ then we have:
+Triangularity allows us to also invert systems using forward- or back-substitution. In particular if $\ensuremath{\bm{\x}}$ solves $L \ensuremath{\bm{\x}} = \ensuremath{\bm{\b}}$ then we have:
 \[
-x_k = {b_k - \ensuremath{\sum}_{j=k+1}^n u_{kj} x_j \over u_{kk}}
+x_k = {b_k - \ensuremath{\sum}_{j=1}^{k-1} \ensuremath{\ell}_{kj} x_j \over \ensuremath{\ell}_{kk}}
 \]
-Thus we can compute $x_n, x_{n-1},\ensuremath{\ldots},x_1$ in sequence (using floating point operations).
+Thus we can compute $x_1,x_2,\ensuremath{\ldots},x_n$ in sequence.
 
 \subsection{Banded matrices}
-A \emph{banded matrix} is zero off a prescribed number of diagonals.  We call the number of (potentially) non-zero diagonals the \emph{bandwidths}:
+A \emph{banded matrix} is zero off a prescribed number of diagonals. We call the number of (potentially) non-zero diagonals the \emph{bandwidths}:
 
-\textbf{Definition (bandwidths)} A matrix $A$ has \emph{lower-bandwidth} $l$ if  $A[k,j] = 0$ for all $k-j > l$ and \emph{upper-bandwidth} $u$ if $A[k,j] = 0$ for all $j-k > u$. We say that it has \emph{strictly lower-bandwidth} $l$ if it has lower-bandwidth $l$ and there exists a $j$ such that $A[j+l,j] \neq 0$. We say that it has \emph{strictly upper-bandwidth} $u$ if it has upper-bandwidth $u$ and there exists a $k$ such that $A[k,k+u] \neq 0$.
+\begin{definition}[bandwidths] A matrix $A$ has \emph{lower-bandwidth} $l$ if $a_{kj} = 0$ for all $k-j > l$ and \emph{upper-bandwidth} $u$ if $a_{kj} = 0$ for all $j-k > u$. We say that it has \emph{strictly lower-bandwidth} $l$ if it has lower-bandwidth $l$ and there exists a $j$ such that $A[j+l,j] \neq 0$. We say that it has \emph{strictly upper-bandwidth} $u$ if it has upper-bandwidth $u$ and there exists a $k$ such that $A[k,k+u] \neq 0$. \end{definition}
 
-A banded matrix has better complexity for matrix multiplication and solving linear systems:  we can multiple in $O(\min(m,n))$ operations. We consider two cases in particular (in addition to diagonal): bidiagonal and tridiagonal. 
+A square banded matrix has the sparsity pattern:
+\[
+A = \begin{bmatrix}
+a_{11} & \ensuremath{\cdots} & a_{1,u+1} \\
+\ensuremath{\vdots} & a_{22} & \ensuremath{\ddots} &  a_{2,u+2} \\
+a_{1+l,1} & \ensuremath{\ddots} & \ensuremath{\ddots} & \ensuremath{\ddots} & \ensuremath{\ddots} \\
+& a_{2+l,2} & \ensuremath{\ddots} & \ensuremath{\ddots} &  \ensuremath{\ddots} & a_{n-u,n} \\
+&& \ensuremath{\ddots} & \ensuremath{\ddots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
+&&& a_{n,n-l} & \ensuremath{\cdots} & a_{nn}
+\end{bmatrix}
+\]
+A banded matrix has better complexity for matrix multiplication and solving linear systems:  we can multiple square banded matrices in linear complexity: $O(n)$ operations. We consider two cases in particular (in addition to diagonal): bidiagonal and tridiagonal.
 
-\textbf{Definition (Bidiagonal)} If a square matrix has bandwidths $(l,u) = (1,0)$ it is \emph{lower-bidiagonal} and if it has bandwidths $(l,u) = (0,1)$ it is \emph{upper-bidiagonal}. 
+\begin{definition}[Bidiagonal] If a square matrix has bandwidths $(l,u) = (1,0)$ it is \emph{lower-bidiagonal} and if it has bandwidths $(l,u) = (0,1)$ it is \emph{upper-bidiagonal}. \end{definition}
 
 For example, if
 \[
-U = \begin{bmatrix} u_{1,1} & u_{1,2} \\ & \ensuremath{\ddots} & \ensuremath{\ddots} \\
-&&                                 u_{n-1,n-1} & u_{n-1,n} \\
-&&& u_{n,n}
+L = \begin{bmatrix}\ensuremath{\ell}_{11} \\
+\ensuremath{\ell}_{21}& \ensuremath{\ell}_{22} \\ 
+& \ensuremath{\ddots} & \ensuremath{\ddots} \\
+ &&\ensuremath{\ell}_{n,n-1} &\ensuremath{\ell}_{nn}
 \end{bmatrix}
 \]
-is upper-bidiagonal multiplication becomes
+then lower-bidiagonal multiplication becomes
 \[
-U\ensuremath{\bm{\x}} = \begin{bmatrix} u_{1,1} x_1 + u_{1,2} x_2 \\ u_{2,2} x_2 + u_{2,3} x_3  \\ \ensuremath{\vdots} \\ u_{n-1,n-1} x_{n-1} + u_{n-1,n} x_n \\u_{n,n} x_n \end{bmatrix}.
+L\ensuremath{\bm{\x}} = \begin{bmatrix} \ensuremath{\ell}_{1,1} x_1 \\ \ensuremath{\ell}_{21} x_1 + \ensuremath{\ell}_{22} x_2    \\ \ensuremath{\vdots} \\ 
+\ensuremath{\ell}_{n,n-1} x_{n-1} + \ensuremath{\ell}_{nn} x_n \end{bmatrix}.
 \]
-This requires only $O(n)$ operations. A bidiagonal matrix is always triangular and we can also invert in $O(n)$ operations: if $U \ensuremath{\bm{\x}} = \ensuremath{\bm{\b}}$ then $x_n = b_n/u{n,n}$ and for $k = n-1,\ensuremath{\ldots},1$
+This requires $O(1)$ operations per row (at most 2 multiplications and 1 addition) and hence the total is only $O(n)$ operations. A bidiagonal matrix is always triangular and we can also invert in $O(n)$ operations: if $L \ensuremath{\bm{\x}} = \ensuremath{\bm{\b}}$ then $x_1 = b_1/\ensuremath{\ell}_{11}$  and for $k = 2,\ensuremath{\ldots},n$ we can compute
 \[
-x_k = {b_k - u_{k,k+1} x_{k+1} \over u_{k,k}}.
+x_k = {b_k - \ensuremath{\ell}_{k-1,k} x_{k-1} \over \ensuremath{\ell}_{kk}}.
 \]
-\textbf{Definition (Tridiagonal)} If a square matrix has bandwidths $l = u = 1$ it is \emph{tridiagonal}.
+\begin{definition}[Tridiagonal] If a square matrix has bandwidths $l = u = 1$ it is \emph{tridiagonal}. \end{definition}
 
-For example, 
+For example,
 \[
 A = \begin{bmatrix} a_{1,1} & a_{1,2} \\
 a_{2,1} & a_{2,2} & a_{2,3} \\
@@ -85,7 +121,7 @@ a_{2,1} & a_{2,2} & a_{2,3} \\
 &&&a_{n,n-1} & a_{n,n}
 \end{bmatrix}
 \]
-is tridiagonal. Matrix multiplication is clearly $O(n)$ operations. But so is solving linear systems.  We will see why later. 
+is tridiagonal. Matrix multiplication is clearly $O(n)$ operations: each row has $O(1)$ non-zeros and there are $n$ rows. But so is solving linear systems, which we shall see later.
 
 
 
