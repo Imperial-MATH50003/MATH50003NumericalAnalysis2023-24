@@ -59,7 +59,7 @@ plot(u)
 
 
 # One can create arrays in multiple ways. For example, the function `zeros(Int, 10)` creates
-# a 10-element `Vector` whose entries are all `zero(Int) == 0`. Or `fill(x, 10)` creates a 
+# a 10-element `Vector` whose entries are all `zero(Int) == 0`. Or `fill(x, 10)` creates a
 # 10-element `Vector` whose entries are all equal to `x`. Or you can use a comprehension:
 # for example `[k^2 for k = 1:10]` creates a vector whose entries are `[1^2, 2^2, …, 10^2]`.
 # This also works for matrices: `zeros(Int, 10, 5)` creates a 10 × 5 matrix of all zeros,
@@ -104,11 +104,11 @@ A[1,2] = 2.3 # fails since 2.3 is a Float64 that cannot be converted to an Int
 # -------
 # #### Transposes and adjoints
 
-# We can also transpose a matrix `A`, This is done lazily 
+# We can also transpose a matrix `A`, This is done lazily
 # and so `transpose(A)` (which is equivalent to the adjoint/conjugate-transpose
 # `A'` when the entries are real),
 # is just a special type with a single field: `transpose(A).parent == A`.
-# This is equivalent to 
+# This is equivalent to
 # _row-major_ format, where the next address in memory of `transpose(A)` corresponds to
 # moving along the row.
 
@@ -128,7 +128,7 @@ cos.(x) # equivalent to [cos(1), cos(2), cos(3)], or can be written broadcast(co
 # repeats the matrix (or vector) to match the size of another example.
 # In the following we use broadcasting to pointwise-multiply a column and row
 # vector to make a matrix:
-    
+
 [1,2,3] .* [4,5]'
 
 # Since `size([1,2,3],2) == 1` it repeats the same vector to match the size
@@ -145,7 +145,7 @@ f.([1,2,3], [4,5]') # makes a matrix with entries [f(1,4) f(1,5); f(2,4) f(2,5);
 
 # #### Ranges
 
-# _Ranges_ are another useful example of vectors. 
+# _Ranges_ are another useful example of vectors.
 # We have already seen that we can represent a range of integers via `a:b`. Note we can
 # convert it to a `Vector` as follows:
 
@@ -168,34 +168,33 @@ r[2] = 3   # Not allowed
 # Both ranges `Vector` are subtypes of `AbstractVector`, whilst `Matrix` is a subtype of `AbstractMatrix`.
 
 
-# ----- 
+# -----
 
 # **Problem 1(c)** Create a vector of length 5 whose entries are `Float64`
 # approximations of `exp(-k)`. Hint: use a for-loop, broadcasting `f.(x)` notation, or a comprehension.
 ## TODO: Create a vector whose entries are exp(-k), 3 different ways
 
 
-# **Problem 1(d)** Create a 5 × 6 matrix `A` whose entries `A[k,j] == cos(k+j)`.
-## TODO: 
-
-
 
 # ------
 # #### Storage of matrices and vectors
 
-# A  `Matrix` is stored consecutively in memory, going down column-by-
+# A `Vector` stores its entries consecutively in memory.
+# To be perhaps overly technical: a `Vector` contains a "pointer" (an integer)
+# to the first memory address and a length. A `Matrix` is also stored consecutively in memory
+#  going down column-by-
 # column (_column-major_). That is,
 
 A = [1 2;
      3 4;
      5 6]
 
-# Is actually stored equivalently to a length `6` vector:
+# Is actually stored equivalently to a length `6` vector `[A[1,1],A[2,1],A[3,1],A[1,2],A[2,2],A[3,2]]`:
 
 vec(A)
 
 # which in this case would be stored using `8 * 6 = 48` consecutive bytes.
-# Behind the scenes, a matrix is a "pointer" to the location of the first entry alongside two integers
+# Behind the scenes, a matrix is also "pointer" to the location of the first entry alongside two integers
 # dictating the row and column sizes.
 
 
@@ -206,7 +205,7 @@ A * x
 
 
 # We can implement our own version for any types that support `*` and `+` but there are
-# actually two different ways. The most natural way is as follows:
+# actually two different ways. The most natural mathematical way is as follows:
 
 function mul_rows(A, x)
     m,n = size(A)
@@ -222,7 +221,7 @@ function mul_rows(A, x)
 end
 
 
-##Changing the order of operations gives an alternative approach
+# But we can also change the order of operations to give an alternative approach:
 
 function mul_cols(A, x)
     m,n = size(A)
@@ -230,7 +229,7 @@ function mul_cols(A, x)
     T = promote_type(eltype(x), eltype(A))
     c = zeros(T, m) # the returned vector, begins of all zeros
     for j = 1:n # for each column
-        xⱼ = x[j] 
+        xⱼ = x[j]
         for k = 1:m # then each row
             c[k] += A[k, j] * xⱼ # equivalent to c[k] = c[k] + A[k, j] * x[j]
         end
@@ -239,12 +238,12 @@ function mul_cols(A, x)
 end
 
 
-# Both implementations match exactly for integer inputs:
+# Both implementations match _exactly_ for integer inputs:
 
 mul_rows(A, x), mul_cols(A, x) # also matches `A*x`
 
 
-# Either implementation will be $O(mn)$ operations. However, the implementation 
+# Either implementation will be $O(mn)$ operations. However, the implementation
 # `mul_cols` accesses the entries of `A` going down the column,
 # which happens to be _significantly faster_ than `mul_rows`, due to accessing
 # memory of `A` in order. We can see this by measuring the time it takes using `@btime`:
@@ -260,9 +259,10 @@ using BenchmarkTools # load package for reliable timing
 
 # Here `ms` means milliseconds (`0.001 = 10^(-3)` seconds) and `μs` means microseconds (`0.000001 = 10^(-6)` seconds).
 # So we observe that `mul` is roughly 3x faster than `mul_rows`, while the optimised `*` is roughly 5x faster than `mul`.
-# This isn't too important for us, the only point is:
+# The reason why isn't too important for us (accessing memory in order is much faster than jumping around), but the key points are:
 # 1. Making fast algorithms is delicate and arguably more of an art than a science.
 # 2. We can focus on complexity rather than counting operations as the latter does not tell us speed.
+# 3. Use in-built implementations whenever available.
 
 
 # Note that the rules of floating point arithmetic apply here: matrix multiplication with floats
@@ -286,9 +286,9 @@ A = [1 2 3;
 b = [10; 11; 12]
 A \ b
 
-# Despite the answer being integer-valued, 
+# Despite the answer being integer-valued,
 # here we see that it resorted to using floating point arithmetic,
-# incurring rounding error. 
+# incurring rounding error.
 # But it is "accurate to (roughly) 16-digits".
 # As we shall see, the way solving a linear system works is we first write `A` as a
 # product of matrices that are easy to invert, e.g., a product of triangular matrices or a product of an orthogonal
@@ -299,18 +299,6 @@ A \ b
 # to the inbuilt matrix-vector multiplication operation `A*x`. The point is that
 # sometimes the choice of algorithm, despite being mathematically equivalent, can change the exact results
 # when using floating point.
-
-# ----
-
-# **Problem 2** Show that `A*x` is not
-# implemented as `mul_cols(A, x)` from the lecture notes
-# by finding a `Float64` example  where the bits do not match.
-# Hint: either guess-and-check, perhaps using `randn(n,n)` to make a random `n × n` matrix.
-
-
-
-
-# ----
 
 # ### III.1.2 Triangular Matrices
 
@@ -326,7 +314,7 @@ L = LowerTriangular(A)
 
 L.data
 
-# Similarly we can create a lower triangular matrix by ignoring the entries below the diagonal:
+# Similarly we can create an upper triangular matrix by ignoring the entries below the diagonal:
 
 U = UpperTriangular(A)
 
@@ -335,7 +323,7 @@ U = UpperTriangular(A)
 
 function mul_cols(L::LowerTriangular, x)
     n = size(L,1)
-    # promote_type type finds a type that is compatible with both types, eltype gives the type of the elements of a vector / matrix
+    ## promote_type type finds a type that is compatible with both types, eltype gives the type of the elements of a vector / matrix
     T = promote_type(eltype(x),eltype(L))
     b = zeros(T, n) # the returned vector, begins of all zeros
     for j = 1:n
@@ -352,89 +340,86 @@ x = [10, 11, 12]
 @test mul_cols(L, x) == L*x
 
 
-# Moreover, we can easily invert matrices. 
+# Moreover, we can easily invert matrices.
 # Consider a simple 3×3 example, which can be solved with `\`:
 
 b = [5, 6, 7]
 x = L \ b # Excercise: why does this return a float vector?
 
-# Behind the seens, `\` is doing forward-elimination. 
+# Behind the seens, `\` is doing forward-elimination.
 # We can implement our own version for any types that support `*`, `+` and `/` as follows:
 
 
 function ldiv(L::LowerTriangular, b)
     n = size(L,1)
-    
+
     if length(b) != n
         error("The system is not compatible")
     end
-        
+
     x = zeros(n)  # the solution vector
-    ## TODO: populate x using forward-substitution so that L*x ≈ b
-    
+    for k = 1:n  # start with k = 1
+        r = b[k]  # dummy variable
+        for j = 1:k-1
+            r -= L[k,j]*x[j]
+        end
+        x[k] = r/L[k,k]
+    end
     x
 end
 
 
-@test ldiv(U, x) ≈ U\x
+@test ldiv(L, b) ≈ L\b
 
 
 
-# In lectures we covered algorithms involving lower-triangular matrices. Here we want to implement
-# the upper-triangular analogues.
+# ------
 
-# **Problem 3.1** Complete the following function for lower triangular matrix-vector
+# **Problem 3(a)** Complete the following function for upper triangular matrix-vector
 # multiplication without ever accessing the zero entries of `L` above the diagonal.
 # Hint: just copy code for `mul_cols` and modify the for-loop ranges a la the `UpperTriangular`
 # case.
 
-function mul_cols(L::LowerTriangular, x)
-    n = size(L,1)
+function mul_cols(U::UpperTriangular, x)
+    n = size(U,1)
 
     ## promote_type type finds a type that is compatible with both types, eltype gives the type of the elements of a vector / matrix
-    T = promote_type(eltype(x),eltype(L))
+    T = promote_type(eltype(x),eltype(U))
     b = zeros(T,n) # the returned vector, begins of all zeros
 
-    ## TODO: populate b so that L*x ≈ b
+    ## TODO: populate b so that U*x ≈ b
     
 
     b
 end
 
-L = LowerTriangular(randn(5,5))
+U = UpperTriangular(randn(5,5))
 x = randn(5)
-@test L*x ≈ mul_cols(L, x)
+@test U*x ≈ mul_cols(L, x)
 
 
-# **Problem 3.2** Complete the following function for solving linear systems with
-# lower triangular systems by implementing forward-substitution.
+# **Problem 3(b)** Complete the following function for solving linear systems with
+# upper triangular systems by implementing back-substitution. You may assume
+# all input and output vectors have `Float64` values.
 
-
-
-# ldiv(U, b) is our implementation of U\b
+## ldiv(U, b) is our implementation of U\b
 function ldiv(U::UpperTriangular, b)
     n = size(U,1)
-    
+
     if length(b) != n
         error("The system is not compatible")
     end
-        
+
     x = zeros(n)  # the solution vector
+    ## TODO: populate x with the entries according to back substitution.
     
-    for k = n:-1:1  # start with k=n, then k=n-1, ...
-        r = b[k]  # dummy variable
-        for j = k+1:n
-            r -= U[k,j]*x[j] # equivalent to r = r - U[k,j]*x[j]
-        end
-        # after this for loop, r = b[k] - ∑_{j=k+1}^n U[k,j]x[j]  
-        x[k] = r/U[k,k]
-    end
     x
 end
 
-L = LowerTriangular(randn(5,5))
+
+U = UpperTriangular(randn(5,5))
 b = randn(5)
-@test L\b ≈ ldiv(L, b)
+@test U\b ≈ ldiv(U, b)
 
 
 # ## III.1.3 Banded matrices
@@ -458,7 +443,7 @@ Bidiagonal([1,2,3], [4,5], :U)
 
 
 # Multiplication and solving linear systems with Bidiagonal systems is also $O(n)$ operations, using the standard
-# multiplications/back-substitution algorithms but being careful in the loops to only access the non-zero entries. 
+# multiplications/back-substitution algorithms but being careful in the loops to only access the non-zero entries.
 
 
 # Julia has a type `Tridiagonal` for representing a tridiagonal matrix from its sub-diagonal, diagonal, and super-diagonal:
@@ -469,9 +454,12 @@ T = Tridiagonal([1,2], [3,4,5], [6,7]) # The type Tridiagonal has three fields: 
 # We will later see how linear systems involving tridiagonal matrices can be solved in $O(n)$ operations.
 
 
-# Banded matrices are very important in differential equations and enable much faster algorithms. 
-# Here we look at banded upper triangular matrices by implementing a type that encodes this
-# property:
+
+# -----
+
+# **Problem 4(a)** Complete the implementation of `UpperTridiagonal` which represents a banded matrix with
+# bandwidths $(l,u) = (0,2)$ by overloading `getindex(U::UpperTridiagonal, k::Int, j::Int)` (which implements `U[k,j]`) and `setindex!(U::UpperTriangular, v, k::Int, j::Int)` (which implements `U[k,j] = v`). Return zero (of the same type as the other entries)
+# if we are off the bands.
 
 struct UpperTridiagonal{T} <: AbstractMatrix{T}
     d::Vector{T}   # diagonal entries: d[k] == U[k,k]
@@ -479,18 +467,17 @@ struct UpperTridiagonal{T} <: AbstractMatrix{T}
     du2::Vector{T} # second-super-diagonal entries: du2[k] == U[k,k+2]
 end
 
-# This uses the notation `<: AbstractMatrix{T}`: this tells Julia that our type is in fact a matrix.
-# In order for it to behave a matrix we have to overload the function `size` for our type to return
-# the dimensions (in this case we just use the length of the diagonal):
+## This uses the notation `<: AbstractMatrix{T}`: this tells Julia that our type is in fact a matrix.
+## In order for it to behave a matrix we have to overload the function `size` for our type to return
+## the dimensions (in this case we just use the length of the diagonal):
+
+import Base: size, getindex
 
 size(U::UpperTridiagonal) = (length(U.d),length(U.d))
 
-# Julia still doesn't know what the entries of the matrix are. To do this we need to overload `getindex`.
-# We also overload `setindex!` to allow changing the non-zero entries.
+## Julia still doesn't know what the entries of the matrix are. To do this we need to overload `getindex`.
+## We also overload `setindex!` to allow changing the non-zero entries.
 
-# **Problem 4.1** Complete the implementation of `UpperTridiagonal` which represents a banded matrix with
-# bandwidths $(l,u) = (0,2)$ by overloading `getindex` and `setindex!`. Return zero (of the same type as the other entries)
-# if we are off the bands.
 
 ## getindex(U, k, j) is another way to write U[k,j].
 ## This function will therefore be called when we call U[k,j]
@@ -529,7 +516,7 @@ U[3,4] = 2
 
 
 
-# **Problem 4.2** Complete the following implementations of `*` and `\` for `UpperTridiagonal` so that
+# **Problem 4(b)** Complete the following implementations of `*` and `\` for `UpperTridiagonal` so that
 # they take only $O(n)$ operations. Hint: the function `max(a,b)` returns the larger of `a` or `b`
 # and `min(a,b)` returns the smaller. They may help to avoid accessing zeros.
 
@@ -550,7 +537,7 @@ function \(U::UpperTridiagonal, b::AbstractVector)
     if length(b) != n
         error("The system is not compatible")
     end
-        
+
     x = zeros(T, n)  # the solution vector
     ## TODO: populate x so that U*x ≈ b
     
@@ -572,101 +559,106 @@ b = [fill(1.6,n-2); 1.5; 1] # exact result
 
 # ## III.2 Differential Equations via Finite Differences
 
+# We now turn to an important application of banded linear algebra:
+# approximating solutions to linear differential equations. We will focus on first and second order
+# but the techniques generalise beyond this, to vector problems, nonlinear differential equations, and partial differential equations.
 
-# ### III.2.1 Indefinite integration 
-
-# Let's do an example of integrating $\cos x$, and see if our method matches
-# the true answer of $\sin x$. First we construct the system
-# as a lower-triangular, `Bidiagonal` matrix:
+# We explore _finite difference_ approxiamtions which use divided differences to replace derivatives.
+# These are the most basic type of numerical method and many powerful alternatives
+# exist, including Finite Element Methods and spectral methods.
 
 
-function indefint(x)
-    h = step(x) # x[k+1]-x[k]
-    n = length(x)
-    L = Bidiagonal([1; fill(1/h, n-1)], fill(-1/h, n-1), :L)
-end
+# ### III.2.1 Indefinite integration
+
+# We can use the right-sided divided difference to approximate derivatives.  Let's do an example of integrating $\cos x$ by discretising the ODE
+# $$
+#  u'(x) = f(x), u(0) = c
+# $$
+# as
+# and see if our method matches
+# the true answer of $\sin x$. Recall from the notes that this equation can be approximated by $u_k$ solving the bidiagonal linear system
+# $$
+# \begin{bmatrix}
+#     1 \\ 
+#     -1/h & 1/h \\
+#     & ⋱ & ⋱ \\
+#     && -1/h & 1/h \end{bmatrix} \Vectt[u_0,u_1,⋮,u_n] = \Vectt[c, f(x_0), f(x_1), ⋮ , f(x_{n-1})].
+# $$
+# We can construct the bidiagonal matrix as follows:
 
 n = 10
-x = range(0, 1; length=n)
-L = indefint(x)
+x = range(0, 1; length=n+1) # makes an n+1 point evenly spaced grid
+h = step(x) # equivalent to 1/n
+L = Bidiagonal([1; fill(1/h, n)], fill(-1/h, n), :L)
 
-# We can now solve for our particular problem using both the left and 
-# mid-point rules:
+# We can use this bidiagonal matrix along with `\` to solve the
+# system via Forward elimination:
 
 c = 0 # u(0) = 0
 f = x -> cos(x)
 
-
-m = (x[1:end-1] + x[2:end])/2 # midpoints
-
-
-𝐟ᶠ = f.(x[1:end-1]) # evaluate f at all but last points
-𝐟ᵐ = f.(m)          # evaluate f at mid-points
-𝐮ᶠ = L \ [c; 𝐟ᶠ] # integrate using forward-differences
-𝐮ᵐ = L \ [c; 𝐟ᵐ] # integrate using central-differences
+𝐟 = f.(x[1:end-1]) # evaluate f at all but the last point
+𝐮 = L \ [c; 𝐟] # integrate using forward-differences
 
 plot(x, sin.(x); label="sin(x)", legend=:bottomright)
 scatter!(x, 𝐮ᶠ; label="forward")
-scatter!(x, 𝐮ᵐ; label="mid")
 
-# They both are close though the mid-point version is significantly
-# more accurate.
-#  We can estimate how fast it converges:
 
-# Error from indefinite integration with c and f
+#  We can estimate how fast it converges by measuring
+# the ∞-norm error (using $\| 𝐱 \|_∞ := \max |x_k|$ which
+# is implemented as `norm(x,Inf)`):
+
+## Error from indefinite integration with c and f
 function forward_err(u, c, f, n)
-    x = range(0, 1; length = n)
-    uᶠ = indefint(x) \ [c; f.(x[1:end-1])]
-    norm(uᶠ - u.(x), Inf)
+    x = range(0, 1; length = n+1)
+    h = step(x) # equivalent to 1/n
+    L = Bidiagonal([1; fill(1/h, n)], fill(-1/h, n), :L)
+    𝐮 = L\ [c; f.(x[1:end-1])]
+    errs = 𝐮 - u.(x) # compare numerics with "true" result
+    norm(errs, Inf) # measure ∞-norm error
 end
 
-function mid_err(u, c, f, n)
-    x = range(0, 1; length = n)
-    m = (x[1:end-1] + x[2:end]) / 2 # midpoints
-    uᵐ = indefint(x) \ [c; f.(m)]
-    norm(uᵐ - u.(x), Inf)
-end
 
 ns = 10 .^ (1:8) # solve up to n = 10 million
 scatter(ns, forward_err.(sin, 0, f, ns); xscale=:log10, yscale=:log10, label="forward")
-scatter!(ns, mid_err.(sin, 0, f, ns); label="mid")
 plot!(ns, ns .^ (-1); label="1/n")
-plot!(ns, ns .^ (-2); label="1/n^2")
 
-# This is a log-log plot:we scale both $x$ and $y$ axes logarithmically so that
-# $n^α$ becomes a straight line where the slope is dictated by $α$.
-# We seem experimentally that the error for forward-difference is $O(n^{-1})$
-# while for mid-point/central-differences we get faster $O(n^{-2})$ convergence. 
-# Both methods appear to be stable.
+# We see that the method converges linearly (like $O(n^{-1})$). 
 
 # ------
 
-# **Problem 2.1 (B)** Implement backward differences to approximate
+# **Problem 5(a)** Implement Backward Euler as derived in the problem sheet to approximate
 # indefinite-integration. How does the error compare to forward
-# and mid-point versions  for $f(x) = \cos x$ on the interval $[0,1]$?
-# Use the method to approximate the integrals of
+# for $f(x) = \cos x$ on the interval $[0,1]$?
+# Use the method to approximate the indefinite intergral of
 # $$
-# \exp(\exp x \cos x + \sin x), \prod_{k=1}^{1000} \left({x \over k}-1\right), \hbox{ and } f^{\rm s}_{1000}(x)
+# \exp(\exp x \cos x + \sin x)
 # $$
-# to 3 digits, where $f^{\rm s}_{1000}(x)$ was defined in PS2.
+# to 3 digits.
+
+## TODO: Implement Backward Euler by constructing a lower bidiagonal linear system.
 
 
-
-# **Problem 2.2 (A)** Implement indefinite-integration 
-# where we take the average of the two grid points:
+# **Problem 5(b)** Implement indefinite-integration
+# where we impose the equation on the midpoints $m_1,…,m_n$ defined as
 # $$
-# {u'(x_{k+1}) + u'(x_k) \over 2} ≈ {u_{k+1} - u_k \over h}
+# m_j = (x_{j+1} + x_j)/2 = a + (j+1/2)h
 # $$
-# What is the observed rate-of-convergence using the ∞-norm for $f(x) = \cos x$
-# on the interval $[0,1]$?
-# Does the method converge if the error is measured in the $1$-norm?
+# using the central difference formula
+# $$
+# u'(m_j) ≈ {u(x_j) - u(x_{j-1}) \over h}
+# $$
+# By plotting the errors show that this method converges at
+# a faster rate than Forward or Backward Euler for $f(x) = \cos x$ on the interval $[0,1]$.
 
+
+## TODO:
 
 
 # ----
 
 # ### III.2.2 Forward Euler
- 
+
 
 # Here is a simple example for solving:
 #     $$
@@ -674,14 +666,14 @@ plot!(ns, ns .^ (-2); label="1/n^2")
 #     $$
 #     which has an exact solution in terms of a special error function
 #     (which we determined using Mathematica).
-    
-    
+
+
 using SpecialFunctions
 c = 1
 a = t -> t
 n = 2000
 t = range(0, 1; length=n)
-# exact solution, found in Mathematica
+## exact solution, found in Mathematica
 u = t -> -(1/2)*exp(-(1+t^2)/2)*(-2sqrt(ℯ) + sqrt(2π)erfi(1/sqrt(2)) - sqrt(2π)erfi((1 + t)/sqrt(2)))
 
 h = step(t)
@@ -690,24 +682,14 @@ L = Bidiagonal([1; fill(1/h, n-1)], a.(t[1:end-1]) .- 1/h, :L)
 norm(L \ [c; exp.(t[1:end-1])] - u.(t),Inf)
 
 # We see that it is converging to the true result.
-    
-    
-# Note that this is a simple forward-substitution of a bidiagonal system,
-# so we can also just construct it directly:
-# $$
-# \begin{align*}
-# u_1 &= c \\
-# u_{k+1} &= (1 + h a(t_k)) u_k + h f(t_k)
-# \end{align*}
-# $$
+
+# ---- 
 
 
-# **Problem 3.1 (B)** Solve the following ODEs 
-# using forward and/or backward Euler and increasing $n$, the number of time-steps, 
-# until $u(1)$ is determined to 3 digits:
+# **Problem  6** Implement backward Euler for solving:
 # $$
 # \begin{align*}
-# u(0) &= 1, u'(t) = \cos(t) u(t) + t 
+# u(0) &= 1, u'(t) - \cos(t) u(t) = t
 # \end{align*}
 # $$
 # If we increase the initial condition $w(0) = c > 1$, $w'(0)$
@@ -735,7 +717,7 @@ scatter(x, u)
 # \begin{align*}
 # u(0) = 1 \\
 # u(1) = \cos 1 \\
-# u''(x) = -4x^2*\cos(x^2) - 2\sin(x^2)
+# u''(x) = -4x^2 \cos(x^2) - 2\sin(x^2)
 # \end{align*}
 # $$
 # We observe uniform ($∞$-norm) convergence:
@@ -756,7 +738,7 @@ scatter(ns, poisson_err.(u, 1, cos(1), f, ns); xscale=:log10, yscale=:log10, lab
 plot!(ns, ns .^ (-2); label="1/n^2")
 
 
-# **Problem 1.1 (C)** Construct a finite-difference approximation to the
+# **Problem 7** Construct a finite-difference approximation to the
 # forced Helmholtz equation
 # $$
 # \begin{align*}
@@ -774,7 +756,7 @@ plot!(ns, ns .^ (-2); label="1/n^2")
 
 
 
-# **Problem 1.2 (A)** Discretisations can also be used to solve eigenvalue problems.
+# **Problem 8** Discretisations can also be used to solve eigenvalue problems.
 # Consider the Schrödinger equation with quadratic oscillator:
 # $$
 # u(-L) = u(L) = 0, -u'' + x^2 u = λ u
@@ -789,9 +771,9 @@ plot!(ns, ns .^ (-2); label="1/n^2")
 # \end{align*}
 # $$
 # and discretise as before, doing row eliminations to arrive at a symmetric tridiagonal
-# matrix eigenvalue problem. 
+# matrix eigenvalue problem.
 # (b) Approximate the eigenvalues using `eigvals(A)` (which returns the eigenvalues of a
-# matrix `A`) with $L = 10$. 
+# matrix `A`) with $L = 10$.
 # Can you conjecture their exact value if $L = ∞$? Hint: they are integers and the eigenvalues
 # closest to zero are most accurate.
 
@@ -804,7 +786,7 @@ plot!(ns, ns .^ (-2); label="1/n^2")
 # -1/h^2 & 2/h^2 + x_2^2  - λ & -1/h^2 \\
 #     & ⋱ & ⋱ & ⋱ \\
 #     && -1/h^2 &  2/h^2 + x_{n-1}^2  - λ & -1/h^2 \\
-#     &&&& 1 \end{bmatrix} 
+#     &&&& 1 \end{bmatrix}
 #     \begin{bmatrix} u_1 \\ \vdots \\ u_n \end{bmatrix} = 0
 # $$
 # Row eliminations at the top and bottom reduce this equation to:
@@ -812,8 +794,8 @@ plot!(ns, ns .^ (-2); label="1/n^2")
 # \begin{bmatrix}
 #  2/h^2 + x_2^2   & -1/h^2 \\
 #     & ⋱ & ⋱ & ⋱ \\
-#     && -1/h^2 &  2/h^2 + x_{n-1}^2   \end{bmatrix} 
-#     \begin{bmatrix} u_2 \\ \vdots \\ u_{n-1} \end{bmatrix} = λ\begin{bmatrix} u_2 \\ \vdots \\ u_{n-1} \end{bmatrix} 
+#     && -1/h^2 &  2/h^2 + x_{n-1}^2   \end{bmatrix}
+#     \begin{bmatrix} u_2 \\ \vdots \\ u_{n-1} \end{bmatrix} = λ\begin{bmatrix} u_2 \\ \vdots \\ u_{n-1} \end{bmatrix}
 # $$
 # This is a standard eigenvalue problem and we can compute the eigenvalues using `eigvals`:
 
