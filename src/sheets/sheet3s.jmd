@@ -71,7 +71,8 @@ We subtract off powers of two until we get 5 places. Eg we have
 $$
 π = 3.14… = 2 + 1.14… = 2 + 1 + 0.14… = 2 + 1 + 1/8 + 0.016… = 2 + 1 + 1/8  + 1/64  + 0.000…
 $$
-Thus we have $π = (11.001001…)_2$
+Thus we have $π = (11.001001…)_2$. The question is slightly ambiguous whether we want to round
+to 5 digits so either `11.00100` or `11.00101` would be acceptable.
 **END**
 
 **Problem 4** What are the single precision $F_{32} = F_{127,8,23}$ floating point representations for the following: 
