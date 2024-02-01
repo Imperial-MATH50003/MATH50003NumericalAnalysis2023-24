@@ -185,9 +185,9 @@ where $f^{\rm FP} : F_{S,\ensuremath{\infty}} \ensuremath{\rightarrow} F_{S,\ens
 \[
 |\ensuremath{\delta}_x^f| \ensuremath{\leq} c \ensuremath{\epsilon}_{\rm m}
 \]
-for a fixed constant $c \ensuremath{\geq} 0$. For simplicity assume that $h = 2^{-n}$ where $n \ensuremath{\leq} S$ and $|x| \ensuremath{\leq} 1$. The divided difference approximation satisfies
+for a fixed constant $c \ensuremath{\geq} 0$. The divided difference approximation partially implemented with floating point satisfies
 \[
-(f^{\rm FP}(x + h) \ensuremath{\ominus} f^{\rm FP}(x)) \ensuremath{\oslash} h = f'(x) + \ensuremath{\delta}_{x,h}^{\rm FD}
+{f^{\rm FP}(x + h) \ensuremath{\ominus} f^{\rm FP}(x) \over h} = f'(x) + \ensuremath{\delta}_{x,h}^{\rm FD}
 \]
 where
 \[
@@ -198,16 +198,34 @@ for $M = \sup_{x \ensuremath{\leq} t \ensuremath{\leq} x+h} |f''(t)|$.
 \end{theorem}
 \textbf{Proof}
 
-We have (noting by our assumptions $x \ensuremath{\oplus} h = x + h$ and that dividing by $h$ will only change the exponent so is exact)
+We have
 \begin{align*}
-(f^{\rm FP}(x + h) \ensuremath{\ominus} f^{\rm FP}(x)) \ensuremath{\oslash} h &= {f(x + h) -  \ensuremath{\delta}^f_{x+h} - f(x) + \ensuremath{\delta}^f_x \over h} (1 + \ensuremath{\delta}_1) \\
+(f^{\rm FP}(x + h) \ensuremath{\ominus} f^{\rm FP}(x)) / h &= {f(x + h) -  \ensuremath{\delta}^f_{x+h} - f(x) + \ensuremath{\delta}^f_x \over h} (1 + \ensuremath{\delta}_1) \\
 &= {f(x+h) - f(x) \over h} (1 + \ensuremath{\delta}_1) + { \ensuremath{\delta}^f_x - \ensuremath{\delta}^f_{x+h} \over h} (1 + \ensuremath{\delta}_1)
 \end{align*}
 where $|\ensuremath{\delta}_1| \ensuremath{\leq} {\ensuremath{\epsilon}_{\rm m} / 2}$. Applying Taylor's theorem we get
 \[
-(f^{\rm FP}(x + h) \ensuremath{\ominus} f^{\rm FP}(x)) \ensuremath{\oslash} h = f'(x) + \underbrace{f'(x) \ensuremath{\delta}_1 + {f''(t) \over 2} h (1 + \delta_1) + {\ensuremath{\delta}^f_x  - \ensuremath{\delta}^f_{x+h}\over h} (1 + \ensuremath{\delta}_1)}_{\ensuremath{\delta}_{x,h}^{\rm FD}}
+(f^{\rm FP}(x + h) \ensuremath{\ominus} f^{\rm FP}(x)) / h = f'(x) + \underbrace{f'(x) \ensuremath{\delta}_1 + {f''(t) \over 2} h (1 + \delta_1) + {\ensuremath{\delta}^f_x  - \ensuremath{\delta}^f_{x+h}\over h} (1 + \ensuremath{\delta}_1)}_{\ensuremath{\delta}_{x,h}^{\rm FD}}
 \]
 The bound then follows, using the very pessimistic bound $|1 + \ensuremath{\delta}_1| \ensuremath{\leq} 2$.
+
+\ensuremath{\QED}
+
+The previous theorem neglected some errors due to rounding, which was done for simplicity. This is justified under fairly general restrictions:
+
+\textbf{Corollary (divided differences in practice)} We have
+\[
+(f^{\rm FP}(x \ensuremath{\oplus} h) \ensuremath{\ominus} f^{\rm FP}(x)) \ensuremath{\oslash} h = {f^{\rm FP}(x + h) \ensuremath{\ominus} f^{\rm FP}(x) \over h}
+\]
+whenever  $h = 2^{-n}$ and $x = \ensuremath{\pm}2^j (1.b_1\ensuremath{\ldots}b_S)_2$ and $b_S = 0$.
+
+\textbf{Proof}
+
+When $h = 2^{-n}$ we have for any normal float $y = \ensuremath{\pm}2^j (1.b_1\ensuremath{\ldots}b_S)_2 \ensuremath{\in} F_{\ensuremath{\infty},S}$ that 
+\[
+y/h = \ensuremath{\pm}2^{j-n} (1.b_1\ensuremath{\ldots}b_S)_2 \ensuremath{\in} F_{\ensuremath{\infty},S} \ensuremath{\Rightarrow} y/h = y \ensuremath{\oslash} h.
+\]
+If $b_S = 0$ the worst possible case is that we increase the exponent by one as we are just adding $1$ to one of the digits $b_1,\ensuremath{\ldots},b_S$. This would cause us to lose the last digit. But if that is zero no error is incurred when we round.
 
 \ensuremath{\QED}
 

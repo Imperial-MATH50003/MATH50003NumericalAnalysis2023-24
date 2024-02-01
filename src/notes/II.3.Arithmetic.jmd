@@ -282,10 +282,9 @@ $$
 |δ_x^f| ≤ c ϵ_{\rm m}
 $$
 for a fixed constant $c ≥ 0$.
-For simplicity assume that $h = 2^{-n}$ where $n ≤ S$ and $|x| ≤ 1$.
-The divided difference approximation satisfies
+The divided difference approximation partially implemented with floating point satisfies
 $$
-(f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x)) ⊘ h = f'(x) + δ_{x,h}^{\rm FD}
+{f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x) \over h} = f'(x) + δ_{x,h}^{\rm FD}
 $$
 where
 $$
@@ -295,21 +294,43 @@ for $M = \sup_{x ≤ t ≤ x+h} |f''(t)|$.
 
 **Proof**
 
-We have (noting by our assumptions $x ⊕ h = x + h$ and that dividing by $h$ will only change the exponent so
-is exact)
+
+
+We have
 $$
 \begin{align*}
-(f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x)) ⊘ h &= {f(x + h) -  δ^f_{x+h} - f(x) + δ^f_x \over h} (1 + δ_1) \\
+(f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x)) / h &= {f(x + h) -  δ^f_{x+h} - f(x) + δ^f_x \over h} (1 + δ_1) \\
 &= {f(x+h) - f(x) \over h} (1 + δ_1) + { δ^f_x - δ^f_{x+h} \over h} (1 + δ_1)
 \end{align*}
 $$
 where $|δ_1| ≤ {ϵ_{\rm m} / 2}$. Applying Taylor's theorem we get
 $$
-(f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x)) ⊘ h = f'(x) + \underbrace{f'(x) δ_1 + {f''(t) \over 2} h (1 + \delta_1) + {δ^f_x  - δ^f_{x+h}\over h} (1 + δ_1)}_{δ_{x,h}^{\rm FD}}
+(f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x)) / h = f'(x) + \underbrace{f'(x) δ_1 + {f''(t) \over 2} h (1 + \delta_1) + {δ^f_x  - δ^f_{x+h}\over h} (1 + δ_1)}_{δ_{x,h}^{\rm FD}}
 $$
 The bound then follows, using the very pessimistic bound $|1 + δ_1| ≤ 2$.
 
 ∎
+
+The previous theorem neglected some errors due to rounding, which was done for simplicity.
+This is justified under fairly general restrictions:
+
+**Corollary (divided differences in practice)** We have
+$$
+(f^{\rm FP}(x ⊕ h) ⊖ f^{\rm FP}(x)) ⊘ h = {f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x) \over h}
+$$
+whenever  $h = 2^{-n}$ and $x = ±2^j (1.b_1…b_S)_2$ and $b_S = 0$.
+
+**Proof**
+
+When $h = 2^{-n}$ we have for any normal float $y = ±2^j (1.b_1…b_S)_2 ∈ F_{∞,S}$ that 
+$$
+y/h = ±2^{j-n} (1.b_1…b_S)_2 ∈ F_{∞,S} ⇒ y/h = y ⊘ h.
+$$
+If $b_S = 0$ the worst possible case is that we increase the exponent by one as we are just adding $1$ to one of the
+digits $b_1,…,b_S$. This would cause us to lose the last digit. But if that is zero no error is incurred when we round.
+
+∎
+
 
 The three-terms of this bound tell us a story: the first term is a fixed (small) error, the second term tends to zero
 as $h \rightarrow 0$, while the last term grows like $ϵ_{\rm m}/h$ as $h \rightarrow 0$.  Thus we observe convergence
