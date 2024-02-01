@@ -76,6 +76,12 @@ for k = 1:3, j = 1:4
 end
 A
 
+# **Remark** Julia uses 0-based indexing where the first index of a vector/matrix
+# is 1. This is standard in all mathematical programming languages (Fortran, Maple, Matlab, Mathematica)
+# whereas those designed for computer science use 0-based indexing (C, Python, Rust).
+
+
+
 # Be careful: a `Matrix` or `Vector` can only ever contain entries of the right
 # type. It will attempt to convert an assignment to the right type but will throw
 # an error if not successful:
@@ -83,11 +89,8 @@ A
 A[2,3] = 2.0 # works because 2.0 is a Float64 that is exactly equal to an Int
 A[1,2] = 2.3 # fails since 2.3 is a Float64 that cannot be converted to an Int
 
-# **Remark** Julia uses 0-based indexing where the first index of a vector/matrix
-# is 1. This is standard in all mathematical programming languages (Fortran, Maple, Matlab, Mathematica)
-# whereas those designed for computer science use 0-based indexing (C, Python, Rust).
 
-
+# ------
 # **Problem 1(a)** Create a 5×6 matrix whose entries are `Int` which is
 # one in all entries. Hint: use a for-loop, `ones`, `fill`, or a comprehension.
 ## TODO: Create a matrix of ones, 4 different ways
@@ -99,10 +102,23 @@ A[1,2] = 2.3 # fails since 2.3 is a Float64 that cannot be converted to an Int
 
 
 # -------
+# #### Transposes and adjoints
 
-# It often is necessary to apply a function to every entry of a vector.
-#     By adding `.` to the end of a function we "broadcast" the function over
-#     a vector:
+# We can also transpose a matrix `A`, This is done lazily 
+# and so `transpose(A)` (which is equivalent to the adjoint/conjugate-transpose
+# `A'` when the entries are real),
+# is just a special type with a single field: `transpose(A).parent == A`.
+# This is equivalent to 
+# _row-major_ format, where the next address in memory of `transpose(A)` corresponds to
+# moving along the row.
+
+
+# #### Broadcasting
+
+# _Broadcasting_ is a powerful and convenient way to create matrices or vectors,
+# where a function is applied to every entry of a vector or matrix.
+# By adding `.` to the end of a function we "broadcast" the function over
+# a vector:
 
 x = [1,2,3]
 cos.(x) # equivalent to [cos(1), cos(2), cos(3)], or can be written broadcast(cos, x)
@@ -110,6 +126,8 @@ cos.(x) # equivalent to [cos(1), cos(2), cos(3)], or can be written broadcast(co
 # Broadcasting has some interesting behaviour for matrices.
 # If one dimension of a matrix (or vector) is 1, it automatically
 # repeats the matrix (or vector) to match the size of another example.
+# In the following we use broadcasting to pointwise-multiply a column and row
+# vector to make a matrix:
     
 [1,2,3] .* [4,5]'
 
@@ -119,11 +137,15 @@ cos.(x) # equivalent to [cos(1), cos(2), cos(3)], or can be written broadcast(co
 
 [1 1; 2 2; 3 3] .* [4 5; 4 5; 4 5]
 
-# Note we can also use broadcasting with our own functions (construction discussed later):
+# Note we can also use matrix broadcasting with our own functions:
 
 f = (x,y) -> cos(x + 2y)
-f.([1,2,3], [4,5]')
+f.([1,2,3], [4,5]') # makes a matrix with entries [f(1,4) f(1,5); f(2,4) f(2,5); f(3,4) f(3.5)]
 
+
+# #### Ranges
+
+# _Ranges_ are another useful example of vectors. 
 # We have already seen that we can represent a range of integers via `a:b`. Note we can
 # convert it to a `Vector` as follows:
 
@@ -158,6 +180,8 @@ r[2] = 3   # Not allowed
 
 
 
+# ------
+# #### Storage of matrices and vectors
 
 # A  `Matrix` is stored consecutively in memory, going down column-by-
 # column (_column-major_). That is,
@@ -181,12 +205,12 @@ x = [7, 8]
 A * x
 
 
-# We can implement our own version for any types that support `*` and `+`` but there are
+# We can implement our own version for any types that support `*` and `+` but there are
 # actually two different ways. The most natural way is as follows:
 
 function mul_rows(A, x)
     m,n = size(A)
-    # promote_type type finds a type that is compatible with both types, eltype gives the type of the elements of a vector / matrix
+    ## promote_type type finds a type that is compatible with both types, eltype gives the type of the elements of a vector / matrix
     T = promote_type(eltype(x), eltype(A))
     c = zeros(T, m) # the returned vector, begins of all zeros
     for k = 1:m # for each column
@@ -202,7 +226,7 @@ end
 
 function mul_cols(A, x)
     m,n = size(A)
-    # promote_type type finds a type that is compatible with both types, eltype gives the type of the elements of a vector / matrix
+    ## promote_type type finds a type that is compatible with both types, eltype gives the type of the elements of a vector / matrix
     T = promote_type(eltype(x), eltype(A))
     c = zeros(T, m) # the returned vector, begins of all zeros
     for j = 1:n # for each column
@@ -276,6 +300,8 @@ A \ b
 # sometimes the choice of algorithm, despite being mathematically equivalent, can change the exact results
 # when using floating point.
 
+# ----
+
 # **Problem 2** Show that `A*x` is not
 # implemented as `mul_cols(A, x)` from the lecture notes
 # by finding a `Float64` example  where the bits do not match.
@@ -284,13 +310,7 @@ A \ b
 
 
 
-# We can also transpose a matrix `A`, This is done lazily 
-# and so `transpose(A)` (which is equivalent to the adjoint/conjugate-transpose
-# `A'` when the entries are real),
-# is just a special type with a single field: `transpose(A).parent == A`.
-# This is equivalent to 
-# _row-major_ format, where the next address in memory of `transpose(A)` corresponds to
-# moving along the row.
+# ----
 
 # ### III.1.2 Triangular Matrices
 
@@ -359,38 +379,9 @@ end
 @test ldiv(U, x) ≈ U\x
 
 
-# Diagonal matrices in Julia are stored as a vector containing the diagonal entries:
-
-x = [1,2,3]
-D = Diagonal(x) # the type Diagonal has a single field: D.diag
-
-# It is clear that we can perform diagonal-vector multiplications and solve linear systems involving diagonal matrices efficiently
-# (in $O(n)$ operations).
-
-
-# We can create Bidiagonal matrices in Julia by specifying the diagonal and off-diagonal:
-
-
-L = Bidiagonal([1,2,3], [4,5], :L) # the type Bidiagonal has three fields: L.dv (diagonal), L.ev (lower-diagonal), L.uplo (either 'L', 'U')
-##
-Bidiagonal([1,2,3], [4,5], :U)
-
-
-# Multiplication and solving linear systems with Bidiagonal systems is also $O(n)$ operations, using the standard
-# multiplications/back-substitution algorithms but being careful in the loops to only access the non-zero entries. 
-
-
-# Julia has a type `Tridiagonal` for representing a tridiagonal matrix from its sub-diagonal, diagonal, and super-diagonal:
-
-T = Tridiagonal([1,2], [3,4,5], [6,7]) # The type Tridiagonal has three fields: T.dl (sub), T.d (diag), T.du (super)
-
-# Tridiagonal matrices will come up in solving second-order differential equations and orthogonal polynomials.
-# We will later see how linear systems involving tridiagonal matrices can be solved in $O(n)$ operations.
-
-
 
 # In lectures we covered algorithms involving lower-triangular matrices. Here we want to implement
-# the lower-triangular analogues.
+# the upper-triangular analogues.
 
 # **Problem 3.1** Complete the following function for lower triangular matrix-vector
 # multiplication without ever accessing the zero entries of `L` above the diagonal.
@@ -446,7 +437,37 @@ b = randn(5)
 @test L\b ≈ ldiv(L, b)
 
 
-# ## 4. Banded matrices
+# ## III.1.3 Banded matrices
+
+
+# Diagonal matrices in Julia are stored as a vector containing the diagonal entries:
+
+x = [1,2,3]
+D = Diagonal(x) # the type Diagonal has a single field: D.diag
+
+# It is clear that we can perform diagonal-vector multiplications and solve linear systems involving diagonal matrices efficiently
+# (in $O(n)$ operations).
+
+
+# We can create Bidiagonal matrices in Julia by specifying the diagonal and off-diagonal:
+
+
+L = Bidiagonal([1,2,3], [4,5], :L) # the type Bidiagonal has three fields: L.dv (diagonal), L.ev (lower-diagonal), L.uplo (either 'L', 'U')
+##
+Bidiagonal([1,2,3], [4,5], :U)
+
+
+# Multiplication and solving linear systems with Bidiagonal systems is also $O(n)$ operations, using the standard
+# multiplications/back-substitution algorithms but being careful in the loops to only access the non-zero entries. 
+
+
+# Julia has a type `Tridiagonal` for representing a tridiagonal matrix from its sub-diagonal, diagonal, and super-diagonal:
+
+T = Tridiagonal([1,2], [3,4,5], [6,7]) # The type Tridiagonal has three fields: T.dl (sub), T.d (diag), T.du (super)
+
+# Tridiagonal matrices will come up in solving second-order differential equations and orthogonal polynomials.
+# We will later see how linear systems involving tridiagonal matrices can be solved in $O(n)$ operations.
+
 
 # Banded matrices are very important in differential equations and enable much faster algorithms. 
 # Here we look at banded upper triangular matrices by implementing a type that encodes this
@@ -531,7 +552,7 @@ function \(U::UpperTridiagonal, b::AbstractVector)
     end
         
     x = zeros(T, n)  # the solution vector
-    ## TODO: populate x so that U*x ≈ b
+    ## TODO: populate x so that U*x ≈ b
     
     x
 end
@@ -628,6 +649,17 @@ plot!(ns, ns .^ (-2); label="1/n^2")
 # \exp(\exp x \cos x + \sin x), \prod_{k=1}^{1000} \left({x \over k}-1\right), \hbox{ and } f^{\rm s}_{1000}(x)
 # $$
 # to 3 digits, where $f^{\rm s}_{1000}(x)$ was defined in PS2.
+
+
+
+# **Problem 2.2 (A)** Implement indefinite-integration 
+# where we take the average of the two grid points:
+# $$
+# {u'(x_{k+1}) + u'(x_k) \over 2} ≈ {u_{k+1} - u_k \over h}
+# $$
+# What is the observed rate-of-convergence using the ∞-norm for $f(x) = \cos x$
+# on the interval $[0,1]$?
+# Does the method converge if the error is measured in the $1$-norm?
 
 
 

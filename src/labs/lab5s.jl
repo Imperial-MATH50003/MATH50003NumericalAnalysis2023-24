@@ -76,6 +76,12 @@ for k = 1:3, j = 1:4
 end
 A
 
+# **Remark** Julia uses 0-based indexing where the first index of a vector/matrix
+# is 1. This is standard in all mathematical programming languages (Fortran, Maple, Matlab, Mathematica)
+# whereas those designed for computer science use 0-based indexing (C, Python, Rust).
+
+
+
 # Be careful: a `Matrix` or `Vector` can only ever contain entries of the right
 # type. It will attempt to convert an assignment to the right type but will throw
 # an error if not successful:
@@ -83,11 +89,8 @@ A
 A[2,3] = 2.0 # works because 2.0 is a Float64 that is exactly equal to an Int
 A[1,2] = 2.3 # fails since 2.3 is a Float64 that cannot be converted to an Int
 
-# **Remark** Julia uses 0-based indexing where the first index of a vector/matrix
-# is 1. This is standard in all mathematical programming languages (Fortran, Maple, Matlab, Mathematica)
-# whereas those designed for computer science use 0-based indexing (C, Python, Rust).
 
-
+# ------
 # **Problem 1(a)** Create a 5×6 matrix whose entries are `Int` which is
 # one in all entries. Hint: use a for-loop, `ones`, `fill`, or a comprehension.
 ## TODO: Create a matrix of ones, 4 different ways
@@ -141,10 +144,23 @@ Matrix((1:5)')
 ## END
 
 # -------
+# #### Transposes and adjoints
 
-# It often is necessary to apply a function to every entry of a vector.
-#     By adding `.` to the end of a function we "broadcast" the function over
-#     a vector:
+# We can also transpose a matrix `A`, This is done lazily 
+# and so `transpose(A)` (which is equivalent to the adjoint/conjugate-transpose
+# `A'` when the entries are real),
+# is just a special type with a single field: `transpose(A).parent == A`.
+# This is equivalent to 
+# _row-major_ format, where the next address in memory of `transpose(A)` corresponds to
+# moving along the row.
+
+
+# #### Broadcasting
+
+# _Broadcasting_ is a powerful and convenient way to create matrices or vectors,
+# where a function is applied to every entry of a vector or matrix.
+# By adding `.` to the end of a function we "broadcast" the function over
+# a vector:
 
 x = [1,2,3]
 cos.(x) # equivalent to [cos(1), cos(2), cos(3)], or can be written broadcast(cos, x)
@@ -152,6 +168,8 @@ cos.(x) # equivalent to [cos(1), cos(2), cos(3)], or can be written broadcast(co
 # Broadcasting has some interesting behaviour for matrices.
 # If one dimension of a matrix (or vector) is 1, it automatically
 # repeats the matrix (or vector) to match the size of another example.
+# In the following we use broadcasting to pointwise-multiply a column and row
+# vector to make a matrix:
     
 [1,2,3] .* [4,5]'
 
@@ -161,11 +179,15 @@ cos.(x) # equivalent to [cos(1), cos(2), cos(3)], or can be written broadcast(co
 
 [1 1; 2 2; 3 3] .* [4 5; 4 5; 4 5]
 
-# Note we can also use broadcasting with our own functions (construction discussed later):
+# Note we can also use matrix broadcasting with our own functions:
 
 f = (x,y) -> cos(x + 2y)
-f.([1,2,3], [4,5]')
+f.([1,2,3], [4,5]') # makes a matrix with entries [f(1,4) f(1,5); f(2,4) f(2,5); f(3,4) f(3.5)]
 
+
+# #### Ranges
+
+# _Ranges_ are another useful example of vectors. 
 # We have already seen that we can represent a range of integers via `a:b`. Note we can
 # convert it to a `Vector` as follows:
 
@@ -204,7 +226,7 @@ end
 ## 2. Broadcast:
 exp.(-(1:5))
 
-## we can also do this explicitly
+## we can also do this explicitly
 broadcast(k -> exp(-k), 1:5)
 
 ## 4. Comprehension:
@@ -238,6 +260,8 @@ broadcast((k,j) -> cos(k+j), 1:5, (1:6)')
 
 ## END
 
+# ------
+# #### Storage of matrices and vectors
 
 # A  `Matrix` is stored consecutively in memory, going down column-by-
 # column (_column-major_). That is,
@@ -261,7 +285,7 @@ x = [7, 8]
 A * x
 
 
-# We can implement our own version for any types that support `*` and `+`` but there are
+# We can implement our own version for any types that support `*` and `+` but there are
 # actually two different ways. The most natural way is as follows:
 
 function mul_rows(A, x)
@@ -356,6 +380,8 @@ A \ b
 # sometimes the choice of algorithm, despite being mathematically equivalent, can change the exact results
 # when using floating point.
 
+# ----
+
 # **Problem 2** Show that `A*x` is not
 # implemented as `mul_cols(A, x)` from the lecture notes
 # by finding a `Float64` example  where the bits do not match.
@@ -391,13 +417,7 @@ println(A*x-mul_cols(A,x))
 
 ## END
 
-# We can also transpose a matrix `A`, This is done lazily 
-# and so `transpose(A)` (which is equivalent to the adjoint/conjugate-transpose
-# `A'` when the entries are real),
-# is just a special type with a single field: `transpose(A).parent == A`.
-# This is equivalent to 
-# _row-major_ format, where the next address in memory of `transpose(A)` corresponds to
-# moving along the row.
+# ----
 
 # ### III.1.2 Triangular Matrices
 
@@ -474,6 +494,73 @@ end
 @test ldiv(U, x) ≈ U\x
 
 
+
+# In lectures we covered algorithms involving lower-triangular matrices. Here we want to implement
+# the upper-triangular analogues.
+
+# **Problem 3(a)** Complete the following function for upper triangular matrix-vector
+# multiplication without ever accessing the zero entries of `L` above the diagonal.
+# Hint: just copy code for `mul_cols` and modify the for-loop ranges a la the `UpperTriangular`
+# case.
+
+function mul_cols(U::UpperTriangular, x)
+    n = size(U,1)
+
+    ## promote_type type finds a type that is compatible with both types, eltype gives the type of the elements of a vector / matrix
+    T = promote_type(eltype(x),eltype(U))
+    b = zeros(T,n) # the returned vector, begins of all zeros
+
+    ## TODO: populate b so that U*x ≈ b
+    ## SOLUTION
+    for j = 1:n, k = 1:j
+        b[k] += U[k, j] * x[j]
+    end
+    ## END
+
+    b
+end
+
+U = UpperTriangular(randn(5,5))
+x = randn(5)
+@test U*x ≈ mul_cols(L, x)
+
+
+# **Problem 3(b)** Complete the following function for solving linear systems with
+# upper triangular systems by implementing back-substitution. You may assume
+# all input and output vectors have `Float64` values.
+
+# ldiv(U, b) is our implementation of U\b
+function ldiv(U::UpperTriangular, b)
+    n = size(U,1)
+    
+    if length(b) != n
+        error("The system is not compatible")
+    end
+
+    x = zeros(n)  # the solution vector
+    ## TODO: populate x with the entries according to back substitution.
+    ## SOLUTION
+    for k = n:-1:1  # start with k=n, then k=n-1, ...
+        r = b[k]  # dummy variable
+        for j = k+1:n
+            r -= U[k,j]*x[j] # equivalent to r = r - U[k,j]*x[j]
+        end
+        ## after this for loop, r = b[k] - ∑_{j=k+1}^n U[k,j]x[j]  
+        x[k] = r/U[k,k]
+    end
+    ## END
+    x
+end
+
+
+U = UpperTriangular(randn(5,5))
+b = randn(5)
+@test U\b ≈ ldiv(U, b)
+
+
+# ## III.1.3 Banded matrices
+
+
 # Diagonal matrices in Julia are stored as a vector containing the diagonal entries:
 
 x = [1,2,3]
@@ -504,72 +591,11 @@ T = Tridiagonal([1,2], [3,4,5], [6,7]) # The type Tridiagonal has three fields: 
 
 
 
-# In lectures we covered algorithms involving lower-triangular matrices. Here we want to implement
-# the lower-triangular analogues.
-
-# **Problem 3.1** Complete the following function for lower triangular matrix-vector
-# multiplication without ever accessing the zero entries of `L` above the diagonal.
-# Hint: just copy code for `mul_cols` and modify the for-loop ranges a la the `UpperTriangular`
-# case.
-
-function mul_cols(L::LowerTriangular, x)
-    n = size(L,1)
-
-    ## promote_type type finds a type that is compatible with both types, eltype gives the type of the elements of a vector / matrix
-    T = promote_type(eltype(x),eltype(L))
-    b = zeros(T,n) # the returned vector, begins of all zeros
-
-    ## TODO: populate b so that L*x ≈ b
-    ## SOLUTION
-    for j = 1:n, k = j:n
-        b[k] += L[k, j] * x[j]
-    end
-    ## END
-
-    b
-end
-
-L = LowerTriangular(randn(5,5))
-x = randn(5)
-@test L*x ≈ mul_cols(L, x)
 
 
-# **Problem 3.2** Complete the following function for solving linear systems with
-# lower triangular systems by implementing forward-substitution.
-
-
-
-# ldiv(U, b) is our implementation of U\b
-function ldiv(U::UpperTriangular, b)
-    n = size(U,1)
-    
-    if length(b) != n
-        error("The system is not compatible")
-    end
-        
-    x = zeros(n)  # the solution vector
-    
-    for k = n:-1:1  # start with k=n, then k=n-1, ...
-        r = b[k]  # dummy variable
-        for j = k+1:n
-            r -= U[k,j]*x[j] # equivalent to r = r - U[k,j]*x[j]
-        end
-        # after this for loop, r = b[k] - ∑_{j=k+1}^n U[k,j]x[j]  
-        x[k] = r/U[k,k]
-    end
-    x
-end
-
-L = LowerTriangular(randn(5,5))
-b = randn(5)
-@test L\b ≈ ldiv(L, b)
-
-
-# ## 4. Banded matrices
-
-# Banded matrices are very important in differential equations and enable much faster algorithms. 
-# Here we look at banded upper triangular matrices by implementing a type that encodes this
-# property:
+# **Problem 4(a)** Complete the implementation of `UpperTridiagonal` which represents a banded matrix with
+# bandwidths $(l,u) = (0,2)$ by overloading `getindex` and `setindex!`. Return zero (of the same type as the other entries)
+# if we are off the bands.
 
 struct UpperTridiagonal{T} <: AbstractMatrix{T}
     d::Vector{T}   # diagonal entries: d[k] == U[k,k]
@@ -577,18 +603,17 @@ struct UpperTridiagonal{T} <: AbstractMatrix{T}
     du2::Vector{T} # second-super-diagonal entries: du2[k] == U[k,k+2]
 end
 
-# This uses the notation `<: AbstractMatrix{T}`: this tells Julia that our type is in fact a matrix.
-# In order for it to behave a matrix we have to overload the function `size` for our type to return
-# the dimensions (in this case we just use the length of the diagonal):
+## This uses the notation `<: AbstractMatrix{T}`: this tells Julia that our type is in fact a matrix.
+## In order for it to behave a matrix we have to overload the function `size` for our type to return
+## the dimensions (in this case we just use the length of the diagonal):
+
+import Base: size, getindex
 
 size(U::UpperTridiagonal) = (length(U.d),length(U.d))
 
-# Julia still doesn't know what the entries of the matrix are. To do this we need to overload `getindex`.
-# We also overload `setindex!` to allow changing the non-zero entries.
+## Julia still doesn't know what the entries of the matrix are. To do this we need to overload `getindex`.
+## We also overload `setindex!` to allow changing the non-zero entries.
 
-# **Problem 4.1** Complete the implementation of `UpperTridiagonal` which represents a banded matrix with
-# bandwidths $(l,u) = (0,2)$ by overloading `getindex` and `setindex!`. Return zero (of the same type as the other entries)
-# if we are off the bands.
 
 ## getindex(U, k, j) is another way to write U[k,j].
 ## This function will therefore be called when we call U[k,j]
@@ -645,7 +670,7 @@ U[3,4] = 2
 
 
 
-# **Problem 4.2** Complete the following implementations of `*` and `\` for `UpperTridiagonal` so that
+# **Problem 4(b)** Complete the following implementations of `*` and `\` for `UpperTridiagonal` so that
 # they take only $O(n)$ operations. Hint: the function `max(a,b)` returns the larger of `a` or `b`
 # and `min(a,b)` returns the smaller. They may help to avoid accessing zeros.
 
@@ -672,7 +697,7 @@ function \(U::UpperTridiagonal, b::AbstractVector)
     end
         
     x = zeros(T, n)  # the solution vector
-    ## TODO: populate x so that U*x ≈ b
+    ## TODO: populate x so that U*x ≈ b
     ## SOLUTION
     for k = n:-1:1  # start with k=n, then k=n-1, ...
         r = b[k]  # dummy variable
@@ -770,7 +795,7 @@ plot!(ns, ns .^ (-2); label="1/n^2")
 
 # ------
 
-# **Problem 2.1 (B)** Implement backward differences to approximate
+# **Problem 5(a)** Implement backward differences to approximate
 # indefinite-integration. How does the error compare to forward
 # and mid-point versions  for $f(x) = \cos x$ on the interval $[0,1]$?
 # Use the method to approximate the integrals of
@@ -881,9 +906,9 @@ println(ug_int)
 println("third function: ")
 println(ucont_int)
 
-## END
+## END
 
-# **Problem 2.2 (A)** Implement indefinite-integration 
+# **Problem 5(b)** Implement indefinite-integration 
 # where we take the average of the two grid points:
 # $$
 # {u'(x_{k+1}) + u'(x_k) \over 2} ≈ {u_{k+1} - u_k \over h}
@@ -892,7 +917,7 @@ println(ucont_int)
 # on the interval $[0,1]$?
 # Does the method converge if the error is measured in the $1$-norm?
 
-## SOLUTION
+## SOLUTION
 
 
 n = 10
