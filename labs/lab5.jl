@@ -41,13 +41,15 @@ plot(u)
 # 1. Matrix multiplication, back-substitution and forward-elimnation
 # 2. Banded matrices and their utilisation for better complexity linear algebra.
 # 2. Reduction of differential equations to bidiagonal or tridiagonal linear systems
-# 3. Two-point boundary value problems
+# 3. Two-point boundary value problems and their convergence rates
 #
 # Coding knowledge:
 #
 # 1. Construction of a dense `Vector` or `Matrix` either directly or via comprehensions or broadcasting
-# 2. The `vec`, `transpose`, `zeros`, `ones`, `fill`, `promote_type`, and `eltype` functions.
+# 2. The `vec`, `transpose`, `zeros`, `ones`, `fill`, `range`, `promote_type`, and `eltype` functions.
 # 3. Using `\` to solve linear systems.
+# 4. The `Diagonal`, `Bidiagonal`, and `Tridiagonal` types for making banded matrices.
+# 5. Implementing a custom matrix type by subtyping `AbstractMatrix` and overloading `size`, `getindex`, and `setindex!`.
 
 
 # ## III.1 Structured Matrices
@@ -111,7 +113,20 @@ A[1,2] = 2.3 # fails since 2.3 is a Float64 that cannot be converted to an Int
 # This is equivalent to
 # _row-major_ format, where the next address in memory of `transpose(A)` corresponds to
 # moving along the row.
+# Here is a simple example:
 
+A = [1+im  2  3;
+     4     5  6;
+     6     8  9]
+
+A' # adjoint (conjugate-transpose). If entries are real it is equivalent to transpose(A)
+
+# Note vector adjoints/transposes behave differently than 1 × n matrices: they are
+# more like row-vectors. For example the following computes the dot product of two vectors:
+
+x = [1,2,3]
+y = [4,5,6]
+x'y # equivalent to dot(x,y), i.e. the standard dot product.
 
 # #### Broadcasting
 
@@ -229,9 +244,8 @@ function mul_cols(A, x)
     T = promote_type(eltype(x), eltype(A))
     c = zeros(T, m) # the returned vector, begins of all zeros
     for j = 1:n # for each column
-        xⱼ = x[j]
         for k = 1:m # then each row
-            c[k] += A[k, j] * xⱼ # equivalent to c[k] = c[k] + A[k, j] * x[j]
+            c[k] += A[k, j] * x[j] # equivalent to c[k] = c[k] + A[k, j] * x[j]
         end
     end
     c
@@ -258,7 +272,7 @@ using BenchmarkTools # load package for reliable timing
 @btime A*x; # built-in, high performance implementation. USE THIS in practice
 
 # Here `ms` means milliseconds (`0.001 = 10^(-3)` seconds) and `μs` means microseconds (`0.000001 = 10^(-6)` seconds).
-# So we observe that `mul` is roughly 3x faster than `mul_rows`, while the optimised `*` is roughly 5x faster than `mul`.
+# On my machine we observe that `mul_cols` is roughly 2–3x faster than `mul_rows`, while the optimised `*` is roughly 5x faster than `mul_cols`.
 # The reason why isn't too important for us (accessing memory in order is much faster than jumping around), but the key points are:
 # 1. Making fast algorithms is delicate and arguably more of an art than a science.
 # 2. We can focus on complexity rather than counting operations as the latter does not tell us speed.
@@ -434,12 +448,12 @@ D = Diagonal(x) # the type Diagonal has a single field: D.diag
 # (in $O(n)$ operations).
 
 
-# We can create Bidiagonal matrices in Julia by specifying the diagonal and off-diagonal:
+# We can create bidiagonal matrices in Julia by specifying the diagonal and off-diagonal:
 
 
 L = Bidiagonal([1,2,3], [4,5], :L) # the type Bidiagonal has three fields: L.dv (diagonal), L.ev (lower-diagonal), L.uplo (either 'L', 'U')
-##
-Bidiagonal([1,2,3], [4,5], :U)
+#
+U = Bidiagonal([1,2,3], [4,5], :U) # When U.uplo == 'U' it is interpreted as an upper bidiagonal matrix
 
 
 # Multiplication and solving linear systems with Bidiagonal systems is also $O(n)$ operations, using the standard
@@ -461,17 +475,18 @@ T = Tridiagonal([1,2], [3,4,5], [6,7]) # The type Tridiagonal has three fields: 
 # bandwidths $(l,u) = (0,2)$ by overloading `getindex(U::UpperTridiagonal, k::Int, j::Int)` (which implements `U[k,j]`) and `setindex!(U::UpperTriangular, v, k::Int, j::Int)` (which implements `U[k,j] = v`). Return zero (of the same type as the other entries)
 # if we are off the bands.
 
-struct UpperTridiagonal{T} <: AbstractMatrix{T}
-    d::Vector{T}   # diagonal entries: d[k] == U[k,k]
-    du::Vector{T}  # super-diagonal enries: du[k] == U[k,k+1]
-    du2::Vector{T} # second-super-diagonal entries: du2[k] == U[k,k+2]
+struct UpperTridiagonal <: AbstractMatrix{Float64}
+    d   # diagonal entries stored as a Vector: d[k] == U[k,k]
+    du  # super-diagonal enries stored as a Vector: du[k] == U[k,k+1]
+    du2 # second-super-diagonal entries stored as a Vector: du2[k] == U[k,k+2]
 end
 
-## This uses the notation `<: AbstractMatrix{T}`: this tells Julia that our type is in fact a matrix.
+## This uses the notation `<: AbstractMatrix{Float64}`: this tells Julia that our type is in fact a matrix
+## whose entries are `Float64`.
 ## In order for it to behave a matrix we have to overload the function `size` for our type to return
 ## the dimensions (in this case we just use the length of the diagonal):
 
-import Base: size, getindex
+import Base: size, getindex, setindex!
 
 size(U::UpperTridiagonal) = (length(U.d),length(U.d))
 
@@ -499,7 +514,7 @@ function setindex!(U::UpperTridiagonal, v, k::Int, j::Int)
     U # by convention we return the matrix
 end
 
-U = UpperTridiagonal([1,2,3,4,5], [1,2,3,4], [1,2,3])
+U = UpperTridiagonal([1.0,2,3,4,5], [1.0,2,3,4], [1.0,2,3])
 @test U == [1 1 1 0 0;
             0 2 2 2 0;
             0 0 3 3 3;
@@ -520,11 +535,11 @@ U[3,4] = 2
 # they take only $O(n)$ operations. Hint: the function `max(a,b)` returns the larger of `a` or `b`
 # and `min(a,b)` returns the smaller. They may help to avoid accessing zeros.
 
+import Base: *, \
+
 function *(U::UpperTridiagonal, x::AbstractVector)
     n = size(U,1)
-    ## promote_type type finds a type that is compatible with both types, eltype gives the type of the elements of a vector / matrix
-    T = promote_type(eltype(x),eltype(U))
-    b = zeros(T, n) # the returned vector, begins of all zeros
+    b = zeros(n) # the returned vector, assume Float64 values
     ## TODO: populate b so that U*x ≈ b (up to rounding)
     
     b
@@ -532,13 +547,11 @@ end
 
 function \(U::UpperTridiagonal, b::AbstractVector)
     n = size(U,1)
-    T = promote_type(eltype(b),eltype(U))
-
     if length(b) != n
         error("The system is not compatible")
     end
 
-    x = zeros(T, n)  # the solution vector
+    x = zeros(n)  # the solution vector, assume Float64 values
     ## TODO: populate x so that U*x ≈ b
     
     x
@@ -562,8 +575,7 @@ b = [fill(1.6,n-2); 1.5; 1] # exact result
 # We now turn to an important application of banded linear algebra:
 # approximating solutions to linear differential equations. We will focus on first and second order
 # but the techniques generalise beyond this, to vector problems, nonlinear differential equations, and partial differential equations.
-
-# We explore _finite difference_ approxiamtions which use divided differences to replace derivatives.
+# In particular we explore _finite difference_ approxiamtions which use divided differences to replace derivatives.
 # These are the most basic type of numerical method and many powerful alternatives
 # exist, including Finite Element Methods and spectral methods.
 
@@ -582,7 +594,7 @@ b = [fill(1.6,n-2); 1.5; 1] # exact result
 #     1 \\ 
 #     -1/h & 1/h \\
 #     & ⋱ & ⋱ \\
-#     && -1/h & 1/h \end{bmatrix} \Vectt[u_0,u_1,⋮,u_n] = \Vectt[c, f(x_0), f(x_1), ⋮ , f(x_{n-1})].
+#     && -1/h & 1/h \end{bmatrix} \begin{bmatrix}u_0\\u_1\\⋮\\u_n\end{bmatrix} = \begin{bmatrix}c\\ f(x_0)\\ f(x_1)\\ ⋮ \\ f(x_{n-1})\end{bmatrix}.
 # $$
 # We can construct the bidiagonal matrix as follows:
 
@@ -598,10 +610,11 @@ c = 0 # u(0) = 0
 f = x -> cos(x)
 
 𝐟 = f.(x[1:end-1]) # evaluate f at all but the last point
-𝐮 = L \ [c; 𝐟] # integrate using forward-differences
+𝐛 = [c; 𝐟]
+𝐮 = L \ 𝐛 # integrate using forward-differences
 
 plot(x, sin.(x); label="sin(x)", legend=:bottomright)
-scatter!(x, 𝐮ᶠ; label="forward")
+scatter!(x, 𝐮; label="forward")
 
 
 #  We can estimate how fast it converges by measuring
@@ -640,19 +653,19 @@ plot!(ns, ns .^ (-1); label="1/n")
 
 
 # **Problem 5(b)** Implement indefinite-integration
-# where we impose the equation on the midpoints $m_1,…,m_n$ defined as
+# where we impose the equation on the midpoints $x̃_1,…,x̃_n$ defined as
 # $$
-# m_j = (x_{j+1} + x_j)/2 = a + (j+1/2)h
+# x̃_j = {x_{j+1} + x_j \over 2} = a + (j+1/2)h
 # $$
 # using the central difference formula
 # $$
-# u'(m_j) ≈ {u(x_j) - u(x_{j-1}) \over h}
+# u'(x̃_j) ≈ {u(x_j) - u(x_{j-1}) \over h}
 # $$
 # By plotting the errors show that this method converges at
 # a faster rate than Forward or Backward Euler for $f(x) = \cos x$ on the interval $[0,1]$.
 
 
-## TODO:
+## TODO: Discretise at midpoints rather than our grid. The solution is still approximated on the original grid.
 
 
 # ----
@@ -660,26 +673,42 @@ plot!(ns, ns .^ (-1); label="1/n")
 # ### III.2.2 Forward Euler
 
 
-# Here is a simple example for solving:
-#     $$
-#     u'(0) = 1, u' + t u = {\rm e}^t
-#     $$
-#     which has an exact solution in terms of a special error function
-#     (which we determined using Mathematica).
+# We now adapt the approach for more general ODEs of the form
+# $$
+#   u'(x) + ω(x)u(x) = f(x), u(0) = c.
+# $$
+# We now have the system:
+# $$
+# \underbrace{\begin{bmatrix}
+# 1 \\ 
+# ω(x_0)-1/h & 1/h \\
+# & ⋱ & ⋱ \\
+# && ω(x_{n-1})-1/h & 1/h \end{bmatrix}}_L \underbrace{\begin{bmatrix}u_0 \\ u_1 \\ ⋮ \\ u_n\end{bmatrix} }_{𝐮} = \begin{bmatrix} c \\ f(x_0) \\ ⋮ \\ f(x_{n-1}) \end{bmatrix}
+# $$
+# Consider the simple example:
+#  $$
+#  u(0) = 1, u' + x u = {\rm e}^x
+#  $$
+#  which has an exact solution in terms of a special error function
+#  (which I determined using Mathematica).
 
 
 using SpecialFunctions
 c = 1
-a = t -> t
+ω = x -> x
 n = 2000
-t = range(0, 1; length=n)
+x = range(0, 1; length=n)
 ## exact solution, found in Mathematica
-u = t -> -(1/2)*exp(-(1+t^2)/2)*(-2sqrt(ℯ) + sqrt(2π)erfi(1/sqrt(2)) - sqrt(2π)erfi((1 + t)/sqrt(2)))
+u = x -> -(1/2)*exp(-(1+x^2)/2)*(-2sqrt(ℯ) + sqrt(2π)erfi(1/sqrt(2)) - sqrt(2π)erfi((1 + x)/sqrt(2)))
 
-h = step(t)
-L = Bidiagonal([1; fill(1/h, n-1)], a.(t[1:end-1]) .- 1/h, :L)
+h = step(x)
+L = Bidiagonal([1; fill(1/h, n-1)], ω.(x[1:end-1]) .- 1/h, :L)
 
-norm(L \ [c; exp.(t[1:end-1])] - u.(t),Inf)
+𝐛 = [c; exp.(x[1:end-1])]
+𝐮 = L \ 𝐛
+
+plot(x, u.(x); label="u(x)", legend=:bottomright)
+scatter!(x, 𝐮; label="forward")
 
 # We see that it is converging to the true result.
 
@@ -697,48 +726,59 @@ norm(L \ [c; exp.(t[1:end-1])] - u.(t),Inf)
 # such that the numerical approximation suggests the equation
 # does not blow up.
 
+## TODO: Implement backward Euler for the case with a variable coefficient.
 
 
 
+# -----
 
 # ### III.2.3 Poisson equation
 
-# Thus we solve:
-
-x = range(0, 1; length = n)
-h = step(x)
-T = Tridiagonal([fill(1/h^2, n-2); 0], [1; fill(-2/h^2, n-2); 1], [0; fill(1/h^2, n-2)])
-u = T \ [1; exp.(x[2:end-1]); 2]
-scatter(x, u)
-
-
-# We can test convergence on $u(x) = \cos x^2$ which satisfies
+# We now consider the Poisson equation with Dirichlet
+# boundary conditions. In particular consider a case where
+# we know the true answer: if $u(x) = \cos x^2$ then it solves the ODE:
 # $$
 # \begin{align*}
-# u(0) = 1 \\
-# u(1) = \cos 1 \\
-# u''(x) = -4x^2 \cos(x^2) - 2\sin(x^2)
+# u(0) = \underbrace{1}_c \\
+# u''(x) = \underbrace{-4x^2 \cos(x^2) - 2\sin(x^2)}_{f(x)} \\
+# u(1) = \underbrace{\cos 1}_d
 # \end{align*}
 # $$
-# We observe uniform ($∞$-norm) convergence:
+# We approximate it by the solution to the tridiagonal system:
+# $$
+# \underbrace{\begin{bmatrix}
+#     1 \\ 
+#     1/h^2 & -2/h^2 & 1/h \\
+#     & ⋱ & ⋱ & ⋱ \\
+#    && 1/h^2 & -2/h^2 & 1/h \\ 
+#    &&&& 1 \end{bmatrix}}_A \underbrace{\begin{bmatrix}u_0\\u_1\\⋮\\u_n\end{bmatrix} }_{𝐮} = \underbrace{\begin{bmatrix}c\\ f(x_0)\\ f(x_1)\\ ⋮ \\ f(x_{n-1})\\ d\end{bmatrix} }_{𝐛}
+# $$
+# We first construct the matrix $A$ using `Tridiagonal`:
+n = 20
+x = range(0, 1; length = n + 1)
+h = step(x)
+A = Tridiagonal([fill(1/h^2, n-1); 0], 
+                [1; fill(-2/h^2, n-1); 1], 
+                [0; fill(1/h^2, n-1)])
 
-function poisson_err(u, c_0, c_1, f, n)
-    x = range(0, 1; length = n)
-    h = step(x)
-    T = Tridiagonal([fill(1/h^2, n-2); 0], [1; fill(-2/h^2, n-2); 1], [0; fill(1/h^2, n-2)])
-    uᶠ = T \ [c_0; f.(x[2:end-1]); c_1]
-    norm(uᶠ - u.(x), Inf)
-end
+# Thus we get an approximation to our (known) solution:
 
 u = x -> cos(x^2)
 f = x -> -4x^2*cos(x^2) - 2sin(x^2)
+𝐛 =  [1; f.(x[2:end-1]); cos(1)]
+𝐮 = A \ 𝐛
+plot(x, u.(x); label="u(x)", legend=:bottomright)
+scatter!(x, 𝐮; label="finite differences")
 
-ns = 10 .^ (1:8) # solve up to n = 10 million
-scatter(ns, poisson_err.(u, 1, cos(1), f, ns); xscale=:log10, yscale=:log10, label="error")
-plot!(ns, ns .^ (-2); label="1/n^2")
+# -----
+
+# **Problem 7(a)** Estimate the rate of convergence in the ∞-norm using the previous example with an increasing number of grid points.
+
+## TODO: Plot the ∞-norm error and estimate the convergence rate.
 
 
-# **Problem 7** Construct a finite-difference approximation to the
+
+# **Problem 7(b)** Construct a finite-difference approximation to the
 # forced Helmholtz equation
 # $$
 # \begin{align*}
@@ -753,66 +793,7 @@ plot!(ns, ns .^ (-2); label="1/n^2")
 # u(x) = (-\cos(k x) + {\rm e}^x \cos(k x)^2 + \cot(k) \sin(k x) - {\rm e} \cos(k) \cot(k) \sin(k x) - {\rm e} \sin(k) \sin(k x) + {\rm e}^x \sin(k x)^2)/(1 + k^2)
 # $$
 
+## TODO: Generalise the second-order finite differences to allow for a $k^2 u$ term.
 
-
-
-# **Problem 8** Discretisations can also be used to solve eigenvalue problems.
-# Consider the Schrödinger equation with quadratic oscillator:
-# $$
-# u(-L) = u(L) = 0, -u'' + x^2 u = λ u
-# $$
-# (a) Use the finite-difference approximation to discretise this equation as eigenvalues of a
-# matrix. Hint: write
-# $$
-# \begin{align*}
-# u(-L) = 0 \\
-# -u'' + x^2 u - λu = 0\\
-# u(L) = 0
-# \end{align*}
-# $$
-# and discretise as before, doing row eliminations to arrive at a symmetric tridiagonal
-# matrix eigenvalue problem.
-# (b) Approximate the eigenvalues using `eigvals(A)` (which returns the eigenvalues of a
-# matrix `A`) with $L = 10$.
-# Can you conjecture their exact value if $L = ∞$? Hint: they are integers and the eigenvalues
-# closest to zero are most accurate.
-
-## SOLUTION
-# We discretise on a grid $u_1,u_2,…,u_n$ for an evenly spaced grid between $[-L,L]$, with
-# step size $h = 2L/(n-1)$. That is, we have the equations:
-# $$
-# \begin{bmatrix}
-# 1 \\
-# -1/h^2 & 2/h^2 + x_2^2  - λ & -1/h^2 \\
-#     & ⋱ & ⋱ & ⋱ \\
-#     && -1/h^2 &  2/h^2 + x_{n-1}^2  - λ & -1/h^2 \\
-#     &&&& 1 \end{bmatrix}
-#     \begin{bmatrix} u_1 \\ \vdots \\ u_n \end{bmatrix} = 0
-# $$
-# Row eliminations at the top and bottom reduce this equation to:
-# $$
-# \begin{bmatrix}
-#  2/h^2 + x_2^2   & -1/h^2 \\
-#     & ⋱ & ⋱ & ⋱ \\
-#     && -1/h^2 &  2/h^2 + x_{n-1}^2   \end{bmatrix}
-#     \begin{bmatrix} u_2 \\ \vdots \\ u_{n-1} \end{bmatrix} = λ\begin{bmatrix} u_2 \\ \vdots \\ u_{n-1} \end{bmatrix}
-# $$
-# This is a standard eigenvalue problem and we can compute the eigenvalues using `eigvals`:
-
-L = 10
-n = 1000
-x = range(-L,L; length=n)
-h = step(x)
-eigvals(SymTridiagonal(fill(2/h^2,n-2)  + x[2:end-1].^2, fill(-1/h^2, n-3)))
-
-
-# On inspection of the smallest values, it seems that the positive odd integers are the eigenvalues for $L = \infty$. Increasing $L$ (and also $n$) it becomes more obvious:
-
-L = 100
-n = 10000
-x = range(-L,L; length = n)
-h = step(x)
-A = SymTridiagonal(x[2:end-1] .^ 2 .+ 2/h^2,ones(n-3)* (-1)/h^2)
-sort((eigvals(A)))[1:20]
 
 
