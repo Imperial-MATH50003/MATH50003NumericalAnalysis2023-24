@@ -702,10 +702,11 @@ c = 0 # u(0) = 0
 f = x -> cos(x)
 
 𝐟 = f.(x[1:end-1]) # evaluate f at all but the last point
-𝐮 = L \ [c; 𝐟] # integrate using forward-differences
+𝐛 = [c; 𝐟]
+𝐮 = L \ 𝐛 # integrate using forward-differences
 
 plot(x, sin.(x); label="sin(x)", legend=:bottomright)
-scatter!(x, 𝐮ᶠ; label="forward")
+scatter!(x, 𝐮; label="forward")
 
 
 #  We can estimate how fast it converges by measuring
@@ -908,9 +909,21 @@ plot!(ns, ns .^ (-2); label="1/n^2")
 # ### III.2.2 Forward Euler
 
 
-# Here is a simple example for solving:
+# We now adapt the approach for more general ODEs of the form
+# $$
+#   u'(x) + ω(x)u(x) = f(x), u(0) = c.
+# $$
+# We now have the system:
+#$$
+# \underbrace{\begin{bmatrix}
+# 1 \\ 
+# ω(x_0)-1/h & 1/h \\
+# & ⋱ & ⋱ \\
+# && ω(x_{n-1})-1/h & 1/h \end{bmatrix}}_L \underbrace{\Vectt[u_0,u_1,⋮,u_n]}_{𝐮} = 𝐛
+# $$
+# Consider the simple example:
 #     $$
-#     u'(0) = 1, u' + t u = {\rm e}^t
+#     u(0) = 1, u' + x u = {\rm e}^x
 #     $$
 #     which has an exact solution in terms of a special error function
 #     (which we determined using Mathematica).
@@ -918,16 +931,20 @@ plot!(ns, ns .^ (-2); label="1/n^2")
 
 using SpecialFunctions
 c = 1
-a = t -> t
+a = x -> x
 n = 2000
-t = range(0, 1; length=n)
+x = range(0, 1; length=n)
 ## exact solution, found in Mathematica
-u = t -> -(1/2)*exp(-(1+t^2)/2)*(-2sqrt(ℯ) + sqrt(2π)erfi(1/sqrt(2)) - sqrt(2π)erfi((1 + t)/sqrt(2)))
+u = x -> -(1/2)*exp(-(1+x^2)/2)*(-2sqrt(ℯ) + sqrt(2π)erfi(1/sqrt(2)) - sqrt(2π)erfi((1 + x)/sqrt(2)))
 
 h = step(t)
-L = Bidiagonal([1; fill(1/h, n-1)], a.(t[1:end-1]) .- 1/h, :L)
+L = Bidiagonal([1; fill(1/h, n-1)], a.(x[1:end-1]) .- 1/h, :L)
 
-norm(L \ [c; exp.(t[1:end-1])] - u.(t),Inf)
+𝐛 = [c; exp.(x[1:end-1])]
+𝐮 = L \ 𝐛
+
+plot(x, u.(x); label="u(x)", legend=:bottomright)
+scatter!(x, 𝐮; label="forward")
 
 # We see that it is converging to the true result.
 
@@ -966,7 +983,7 @@ end
 ns = 2 .^ (1:13)
 println(first_eq.(ns)')
 
-# We see that $u(1) = 2.96$ to three digits.
+## We see that $u(1) = 2.96$ to three digits.
 
 ## END
 
@@ -974,13 +991,10 @@ println(first_eq.(ns)')
 
 # ### III.2.3 Poisson equation
 
+# We now consider the Poisson equation with Dirichlet
+# boundary conditions. In particular consider a case where
+# we know the true answer: if $u(x) = \cos x^2$ then it solves the ODE:
 # Thus we solve:
-
-x = range(0, 1; length = n)
-h = step(x)
-T = Tridiagonal([fill(1/h^2, n-2); 0], [1; fill(-2/h^2, n-2); 1], [0; fill(1/h^2, n-2)])
-u = T \ [1; exp.(x[2:end-1]); 2]
-scatter(x, u)
 
 
 # We can test convergence on $u(x) = \cos x^2$ which satisfies
@@ -988,10 +1002,40 @@ scatter(x, u)
 # \begin{align*}
 # u(0) = 1 \\
 # u(1) = \cos 1 \\
-# u''(x) = -4x^2 \cos(x^2) - 2\sin(x^2)
+# u''(x) = \underbrace{-4x^2 \cos(x^2) - 2\sin(x^2)}_{f(x)}
 # \end{align*}
 # $$
-# We observe uniform ($∞$-norm) convergence:
+# We approximate it by the solution to the tridiagonal system:
+# $$
+# \underbrace{\begin{bmatrix}
+#     1 \\ 
+#     1/h^2 & -2/h^2 & 1/h \\
+#     & ⋱ & ⋱ & ⋱ \\
+#    && 1/h^2 & -2/h^2 & 1/h \\ 
+#    &&&& 1 \end{bmatrix}}_A \underbrace{\Vectt[u_0,u_1,⋮,u_n]}_{𝐮} = \underbrace{\Vectt[c, f(x_0), f(x_1), ⋮ , f(x_{n-1}), d]}_{𝐛}
+# $$
+# by using the `Tridiagonal` type:
+
+x = range(0, 1; length = n + 1)
+h = step(x)
+T = Tridiagonal([fill(1/h^2, n-1); 0], 
+                [1; fill(-2/h^2, n-1); 1], 
+                [0; fill(1/h^2, n-1)])
+
+# Thus we get an approximation to our (known) solution:
+
+u = x -> cos(x^2)
+f = x -> -4x^2*cos(x^2) - 2sin(x^2)
+𝐛 =  [1; f.(x[2:end-1]); cos(1)]
+𝐮 = T \ 𝐛
+plot(x, u.(x); label="u(x)", legend=:bottomright)
+scatter!(x, 𝐮; label="finite differences")
+
+
+# **Problem 7(a)** Estimate the rate of convergence in the ∞-norm using the previous example with an increasing number of grid points.
+
+## TODO: Plot the ∞-norm error and estimate the convergence rate.
+## SOLUTION
 
 function poisson_err(u, c_0, c_1, f, n)
     x = range(0, 1; length = n)
@@ -1001,15 +1045,15 @@ function poisson_err(u, c_0, c_1, f, n)
     norm(uᶠ - u.(x), Inf)
 end
 
-u = x -> cos(x^2)
-f = x -> -4x^2*cos(x^2) - 2sin(x^2)
+
 
 ns = 10 .^ (1:8) # solve up to n = 10 million
 scatter(ns, poisson_err.(u, 1, cos(1), f, ns); xscale=:log10, yscale=:log10, label="error")
 plot!(ns, ns .^ (-2); label="1/n^2")
+## END
 
 
-# **Problem 7** Construct a finite-difference approximation to the
+# **Problem 7(b)** Construct a finite-difference approximation to the
 # forced Helmholtz equation
 # $$
 # \begin{align*}
@@ -1037,70 +1081,8 @@ end
 k = 10
 u = x -> (-cos(k*x) + exp(x)cos(k*x)^2 + cot(k)sin(k*x) - ℯ*cos(k)cot(k)sin(k*x) - ℯ*sin(k)sin(k*x) + exp(x)sin(k*x)^2)/(1 + k^2)
 
-n = 2048 # TODO: choose n to get convergence
+n = 2048 
 x = range(0, 1; length=n)
 @test norm(helm(k, n) - u.(x)) ≤ 1E-4
-
 ## END
-
-
-# **Problem 8** Discretisations can also be used to solve eigenvalue problems.
-# Consider the Schrödinger equation with quadratic oscillator:
-# $$
-# u(-L) = u(L) = 0, -u'' + x^2 u = λ u
-# $$
-# (a) Use the finite-difference approximation to discretise this equation as eigenvalues of a
-# matrix. Hint: write
-# $$
-# \begin{align*}
-# u(-L) = 0 \\
-# -u'' + x^2 u - λu = 0\\
-# u(L) = 0
-# \end{align*}
-# $$
-# and discretise as before, doing row eliminations to arrive at a symmetric tridiagonal
-# matrix eigenvalue problem.
-# (b) Approximate the eigenvalues using `eigvals(A)` (which returns the eigenvalues of a
-# matrix `A`) with $L = 10$.
-# Can you conjecture their exact value if $L = ∞$? Hint: they are integers and the eigenvalues
-# closest to zero are most accurate.
-
-## SOLUTION
-# We discretise on a grid $u_1,u_2,…,u_n$ for an evenly spaced grid between $[-L,L]$, with
-# step size $h = 2L/(n-1)$. That is, we have the equations:
-# $$
-# \begin{bmatrix}
-# 1 \\
-# -1/h^2 & 2/h^2 + x_2^2  - λ & -1/h^2 \\
-#     & ⋱ & ⋱ & ⋱ \\
-#     && -1/h^2 &  2/h^2 + x_{n-1}^2  - λ & -1/h^2 \\
-#     &&&& 1 \end{bmatrix}
-#     \begin{bmatrix} u_1 \\ \vdots \\ u_n \end{bmatrix} = 0
-# $$
-# Row eliminations at the top and bottom reduce this equation to:
-# $$
-# \begin{bmatrix}
-#  2/h^2 + x_2^2   & -1/h^2 \\
-#     & ⋱ & ⋱ & ⋱ \\
-#     && -1/h^2 &  2/h^2 + x_{n-1}^2   \end{bmatrix}
-#     \begin{bmatrix} u_2 \\ \vdots \\ u_{n-1} \end{bmatrix} = λ\begin{bmatrix} u_2 \\ \vdots \\ u_{n-1} \end{bmatrix}
-# $$
-# This is a standard eigenvalue problem and we can compute the eigenvalues using `eigvals`:
-
-L = 10
-n = 1000
-x = range(-L,L; length=n)
-h = step(x)
-eigvals(SymTridiagonal(fill(2/h^2,n-2)  + x[2:end-1].^2, fill(-1/h^2, n-3)))
-
-
-# On inspection of the smallest values, it seems that the positive odd integers are the eigenvalues for $L = \infty$. Increasing $L$ (and also $n$) it becomes more obvious:
-
-L = 100
-n = 10000
-x = range(-L,L; length = n)
-h = step(x)
-A = SymTridiagonal(x[2:end-1] .^ 2 .+ 2/h^2,ones(n-3)* (-1)/h^2)
-sort((eigvals(A)))[1:20]
-
 
