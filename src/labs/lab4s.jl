@@ -63,7 +63,7 @@ end
 # was changed. 
 
 # **Problem 1** Complete functions `exp_t_3_down`/`exp_t_3_up` implementing the first
-# three terms of the Taylor expansion of $\exp(x)$, that is, $1 + x + x/2 + x^2/6$ but where
+# three terms of the Taylor expansion of $\exp(x)$, that is, $1 + x + x^2/2 + x^3/6$ but where
 # each operation is rounded down/up. Use `typeof(x)` to make sure you are changing the
 # rounding mode for the right floating point type.
 
@@ -72,7 +72,7 @@ function exp_t_3_down(x)
     ## TODO: use setrounding to compute 1 + x + x/2 + x^2/6 but rounding down
     ## SOLUTION
     setrounding(T, RoundDown) do
-        1 + x + x/2 + x^2/6
+        1 + x + x^2/2 + x^3/6
     end
     ## END
 end
@@ -82,7 +82,7 @@ function exp_t_3_up(x)
     ## SOLUTION
     T = typeof(x) # use this to set the rounding mode
     setrounding(T, RoundUp) do
-        1 + x + x/2 + x^2/6
+        1 + x + x^2/2 + x^3/6
     end
     ## END
 end
