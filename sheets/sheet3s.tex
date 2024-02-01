@@ -1,0 +1,273 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.2ex}
+
+\hypersetup
+       {   pdfauthor = {  },
+           pdftitle={  },
+           colorlinks=TRUE,
+           linkcolor=black,
+           citecolor=blue,
+           urlcolor=blue
+       }
+
+
+
+
+\usepackage{upquote}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    upquote=true,
+    breaklines=true,
+    breakindent=0pt,
+    keepspaces=true,
+    showspaces=false,
+    columns=fullflexible,
+    showtabs=false,
+    showstringspaces=false,
+    escapeinside={(*@}{@*)},
+    extendedchars=true,
+}
+\newcommand{\HLJLt}[1]{#1}
+\newcommand{\HLJLw}[1]{#1}
+\newcommand{\HLJLe}[1]{#1}
+\newcommand{\HLJLeB}[1]{#1}
+\newcommand{\HLJLo}[1]{#1}
+\newcommand{\HLJLk}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkc}[1]{\textcolor[RGB]{59,151,46}{\textit{#1}}}
+\newcommand{\HLJLkd}[1]{\textcolor[RGB]{214,102,97}{\textit{#1}}}
+\newcommand{\HLJLkn}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkp}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkr}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkt}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLn}[1]{#1}
+\newcommand{\HLJLna}[1]{#1}
+\newcommand{\HLJLnb}[1]{#1}
+\newcommand{\HLJLnbp}[1]{#1}
+\newcommand{\HLJLnc}[1]{#1}
+\newcommand{\HLJLncB}[1]{#1}
+\newcommand{\HLJLnd}[1]{\textcolor[RGB]{214,102,97}{#1}}
+\newcommand{\HLJLne}[1]{#1}
+\newcommand{\HLJLneB}[1]{#1}
+\newcommand{\HLJLnf}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnfm}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnp}[1]{#1}
+\newcommand{\HLJLnl}[1]{#1}
+\newcommand{\HLJLnn}[1]{#1}
+\newcommand{\HLJLno}[1]{#1}
+\newcommand{\HLJLnt}[1]{#1}
+\newcommand{\HLJLnv}[1]{#1}
+\newcommand{\HLJLnvc}[1]{#1}
+\newcommand{\HLJLnvg}[1]{#1}
+\newcommand{\HLJLnvi}[1]{#1}
+\newcommand{\HLJLnvm}[1]{#1}
+\newcommand{\HLJLl}[1]{#1}
+\newcommand{\HLJLld}[1]{\textcolor[RGB]{148,91,176}{\textit{#1}}}
+\newcommand{\HLJLs}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsa}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsb}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsc}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsd}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdC}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLse}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLsh}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsi}[1]{#1}
+\newcommand{\HLJLso}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsr}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLss}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLssB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLnB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnbB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnfB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnh}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLni}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnil}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnoB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLoB}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLow}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLp}[1]{#1}
+\newcommand{\HLJLc}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLch}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcm}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcp}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcpB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcs}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcsB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLg}[1]{#1}
+\newcommand{\HLJLgd}[1]{#1}
+\newcommand{\HLJLge}[1]{#1}
+\newcommand{\HLJLgeB}[1]{#1}
+\newcommand{\HLJLgh}[1]{#1}
+\newcommand{\HLJLgi}[1]{#1}
+\newcommand{\HLJLgo}[1]{#1}
+\newcommand{\HLJLgp}[1]{#1}
+\newcommand{\HLJLgs}[1]{#1}
+\newcommand{\HLJLgsB}[1]{#1}
+\newcommand{\HLJLgt}[1]{#1}
+
+
+\def\endash{–}
+\def\bbD{ {\mathbb D} }
+\def\bbZ{ {\mathbb Z} }
+
+\input{somacros}
+
+\begin{document}
+
+
+
+\textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Problem Sheet 3}
+
+\textbf{Problem 1} With 8-bit unsigned integers, what is the result for the following computations:
+\[
+127 \ensuremath{\oplus}_{256} 200,\quad 2 \ensuremath{\otimes}_{256} 127,\quad 2 \ensuremath{\otimes}_{256} 128, \quad 0 \ensuremath{\ominus}_{256} 1
+\]
+\textbf{SOLUTION}
+\[
+127 \ensuremath{\oplus}_{256} 200 = 327\ ({\rm mod} 256) = 71
+\]
+\[
+2 \ensuremath{\otimes}_{256} 127 = 254
+\]
+\[
+2 \ensuremath{\otimes}_{256} 128 = 256 \ ({\rm mod} 256) = 0
+\]
+\[
+0 \ensuremath{\ominus}_{256} 1 = -1  \ ({\rm mod} 256) = 255.
+\]
+\textbf{END}
+
+\textbf{Problem 2(a)} With 8-bit signed integers, what are the bits for the following: $10, 120, -10$.
+
+\textbf{SOLUTION} We can find the binary digits by repeatedly subtracting the largest power of 2 less than a number until we reach 0, e.g. $10 - 2^3 - 2 = 0$ implies $10 = (1010)_2$. Thus the bits are: \texttt{00001010}. Similarly,
+\[
+120 = 2^6 + 2^5 + 2^4 + 2^3 = (1111000)_2
+\]
+Thus the bits are \texttt{01111000}. For negative numbers we perform the same trick but adding $2^p$ to make it positive, e.g.,
+\[
+-10 = 2^8 - 10 ({\rm mod 2^8}) = 246 = 2^7 + 2^6 + 2^5 + 2^4 + 2^2 + 2 = (11110110)_2
+\]
+This the bits are: \texttt{11110110}. \textbf{END}
+
+\textbf{Problem 2(b)} With 8-bit signed integers, what is the result for the following computations:
+\[
+127 \ensuremath{\oplus}_{256}^{\rm s} 200,\quad 2 \ensuremath{\otimes}_{256}^{\rm s} 127, \quad 2 \ensuremath{\otimes}_{256}^{\rm s} 128, \quad 0 \ensuremath{\ominus}_{256}^{\rm s} 1
+\]
+\textbf{SOLUTION}
+\[
+127 \ensuremath{\oplus}_{256}^{\rm s} 200 = 327\ ({\rm mod}^{\rm s} 256) = 71
+\]
+\[
+2 \ensuremath{\otimes}_{256}^{\rm s} 127 = 254\ ({\rm mod}^{\rm s} 256) = -2
+\]
+(The third part was a trick question: 128 cannot be represented as an 8-bit signed integer)
+\[
+0 \ensuremath{\ominus}_{256}^{\rm s} 1 = -1  \ ({\rm mod} 256)^{\rm s} = -1.
+\]
+\textbf{END}
+
+\textbf{Problem 3} What is $\ensuremath{\pi}$ to 5 binary places? Hint: recall that $\ensuremath{\pi} \ensuremath{\approx} 3.14$.
+
+\textbf{SOLUTION} We subtract off powers of two until we get 5 places. Eg we have
+\[
+\ensuremath{\pi} = 3.14\ensuremath{\ldots} = 2 + 1.14\ensuremath{\ldots} = 2 + 1 + 0.14\ensuremath{\ldots} = 2 + 1 + 1/8 + 0.016\ensuremath{\ldots} = 2 + 1 + 1/8  + 1/64  + 0.000\ensuremath{\ldots}
+\]
+Thus we have $\ensuremath{\pi} = (11.001001\ensuremath{\ldots})_2$. The question is slightly ambiguous whether we want to round to 5 digits so either \texttt{11.00100} or \texttt{11.00101} would be acceptable. \textbf{END}
+
+\textbf{Problem 4} What are the single precision $F_{32} = F_{127,8,23}$ floating point representations for the following: 
+\[
+2, \quad 31, \quad 32, \quad 23/4, \quad (23/4)\times 2^{100}
+\]
+\textbf{SOLUTION} Recall that we have \texttt{\ensuremath{\sigma},Q,S = 127,8,23}. Thus we write
+\[
+2 = 2^{128-127} * (1.00000000000000000000000)_2
+\]
+The exponent bits are those of
+\[
+128 = 2^7 = (10000000)_2
+\]
+Hence we get the bits 
+
+\begin{verbatim}
+0 10000000 00000000000000000000000
+\end{verbatim}
+We write
+\[
+31 = (11111)_2 = 2^{131-127} * (1.1111)_2
+\]
+And note that $131 = (10000011)_2$ Hence we have the bits
+
+\begin{verbatim}
+0 10000011 11110000000000000000000
+\end{verbatim}
+On the other hand,
+\[
+32 = (100000)_2 = 2^{132-127}
+\]
+and $132 = (10000100)_2$ hence we have the bits 
+
+\begin{verbatim}
+0 10000100 00000000000000000000000
+\end{verbatim}
+Note that
+\[
+23/4 = 2^{-2} * (10111)_2 = 2^{129-127} * (1.0111)_2
+\]
+and $129 = (10000001)_2$ hence we get:
+
+\begin{verbatim}
+0 10000001 01110000000000000000000
+\end{verbatim}
+Finally,
+\[
+23/4 * 2^{100} = 2^{229-127} * (1.0111)_2
+\]
+and $229 = (11100101)_2$ giving us:
+
+\begin{verbatim}
+0 11100101 01110000000000000000000
+\end{verbatim}
+\textbf{END}
+
+\textbf{Problem 5} Let $m(y) = \min\{x \in F_{32} : x > y \}$ be the smallest single precision number greater than $y$. What is $m(2) - 2$ and $m(1024) - 1024$? 
+
+\textbf{SOLUTION} The next float after $2$ is $2 * (1 + 2^{-23})$ hence we get $m(2) - 2 = 2^{-22}$:
+
+
+\begin{lstlisting}
+(*@\HLJLnf{nextfloat}@*)(*@\HLJLp{(}@*)(*@\HLJLnfB{2f0}@*)(*@\HLJLp{)}@*) (*@\HLJLoB{-}@*) (*@\HLJLni{2}@*)(*@\HLJLp{,}@*) (*@\HLJLni{2}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{22}@*)(*@\HLJLp{)}@*)
+\end{lstlisting}
+
+\begin{lstlisting}
+(2.3841858f-7, 2.384185791015625e-7)
+\end{lstlisting}
+
+
+similarly, for $1024 = 2^{10}$ we find that the difference $m(1024) - 1024$ is $2^{10-23} = 2^{-13}$:
+
+
+\begin{lstlisting}
+(*@\HLJLnf{nextfloat}@*)(*@\HLJLp{(}@*)(*@\HLJLnfB{1024f0}@*)(*@\HLJLp{)}@*) (*@\HLJLoB{-}@*) (*@\HLJLni{1024}@*)(*@\HLJLp{,}@*) (*@\HLJLni{2}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{13}@*)(*@\HLJLp{)}@*)
+\end{lstlisting}
+
+\begin{lstlisting}
+(0.00012207031f0, 0.0001220703125)
+\end{lstlisting}
+
+
+\textbf{END}
+
+
+
+\end{document}

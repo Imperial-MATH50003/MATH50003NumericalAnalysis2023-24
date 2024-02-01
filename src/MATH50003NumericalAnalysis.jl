@@ -2,7 +2,7 @@ module MATH50003NumericalAnalysis
 
 using Weave
 
-export compilenotes, compilesheet, compilesheetsolutions, compilelab, compilelabsolutions
+export compilenotes, compilesheet, compilesheetsolution, compilelab, compilelabsolution
 
 
 #####
@@ -61,7 +61,7 @@ function compilesheet(k)
 end
 
 
-function compilesheetsolutions(k)
+function compilesheetsolution(k)
     filename = "sheet$k"
     weave("src/sheets/$(filename)s.jmd"; out_path="sheets/", doctype="md2tex", template="src/sheets/template.tpl")
     path = "sheets/$(filename)s.tex"
