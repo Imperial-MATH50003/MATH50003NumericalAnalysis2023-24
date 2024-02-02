@@ -103,8 +103,8 @@ typeof(0b11111111111111111111111111111111111111111111111111111111111111111111111
 
 # Integers use modular arithmetic for addition, subtraction and multiplication:
 
-x = UInt8(17)  # An 8-bit representation of the number 255, i.e. with bits 00010001
-y = UInt8(3)   # An 8-bit representation of the number   1, i.e. with bits 00000011
+x = UInt8(17)  # An 8-bit representation of the number 17, i.e. with bits 00010001
+y = UInt8(3)   # An 8-bit representation of the number   3, i.e. with bits 00000011
 printbits(x); println(" + "); printbits(y); println(" = ")
 printlnbits(x + y) # + is automatically modular arithmetic
 printbits(x); println(" - "); printbits(y); println(" = ")
