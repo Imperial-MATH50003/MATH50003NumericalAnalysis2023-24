@@ -29,7 +29,7 @@ Office hour: Mondays 11am, Huxley 6M40
 
 ## Assessment
 
-1. Practice computer-based exam (marked but not for credit): TBA
+1. Practice computer-based exam (marked but not for credit): 29 February 2024, 16:00-17:30pm
 2. Computer-based exam: 15 March 2024, 9:00–10:30
 5. Final exam (pen-and-paper): TBA
 
