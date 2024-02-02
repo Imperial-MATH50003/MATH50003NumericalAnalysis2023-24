@@ -213,12 +213,13 @@ The bound then follows, using the very pessimistic bound $|1 + \ensuremath{\delt
 
 The previous theorem neglected some errors due to rounding, which was done for simplicity. This is justified under fairly general restrictions:
 
-\textbf{Corollary (divided differences in practice)} We have
+\begin{corollary}[divided differences in practice] We have
 \[
 (f^{\rm FP}(x \ensuremath{\oplus} h) \ensuremath{\ominus} f^{\rm FP}(x)) \ensuremath{\oslash} h = {f^{\rm FP}(x + h) \ensuremath{\ominus} f^{\rm FP}(x) \over h}
 \]
-whenever  $h = 2^{-n}$ and $x = \ensuremath{\pm}2^j (1.b_1\ensuremath{\ldots}b_S)_2$ and $b_S = 0$.
+whenever  $h = 2^{j-n}$ for $0 \ensuremath{\leq} n \ensuremath{\leq} S$ and the last binary place of $x \ensuremath{\in} F_{\ensuremath{\infty},S}$ is zero, that is $x = \ensuremath{\pm}2^j (1.b_1\ensuremath{\ldots}b_{S-1}0)_2$.
 
+\end{corollary}
 \textbf{Proof}
 
 When $h = 2^{-n}$ we have for any normal float $y = \ensuremath{\pm}2^j (1.b_1\ensuremath{\ldots}b_S)_2 \ensuremath{\in} F_{\ensuremath{\infty},S}$ that 

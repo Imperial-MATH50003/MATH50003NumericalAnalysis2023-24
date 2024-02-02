@@ -37,10 +37,10 @@ We want to  implement floating point variants of these operations that are guara
 
 \begin{definition}[floating point interval arithmetic] For intervals  $A = [a,b]$ and $B = [c,d]$ satisfying $0 < a \ensuremath{\leq} b$ and $0 < c \ensuremath{\leq} d$, and $n > 0$, define:
 \begin{align*}
-[a,b] \ensuremath{\oplus} [c,d] &:= [{\rm fl}^{\rm down}(a+c), {\rm fl}^{\rm up}(b+d)] \\
-[a,b] \ensuremath{\ominus} [c,d] &:= [{\rm fl}^{\rm down}(a-d), {\rm fl}^{\rm up}(b-c)] \\
-[a,b] \ensuremath{\oslash} n &:= [{\rm fl}^{\rm down}(a/n), {\rm fl}^{\rm up}(b/n)] \\
-[a,b] \ensuremath{\otimes} [c,d] &:= [{\rm fl}^{\rm down}(ac), {\rm fl}^{\rm up}(bd)]
+[a,b] \ensuremath{\oplus} [c,d] &:= [\fldown(a+c), \flup(b+d)] \\
+[a,b] \ensuremath{\ominus} [c,d] &:= [\fldown(a-d), \flup(b-c)] \\
+[a,b] \ensuremath{\oslash} n &:= [\fldown(a/n), \flup(b/n)] \\
+[a,b] \ensuremath{\otimes} [c,d] &:= [\fldown(ac), \flup(bd)]
 \end{align*}
 \end{definition}
 
@@ -56,7 +56,7 @@ we can extend the computation to another term:
 \begin{align*}
 1 + 1 + 1/2 + 1/6 &\ensuremath{\in} [5/2,5/2] \ensuremath{\oplus} ([1,1] \ensuremath{\oslash} 6) \ccr
 = [2 (1.01)_2, 2 (1.01)_2] \ensuremath{\oplus} 2^{-3}[(1.0101010101)_2, (1.0101010110)_2] \ccr
-= [{\rm fl}^{\rm down}(2 (1.0101010101\red{0101})_2), {\rm fl}^{\rm up}(2 (1.0101010101\red{011})_2)] \ccr
+= [\fldown(2 (1.0101010101\red{0101})_2), \flup(2 (1.0101010101\red{011})_2)] \ccr
 = [2(1.0101010101)_2, 2(1.0101010110)_2] \ccr 
 = [2.666015625, 2.66796875]
 \end{align*}
@@ -72,7 +72,7 @@ where we can bound the error by (using the fact that $\ensuremath{\euler} = 2.71
 \]
 Put another way: $\ensuremath{\delta}_{x,n} \ensuremath{\in} \left[-{3 \over (n+1)!}, {3 \over (n+1)!}\right]$. We can use this to adjust the bounds derived from interval arithmetic for the interval arithmetic expression:
 \[
-\exp(X) \ensuremath{\subseteq} \left(\ensuremath{\bigoplus}_{k=0}^n {X \ocaret k \ensuremath{\oslash} k!}\right) \ensuremath{\oplus} \left[-{3 \over (n+1)!}, {3 \over (n+1)!}\right]
+\exp(X) \ensuremath{\subseteq} \left(\ensuremath{\bigoplus}_{k=0}^n {X \ocaret k \ensuremath{\oslash} k!}\right) \ensuremath{\oplus} \left[\fldown\fpr(-{3 \over (n+1)!}), \flup\fpr({3 \over (n+1)!})\right]
 \]
 For example, with $n = 3$ we have $|\ensuremath{\delta}_{1,2}| \ensuremath{\leq} 3/4! = 1/2^3$. Thus we can prove that:
 \meeq{

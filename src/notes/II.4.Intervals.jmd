@@ -60,10 +60,10 @@ For intervals  $A = [a,b]$ and $B = [c,d]$ satisfying
 $0 < a ≤ b$ and $0 < c ≤ d$, and $n > 0$, define:
 $$
 \begin{align*}
-[a,b] ⊕ [c,d] &:= [{\rm fl}^{\rm down}(a+c), {\rm fl}^{\rm up}(b+d)] \\
-[a,b] ⊖ [c,d] &:= [{\rm fl}^{\rm down}(a-d), {\rm fl}^{\rm up}(b-c)] \\
-[a,b] ⊘ n &:= [{\rm fl}^{\rm down}(a/n), {\rm fl}^{\rm up}(b/n)] \\
-[a,b] ⊗ [c,d] &:= [{\rm fl}^{\rm down}(ac), {\rm fl}^{\rm up}(bd)]
+[a,b] ⊕ [c,d] &:= [\fldown(a+c), \flup(b+d)] \\
+[a,b] ⊖ [c,d] &:= [\fldown(a-d), \flup(b-c)] \\
+[a,b] ⊘ n &:= [\fldown(a/n), \flup(b/n)] \\
+[a,b] ⊗ [c,d] &:= [\fldown(ac), \flup(bd)]
 \end{align*}
 $$
 ∎
@@ -84,7 +84,7 @@ $$
 \begin{align*}
 1 + 1 + 1/2 + 1/6 &∈ [5/2,5/2] ⊕ ([1,1] ⊘ 6) \ccr
 = [2 (1.01)_2, 2 (1.01)_2] ⊕ 2^{-3}[(1.0101010101)_2, (1.0101010110)_2] \ccr
-= [{\rm fl}^{\rm down}(2 (1.0101010101\red{0101})_2), {\rm fl}^{\rm up}(2 (1.0101010101\red{011})_2)] \ccr
+= [\fldown(2 (1.0101010101\red{0101})_2), \flup(2 (1.0101010101\red{011})_2)] \ccr
 = [2(1.0101010101)_2, 2(1.0101010110)_2] \ccr 
 = [2.666015625, 2.66796875]
 \end{align*}
@@ -105,7 +105,7 @@ Put another way: $δ_{x,n} ∈ \left[-{3 \over (n+1)!}, {3 \over (n+1)!}\right]$
 We can use this to adjust the bounds derived from interval arithmetic for the interval
 arithmetic expression:
 $$
-\exp(X) ⊆ \left(⨁_{k=0}^n {X \ocaret k ⊘ k!}\right) ⊕ \left[-{3 \over (n+1)!}, {3 \over (n+1)!}\right]
+\exp(X) ⊆ \left(⨁_{k=0}^n {X \ocaret k ⊘ k!}\right) ⊕ \left[\fldown\fpr(-{3 \over (n+1)!}), \flup\fpr({3 \over (n+1)!})\right]
 $$
 For example, with $n = 3$ we have $|δ_{1,2}| ≤ 3/4! = 1/2^3$. Thus we can prove that:
 $$

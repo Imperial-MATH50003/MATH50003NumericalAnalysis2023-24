@@ -318,7 +318,8 @@ This is justified under fairly general restrictions:
 $$
 (f^{\rm FP}(x ⊕ h) ⊖ f^{\rm FP}(x)) ⊘ h = {f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x) \over h}
 $$
-whenever  $h = 2^{-n}$ and $x = ±2^j (1.b_1…b_S)_2$ and $b_S = 0$.
+whenever  $h = 2^{j-n}$ for $0 ≤ n ≤ S$ and the last binary place of $x ∈ F_{∞,S}$ is zero,
+that is $x = ±2^j (1.b_1…b_{S-1}0)_2$.
 
 **Proof**
 

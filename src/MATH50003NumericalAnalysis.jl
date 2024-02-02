@@ -34,6 +34,7 @@ function compilenotes(filename)
     replacetheorem(path, "theorem", "Theorem")
     replacetheorem(path, "lemma", "Lemma")
     replacetheorem(path, "proposition", "Proposition")
+    replacetheorem(path, "corollary", "Corollary")
     replacedefinition(path, "example", "Example")
     replacedefinition(path, "definition", "Definition")
     # work around double newline before equation
