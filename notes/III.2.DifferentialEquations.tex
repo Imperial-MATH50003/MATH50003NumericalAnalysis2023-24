@@ -1,21 +1,24 @@
 
 \section{Differential Equations via Finite Differences}
-Linear algebra is a powerful tool for solving linear equations, including \ensuremath{\infty}-dimensional ones like differential equations. In this section we discuss \emph{finite differences}: an algorithmic way of reducing ODEs to linear systems by replacing derivatives with divided differences approximations. 
+Linear algebra is a powerful tool for solving linear equations, including \ensuremath{\infty}-dimensional ones like differential equations. In this section we discuss \emph{finite differences}: an algorithmic way of reducing ODEs to linear systems by replacing derivatives with divided difference approximations. 
 
-We will focus on the following differential equations. Indefinite integration for $a \ensuremath{\leq} x \ensuremath{\leq} b$ can be viewed as solving a very simple first-order linear ODE:
-\[
-u(a) = c, u'(x) = f(x)
-\]
-We will then allow for more complicated first order linear ODEs with variable coefficients:
-\[
-u(a) = c, u'(x) - \ensuremath{\omega}(x) u(x) = f(x)
-\]
-For second-order differential equations you may have seen \emph{initial value problems} where the value and derivative at an initial point $x=a$ are provided.  Instead, we will consider \emph{boundary value problems} where the value at the left and right endpoints are imposed. In particular we will consider the Poisson equation with \emph{Dirichlet conditions}:
-\begin{align*}
-u(a) &= c_0, u(b) = c_1, \\
-u''(x) &= f(x)
-\end{align*}
-In higher dimensions, the Poisson equation (and other \emph{elliptic} partial differential equations) typically have boundary conditions and the techniques we discuss for our simple 1D model problem extend to these more challenging settings.
+We will focus on the following differential equations. Indefinite integration for $a \ensuremath{\leq} x \ensuremath{\leq} b$ can be viewed as solving a very simple first-order linear ODE: given a constant $c \ensuremath{\in} \ensuremath{\bbF}$ (where as before $\ensuremath{\bbF}$ is usually $\ensuremath{\bbR}$ or $\ensuremath{\bbC}$) and a function $f : [a,b] \ensuremath{\rightarrow} \ensuremath{\bbF}$, find a differentiable function $u : [a,b] \ensuremath{\rightarrow} \ensuremath{\bbF}$ such that
+\meeq{
+u(a) = c, \ccr
+u'(x) = f(x).
+}
+We will then allow for more complicated first order linear ODEs with variable coefficients: given  a constant $c$ and functions $f,\ensuremath{\omega} : [a,b] \ensuremath{\rightarrow} \ensuremath{\bbF}$ find $u$ such that
+\meeq{
+u(a) = c, \ccr 
+u'(x) - \ensuremath{\omega}(x) u(x) = f(x).
+}
+For second-order differential equations you may have seen \emph{initial value problems} where the value and derivative at an initial point $x=a$ are provided.  Instead, we will consider \emph{boundary value problems} where the value at the left and right endpoints are imposed. In particular we will consider the Poisson equation with \emph{Dirichlet conditions} (i.e. conditions on the left and right of an interval): given constants $c,d$ and a function $f$ find a twice-differentiable function $u$ such that
+\meeq{
+u(a) = c, \ccr
+u''(x) = f(x), \ccr
+u(b) = d
+}
+In higher dimensions, the Poisson equation (and other \emph{elliptic} partial differential equations) typically have boundary conditions imposed on the boundary of a complicated geometry  and the techniques we discuss for our simple 1D model problem extend to these more challenging settings.
 
 Briefly, the basic idea of finite differences is a systematic way of reducing a differential equation to a linear system. For each problem we will do the following steps:
 
@@ -29,30 +32,30 @@ Briefly, the basic idea of finite differences is a systematic way of reducing a 
 \item[3. ] In the formula replace unknown values of $u(x_j)$ at the grid by new unknowns $u_j$.
 
 
-\item[4. ] Deduce from this  a linear system that can be solved to compute $u_j$ so that $u_j \ensuremath{\approx} u(x_j)$. 
+\item[4. ] Deduce from this  a linear system that can be solved to compute $u_j$ so that (hopefully) $u_j \ensuremath{\approx} u(x_j)$. 
 
 \end{itemize}
-\textbf{Remark} One can prove convergence of finite difference approximations but this is beyond the scope of this module.
+\textbf{Remark} One can prove convergence of finite difference approximations but this is beyond the scope of this module. In the lab we determine convergence rates experimentally.
 
 \subsection{Indefinite integration}
 We begin with the simplest differential equation on an interval $[a,b]$:
 \begin{align*}
-u(a) &= c \\
+u(a) &= c, \\
 u'(x) &= f(x)
 \end{align*}
-As in integration we will use an evenly spaced grid $a = x_0 < x_1 < \ensuremath{\ldots} < x_n = b$ defined by $x_j :=  a + h j$ where $h := (b-a)/n$. The solution is of course $u(x) = c + \ensuremath{\int}_a^x f(x) {\rm d}x$ and we could use Rectangular or Trapezium rules to to obtain approximations to $u(x_j)$ for each $j$, however, we shall take another (equivalent) approach that will generalise to other differential equations. 
+As in integration we will use an evenly spaced grid $a = x_0 < x_1 < \ensuremath{\ldots} < x_n = b$ defined by $x_j :=  a + h j$ where $h := (b-a)/n$. The solution is of course $u(x) = c + \ensuremath{\int}_a^x f(x) {\rm d}x$ and we could use Rectangular or Trapezium rules to to obtain approximations to $u(x_j)$ for each $j$, however, we shall take another approach that will generalise to other differential equations. 
 
 Consider a divided difference approximation like right-sided divided differences: 
 \[
 u'(x) \ensuremath{\approx} {u(x+h) - u(x)\over h}.
 \]
-When applied to a grid point $x_0,\ensuremath{\ldots},x_{n-1}$ this becomes:
+When applied to a grid point $x_j \ensuremath{\in} \set{x_0,\ensuremath{\ldots},x_{n-1}}$ this becomes:
 \[
 u'(x_j) \ensuremath{\approx} {u(x_j+h) - u(x_j)\over h} = {u(x_{j+1}) - u(x_j)\over h}
 \]
-Note that $x_n$ is not permitted since that would go past the interval. We use this approximation as follows:
+Note that $x_n$ is not permitted since that would depend on $u(x_{n+1})$, but $x_{n+1} > b$ and we have only assumed $f$ is defined on $[a,b]$. We use this approximation as follows:
 
-(1) Write the ODE and initial conditions on the grid. Since right-sided differences will depend on $x_j$ and $x_{j+1}$ we stop at $x_{n-1}$ to avoid going past our grid: 
+(1) Write the ODE and initial conditions on the grid. Since right-sided divided differences will depend on $x_j$ and $x_{j+1}$ we stop at $x_{n-1}$ to avoid going past our grid: 
 \[
 \Vectt[u(x_0) , 
      u'(x_0) ,
@@ -60,7 +63,7 @@ u'(x_1) ,
 \ensuremath{\vdots} ,
 u'(x_{n-1})] = \underbrace{\Vectt[c, f(x_0), f(x_1), \ensuremath{\vdots} , f(x_{n-1})]}_{\ensuremath{\bm{\b}}}
 \]
-(2) Replace derivatives with divided differences:
+(2) Replace derivatives with divided differences, changing equality to an approximation:
 \[
 \Vectt[u(x_0) \\ 
 (u(x_1) - u(x_0))/h \\
@@ -68,7 +71,7 @@ u'(x_{n-1})] = \underbrace{\Vectt[c, f(x_0), f(x_1), \ensuremath{\vdots} , f(x_{
 \ensuremath{\vdots} \\
 (u(x_n) - u(x_{n-1})/h] \ensuremath{\approx} \ensuremath{\bm{\b}}
 \]
-(3) We do not know $u(x_j)$ hence we replace it with other unknowns $u_j$, but where the approximation becomes equality:
+(3) We do not know $u(x_j)$ hence we replace it with other unknowns $u_j$, but where the approximation is turned back into an equality: we want to find $u_0,\ensuremath{\ldots},u_n$ such that
 \[
 \Vectt[u_0 \\ 
 (u_1 - u_0)/h \\
@@ -76,7 +79,7 @@ u'(x_{n-1})] = \underbrace{\Vectt[c, f(x_0), f(x_1), \ensuremath{\vdots} , f(x_{
 \ensuremath{\vdots} \\
 (u_n - u_{n-1})/h] = \ensuremath{\bm{\b}}
 \]
-(4) This is actually a lower bidiagonal linear system:
+(4) This can be rewritten as a lower bidiagonal linear system:
 \[
 \underbrace{\begin{bmatrix}
     1 \\ 
@@ -84,7 +87,9 @@ u'(x_{n-1})] = \underbrace{\Vectt[c, f(x_0), f(x_1), \ensuremath{\vdots} , f(x_{
     & \ensuremath{\ddots} & \ensuremath{\ddots} \\
     && -1/h & 1/h \end{bmatrix}}_L \underbrace{\Vectt[u_0,u_1,\ensuremath{\vdots},u_n]}_{\ensuremath{\bm{\u}}} = \ensuremath{\bm{\b}}
 \]
-We can solve $L \ensuremath{\bm{\u}} = \ensuremath{\bm{\b}}$ using forward-substitution as discussed in the previous section.
+We can determine $\ensuremath{\bm{\u}}$ by solving $L \ensuremath{\bm{\u}} = \ensuremath{\bm{\b}}$ using forward-substitution.
+
+As mentioned before, it is possible to prove that as $n \ensuremath{\rightarrow} \ensuremath{\infty}$ we have for all $j$ that $u_j \ensuremath{\rightarrow} u(x_j)$ (uniformly). But we will leave this to be shown experimentally in the lab.
 
 \subsection{Forward Euler}
 We can extend this to more general first-order linear differential equations with a variable coefficient:
@@ -94,7 +99,7 @@ u'(x) - \ensuremath{\omega}(x) u(x) &= f(x)
 \end{align*}
 The steps proceed very similar to before:
 
-(1) Write the ODE and initial conditions on the grid:
+(1) Write the ODE and initial conditions on the grid, avoiding $x_n$ so that we don't go past the endpoint:
 \[
 \Vectt[u(x_0) \\ 
 u'(x_0) + \ensuremath{\omega}(x_0) u(x_0) \\
@@ -110,7 +115,7 @@ u'(x_{n-1})+ \ensuremath{\omega}(x_{n-1}) u(x_{n-1})] = \underbrace{\Vectt[c, f(
 \ensuremath{\vdots} \\
 (u(x_n) - u(x_{n-1})/h + \ensuremath{\omega}(x_{n-1})u(x_{n-1})] \ensuremath{\approx} \ensuremath{\bm{\b}}
 \]
-(3) Replace $u(x_j)$  by its approximation $u_j$:
+(3) Replace $u(x_j)$  by its approximation $u_j$ but now with the system being an equality:
 \[
 \Vectt[u_0 \\ 
 (u_1 - u_0)/h + \ensuremath{\omega}(x_0) u_0 \\
@@ -118,7 +123,7 @@ u'(x_{n-1})+ \ensuremath{\omega}(x_{n-1}) u(x_{n-1})] = \underbrace{\Vectt[c, f(
 \ensuremath{\vdots} \\
 (u_n - u_{n-1})/h  + \ensuremath{\omega}(x_{n-1}) u_{n-1}] = \ensuremath{\bm{\b}}
 \]
-(4) We now get the linear system:
+(4) This is equivalent to the linear system:
 \[
 \underbrace{\begin{bmatrix}
     1 \\ 
@@ -126,13 +131,13 @@ u'(x_{n-1})+ \ensuremath{\omega}(x_{n-1}) u(x_{n-1})] = \underbrace{\Vectt[c, f(
     & \ensuremath{\ddots} & \ensuremath{\ddots} \\
     && \ensuremath{\omega}(x_{n-1})-1/h & 1/h \end{bmatrix}}_L \underbrace{\Vectt[u_0,u_1,\ensuremath{\vdots},u_n]}_{\ensuremath{\bm{\u}}} = \ensuremath{\bm{\b}}
 \]
-We can solve $L \ensuremath{\bm{\u}} = \ensuremath{\bm{\b}}$ using forward-substitution.
+We can solve $L \ensuremath{\bm{\u}} = \ensuremath{\bm{\b}}$ using forward-substitution so that $u_j \ensuremath{\approx} u(x_j)$.
 
 \subsection{Poisson equation}
 Consider the Poisson equation with Dirichlet conditions (a two-point boundary value problem):
 \begin{align*}
-u(0) &= c \\
-u''(x) &= f(x) \\
+u(0) &= c, \\
+u''(x) &= f(x), \\
 u(1) &= d
 \end{align*}
 We shall adapt the procedure using the second-order divided difference approximation from the first probem sheet:
@@ -143,9 +148,9 @@ When applied to a grid point $x_1,\ensuremath{\ldots},x_{n-1}$ this becomes:
 \[
 u'(x_j) \ensuremath{\approx} {u(x_j-h) - 2u(x_j) + u(x_j+h)\over h^2} = {u(x_{j-1}) - 2u(x_j) + u(x_{j+1})\over h^2}
 \]
-Note that $x_0$ and $x_n$ is not permitted since that would go past the interval. We use this approximation as follows:
+Note that $x_0$ and $x_n$ are not permitted since that would go past the endpoints of the interval. We use this approximation as follows:
 
-(1) Write the ODE and boundary conditions on the grid:
+(1) Write the ODE and boundary conditions on the grid (putting the left condition on the top and right condition on the bottom):
 \[
 \Vectt[u(x_0) \\ 
 u''(x_1) \\
@@ -163,7 +168,7 @@ u(x_n)] = \underbrace{\Vectt[c, f(x_0), f(x_1), \ensuremath{\vdots} , f(x_{n-1})
 {u(x_{n-2}) - 2u(x_{n-1}) + u(x_n)\over h^2} \\
 u(x_n)] \ensuremath{\approx} \ensuremath{\bm{\b}}
 \]
-(3) Replace $u(x_j)$  by its approximation $u_j$:
+(3) Replace $u(x_j)$  by its approximation $u_j$: we want to find $u_0,\ensuremath{\ldots},n_n$ so that
 \[
 \Vectt[u_0 \\ 
 {u_0 - 2u_1 + u_2\over h^2} \\
@@ -172,7 +177,7 @@ u(x_n)] \ensuremath{\approx} \ensuremath{\bm{\b}}
 {u_{n-2} - 2u_{n-1} + u_n\over h^2} \\
 u_n] = \ensuremath{\bm{\b}}
 \]
-(4) We now get a tridiagonal linear system:
+(4) This is equivalent to a tridiagonal linear system:
 \[
 \underbrace{\begin{bmatrix}
     1 \\ 
@@ -181,7 +186,7 @@ u_n] = \ensuremath{\bm{\b}}
    && 1/h^2 & -2/h^2 & 1/h \\ 
    &&&& 1 \end{bmatrix}}_A \underbrace{\Vectt[u_0,u_1,\ensuremath{\vdots},u_n]}_{\ensuremath{\bm{\u}}} = \ensuremath{\bm{\b}}
 \]
-But how do we solve a tridiagonal linear system $A \ensuremath{\bm{\u}} = \ensuremath{\bm{\b}}$?
+We are left with the question: how do we solve a tridiagonal linear system $A \ensuremath{\bm{\u}} = \ensuremath{\bm{\b}}$? We will answer this question in the next section.
 
 
 

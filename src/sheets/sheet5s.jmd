@@ -120,18 +120,6 @@ $$
 to a lower triangular system by discretising on the grid $x_j = a + j h$ for $h = (b-a)/n$. Hint: only impose the ODE on the
 gridpoints $x_1,…,x_n$ so that the divided difference does not depend on behaviour at $x_{-1}$.
 
-**Problem 3.2⋆ (B)** For an evenly spaced grid $x_1, …, x_n$, use the approximation
-$$
-{u'(x_{k+1}) + u'(x_k) \over 2} ≈ {u_{k+1} - u_k \over h}
-$$
-to recast
-$$
-\begin{align*}
-u(0) &= c \\
-u'(t) &= a(t) u(t) + f(t)
-\end{align*}
-$$
-as a lower bidiagonal linear system. 
 
 ## SOLUTION
 
@@ -176,6 +164,6 @@ $$
 **Problem 3** Reduce a Schrödinger equation to a tridiagonal linear system by discretising on the grid $x_j = a + j h$ for $h = (b-a)/n$:
 $$
 \meeq{
-u(a) =  c, u''(x) + V(x) u(x) = f(x), u(b) = d.
+u(a) =  c,\qquad u''(x) + V(x) u(x) = f(x), \qquad u(b) = d.
 }
 $$

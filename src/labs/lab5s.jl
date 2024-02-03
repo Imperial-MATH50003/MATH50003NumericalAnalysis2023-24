@@ -12,7 +12,6 @@
 
 
 ## LinearAlgebra contains routines for doing linear algebra
-## BenchmarkTools is a package for reliable timing
 using LinearAlgebra, Plots, Test
 
 
@@ -21,7 +20,7 @@ using LinearAlgebra, Plots, Test
 #  Julia package  [DifferentialEquations.jl](https://github.com/SciML/DifferentialEquations.jl). Moreover Forward and Backward
 # Euler are only the first baby steps to a wide range of time-steppers, with Runge–Kutta being
 # one of the most successful.
-# For example we can solve
+# For example, in practice we can solve
 # a simple differential equation like a pendulum $u'' = -\sin u$ can be solved
 # as follows (writing at a system $u' = v, v' = -\sin u$):
 
@@ -38,14 +37,14 @@ plot(u)
 #
 # Mathematical knowledge:
 #
-# 1. Matrix multiplication, back-substitution and forward-elimnation
+# 1. Matrix multiplication, back-substitution and forward-elimination.
 # 2. Banded matrices and their utilisation for better complexity linear algebra.
-# 2. Reduction of differential equations to bidiagonal or tridiagonal linear systems
-# 3. Two-point boundary value problems and their convergence rates
+# 2. Reduction of differential equations to bidiagonal or tridiagonal linear systems.
+# 3. Two-point boundary value problems and their convergence rates.
 #
 # Coding knowledge:
 #
-# 1. Construction of a dense `Vector` or `Matrix` either directly or via comprehensions or broadcasting
+# 1. Construction of a dense `Vector` or `Matrix` either directly or via comprehensions or broadcasting.
 # 2. The `vec`, `transpose`, `zeros`, `ones`, `fill`, `range`, `promote_type`, and `eltype` functions.
 # 3. Using `\` to solve linear systems.
 # 4. The `Diagonal`, `Bidiagonal`, and `Tridiagonal` types for making banded matrices.
@@ -72,7 +71,7 @@ plot(u)
 # Note sometimes it is best to create a vector/matrix and populate it. For example, the
 # previous matrix could also been constructed as follows:
 
-A = zeros(Int, 3, 4) # create a 3 × 4 matrix whose entries are `Int`
+A = zeros(Int, 3, 4) # create a 3 × 4 matrix whose entries are 0 (as Ints)
 for k = 1:3, j = 1:4
     A[k,j] = k^2 + j # set the entries of A
 end
@@ -148,10 +147,11 @@ Matrix((1:5)')
 # -------
 # #### Transposes and adjoints
 
-# We can also transpose a matrix `A`, This is done lazily
-# and so `transpose(A)` (which is equivalent to the adjoint/conjugate-transpose
-# `A'` when the entries are real),
-# is just a special type with a single field: `transpose(A).parent == A`.
+# We can also transpose a matrix `A` via `transpose(A)`
+# or compute the adjoint (conjugate-transpose) via `A'` (which is
+# equivalent to a transpose when the entries are real).
+# This is done _lazily_: they return custom types `Transpose` or
+# `Adjoint` that just wrap the input array and reinterpret the entries.
 # This is equivalent to
 # _row-major_ format, where the next address in memory of `transpose(A)` corresponds to
 # moving along the row.
@@ -162,6 +162,12 @@ A = [1+im  2  3;
      6     8  9]
 
 A' # adjoint (conjugate-transpose). If entries are real it is equivalent to transpose(A)
+
+# If we change entries of `A'` it actually changes entries of `A` too since
+# they are pointing to the same locations in memory, just interpreting the data differently:
+
+A'[1,2] = 2+im
+A # A[2,1] is now 2-im
 
 # Note vector adjoints/transposes behave differently than 1 × n matrices: they are
 # more like row-vectors. For example the following computes the dot product of two vectors:
@@ -181,28 +187,39 @@ x = [1,2,3]
 cos.(x) # equivalent to [cos(1), cos(2), cos(3)], or can be written broadcast(cos, x)
 
 # Broadcasting has some interesting behaviour for matrices.
-# If one dimension of a matrix (or vector) is 1, it automatically
+# If one dimension of a matrix (or vector) is `1`, it automatically
 # repeats the matrix (or vector) to match the size of another example.
 # In the following we use broadcasting to pointwise-multiply a column and row
 # vector to make a matrix:
 
-[1,2,3] .* [4,5]'
+a = [1,2,3]
+b = [4,5]
+
+a .* b'
 
 # Since `size([1,2,3],2) == 1` it repeats the same vector to match the size
 # `size([4,5]',2) == 2`. Similarly, `[4,5]'` is repeated 3 times. So the
 # above is equivalent to:
 
-[1 1; 2 2; 3 3] .* [4 5; 4 5; 4 5]
+A = [1 1;
+     2 2;
+     3 3] # same as [a a], i.e. repeat the vector a in each column
+B = [4 5;
+     4 5;
+     4 5] # same as [b'; b' b'], i.e. repeat the row vector b' in each row
+
+A .* B # equals the above a .* b'
 
 # Note we can also use matrix broadcasting with our own functions:
 
 f = (x,y) -> cos(x + 2y)
-f.([1,2,3], [4,5]') # makes a matrix with entries [f(1,4) f(1,5); f(2,4) f(2,5); f(3,4) f(3.5)]
+f.(a, b') # makes a matrix with entries [f(1,4) f(1,5); f(2,4) f(2,5); f(3,4) f(3.5)]
 
 
 # #### Ranges
 
-# _Ranges_ are another useful example of vectors.
+# _Ranges_ are another useful example of vectors, but where the entries are defined "lazily" instead of
+# actually created in memory.
 # We have already seen that we can represent a range of integers via `a:b`. Note we can
 # convert it to a `Vector` as follows:
 
@@ -280,7 +297,7 @@ A * x
 
 
 # We can implement our own version for any types that support `*` and `+` but there are
-# actually two different ways. The most natural mathematical way is as follows:
+# actually two different ways. The most natural mathematical way is to multiply-by-rows:
 
 function mul_rows(A, x)
     m,n = size(A)
@@ -296,7 +313,7 @@ function mul_rows(A, x)
 end
 
 
-# But we can also change the order of operations to give an alternative approach:
+# But we can also change the order of operations to give an alternative approach that is multiply-by-columns:
 
 function mul_cols(A, x)
     m,n = size(A)
@@ -339,7 +356,7 @@ using BenchmarkTools # load package for reliable timing
 # 3. Use in-built implementations whenever available.
 
 
-# Note that the rules of floating point arithmetic apply here: matrix multiplication with floats
+# Note that the rules of floating point arithmetic apply here. Matrix multiplication with floats
 # will incur round-off error (the precise details of which are subject to the implementation):
 
 
@@ -368,11 +385,6 @@ A \ b
 # product of matrices that are easy to invert, e.g., a product of triangular matrices or a product of an orthogonal
 # and triangular matrix.
 
-
-# The following problem compares the behaviour of `mul_cols` defined in lectures
-# to the inbuilt matrix-vector multiplication operation `A*x`. The point is that
-# sometimes the choice of algorithm, despite being mathematically equivalent, can change the exact results
-# when using floating point.
 
 # ### III.1.2 Triangular Matrices
 
@@ -421,9 +433,9 @@ b = [5, 6, 7]
 x = L \ b # Excercise: why does this return a float vector?
 
 # Behind the seens, `\` is doing forward-elimination.
-# We can implement our own version for any types that support `*`, `+` and `/` as follows:
+# We can implement our own version as follows:
 
-
+## ldiv is our own version of \
 function ldiv(L::LowerTriangular, b)
     n = size(L,1)
 
@@ -451,15 +463,14 @@ end
 
 # **Problem 3(a)** Complete the following function for upper triangular matrix-vector
 # multiplication without ever accessing the zero entries of `L` above the diagonal.
+# You may assume all numbers are `Float64`.
 # Hint: just copy code for `mul_cols` and modify the for-loop ranges a la the `UpperTriangular`
 # case.
 
 function mul_cols(U::UpperTriangular, x)
     n = size(U,1)
 
-    ## promote_type type finds a type that is compatible with both types, eltype gives the type of the elements of a vector / matrix
-    T = promote_type(eltype(x),eltype(U))
-    b = zeros(T,n) # the returned vector, begins of all zeros
+    b = zeros(n) # the returned vector, begins of all zeros
 
     ## TODO: populate b so that U*x ≈ b
     ## SOLUTION
@@ -679,7 +690,7 @@ b = [fill(1.6,n-2); 1.5; 1] # exact result
 # We now turn to an important application of banded linear algebra:
 # approximating solutions to linear differential equations. We will focus on first and second order
 # but the techniques generalise beyond this, to vector problems, nonlinear differential equations, and partial differential equations.
-# In particular we explore _finite difference_ approxiamtions which use divided differences to replace derivatives.
+# In particular we explore _finite difference_ approximations which use divided differences to replace derivatives.
 # These are the most basic type of numerical method and many powerful alternatives
 # exist, including Finite Element Methods and spectral methods.
 
@@ -688,9 +699,8 @@ b = [fill(1.6,n-2); 1.5; 1] # exact result
 
 # We can use the right-sided divided difference to approximate derivatives.  Let's do an example of integrating $\cos x$ by discretising the ODE
 # $$
-#  u'(x) = f(x), u(0) = c
+#  u(0) = c, \qquad u'(x) = f(x)
 # $$
-# as
 # and see if our method matches
 # the true answer of $\sin x$. Recall from the notes that this equation can be approximated by $u_k$ solving the bidiagonal linear system
 # $$
@@ -698,7 +708,7 @@ b = [fill(1.6,n-2); 1.5; 1] # exact result
 #     1 \\ 
 #     -1/h & 1/h \\
 #     & ⋱ & ⋱ \\
-#     && -1/h & 1/h \end{bmatrix} \begin{bmatrix}u_0\\u_1\\⋮\\u_n\end{bmatrix} = \begin{bmatrix}c\\ f(x_0)\\ f(x_1)\\ ⋮ \\ f(x_{n-1})\end{bmatrix}.
+#     && -1/h & 1/h \end{bmatrix} \begin{bmatrix}u_0\\u_1\\⋮\\u_n\end{bmatrix} = \begin{bmatrix}c\\ f(x_0)\\ ⋮ \\ f(x_{n-1})\end{bmatrix}.
 # $$
 # We can construct the bidiagonal matrix as follows:
 
@@ -738,7 +748,7 @@ end
 
 ns = 10 .^ (1:8) # solve up to n = 10 million
 scatter(ns, forward_err.(sin, 0, f, ns); xscale=:log10, yscale=:log10, label="forward")
-plot!(ns, ns .^ (-1); label="1/n")
+plot!(ns, ns .^ (-1); label="1/n", linestyle=:dash)
 
 # We see that the method converges linearly (like $O(n^{-1})$). 
 
