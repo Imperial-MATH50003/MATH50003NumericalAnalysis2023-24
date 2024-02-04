@@ -1074,7 +1074,7 @@ plot!(ns, ns .^ (-2); label="1/n^2")
 
 ## SOLUTION
 function helm(k, n)
-    x = range(0, 1; length = n)
+    x = range(0, 1; length = n+1)
     h = step(x)
     # TODO: Create a SymTridiagonal discretisation
     T = SymTridiagonal(ones(n-2)*(-2/h^2 + k^2),ones(n-3)*1/h^2)

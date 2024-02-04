@@ -1,0 +1,287 @@
+
+\section{PLU and Cholesky factorisations}
+In this chapter we consider the following factorisations for square invertible  matrices $A$:
+
+\begin{itemize}
+\item[1. ] The \emph{LU factorisation}: $A = LU$ where $L$ is lower triangular and $U$ is upper triangular. This is equivalent to Gaussian elimination without pivoting, so may not exist (e.g. if $A[1,1] = 0$).
+
+
+\item[2. ] The \emph{PLU factorisation}: $A = P^\ensuremath{\top} LU$ where $P$ is a permutation matrix, $L$ is lower triangular and $U$ is upper triangular. This is equivalent to Gaussian elimination with pivoting. It always exists but may in extremely rare cases be unstable. 
+
+
+\item[3. ] For a real square \emph{symmetric positive definite} ($A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ such that $A^\ensuremath{\top} = A$ and $\ensuremath{\bm{\x}}^\ensuremath{\top} A \ensuremath{\bm{\x}} > 0$ for all $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^n$, $\ensuremath{\bm{\x}} \ensuremath{\neq} 0$)  matrix the LU decompostion has a special form which is called the \emph{Cholesky factorisation}: $A = L L^\ensuremath{\top}$. This provides an algorithmic way to \emph{prove} that a matrix is symmetric positive definite.
+
+\end{itemize}
+\subsection{LU Factorisation}
+Just as Gram\ensuremath{\endash}Schmidt can be reinterpreted as a reduced QR factorisation, Gaussian elimination  can be interpreted as an LU factorisation. Write a matrix $A \ensuremath{\in} \ensuremath{\bbC}^{n \ensuremath{\times} n}$ as follows:
+\[
+A =  \begin{bmatrix} \ensuremath{\alpha}_1 & \ensuremath{\bm{\w}}_1^\ensuremath{\top} \\ \ensuremath{\bm{\v}}_1 & A_2 \end{bmatrix}
+\]
+where $\ensuremath{\alpha}_1 = a_{11}$, $\ensuremath{\bm{\v}}_1 = A[2:n, 1]$ and $\ensuremath{\bm{\w}}_1 = A[1, 2:n]$. Gaussian elimination consists of taking the first row, dividing by $\ensuremath{\alpha}$ and subtracting from all other rows. That is equivalent to multiplying by a lower triangular matrix:
+\[
+\begin{bmatrix}
+1 \\
+-\ensuremath{\bm{\v}}_1/\ensuremath{\alpha}_1 & I \end{bmatrix} A = \begin{bmatrix} \ensuremath{\alpha}_1 & \ensuremath{\bm{\w}}_1^\ensuremath{\top} \\  & K -\ensuremath{\bm{\v}}_1\ensuremath{\bm{\w}}_1^\ensuremath{\top} /\ensuremath{\alpha}_1 \end{bmatrix}
+\]
+where $A_2 := K -\ensuremath{\bm{\v}}_1 \ensuremath{\bm{\w}}_1^\ensuremath{\top}/\ensuremath{\alpha}_1$  happens to be a rank-1 perturbation of $K$.  We can write this another way:
+\[
+A = \underbrace{\begin{bmatrix}
+1 \\
+\ensuremath{\bm{\v}}_1/\ensuremath{\alpha}_1 & I \end{bmatrix}}_{L_1}  \begin{bmatrix} \ensuremath{\alpha}_1 & \ensuremath{\bm{\w}}_1^\ensuremath{\top} \\  & A_2 \end{bmatrix}
+\]
+Now assume we continue this process and manage to deduce $A_2 = L_2 U_2$. Then
+\[
+A = L_1 \begin{bmatrix} \ensuremath{\alpha}_1 & \ensuremath{\bm{\w}}_1^\ensuremath{\top} \\  & L_2U_2 \end{bmatrix}
+= \underbrace{L_1 \begin{bmatrix}
+1 \\
+ & L_2 \end{bmatrix}}_L  \underbrace{\begin{bmatrix} \ensuremath{\alpha}_1 & \ensuremath{\bm{\w}}_1^\ensuremath{\top} \\  & U_2 \end{bmatrix}}_U
+\]
+Note we can multiply through to find
+\[
+L = \begin{bmatrix}
+1 \\
+\ensuremath{\bm{\v}}_1/\ensuremath{\alpha}_1 & L_2 \end{bmatrix}
+\]
+\begin{example}[LU by-hand] Consider the matrix
+\[
+A = \begin{bmatrix} 1 & 1 & 1 \\
+                    2 & 4 & 8 \\
+                    1 & 4 & 9
+                    \end{bmatrix}
+\]
+We write
+\begin{align*}
+A = \underbrace{\begin{bmatrix} 1  \\
+                    2 & 1 &  \\
+                    1 &  & 1
+                    \end{bmatrix}}_{L_1} \begin{bmatrix} 1 & 1 & 1 \\
+                    0 & 2 & 6 \\
+                    0 & 3 & 8
+                    \end{bmatrix} 
+ = L_1 \underbrace{\begin{bmatrix} 1  \\
+                     & 1 &  \\
+                     & 3/2 & 1
+                    \end{bmatrix}}_{{\Lt}_2} \begin{bmatrix} 1 & 1 & 1 \\
+                    0 & 2 & 6 \\
+                    0 & 0 & -1
+                    \end{bmatrix} \\
+= \underbrace{\begin{bmatrix} 1  \\
+                    2 & 1 &  \\
+                    1 & 3/2 & 1
+                    \end{bmatrix}}_{L} \underbrace{\begin{bmatrix} 1 & 1 & 1 \\
+                    0 & 2 & 6 \\
+                    0 & 0 & -1
+                    \end{bmatrix}}_U
+\end{align*}
+\end{example}
+
+\subsection{PLU Factorisation}
+We learned in first year linear algebra that if a diagonal entry is zero when doing Gaussian elimnation one has to \emph{row pivot}. For stability,  in implementation one \emph{always} pivots: swap the largest in magnitude entry for the entry on the diagonal.
+
+We will see this is equivalent to a PLU decomposition:
+
+\begin{theorem}[PLU] A matrix $A \ensuremath{\in} \ensuremath{\bbC}^{n \ensuremath{\times} n}$ is invertible if and only if it has a PLU decomposition:
+\[
+A = P^\ensuremath{\top} L U
+\]
+where the diagonal of $L$ are all equal to 1 and the diagonal of $U$ are all non-zero.
+
+\end{theorem}
+\textbf{Proof}
+
+If we have a PLU decomposition of this form then $L$ and $U$ are invertible and hence the inverse is simply $A^{-1} = U^{-1} L^{-1} P$. 
+
+If $A \ensuremath{\in} \ensuremath{\bbC}^{1 \ensuremath{\times} 1}$ we trivially have an LU decomposition $A = [1] * [a_{11}]$ as all $1 \ensuremath{\times} 1$ matrices are triangular. We now proceed by induction: assume all invertible matrices of lower dimension have a PLU factorisation. As $A$ is invertible not all entries in the first column are zero. Therefore there exists a permutation $P_1$ so that $\ensuremath{\alpha} := (P_1 A)[1,1] \ensuremath{\neq} 0$. Hence we write
+\[
+P_1 A = \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\
+                        \ensuremath{\bm{\v}} & K
+                        \end{bmatrix} = \underbrace{\begin{bmatrix}
+1 \\
+\ensuremath{\bm{\v}}/\ensuremath{\alpha} & I \end{bmatrix}}_{L_1}  \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\  & K - \ensuremath{\bm{\v}} \ensuremath{\bm{\w}}^\ensuremath{\top}/\ensuremath{\alpha} \end{bmatrix}
+\]
+We deduce that $A_2 := K - \ensuremath{\bm{\v}} \ensuremath{\bm{\w}}^\ensuremath{\top}/\ensuremath{\alpha}$ is invertible because $A$ and $L_1$ are invertible (Exercise).
+
+By assumption we can write $A_2 = \Pt^\ensuremath{\top} \Lt \Ut$. Thus we have:
+\begin{align*}
+\underbrace{\begin{bmatrix} 1 \\
+            & \Pt \end{bmatrix} P_1}_P A &= \begin{bmatrix} 1 \\
+            & \Pt \end{bmatrix}  \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\
+                        \ensuremath{\bm{\v}} & A_2
+                        \end{bmatrix}  =
+            \begin{bmatrix} 1 \\ & \Pt \end{bmatrix} L_1  \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\  & \Pt^\ensuremath{\top} \Lt  \Ut \end{bmatrix} \\
+            &= \begin{bmatrix}
+1 \\
+\Pt \ensuremath{\bm{\v}}/\ensuremath{\alpha} & \Pt \end{bmatrix} \begin{bmatrix} 1 &  \\  &  \Pt^\ensuremath{\top} \Lt  \end{bmatrix}  \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\  &  \Ut \end{bmatrix} \\
+&= \underbrace{\begin{bmatrix}
+1 \\
+\Pt \ensuremath{\bm{\v}}/\ensuremath{\alpha} & \Lt  \end{bmatrix}}_L \underbrace{\begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\  &  \Ut \end{bmatrix}}_U. \\
+\end{align*}
+\ensuremath{\QED}
+
+In the above we neglected to state which permutation is used as for the proof of existence it is immaterial. For \emph{stability} however,  we choose one that puts the largest entry: let $\ensuremath{\sigma}_{\rm max} : \ensuremath{\bbR}^n \ensuremath{\rightarrow} S_n$ be the permutation that swaps the first row with the row of $\ensuremath{\bm{\a}}$ whose absolute value is maximised. In cycle notation we then have:
+\[
+\ensuremath{\sigma}_{\rm max}(\ensuremath{\bm{\a}}) = (1, {\rm indmax} |\ensuremath{\bm{\a}}|)
+\]
+where ${\rm indmax}$ gives the index of the entry of a vector which is its maximum.
+
+This inductive proof encodes an  algorithm. Note that in the above, just like in Householder QR, $\Pt$ is a product of all permutations that come afterwards, that is, we can think of $P$ as:
+\[
+\Pt =  \Pt_{n-1} \ensuremath{\cdots} \Pt_3 \Pt_2\qquad\hbox{for}\qquad \Pt_j = \begin{bmatrix} I_{j-2} \\ & P_j \end{bmatrix}
+\]
+where $P_j$ is a single permutation corresponding to the first column of $A_j$.  That is, we have
+\[
+\Pt \ensuremath{\bm{\v}} = \Pt_{n-1} \ensuremath{\cdots} \Pt_3 \Pt_2 \ensuremath{\bm{\v}}.
+\]
+\begin{example}[PLU by hand] Again we consider the matrix
+\[
+A = \begin{bmatrix} 1 & 1 & 1 \\
+                    2 & 4 & 8 \\
+                    1 & 4 & 9
+                    \end{bmatrix}
+\]
+Even though $a_{11} = 1 \ensuremath{\neq} 0$, we still pivot: placing  the maximum entry on the diagonal to mitigate numerical errors. That is, we first pivot and upper triangularise the first column:
+\[
+  \underbrace{\begin{bmatrix} 0 & 1 \\ 1 & 0 \\ && 1 \end{bmatrix}}_{P_1} A =  
+\begin{bmatrix}  2 & 4 & 8 \\
+                    1 & 1 & 1 \\
+                    1 & 4 & 9
+                    \end{bmatrix} = 
+\underbrace{\begin{bmatrix}  1 &  \\
+                    1/2 & 1 \\
+                    1/2 &  & 1
+                    \end{bmatrix}}_{L_1}
+                    \begin{bmatrix}  2 & 4 & 8 \\
+                     & -1 & -3 \\
+                     & 2 & 5
+                    \end{bmatrix}
+\]
+That is we have $\ensuremath{\alpha}_1 = 2$, $\ensuremath{\bm{\v}}_1 = [1,1]$, and $\ensuremath{\bm{\w}}_1 = [4,8]$. We now pivot for $A_2$:
+\[
+\underbrace{\begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix}}_{P_2}  \underbrace{\begin{bmatrix}
+-1 & -3 \\ 2 & 5 \end{bmatrix}}_{A_2} = \begin{bmatrix} 2 & 5 \\ -1 & -3 \end{bmatrix}
+= \underbrace{\begin{bmatrix} 1  \\ -1/2 & 1 \end{bmatrix}}_{L_2} \begin{bmatrix} 2 & 5 \\  & -{1 \over 2} \end{bmatrix}
+\]
+Note that $P_2 \ensuremath{\bm{\v}}_1 = \ensuremath{\bm{\v}}_1$ and
+\[
+P = \Pt_2 P_1 = \begin{bmatrix} 0 & 1 & 0 \\ 0 & 0 & 1 \\ 1 &  0 & 0 \end{bmatrix}.
+\]
+Hence we have
+\[
+P A = \begin{bmatrix} 1 \\ 
+1/2 & 1 \\
+1/2 & -1/2 & 1 \end{bmatrix}  \begin{bmatrix} 2 & 4 & 8 \\ & 2 & 5 \\ && -1/2 \end{bmatrix}
+\]
+\end{example}
+
+\subsection{Cholesky Factorisation}
+Cholesky Factorisation is a form of Gaussian elimination (without pivoting) that exploits symmetry in the problem, resulting in a substantial speedup.  It is only relevant for \emph{symmetric positive definite} (SPD) matrices.
+
+\begin{definition}[positive definite] A square matrix $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is \emph{positive definite} if for all $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^n, x \ensuremath{\neq} 0$ we have
+\[
+\ensuremath{\bm{\x}}^\ensuremath{\top} A \ensuremath{\bm{\x}} > 0
+\]
+\end{definition}
+
+First we establish some basic properties of positive definite matrices:
+
+\begin{proposition}[conj. pos. def.] If  $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is positive definite and  $V \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is non-singular then
+\[
+V^\ensuremath{\top} A V
+\]
+is positive definite. \end{proposition}
+\textbf{Proof} See problem sheet. \ensuremath{\QED}
+
+\begin{proposition}[diag positivity] If $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is positive definite then its diagonal entries are positive: $a_{kk} > 0$. \end{proposition}
+\textbf{Proof} See problem sheet. \ensuremath{\QED}
+
+\begin{theorem}[subslice pos. def.] If $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is positive definite and $\ensuremath{\bm{\k}} \ensuremath{\in} \{1,\ensuremath{\ldots},n\}^m$ is a vector of $m$ integers where any integer appears only once,  then $A[\ensuremath{\bm{\k}},\ensuremath{\bm{\k}}] \ensuremath{\in} \ensuremath{\bbR}^{m \ensuremath{\times} m}$ is also positive definite. \end{theorem}
+\textbf{Proof} See problem sheet. \ensuremath{\QED}
+
+Here is the key result:
+
+\begin{theorem}[Cholesky and SPD] A matrix $A$ is symmetric positive definite if and only if it has a Cholesky factorisation
+\[
+A = L L^\ensuremath{\top}
+\]
+where the diagonals of $L$ are positive.
+
+\end{theorem}
+\textbf{Proof} If $A$ has a Cholesky factorisation it is symmetric ($A^\ensuremath{\top} = (L L^\ensuremath{\top})^\ensuremath{\top} = A$) and for $\ensuremath{\bm{\x}} \ensuremath{\neq} 0$ we have
+\[
+\ensuremath{\bm{\x}}^\ensuremath{\top} A \ensuremath{\bm{\x}} = (L^\ensuremath{\top}\ensuremath{\bm{\x}})^\ensuremath{\top} L^\ensuremath{\top} \ensuremath{\bm{\x}} = \|L^\ensuremath{\top}\ensuremath{\bm{\x}}\|^2 > 0
+\]
+where we use the fact that $L$ is non-singular.
+
+For the other direction we will prove it by induction, with the $1 \ensuremath{\times} 1$ case being trivial.  Assume all lower dimensional symmetric positive definite matrices have Cholesky decompositions. Write
+\[
+A = \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\v}}^\ensuremath{\top} \\
+                    \ensuremath{\bm{\v}}   & K
+                    \end{bmatrix} = \underbrace{\begin{bmatrix} \sqrt{\ensuremath{\alpha}} \\ 
+                                    {\ensuremath{\bm{\v}} \over \sqrt{\ensuremath{\alpha}}} & I \end{bmatrix}}_{L_1}
+                                    \underbrace{\begin{bmatrix} 1  \\ & K - {\ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\top} \over \ensuremath{\alpha}} \end{bmatrix}}_{A_1}
+                                    \underbrace{\begin{bmatrix} \sqrt{\ensuremath{\alpha}} & {\ensuremath{\bm{\v}}^\ensuremath{\top} \over \sqrt{\ensuremath{\alpha}}} \\
+                                     & I \end{bmatrix}}_{L_1^\ensuremath{\top}}.
+\]
+Note that $A_2 := K - {\ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\top} \over \ensuremath{\alpha}}$ is a subslice of $L_1^{-1} A L_1^{-\ensuremath{\top}}$, hence by the previous propositionis itself symmetric positive definite. Thus we can write 
+\[
+A_2 = K - {\ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\top} \over \ensuremath{\alpha}} = \Lt \Lt^\ensuremath{\top}
+\]
+and hence $A = L L^\ensuremath{\top}$ for
+\[
+L= L_1 \begin{bmatrix}1 \\ & \Lt \end{bmatrix} = \begin{bmatrix} \sqrt{\ensuremath{\alpha}} \\ {\ensuremath{\bm{\v}} \over \sqrt{\ensuremath{\alpha}}} & \Lt \end{bmatrix}
+\]
+satisfies $A = L L^\ensuremath{\top}$. \ensuremath{\QED}
+
+\begin{example}[Cholesky by hand] Consider the matrix
+\[
+A = \begin{bmatrix}
+2 &1 &1 &1 \\
+1 & 2 & 1 & 1 \\
+1 & 1 & 2 & 1 \\
+1 & 1 & 1 & 2
+\end{bmatrix}
+\]
+Then $\ensuremath{\alpha}\ensuremath{\_1} = 2$, $\ensuremath{\bm{\v}}\ensuremath{\_1} = [1,1,1]$, and  
+\[
+A_2 = \begin{bmatrix}
+2 &1 &1 \\
+1 & 2 & 1 \\
+1 & 1 & 2 
+\end{bmatrix} - {1 \over 2} \begin{bmatrix} 1 \\ 1 \\ 1 \end{bmatrix} \begin{bmatrix} 1 & 1 & 1 \end{bmatrix} 
+={1 \over 2} \begin{bmatrix}
+3 & 1 & 1 \\
+1 & 3 & 1 \\
+1 & 1 & 3 
+\end{bmatrix}.
+\]
+Continuing, we have $\ensuremath{\alpha}_2 = 3/2$, $\ensuremath{\bm{\v}}_2 = [1/2,1/2]$, and
+\[
+A_3 = {1 \over 2} \left( \begin{bmatrix}
+3 & 1 \\ 1 & 3
+\end{bmatrix} - {1 \over 3} \begin{bmatrix} 1 \\ 1  \end{bmatrix} \begin{bmatrix} 1 & 1  \end{bmatrix}
+\right)
+= {1 \over 3} \begin{bmatrix} 4 & 1 \\ 1 & 4 \end{bmatrix}
+\]
+Next, $\ensuremath{\alpha}_3 = 4/3$, $\ensuremath{\bm{\v}}_3 = [1]$, and
+\[
+A_4 = [4/3 - 3/4 * (1/3)^2] = [5/4]
+\]
+i.e. $\ensuremath{\alpha}_4 = 5/4$.
+
+Thus we get
+\[
+L= \begin{bmatrix}
+\sqrt{\ensuremath{\alpha}\ensuremath{\_1}} \\
+{\ensuremath{\bm{\v}}_1[1] \over \sqrt{\ensuremath{\alpha}\ensuremath{\_1}}} & \sqrt{\ensuremath{\alpha}\ensuremath{\_2}} \\
+{\ensuremath{\bm{\v}}_1[2] \over \sqrt{\ensuremath{\alpha}\ensuremath{\_1}}} & {\ensuremath{\bm{\v}}_2[1] \over \sqrt{\ensuremath{\alpha}\ensuremath{\_2}}}  & \sqrt{\ensuremath{\alpha}_3} \\
+{\ensuremath{\bm{\v}}_1[3] \over \sqrt{\ensuremath{\alpha}\ensuremath{\_1}}} & {\ensuremath{\bm{\v}}_2[2] \over \sqrt{\ensuremath{\alpha}\ensuremath{\_2}}}  & {\ensuremath{\bm{\v}}_3[1] \over \sqrt{\ensuremath{\alpha}_3}}  & \sqrt{\ensuremath{\alpha}_4}
+\end{bmatrix}
+ = \begin{bmatrix} \sqrt{2} \\ {1 \over \sqrt{2}} & \sqrt{3 \over 2} \\ 
+{1 \over \sqrt{2}} & {1 \over \sqrt 6} & {2 \over \sqrt{3}} \\
+{1 \over \sqrt{2}} & {1 \over \sqrt 6} & {1 \over \sqrt{12}} & {\sqrt{5} \over 2}
+\end{bmatrix}
+\]
+\end{example}
+
+
+

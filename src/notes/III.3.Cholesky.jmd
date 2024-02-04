@@ -1,0 +1,281 @@
+# PLU and Cholesky factorisations
+
+In this chapter we consider the following factorisations for square invertible  matrices $A$:
+1. The _LU factorisation_: $A = LU$ where $L$ is lower triangular and $U$ is upper triangular. This is equivalent to Gaussian elimination without pivoting, so may not exist (e.g. if $A[1,1] = 0$).
+1. The _PLU factorisation_: $A = P^⊤ LU$ where $P$ is a permutation matrix (a matrix when multiplying a vector is equivalent to permuting its rows), $L$ is lower triangular and $U$ is upper triangular. This is equivalent to Gaussian elimination with pivoting. It always exists but may in extremely rare cases be unstable. We won't discuss the details of computing the PLU factorisation 
+2. For a real square _symmetric positive definite_ ($A ∈ ℝ^{n × n}$ such that $A^⊤ = A$ and $𝐱^⊤ A 𝐱 > 0$ for all $𝐱 ∈ ℝ^n$, $𝐱 ≠ 0$)  matrix the LU decompostion has a special form which is called the _Cholesky factorisation_: $A = L L^⊤$. This provides an algorithmic way to _prove_ that a matrix is symmetric positive definite.
+
+
+
+## LU Factorisation
+
+Just as Gram–Schmidt can be reinterpreted as a reduced QR factorisation,
+Gaussian elimination  can be interpreted as an LU factorisation. Write a matrix
+$A ∈ ℂ^{n × n}$ as follows:
+$$
+A =  \begin{bmatrix} α_1 & 𝐰_1^⊤ \\ 𝐯_1 & A_2 \end{bmatrix}
+$$
+where $α_1 = a_{11}$, $𝐯_1 = A[2:n, 1]$ and $𝐰_1 = A[1, 2:n]$. Gaussian elimination consists of taking the first row, dividing by
+$α$ and subtracting from all other rows. That is equivalent to multiplying by a lower triangular matrix:
+$$
+\begin{bmatrix}
+1 \\
+-𝐯_1/α_1 & I \end{bmatrix} A = \begin{bmatrix} α_1 & 𝐰_1^⊤ \\  & K -𝐯_1𝐰_1^⊤ /α_1 \end{bmatrix}
+$$
+where $A_2 := K -𝐯_1 𝐰_1^⊤/α_1$  happens to be a rank-1 perturbation of $K$. 
+We can write this another way:
+$$
+A = \underbrace{\begin{bmatrix}
+1 \\
+𝐯_1/α_1 & I \end{bmatrix}}_{L_1}  \begin{bmatrix} α_1 & 𝐰_1^⊤ \\  & A_2 \end{bmatrix}
+$$
+Now assume we continue this process and manage to deduce $A_2 = L_2 U_2$.
+Then
+$$
+A = L_1 \begin{bmatrix} α_1 & 𝐰_1^⊤ \\  & L_2U_2 \end{bmatrix}
+= \underbrace{L_1 \begin{bmatrix}
+1 \\
+ & L_2 \end{bmatrix}}_L  \underbrace{\begin{bmatrix} α_1 & 𝐰_1^⊤ \\  & U_2 \end{bmatrix}}_U
+$$
+Note we can multiply through to find
+$$
+L = \begin{bmatrix}
+1 \\
+𝐯_1/α_1 & L_2 \end{bmatrix}
+$$
+
+
+**Example (LU by-hand)**
+Consider the matrix
+$$
+A = \begin{bmatrix} 1 & 1 & 1 \\
+                    2 & 4 & 8 \\
+                    1 & 4 & 9
+                    \end{bmatrix}
+$$
+We write
+$$
+\begin{align*}
+A = \underbrace{\begin{bmatrix} 1  \\
+                    2 & 1 &  \\
+                    1 &  & 1
+                    \end{bmatrix}}_{L_1} \begin{bmatrix} 1 & 1 & 1 \\
+                    0 & 2 & 6 \\
+                    0 & 3 & 8
+                    \end{bmatrix} 
+ = L_1 \underbrace{\begin{bmatrix} 1  \\
+                     & 1 &  \\
+                     & 3/2 & 1
+                    \end{bmatrix}}_{{\Lt}_2} \begin{bmatrix} 1 & 1 & 1 \\
+                    0 & 2 & 6 \\
+                    0 & 0 & -1
+                    \end{bmatrix} \\
+= \underbrace{\begin{bmatrix} 1  \\
+                    2 & 1 &  \\
+                    1 & 3/2 & 1
+                    \end{bmatrix}}_{L} \underbrace{\begin{bmatrix} 1 & 1 & 1 \\
+                    0 & 2 & 6 \\
+                    0 & 0 & -1
+                    \end{bmatrix}}_U
+\end{align*}
+$$
+∎
+
+
+
+## PLU Factorisation
+
+We learned in first year linear algebra that if a diagonal entry is zero
+when doing Gaussian elimnation one has to _row pivot_. For stability, 
+in implementation one _always_ pivots: swap the largest in magnitude entry for the entry on the diagonal.
+
+We will see this is equivalent to a PLU decomposition. Here we use a permutation matrix, which is equivalent to a permutation, as discussed in the appendix. That is, consider a
+permutation which we identify with a vector ${\mathbf σ} = [σ_1,…,σ_n]$ containing the integers $1,…,n$ exactly once. The permutation operator represents the action of permuting the entries in a vector:
+$$
+P_σ(𝐯) := 𝐯[{\mathbf σ}] = \Vectt[v_{σ_1},⋮,v_{σ_n}]
+$$
+This is a linear operator, and hence we can identify it with a _permutation matrix_ $P_σ ∈ ℝ^{n × n}$. Importantly, products of permutation matrices are also permutation matrices.
+
+
+**Theorem (PLU)** A matrix $A ∈ ℂ^{n × n}$ is invertible if and only if it has a PLU decomposition:
+$$
+A = P^⊤ L U
+$$
+where the diagonal of $L$ are all equal to 1 and the diagonal of $U$ are all non-zero, and $P$ is a permutation matrix.
+
+**Proof**
+
+If we have a PLU decomposition of this form then $L$ and $U$ are invertible and hence the inverse is simply $A^{-1} = U^{-1} L^{-1} P$. 
+
+
+If $A ∈ ℂ^{1 × 1}$ we trivially have an LU decomposition $A = [1] * [a_{11}]$ as all $1 × 1$ matrices are triangular.
+We now proceed by induction: assume all invertible matrices of lower dimension have a PLU factorisation.
+As $A$ is invertible not all entries in the first column are zero. Therefore there exists a permutation
+$P_1$ so that $α := (P_1 A)[1,1] ≠ 0$. Hence we write
+$$
+P_1 A = \begin{bmatrix} α & 𝐰^⊤ \\
+                        𝐯 & K
+                        \end{bmatrix} = \underbrace{\begin{bmatrix}
+1 \\
+𝐯/α & I \end{bmatrix}}_{L_1}  \begin{bmatrix} α & 𝐰^⊤ \\  & K - 𝐯 𝐰^⊤/α \end{bmatrix}
+$$
+We deduce that $A_2 := K - 𝐯 𝐰^⊤/α$ is invertible because $A$ and $L_1$ are invertible
+(Exercise).
+
+By assumption we can write $A_2 = \Pt^⊤ \Lt \Ut$. Thus we have:
+$$
+\begin{align*}
+\underbrace{\begin{bmatrix} 1 \\
+            & \Pt \end{bmatrix} P_1}_P A &= \begin{bmatrix} 1 \\
+            & \Pt \end{bmatrix}  \begin{bmatrix} α & 𝐰^⊤ \\
+                        𝐯 & A_2
+                        \end{bmatrix}  =
+            \begin{bmatrix} 1 \\ & \Pt \end{bmatrix} L_1  \begin{bmatrix} α & 𝐰^⊤ \\  & \Pt^⊤ \Lt  \Ut \end{bmatrix} \\
+            &= \begin{bmatrix}
+1 \\
+\Pt 𝐯/α & \Pt \end{bmatrix} \begin{bmatrix} 1 &  \\  &  \Pt^⊤ \Lt  \end{bmatrix}  \begin{bmatrix} α & 𝐰^⊤ \\  &  \Ut \end{bmatrix} \\
+&= \underbrace{\begin{bmatrix}
+1 \\
+\Pt 𝐯/α & \Lt  \end{bmatrix}}_L \underbrace{\begin{bmatrix} α & 𝐰^⊤ \\  &  \Ut \end{bmatrix}}_U. \\
+\end{align*}
+$$
+
+∎
+
+We don't discuss the practical implementation of this factorisation
+(though an algorithm is hidden in the above proof). We also note that
+for stability one uses the permutation that always puts the largest in
+magnitude entry in the top row. In the lab we explore the practical usage of this factorisation.
+
+## Cholesky Factorisation
+
+Cholesky Factorisation is a form of Gaussian elimination (without pivoting)
+that exploits symmetry in the problem, resulting in a substantial speedup. 
+It is only relevant for _symmetric positive definite_ (SPD)
+matrices.
+
+**Definition (positive definite)** A square matrix $A ∈ ℝ^{n × n}$ is _positive definite_ if
+for all $𝐱 ∈ ℝ^n, x ≠ 0$ we have
+$$
+𝐱^⊤ A 𝐱 > 0
+$$
+∎
+
+First we establish some basic properties of positive definite matrices:
+
+**Proposition (conj. pos. def.)** If  $A ∈ ℝ^{n × n}$ is positive definite and 
+$V ∈ ℝ^{n × n}$ is non-singular then
+$$
+V^⊤ A V
+$$
+is positive definite.
+**Proof**
+See problem sheet.
+∎
+
+**Proposition (diag positivity)** If $A ∈ ℝ^{n × n}$ is positive definite
+then its diagonal entries are positive: $a_{kk} > 0$.
+**Proof**
+See problem sheet.
+∎
+
+**Theorem (subslice pos. def.)** If $A ∈ ℝ^{n × n}$ is positive definite
+and $𝐤 ∈ \{1,…,n\}^m$ is a vector of $m$ integers where any integer appears only once,
+ then $A[𝐤,𝐤] ∈ ℝ^{m × m}$ is also
+positive definite.
+**Proof**
+See problem sheet.
+∎
+
+
+Here is the key result:
+
+
+**Theorem (Cholesky and SPD)** A matrix $A$ is symmetric positive definite if and only if it has a Cholesky factorisation
+$$
+A = L L^⊤
+$$
+where the diagonals of $L$ are positive.
+
+**Proof** If $A$ has a Cholesky factorisation it is symmetric ($A^⊤ = (L L^⊤)^⊤ = A$) and for $𝐱 ≠ 0$ we have
+$$
+𝐱^⊤ A 𝐱 = (L^⊤𝐱)^⊤ L^⊤ 𝐱 = \|L^⊤𝐱\|^2 > 0
+$$
+where we use the fact that $L$ is non-singular.
+
+For the other direction we will prove it by induction, with the $1 × 1$ case being trivial. 
+Assume all lower dimensional symmetric positive definite matrices have Cholesky decompositions.
+Write
+$$
+A = \begin{bmatrix} α & 𝐯^⊤ \\
+                    𝐯   & K
+                    \end{bmatrix} = \underbrace{\begin{bmatrix} \sqrt{α} \\ 
+                                    {𝐯 \over \sqrt{α}} & I \end{bmatrix}}_{L_1}
+                                    \underbrace{\begin{bmatrix} 1  \\ & K - {𝐯 𝐯^⊤ \over α} \end{bmatrix}}_{A_1}
+                                    \underbrace{\begin{bmatrix} \sqrt{α} & {𝐯^⊤ \over \sqrt{α}} \\
+                                     & I \end{bmatrix}}_{L_1^⊤}.
+$$
+Note that $A_2 := K - {𝐯 𝐯^⊤ \over α}$ is a subslice of $L_1^{-1} A L_1^{-⊤}$, hence by the previous propositionis
+itself symmetric positive definite. Thus we can write 
+$$
+A_2 = K - {𝐯 𝐯^⊤ \over α} = \Lt \Lt^⊤
+$$
+and hence $A = L L^⊤$ for
+$$
+L= L_1 \begin{bmatrix}1 \\ & \Lt \end{bmatrix} = \begin{bmatrix} \sqrt{α} \\ {𝐯 \over \sqrt{α}} & \Lt \end{bmatrix}
+$$
+satisfies $A = L L^⊤$.
+∎
+
+
+
+**Example (Cholesky by hand)** Consider the matrix
+$$
+A = \begin{bmatrix}
+2 &1 &1 &1 \\
+1 & 2 & 1 & 1 \\
+1 & 1 & 2 & 1 \\
+1 & 1 & 1 & 2
+\end{bmatrix}
+$$
+Then $α₁ = 2$, $𝐯₁ = [1,1,1]$, and  
+$$
+A_2 = \begin{bmatrix}
+2 &1 &1 \\
+1 & 2 & 1 \\
+1 & 1 & 2 
+\end{bmatrix} - {1 \over 2} \begin{bmatrix} 1 \\ 1 \\ 1 \end{bmatrix} \begin{bmatrix} 1 & 1 & 1 \end{bmatrix} 
+={1 \over 2} \begin{bmatrix}
+3 & 1 & 1 \\
+1 & 3 & 1 \\
+1 & 1 & 3 
+\end{bmatrix}.
+$$
+Continuing, we have $α_2 = 3/2$, $𝐯_2 = [1/2,1/2]$, and
+$$
+A_3 = {1 \over 2} \left( \begin{bmatrix}
+3 & 1 \\ 1 & 3
+\end{bmatrix} - {1 \over 3} \begin{bmatrix} 1 \\ 1  \end{bmatrix} \begin{bmatrix} 1 & 1  \end{bmatrix}
+\right)
+= {1 \over 3} \begin{bmatrix} 4 & 1 \\ 1 & 4 \end{bmatrix}
+$$
+Next, $α_3 = 4/3$, $𝐯_3 = [1]$, and
+$$
+A_4 = [4/3 - 3/4 * (1/3)^2] = [5/4]
+$$
+i.e. $α_4 = 5/4$.
+
+Thus we get
+$$
+L= \begin{bmatrix}
+\sqrt{α₁} \\
+{𝐯_1[1] \over \sqrt{α₁}} & \sqrt{α₂} \\
+{𝐯_1[2] \over \sqrt{α₁}} & {𝐯_2[1] \over \sqrt{α₂}}  & \sqrt{α_3} \\
+{𝐯_1[3] \over \sqrt{α₁}} & {𝐯_2[2] \over \sqrt{α₂}}  & {𝐯_3[1] \over \sqrt{α_3}}  & \sqrt{α_4}
+\end{bmatrix}
+ = \begin{bmatrix} \sqrt{2} \\ {1 \over \sqrt{2}} & \sqrt{3 \over 2} \\ 
+{1 \over \sqrt{2}} & {1 \over \sqrt 6} & {2 \over \sqrt{3}} \\
+{1 \over \sqrt{2}} & {1 \over \sqrt 6} & {1 \over \sqrt{12}} & {\sqrt{5} \over 2}
+\end{bmatrix}
+$$
+∎

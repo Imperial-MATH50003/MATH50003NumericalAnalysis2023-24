@@ -123,6 +123,12 @@
 \def\e{{\vc e}}
 \def\f{{\vc f}}
 \def\u{{\vc u}}
+\def\w{{\vc w}}
+\def\v{{\vc v}}
+\def\k{{\vc k}}
+\def\Lt{{\tilde L}}
+\def\Pt{{\tilde P}}
+\def\Ut{{\tilde U}}
 \def\red#1{{\color{red} #1}}
 \def\blue#1{{\color{blue} #1}}
 \def\green#1{{\color{ForestGreen} #1}}
@@ -242,7 +248,7 @@ In particular we discuss:
     \item III.1 Structured Matrices: we discuss special structured matrices such as triangular and tridiagonal.
     \item III.2 Differential Equations: using divided differences we can reduce differential equations
     to linear systems. This motivates the investigation of numerical algorithms for solving linear systems.
-    \item III.3 Cholesky Factorisation: we look at computing a factorisation of a square matrix as a product of a lower and upper triangular matrix in the special case where the matrix is symmetric positive
+    \item III.3 LU and Cholesky Factorisations: we look at computing a factorisation of a square matrix as a product of a lower and upper triangular matrix, including the special case where the matrix is symmetric positive
     definite. Hidden in this is an algorithm to prove positive definiteness.
 \item III.4 Polynomial Regression: often in data science one needs to approximate data by a polynomial.
 We discuss how to reduce this problem to solving a rectangular least squares problem.
@@ -252,11 +258,15 @@ We discuss how to reduce this problem to solving a rectangular least squares pro
 
 \input{III.1.StructuredMatrices}
 \input{III.2.DifferentialEquations}
+\input{III.3.Cholesky}
 
 \appendix
 
 \chapter{Asymptotics and Computational Cost}
 \input{A.Asymptotics}
+
+\chapter{Permutation Matrices}
+\input{A.Permutations}
 
 
 

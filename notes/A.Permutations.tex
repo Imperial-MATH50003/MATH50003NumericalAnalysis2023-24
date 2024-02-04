@@ -1,0 +1,96 @@
+
+Permutation matrices are matrices that represent the action of permuting the entries of a vector, that is, matrix representations of the symmetric group $S_n$, acting on $\ensuremath{\bbR}^n$. Recall every $\ensuremath{\sigma} \ensuremath{\in} S_n$ is a bijection between $\{1,2,\ensuremath{\ldots},n\}$ and itself. We can write a permutation $\ensuremath{\sigma}$ in \emph{Cauchy notation}:
+\[
+\begin{pmatrix}
+ 1 & 2 & 3 & \ensuremath{\cdots} & n \cr
+ \ensuremath{\sigma}_1 & \ensuremath{\sigma}_2 & \ensuremath{\sigma}_3 & \ensuremath{\cdots} & \ensuremath{\sigma}_n
+ \end{pmatrix}
+\]
+where $\{\ensuremath{\sigma}_1,\ensuremath{\ldots},\ensuremath{\sigma}_n\} = \{1,2,\ensuremath{\ldots},n\}$ (that is, each integer appears precisely once). We denote the \emph{inverse permutation} by $\ensuremath{\sigma}^{-1}$, which can be constructed by swapping the rows of the Cauchy notation and reordering.
+
+We can encode a permutation in vector $\mathbf \ensuremath{\sigma} = [\ensuremath{\sigma}_1,\ensuremath{\ldots},\ensuremath{\sigma}_n]$.  This induces an action on a vector (using indexing notation)
+\[
+\ensuremath{\bm{\v}}[\mathbf \ensuremath{\sigma}] = \begin{bmatrix}v_{\ensuremath{\sigma}_1}\\ \vdots \\ v_{\ensuremath{\sigma}_n} \end{bmatrix}
+\]
+\begin{example}[permutation of a vector]  Consider the permutation $\ensuremath{\sigma}$ given by
+\[
+\begin{pmatrix}
+ 1 & 2 & 3 & 4 & 5 \cr
+ 1 & 4 & 2 & 5 & 3
+ \end{pmatrix}
+\]
+We can apply it to a vector:
+
+
+\begin{lstlisting}
+(*@\HLJLk{using}@*) (*@\HLJLn{LinearAlgebra}@*)
+(*@\HLJLn{\ensuremath{\sigma}}@*) (*@\HLJLoB{=}@*) (*@\HLJLp{[}@*)(*@\HLJLni{1}@*)(*@\HLJLp{,}@*) (*@\HLJLni{4}@*)(*@\HLJLp{,}@*) (*@\HLJLni{2}@*)(*@\HLJLp{,}@*) (*@\HLJLni{5}@*)(*@\HLJLp{,}@*) (*@\HLJLni{3}@*)(*@\HLJLp{]}@*)
+(*@\HLJLn{v}@*) (*@\HLJLoB{=}@*) (*@\HLJLp{[}@*)(*@\HLJLni{6}@*)(*@\HLJLp{,}@*) (*@\HLJLni{7}@*)(*@\HLJLp{,}@*) (*@\HLJLni{8}@*)(*@\HLJLp{,}@*) (*@\HLJLni{9}@*)(*@\HLJLp{,}@*) (*@\HLJLni{10}@*)(*@\HLJLp{]}@*)
+(*@\HLJLn{v}@*)(*@\HLJLp{[}@*)(*@\HLJLn{\ensuremath{\sigma}}@*)(*@\HLJLp{]}@*) (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{we}@*) (*@\HLJLcs{permutate}@*) (*@\HLJLcs{entries}@*) (*@\HLJLcs{of}@*) (*@\HLJLcs{v}@*)
+\end{lstlisting}
+
+\begin{lstlisting}
+5-element Vector(*@{{\{}}@*)Int64(*@{{\}}}@*):
+  6
+  9
+  7
+ 10
+  8
+\end{lstlisting}
+
+
+Its inverse permutation $\ensuremath{\sigma}^{-1}$ has Cauchy notation coming from swapping the rows of the Cauchy notation of $\ensuremath{\sigma}$ and sorting:
+\[
+\begin{pmatrix}
+ 1 & 4 & 2 & 5 & 3 \cr
+ 1 & 2 & 3 & 4 & 5
+ \end{pmatrix} \rightarrow \begin{pmatrix}
+ 1 & 2 & 4 & 3 & 5 \cr
+ 1 & 3 & 2 & 5 & 4
+ \end{pmatrix} 
+\]
+\end{example}
+
+Note that the operator
+\[
+P_\ensuremath{\sigma}(\ensuremath{\bm{\v}}) = \ensuremath{\bm{\v}}[{\mathbf \ensuremath{\sigma}}]
+\]
+is linear in $\ensuremath{\bm{\v}}$, therefore, we can identify it with a matrix whose action is:
+\[
+P_\ensuremath{\sigma} \begin{bmatrix} v_1\\ \vdots \\ v_n \end{bmatrix} = \begin{bmatrix}v_{\ensuremath{\sigma}_1} \\ \vdots \\ v_{\ensuremath{\sigma}_n}  \end{bmatrix}.
+\]
+The entries of this matrix are
+\[
+P_\ensuremath{\sigma}[k,j] = \ensuremath{\bm{\e}}_k^\ensuremath{\top} P_\ensuremath{\sigma} \ensuremath{\bm{\e}}_j = \ensuremath{\bm{\e}}_k^\ensuremath{\top} \ensuremath{\bm{\e}}_{\ensuremath{\sigma}^{-1}_j} = \ensuremath{\delta}_{k,\ensuremath{\sigma}^{-1}_j} = \ensuremath{\delta}_{\ensuremath{\sigma}_k,j}
+\]
+where $\ensuremath{\delta}_{k,j}$ is the \emph{Kronecker delta}:
+\[
+\ensuremath{\delta}_{k,j} := \begin{cases} 1 & k = j \\
+                        0 & \hbox{otherwise}
+                        \end{cases}.
+\]
+This construction motivates the following definition:
+
+\begin{definition}[permutation matrix] $P \in \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is a permutation matrix if it is equal to the identity matrix with its rows permuted. \end{definition}
+
+\begin{proposition}[permutation matrix inverse]  Let $P_\ensuremath{\sigma}$ be a permutation matrix corresponding to the permutation $\ensuremath{\sigma}$. Then
+\[
+P_\ensuremath{\sigma}^\ensuremath{\top} = P_{\ensuremath{\sigma}^{-1}} = P_\ensuremath{\sigma}^{-1}
+\]
+That is, $P_\ensuremath{\sigma}$ is \emph{orthogonal}:
+\[
+P_\ensuremath{\sigma}^\ensuremath{\top} P_\ensuremath{\sigma} = P_\ensuremath{\sigma} P_\ensuremath{\sigma}^\ensuremath{\top} = I.
+\]
+\end{proposition}
+\textbf{Proof}
+
+We prove orthogonality via:
+\[
+\ensuremath{\bm{\e}}_k^\ensuremath{\top} P_\ensuremath{\sigma}^\ensuremath{\top} P_\ensuremath{\sigma} \ensuremath{\bm{\e}}_j = (P_\ensuremath{\sigma} \ensuremath{\bm{\e}}_k)^\ensuremath{\top} P_\ensuremath{\sigma} \ensuremath{\bm{\e}}_j = \ensuremath{\bm{\e}}_{\ensuremath{\sigma}^{-1}_k}^\ensuremath{\top} \ensuremath{\bm{\e}}_{\ensuremath{\sigma}^{-1}_j} = \ensuremath{\delta}_{k,j}
+\]
+This shows $P_\ensuremath{\sigma}^\ensuremath{\top} P_\ensuremath{\sigma} = I$ and hence $P_\ensuremath{\sigma}^{-1} = P_\ensuremath{\sigma}^\ensuremath{\top}$. 
+
+\ensuremath{\QED}
+
+
+

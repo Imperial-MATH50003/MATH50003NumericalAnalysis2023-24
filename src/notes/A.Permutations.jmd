@@ -1,0 +1,94 @@
+Permutation matrices are matrices that represent the action of permuting the entries of a vector,
+that is, matrix representations of the symmetric group $S_n$, acting on $ℝ^n$.
+Recall every $σ ∈ S_n$ is a bijection between $\{1,2,…,n\}$ and itself.
+We can write a permutation $σ$ in _Cauchy notation_:
+$$
+\begin{pmatrix}
+ 1 & 2 & 3 & ⋯ & n \cr
+ σ_1 & σ_2 & σ_3 & ⋯ & σ_n
+ \end{pmatrix}
+$$
+where $\{σ_1,…,σ_n\} = \{1,2,…,n\}$ (that is, each integer appears precisely once).
+We denote the _inverse permutation_ by $σ^{-1}$, which can be constructed by swapping the rows of
+the Cauchy notation and reordering.
+
+We can encode a permutation in vector $\mathbf σ = [σ_1,…,σ_n]$. 
+This induces an action on a vector (using indexing notation)
+$$
+𝐯[\mathbf σ] = \begin{bmatrix}v_{σ_1}\\ \vdots \\ v_{σ_n} \end{bmatrix}
+$$
+
+
+**Example (permutation of a vector)** 
+Consider the permutation $σ$ given by
+$$
+\begin{pmatrix}
+ 1 & 2 & 3 & 4 & 5 \cr
+ 1 & 4 & 2 & 5 & 3
+ \end{pmatrix}
+$$
+We can apply it to a vector:
+```julia
+using LinearAlgebra
+σ = [1, 4, 2, 5, 3]
+v = [6, 7, 8, 9, 10]
+v[σ] # we permutate entries of v
+```
+Its inverse permutation $σ^{-1}$ has Cauchy notation coming from swapping the rows of
+the Cauchy notation of $σ$ and sorting:
+$$
+\begin{pmatrix}
+ 1 & 4 & 2 & 5 & 3 \cr
+ 1 & 2 & 3 & 4 & 5
+ \end{pmatrix} \rightarrow \begin{pmatrix}
+ 1 & 2 & 4 & 3 & 5 \cr
+ 1 & 3 & 2 & 5 & 4
+ \end{pmatrix} 
+$$
+∎
+
+Note that the operator
+$$
+P_σ(𝐯) = 𝐯[{\mathbf σ}]
+$$
+is linear in $𝐯$, therefore, we can identify it with a matrix whose action is:
+$$
+P_σ \begin{bmatrix} v_1\\ \vdots \\ v_n \end{bmatrix} = \begin{bmatrix}v_{σ_1} \\ \vdots \\ v_{σ_n}  \end{bmatrix}.
+$$
+The entries of this matrix are
+$$
+P_σ[k,j] = 𝐞_k^⊤ P_σ 𝐞_j = 𝐞_k^⊤ 𝐞_{σ^{-1}_j} = δ_{k,σ^{-1}_j} = δ_{σ_k,j}
+$$
+where $δ_{k,j}$ is the _Kronecker delta_:
+$$
+δ_{k,j} := \begin{cases} 1 & k = j \\
+                        0 & \hbox{otherwise}
+                        \end{cases}.
+$$
+
+
+This construction motivates the following definition:
+
+**Definition (permutation matrix)** $P \in ℝ^{n × n}$ is a permutation matrix if it is equal to
+the identity matrix with its rows permuted.
+∎
+
+**Proposition (permutation matrix inverse)** 
+Let $P_σ$ be a permutation matrix corresponding to the permutation $σ$. Then
+$$
+P_σ^⊤ = P_{σ^{-1}} = P_σ^{-1}
+$$
+That is, $P_σ$ is _orthogonal_:
+$$
+P_σ^⊤ P_σ = P_σ P_σ^⊤ = I.
+$$
+
+**Proof**
+
+We prove orthogonality via:
+$$
+𝐞_k^⊤ P_σ^⊤ P_σ 𝐞_j = (P_σ 𝐞_k)^⊤ P_σ 𝐞_j = 𝐞_{σ^{-1}_k}^⊤ 𝐞_{σ^{-1}_j} = δ_{k,j}
+$$
+This shows $P_σ^⊤ P_σ = I$ and hence $P_σ^{-1} = P_σ^⊤$. 
+
+∎
