@@ -18,6 +18,7 @@ compilenotes("II.4.Intervals")
 compilenotes("III.1.StructuredMatrices")
 compilenotes("III.2.DifferentialEquations")
 compilenotes("III.3.Cholesky")
+compilenotes("III.4.Regression")
 
 compilenotes("A.Asymptotics")
 compilenotes("A.Permutations")

@@ -1,0 +1,131 @@
+# Polynomial Interpolation and Regression
+
+_Polynomial interpolation_ is the process of finding a polynomial that equals data at a precise set of points.
+That is, if we have a function $f$ given at a sequence of data points $x_1,…,x_n$, that is, we know $f_1 = f(x_1),…,f_n = f(x_n)$,
+ we want to find a degree $n$ polynomial
+$$
+p(x) = ∑_{k=0}^{n-1} c_k x^k
+$$
+such that $p(x_j) = f_j$. In the lab we see that interpolation often has large errors.
+
+A more robust scheme is _polynomial regression_ where we use more data than the degrees of freedom. That is, we find a degree $m-1 < n-1$ polynomial
+$$
+p(x) = ∑_{k=0}^{m-1} c_k x^k
+$$
+such that $p(x_j) ≈ f_j$. More precisely, we want to find the _least squares_ approximation: choose the unknowns $𝐜$ so that the 2-norm
+$$
+\|\Vectt[p(x_1) - f_1, ⋮, p(x_n) - f_n]\| = \sqrt{∑_{j=0}^{n-1} |p(x_j) - f_j|^2}
+$$
+is minimised. How this least squares problem is done numerically will be discussed in the next few sections.
+
+
+## Polynomial Interpolation
+
+
+**Definition (interpolatory polynomial)** Given $n$ distinct points $x_1,…,x_n ∈ 𝔽$ 
+and $n$ _samples_ $f_1,…,f_n ∈ 𝔽$, a degree $n-1$
+_interpolatory polynomial_ $p(x)$ satisfies
+$$
+p(x_j) = f_j
+$$
+∎
+
+The easiest way to solve this problem is to invert the Vandermonde system:
+
+**Definition (Vandermonde)** The _Vandermonde matrix_ associated with $n$ distinct points $x_0,…,x_m ∈ 𝔽$
+is the square matrix
+$$
+V := \begin{bmatrix} 1 & x_1 & ⋯ & x_1^{n-1} \\
+                    ⋮ & ⋮ & ⋱ & ⋮ \\
+                    1 & x_m & ⋯ & x_m^{n-1}
+                    \end{bmatrix} ∈ 𝔽^{m × n}
+$$
+∎
+
+Note that $V$ encodes the linear map from coefficients to values at a grid, that is,
+$$
+V𝐜 = \Vectt[c_0 + c_1 x_1 + ⋯ + c_{n-1} x_1^{n-1}, ⋮, c_0 + c_1 x_m + ⋯ + c_{n-1} x_m^{n-1}] = \Vectt[p(x_1),⋮,p(x_m)].
+$$
+
+In the square case (where $m=n$), the coefficients of the polynomial that interpolates $f$ are given by $𝐜 = V^{-1} 𝐟$, so that
+$$
+ \Vectt[p(x_1),⋮,p(x_n)] = V 𝐜 = V V^{-1} 𝐟 = \underbrace{\Vectt[f_1,⋮,f_n]}_{𝐟}.
+$$
+This inversion is justified by the following:
+
+**Proposition (interpolatory polynomial uniqueness)** 
+Interpolatory polynomials are unique and therefore square Vandermonde matrices are invertible.
+
+**Proof**
+Suppose $p$ and $p̃$ are both interpolatory polynomials of the same function. Then $p(x) - p̃(x)$ vanishes at $n$ distinct points $x_j$. By the fundamental theorem of
+algebra it must be zero, i.e., $p = p̃$.
+
+For the second part, if $V 𝐜 = 0$ for $𝐜 = \vectt[c_0,…,c_{n-1}] ∈ 𝔽^n$ then for $q(x) = c_0 + ⋯ + c_{n-1} x^{n-1}$ we have
+$$
+q(x_j) = 𝐞_j^⊤ V 𝐜 = 0
+$$
+hence $q$ vanishes at $n$ distinct points and is therefore 0, i.e., $𝐜 = 0$.
+
+∎
+
+
+We can invert the Vandermonde matrix numerically in $O(n^3)$ operations using the PLU factorisation. 
+But it turns out we can also construct the interpolatory polynomial directly, and evaluate the polynomial in only $O(n^2)$ operations. 
+We will use the following polynomials which equal $1$ at one grid point and zero at the others:
+
+**Definition (Lagrange basis polynomial)** The _Lagrange basis polynomial_ is defined as
+$$
+ℓ_k(x) := ∏_{j ≠ k} {x-x_j \over x_k - x_j} =  {(x-x_1) ⋯(x-x_{k-1})(x-x_{k+1}) ⋯ (x-x_n) \over (x_k - x_1) ⋯ (x_k - x_{k-1}) (x_k - x_{k+1}) ⋯ (x_k - x_n)}
+$$
+∎
+
+Plugging in the grid points verifies that: $ℓ_k(x_j) = δ_{kj}$. 
+
+We can use these to construct the interpolatory polynomial:
+
+**Theorem (Lagrange interpolation)**
+The unique  polynomial of degree at most $n-1$ that interpolates $f$ at $n$ distinct
+points $x_j$ is:
+$$
+p(x) = f(x_1) ℓ_1(x) + ⋯ + f(x_n) ℓ_n(x)
+$$
+
+**Proof**
+Note that
+$$
+p(x_j) = ∑_{j=1}^n f(x_j) ℓ_k(x_j) = f(x_j)
+$$
+hence $p$ is the (unique) interpolatory polynomial. 
+∎
+
+**Example (interpolating an exponential)** We can interpolate $\exp(x)$ at the points $0,1,2$:
+$$
+\begin{align*}
+p(x) &= ℓ_1(x) + {\rm e} ℓ_2(x) + {\rm e}^2 ℓ_3(x) =
+{(x - 1) (x-2) \over (-1)(-2)} + {\rm e} {x (x-2) \over (-1)} +
+{\rm e}^2 {x (x-1) \over 2} \\
+&= (1/2 - {\rm e} +{\rm e}^2/2)x^2 + (-3/2 + 2 {\rm e}  - {\rm e}^2 /2) x + 1
+\end{align*}
+$$
+
+
+**Remark** Interpolating at evenly spaced points is a really **bad** idea:
+interpolation is inheritely ill-conditioned. 
+The labs will explore this issue experimentally.
+
+## Polynomial regression
+
+Often interpolation is not sufficient. Data is often on an evenly spaced grid in which case (as seen in the labs)
+interpolation breaks down catastrophically. Or the data is noisy and one ends up over resolving: approximating the
+noise rather than the signal. A simple solution is to use more sample points than coefficients, that is, we work with
+rectangular Vandermonde matrices. In particular, we want to choose $𝐜 ∈ 𝔽^n$ so that
+$$
+\Vectt[p(x_1), ⋮, p(x_m)] = V 𝐜 ≈ \underbrace{\Vectt[f_1,⋮,f_n]}_{𝐟}.
+$$
+We do so by solving the _least squares_ system: given $V ∈ 𝔽^{m × n}$ and $𝐟 ∈ 𝔽^m$     find $𝐜 ∈ 𝔽^n$ such that
+$$
+\| V 𝐜 - 𝐟 \|
+$$
+is minimal. That is, any other other choice of coefficients will have a larger norm. We will discuss the numerical solution
+of least squares problems in the next few sections.
+

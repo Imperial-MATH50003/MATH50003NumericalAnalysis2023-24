@@ -287,12 +287,33 @@ L = mycholesky(A)
 @test L*L' ≈ A
 
 
+# ## III.4 Polynomial Interpolation and Regression
+
+# ### III.4.1 Polynomial Interpolation
+
+# Thus a quick-and-dirty way to to do interpolation is to invert the Vandermonde matrix
+# (which we saw in the least squares setting with more samples then coefficients):
+
+using Plots, LinearAlgebra
+f = x -> cos(10x)
+n = 5
+
+x = range(0, 1; length=n+1)# evenly spaced points (BAD for interpolation)
+V = x .^ (0:n)' # Vandermonde matrix
+c = V \ f.(x) # coefficients of interpolatory polynomial
+p = x -> dot(c, x .^ (0:n))
+
+g = range(0,1; length=1000) # plotting grid
+plot(g, f.(g); label="function")
+plot!(g, p.(g); label="interpolation")
+scatter!(x, f.(x); label="samples")
+
 
 
 # When $m = n$ a least squares fit by a polynomial becomes _interpolation_:
 # the approximating polynomial will fit the data exactly. That is, for
 # $$
-# p(x) = ∑_{k = 0}^{n-1} p_k x^k
+# p(x) = ∑_{k = 0}^n p_k x^k
 # $$
 # and $x_1, …, x_n ∈ ℝ$, we choose $p_k$ so that $p(x_j) = f(x_j)$ for
 # $j = 1, …, n$. 
@@ -400,6 +421,45 @@ plot!(𝐠, V_g*𝐜_25)
 ## convergence.
 
 ## END
+
+
+**Example 1 (quadratic fit)** Suppose we want to fit noisy data by a quadratic
+$$
+p(x) = p₀ + p₁ x + p₂ x^2
+$$
+That is, we want to choose $p₀,p₁,p₂$ at data samples $x_1, …, x_m$ so that the following is true:
+$$
+p₀ + p₁ x_k + p₂ x_k^2 ≈ f_k
+$$
+where $f_k$ are given by data. We can reinterpret this as a least squares problem: minimise the norm
+$$
+\left\| \begin{bmatrix} 1 & x_1 & x_1^2 \\ ⋮ & ⋮ & ⋮ \\ 1 & x_m & x_m^2 \end{bmatrix}
+\begin{bmatrix} p₀ \\ p₁ \\ p₂ \end{bmatrix} - \begin{bmatrix} f_1 \\ ⋮ \\ f_m \end{bmatrix} \right \|
+$$
+We can solve this using the QR decomposition:
+```julia
+m,n = 100,3
+
+x = range(0,1; length=m) # 100 points
+f = 2 .+ x .+ 2x.^2 .+ 0.1 .* randn.() # Noisy quadratic
+
+A = x .^ (0:2)'  # 100 x 3 matrix, equivalent to [ones(m) x x.^2]
+Q,R̂ = qr(A)
+Q̂ = Q[:,1:n] # Q represents full orthogonal matrix so we take first 3 columns
+
+p₀,p₁,p₂ = R̂ \ Q̂'f
+```
+We can visualise the fit:
+```julia
+p = x -> p₀ + p₁*x + p₂*x^2
+
+scatter(x, f; label="samples", legend=:bottomright)
+plot!(x, p.(x); label="quadratic")
+```
+Note that `\` with a rectangular system does least squares by default:
+```julia
+A \ f
+```
 
 
 
