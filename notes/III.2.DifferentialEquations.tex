@@ -134,11 +134,11 @@ u'(x_{n-1})+ \ensuremath{\omega}(x_{n-1}) u(x_{n-1})] = \underbrace{\Vectt[c, f(
 We can solve $L \ensuremath{\bm{\u}} = \ensuremath{\bm{\b}}$ using forward-substitution so that $u_j \ensuremath{\approx} u(x_j)$.
 
 \subsection{Poisson equation}
-Consider the Poisson equation with Dirichlet conditions (a two-point boundary value problem):
+Consider the Poisson equation with Dirichlet conditions (a two-point boundary value problem): given constants $c,d$ and a function $f : [a,b] \ensuremath{\rightarrow} \ensuremath{\bbR}$ find a twice differentiable function $u : [a,b] \ensuremath{\rightarrow} \ensuremath{\bbR}$ satisfying
 \begin{align*}
-u(0) &= c, \\
+u(a) &= c, \\
 u''(x) &= f(x), \\
-u(1) &= d
+u(b) &= d
 \end{align*}
 We shall adapt the procedure using the second-order divided difference approximation from the first probem sheet:
 \[
@@ -154,10 +154,10 @@ Note that $x_0$ and $x_n$ are not permitted since that would go past the endpoin
 \[
 \Vectt[u(x_0) \\ 
 u''(x_1) \\
-u''(x_1) \\
+u''(x_2) \\
 \ensuremath{\vdots} \\
 u''(x_{n-1}) \\
-u(x_n)] = \underbrace{\Vectt[c, f(x_0), f(x_1), \ensuremath{\vdots} , f(x_{n-1}), d]}_{\ensuremath{\bm{\b}}}
+u(x_n)] = \underbrace{\Vectt[c, f(x_1), f(x_2), \ensuremath{\vdots} , f(x_{n-1}), d]}_{\ensuremath{\bm{\b}}}
 \]
 (2) Replace derivatives with divided differences:
 \[

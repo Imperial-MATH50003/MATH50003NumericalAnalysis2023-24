@@ -72,16 +72,16 @@ $$
 U = \begin{bmatrix}
 u_{11} & ⋯ & u_{1n} \\
  & ⋱ & ⋮ \\
- &  & u_{mn}
+ &  & u_{nn}
 \end{bmatrix}, \qquad L = \begin{bmatrix}
 ℓ_{11} &  \\
 ⋮ & ⋱ & \\
-ℓ_{m1} & ⋯ & ℓ_{mn}
+ℓ_{n1} & ⋯ & ℓ_{nn}
 \end{bmatrix}.
 $$
 Matrix multiplication can be modified to take advantage of the zero pattern of the matrix. Eg., if $L ∈ 𝔽^{n × n}$ is lower triangular we have:
 $$
-L𝐱 = \begin{bmatrix} ℓ_{1,1} x_1 \\ ∑_{j=1}^2 ℓ_{2j} x_j  \\ ⋮ \\ ∑_{j=1}^n ℓ_{m,j} x_j \end{bmatrix}.
+L𝐱 = \begin{bmatrix} ℓ_{1,1} x_1 \\ ∑_{j=1}^2 ℓ_{2j} x_j  \\ ⋮ \\ ∑_{j=1}^n ℓ_{nj} x_j \end{bmatrix}.
 $$
 When implemented in floating point this uses roughly half the number of multiplications: $1 + 2 + … + n = n(n+1)/2$ multiplications. (It is also about twice as fast in practice.)
 The complexity is still quadratic: $O(n^2)$ operations.

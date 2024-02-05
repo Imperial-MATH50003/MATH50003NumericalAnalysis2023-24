@@ -38,15 +38,15 @@ A\ensuremath{\bm{\x}} \ensuremath{\approx} \begin{bmatrix} \ensuremath{\bigoplus
 \]
 This actually encodes an algorithm for computing the entries.
 
-This algorithm uses $O(m n)$ floating point operations (see the appendix if you are unaware of Big-O notation): each of the $m$ entry consists of $n$ multiplications and $n-1$ additions, hence we have a total of $2n-1 = O(n)$ operations per row for a total of $m(2n-1) = O(mn)$ operations. For a square matrix this is $O(n^2)$ operations which we call \emph{quadratic complexity}. In the problem sheet we see how the floating point error can be bounded in terms of norms, thus reducing the problem to a purely mathematical concept.
+This algorithm uses $O(m n)$ floating point operations (see the appendix if you are unaware of Big-O notation, here our complexities are implicitely taken to be when $m$ or $n$ tends to $\ensuremath{\infty}$): each of the $m$ entry consists of $n$ multiplications and $n-1$ additions, hence we have a total of $2n-1 = O(n)$ operations per row for a total of $m(2n-1) = O(mn)$ operations. For a square matrix this is $O(n^2)$ operations which we call \emph{quadratic complexity}. In the problem sheet we see how the floating point error can be bounded in terms of norms, thus reducing the problem to a purely mathematical concept.
 
-Sometimes there are multiple ways of implementing numerical algorithms. We have an alternative formula where we multiple by columns:
+Sometimes there are multiple ways of implementing numerical algorithms. We have an alternative formula where we multiply by columns:
 \[
 A \ensuremath{\bm{\x}} = x_1 \ensuremath{\bm{\a}}_1  + \ensuremath{\cdots} + x_n \ensuremath{\bm{\a}}_n.
 \]
 The floating point formula for this is exactly the same as the previous algorithm and the number of operations is the same. Just the order of operations has changed. Suprisingly, this latter version is significantly faster.
 
-\textbf{Remark} Floating point operations are sometimes called FLOPs, which are a standard measurement  of speed of CPUs. However, FLOP sometimes uses an alternative definitions that combines an addition and multiplication as a single FLOP. In the lab we give an example showing that counting the precise number of operations is somewhat of a fools errand: algorithms such as the two approaches for matrix multiplication with the exact same number of operations can have widely different speeds. We will therefore only be concerned with \emph{complexity}; the asymptotic growth (Big-O) of operations as $n \ensuremath{\rightarrow} \ensuremath{\infty}$, in which case the difference between FLOPs and operations is immaterial.
+\textbf{Remark} Floating point operations are sometimes called FLOPs, which are a standard measurement  of speed of CPUs. However, FLOP sometimes uses an alternative definitions that combines an addition and multiplication as a single FLOP. In the lab we give an example showing that counting the precise number of operations is somewhat of a fools errand: algorithms such as the two approaches for matrix multiplication with the exact same number of operations can have wildly different speeds. We will therefore only be concerned with \emph{complexity}; the asymptotic growth (Big-O) of operations as $n \ensuremath{\rightarrow} \ensuremath{\infty}$, in which case the difference between FLOPs and operations is immaterial.
 
 \subsection{Triangular matrices}
 The simplest sparsity case is being triangular: where all entries above or below the diagonal are zero. We consider upper and lower triangular matrices:
@@ -54,18 +54,18 @@ The simplest sparsity case is being triangular: where all entries above or below
 U = \begin{bmatrix}
 u_{11} & \ensuremath{\cdots} & u_{1n} \\
  & \ensuremath{\ddots} & \ensuremath{\vdots} \\
- &  & u_{mn}
+ &  & u_{nn}
 \end{bmatrix}, \qquad L = \begin{bmatrix}
 \ensuremath{\ell}_{11} &  \\
 \ensuremath{\vdots} & \ensuremath{\ddots} & \\
-\ensuremath{\ell}_{m1} & \ensuremath{\cdots} & \ensuremath{\ell}_{mn}
+\ensuremath{\ell}_{n1} & \ensuremath{\cdots} & \ensuremath{\ell}_{nn}
 \end{bmatrix}.
 \]
 Matrix multiplication can be modified to take advantage of the zero pattern of the matrix. Eg., if $L \ensuremath{\in} \ensuremath{\bbF}^{n \ensuremath{\times} n}$ is lower triangular we have:
 \[
-L\ensuremath{\bm{\x}} = \begin{bmatrix} \ensuremath{\ell}_{1,1} x_1 \\ \ensuremath{\sum}_{j=1}^2 \ensuremath{\ell}_{2j} x_j  \\ \ensuremath{\vdots} \\ \ensuremath{\sum}_{j=1}^n \ensuremath{\ell}_{m,j} x_j \end{bmatrix}.
+L\ensuremath{\bm{\x}} = \begin{bmatrix} \ensuremath{\ell}_{1,1} x_1 \\ \ensuremath{\sum}_{j=1}^2 \ensuremath{\ell}_{2j} x_j  \\ \ensuremath{\vdots} \\ \ensuremath{\sum}_{j=1}^n \ensuremath{\ell}_{nj} x_j \end{bmatrix}.
 \]
-When implemented in floating point this uses roughly half the number of multiplications: $n + (n-1) + \ensuremath{\ldots} + 1 = n(n+1)/2$ multiplications. (It is also about twice as fast in practice.) The complexity is still quadratic: $O(n^2)$ operations.
+When implemented in floating point this uses roughly half the number of multiplications: $1 + 2 + \ensuremath{\ldots} + n = n(n+1)/2$ multiplications. (It is also about twice as fast in practice.) The complexity is still quadratic: $O(n^2)$ operations.
 
 Triangularity allows us to also invert systems using forward- or back-substitution. In particular if $\ensuremath{\bm{\x}}$ solves $L \ensuremath{\bm{\x}} = \ensuremath{\bm{\b}}$ then we have:
 \[
@@ -76,7 +76,7 @@ Thus we can compute $x_1,x_2,\ensuremath{\ldots},x_n$ in sequence.
 \subsection{Banded matrices}
 A \emph{banded matrix} is zero off a prescribed number of diagonals. We call the number of (potentially) non-zero diagonals the \emph{bandwidths}:
 
-\begin{definition}[bandwidths] A matrix $A$ has \emph{lower-bandwidth} $l$ if $a_{kj} = 0$ for all $k-j > l$ and \emph{upper-bandwidth} $u$ if $a_{kj} = 0$ for all $j-k > u$. We say that it has \emph{strictly lower-bandwidth} $l$ if it has lower-bandwidth $l$ and there exists a $j$ such that $A[j+l,j] \neq 0$. We say that it has \emph{strictly upper-bandwidth} $u$ if it has upper-bandwidth $u$ and there exists a $k$ such that $A[k,k+u] \neq 0$. \end{definition}
+\begin{definition}[bandwidths] A matrix $A$ has \emph{lower-bandwidth} $l$ if $a_{kj} = 0$ for all $k-j > l$ and \emph{upper-bandwidth} $u$ if $a_{kj} = 0$ for all $j-k > u$. We say that it has \emph{strictly lower-bandwidth} $l$ if it has lower-bandwidth $l$ and there exists a $j$ such that $a_{j+l,j} \ensuremath{\neq} 0$. We say that it has \emph{strictly upper-bandwidth} $u$ if it has upper-bandwidth $u$ and there exists a $k$ such that $a_{k,k+u} \ensuremath{\neq} 0$. \end{definition}
 
 A square banded matrix has the sparsity pattern:
 \[
@@ -114,11 +114,11 @@ x_k = {b_k - \ensuremath{\ell}_{k-1,k} x_{k-1} \over \ensuremath{\ell}_{kk}}.
 
 For example,
 \[
-A = \begin{bmatrix} a_{1,1} & a_{1,2} \\
-a_{2,1} & a_{2,2} & a_{2,3} \\
+A = \begin{bmatrix} a_{11} & a_{12} \\
+a_{21} & a_{22} & a_{23} \\
  & \ensuremath{\ddots} & \ensuremath{\ddots} & \ensuremath{\ddots} \\
 && a_{n-1,n-2} &                                 a_{n-1,n-1} & a_{n-1,n} \\
-&&&a_{n,n-1} & a_{n,n}
+&&&a_{n,n-1} & a_{nn}
 \end{bmatrix}
 \]
 is tridiagonal. Matrix multiplication is clearly $O(n)$ operations: each row has $O(1)$ non-zeros and there are $n$ rows. But so is solving linear systems, which we shall see later.

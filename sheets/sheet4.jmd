@@ -20,8 +20,8 @@ using  half-precision arithmetic ($F_{16} := F_{15,5,10}$) (using default roundi
 in idealised floating-point arithmetic $F_{∞,S}$ (i.e., you may assume all operations involve normal floating point numbers):
 $$
 \begin{align*}
-(1.1 ⊗ 1.2) &⊕ 1.3 = 2.62 + ε_1 \\
-(1.1 ⊖ 1) & ⊘ 0.1 = 1 + ε_2
+({\rm fl}(1.1) ⊗ {\rm fl}(1.2)) &⊕ {\rm fl}(1.3) = 2.62 + ε_1 \\
+({\rm fl}(1.1) ⊖ 1) & ⊘ {\rm fl}(0.1) = 1 + ε_2
 \end{align*}
 $$
 such that $|ε_1| ≤ 11 ϵ_{\rm m}$ and $|ε_2| ≤ 40 ϵ_{\rm m}$, where $ϵ_{\rm m}$ is

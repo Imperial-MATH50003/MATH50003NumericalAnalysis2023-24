@@ -145,8 +145,8 @@
 
 \textbf{Problem 3} Prove the following bounds on the \emph{absolute error} of a floating point calculation in idealised floating-point arithmetic $F_{\ensuremath{\infty},S}$ (i.e., you may assume all operations involve normal floating point numbers):
 \begin{align*}
-(1.1 \ensuremath{\otimes} 1.2) &\ensuremath{\oplus} 1.3 = 2.62 + \ensuremath{\varepsilon}_1 \\
-(1.1 \ensuremath{\ominus} 1) & \ensuremath{\oslash} 0.1 = 1 + \ensuremath{\varepsilon}_2
+({\rm fl}(1.1) \ensuremath{\otimes} {\rm fl}(1.2)) &\ensuremath{\oplus} {\rm fl}(1.3) = 2.62 + \ensuremath{\varepsilon}_1 \\
+({\rm fl}(1.1) \ensuremath{\ominus} 1) & \ensuremath{\oslash} {\rm fl}(0.1) = 1 + \ensuremath{\varepsilon}_2
 \end{align*}
 such that $|\ensuremath{\varepsilon}_1| \ensuremath{\leq} 11 \ensuremath{\epsilon}_{\rm m}$ and $|\ensuremath{\varepsilon}_2| \ensuremath{\leq} 40 \ensuremath{\epsilon}_{\rm m}$, where $\ensuremath{\epsilon}_{\rm m}$ is machine epsilon.
 
