@@ -452,8 +452,8 @@ function exp_bound(X::Interval, n)
     T = typeof(a)
     
     if !(abs(a) ≤ 2 && abs(b) ≤ 2)
-        # check our assumptions are met. This is optional: in the exam, proper error checking is
-        # not expected unless explicitly asked for.
+        ## check our assumptions are met. This is optional: in the exam, proper error checking is
+        ## not expected unless explicitly asked for.
         error("Interval must be a subset of [-2, 2]")
     end
     ret = exp_t(X, n) # the code for Taylor series should work on Interval unmodified
