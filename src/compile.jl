@@ -28,7 +28,7 @@ compilenotes("A.Permutations")
 # Sheets
 ####
 
-for k = 1:5
+for k = 1:6
     compilesheet(k)
 end
 

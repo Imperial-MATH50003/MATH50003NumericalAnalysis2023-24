@@ -184,9 +184,39 @@ u(a) =  c, \qquad u'(x) + \ensuremath{\omega}(x) u(x) = f(x)
 }
 to a lower triangular system by discretising on the grid $x_j = a + j h$ for $h = (b-a)/n$. Hint: only impose the ODE on the gridpoints $x_1,\ensuremath{\ldots},x_n$ so that the divided difference does not depend on behaviour at $x_{-1}$.
 
+\#\# SOLUTION
+
+We have, {\textbackslash}begin\{align\emph{\} {\textbackslash}frac\{u\emph{\{k+1\} - u}k\}\{h\} {\textbackslash}approx {\textbackslash}frac\{u'(x\emph{\{k+1\}) + u'(x}k)\}\{2\} = {\textbackslash}frac\{a(x\emph{\{k+1\})u}\{k+1\} + a(x\emph{\{k\})u}\{k\}\}\{2\} + {\textbackslash}frac\{1\}\{2\}(f(x\emph{\{k+1\}) + f(x}k)), {\textbackslash}end\{align}\} so we can write, {\textbackslash}begin\{align\emph{\} {\textbackslash}left({\textbackslash}frac\{1\}\{h\} - {\textbackslash}frac\{a(x\emph{\{k+1\})\}\{2\}{\textbackslash}right)u}\{k+1\} + {\textbackslash}left(-{\textbackslash}frac\{1\}\{h\} - {\textbackslash}frac\{a(x\emph{\{k\})\}\{2\}{\textbackslash}right)u}k = {\textbackslash}frac\{1\}\{2\}(f(x\emph{\{k+1\}) + f(x}k)). {\textbackslash}end\{align}\} With the initial condition $u(0) = c$, we can write the whole system as,
+\[
+\left[\begin{matrix}
+1 \\
+-\frac{1}{h} - \frac{a(x_1)}{2} && \frac{1}{h} - \frac{a(x_2)}{2} \\
+& \ddots && \ddots \\
+ & & -\frac{1}{h} - \frac{a(x_{n-1})}{2} && \frac{1}{h} - \frac{a(x_n)}{2}
+\end{matrix}\right]\mathbf{u} =  \left[\begin{matrix} 
+c \\
+\frac{1}{2}\left(f(x_1) + f(x_2)\right) \\
+\vdots \\
+\frac{1}{2}\left(f(x_{n-1}) + f(x_n)\right)
+\end{matrix}\right],
+\]
+which is lower bidiagonal.
+
+Now if we wish to use forward substitution in a vector linear problem, we can derive in much the same way as above:
+\[
+\left(\frac{1}{h}I - \frac{A(x_{k+1})}{2}\right)\mathbf{u}_{k+1} + \left(-\frac{1}{h}I - \frac{A(x_{k})}{2}\right)\mathbf{u}_k = \frac{1}{2}(\mathbf{f}(x_{k+1}) + \mathbf{f}(x_k)),
+\]
+to make the update equation,
+\[
+\mathbf{u}_{k+1} = \left(I - \frac{h}{2}A(x_{k+1})\right)^{-1}\left(\left(I + \frac{h}{2}A(x_{k})\right)\mathbf{u}_k + \frac{h}{2}(\mathbf{f}(x_{k+1}) + \mathbf{f}(x_k)) \right),
+\]
+with initial value,
+\[
+\mathbf{u}_1 = \mathbf{c}.
+\]
 \textbf{Problem 3} Reduce a Schrödinger equation to a tridiagonal linear system by discretising on the grid $x_j = a + j h$ for $h = (b-a)/n$:
 \meeq{
-u(a) =  c, \qquad u''(x) + V(x) u(x) = f(x), \qquad u(b) = d.
+u(a) =  c,\qquad u''(x) + V(x) u(x) = f(x), \qquad u(b) = d.
 }
 
 

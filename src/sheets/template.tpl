@@ -42,6 +42,7 @@
 \def\endash{–}
 \def\bbD{ {\mathbb D} }
 \def\bbZ{ {\mathbb Z} }
+\def\bbR{ {\mathbb R} }
 
 \def\x{ {\vc x} }
 \def\a{ {\vc a} }
@@ -49,6 +50,8 @@
 \def\e{ {\vc e} }
 \def\f{ {\vc f} }
 \def\u{ {\vc u} }
+\def\y{ {\vc y} }
+\def\z{ {\vc z} }
 
 \input{somacros}
 

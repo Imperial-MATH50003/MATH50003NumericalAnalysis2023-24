@@ -1,0 +1,61 @@
+**Numerical Analysis MATH50003 (2023–24) Problem Sheet 6**
+
+**Problem 1** By computing the Cholesky factorisation, determine
+which of the following matrices are symmetric positive definite:
+$$
+\begin{bmatrix} 1 & -1  \\
+-1 & 3
+\end{bmatrix}, \begin{bmatrix} 1 & 2 & 2  \\
+2 & 1 & 2\\
+2 & 2 & 1
+\end{bmatrix}, \begin{bmatrix} 3 & 2 & 1  \\
+2 & 4 & 2\\
+1 & 2 & 5
+\end{bmatrix}, 
+\begin{bmatrix} 4 & 2 & 2 & 1  \\
+2 & 4 & 2 & 2\\
+2 & 2 & 4 & 2 \\
+1 & 2 & 2 & 4
+\end{bmatrix}
+$$
+
+
+
+**Problem 2** Show that a matrix is symmetric positive definite if and only if it has a _reverse_ Cholesky
+factorisation of the form
+$$
+A = U U^⊤
+$$
+where $U$ is upper triangular with positive entries on the diagonal.
+
+
+
+
+**Problem 3(a)** Use the Cholesky factorisation to prove that the following $n × n$ matrix is symmetric positive definite
+for any $n$:
+$$
+Δ_n := \begin{bmatrix}
+2 & -1 \\
+-1 & 2 & -1 \\
+& -1 & 2 & ⋱ \\
+&& ⋱ & ⋱ & -1 \\
+&&& -1 & 2
+\end{bmatrix}
+$$
+Hint: consider a matrix $K_n^α$ that equals $Δ_n$ apart from the top left entry which is $α > 1$ and use a proof by induction.
+
+
+
+
+**Problem 3(b)** 
+Deduce its Cholesky factorisations: $Δ_n = L_n L_n^⊤$ where
+$L_n$ is lower triangular and $U_n$ is upper triangular.
+
+
+
+
+**Problem 4** Use Lagrange interpolation to
+interpolate the function $\cos x$ by a polynomial at the points
+$[0,2,3,4]$ and evaluate at $x = 1$. 
+
+

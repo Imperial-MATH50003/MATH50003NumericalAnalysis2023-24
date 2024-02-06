@@ -123,6 +123,7 @@
 \def\endash{–}
 \def\bbD{ {\mathbb D} }
 \def\bbZ{ {\mathbb Z} }
+\def\bbR{ {\mathbb R} }
 
 \def\x{ {\vc x} }
 \def\a{ {\vc a} }
@@ -130,6 +131,8 @@
 \def\e{ {\vc e} }
 \def\f{ {\vc f} }
 \def\u{ {\vc u} }
+\def\y{ {\vc y} }
+\def\z{ {\vc z} }
 
 \input{somacros}
 
@@ -137,25 +140,46 @@
 
 
 
-\textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Problem Sheet 3}
+\textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Problem Sheet 6}
 
-\textbf{Problem 1} With 8-bit unsigned integers, what is the result for the following computations:
+\textbf{Problem 1} By computing the Cholesky factorisation, determine which of the following matrices are symmetric positive definite:
 \[
-127 \ensuremath{\oplus}_{256} 200,\quad 2 \ensuremath{\otimes}_{256} 127,\quad 2 \ensuremath{\otimes}_{256} 128, \quad 0 \ensuremath{\ominus}_{256} 1
+\begin{bmatrix} 1 & -1  \\
+-1 & 3
+\end{bmatrix}, \begin{bmatrix} 1 & 2 & 2  \\
+2 & 1 & 2\\
+2 & 2 & 1
+\end{bmatrix}, \begin{bmatrix} 3 & 2 & 1  \\
+2 & 4 & 2\\
+1 & 2 & 5
+\end{bmatrix}, 
+\begin{bmatrix} 4 & 2 & 2 & 1  \\
+2 & 4 & 2 & 2\\
+2 & 2 & 4 & 2 \\
+1 & 2 & 2 & 4
+\end{bmatrix}
 \]
-\textbf{Problem 2(a)} With 8-bit signed integers, what are the bits for the following: $10, 120, -10$.
+\textbf{Problem 2} Show that a matrix is symmetric positive definite if and only if it has a \emph{reverse} Cholesky factorisation of the form
+\[
+A = U U^\ensuremath{\top}
+\]
+where $U$ is upper triangular with positive entries on the diagonal.
 
-\textbf{Problem 2(b)} With 8-bit signed integers, what is the result for the following computations:
+\textbf{Problem 3(a)} Use the Cholesky factorisation to prove that the following $n \ensuremath{\times} n$ matrix is symmetric positive definite for any $n$:
 \[
-127 \ensuremath{\oplus}_{256}^{\rm s} 200,\quad 2 \ensuremath{\otimes}_{256}^{\rm s} 127, \quad 2 \ensuremath{\otimes}_{256}^{\rm s} 128, \quad 0 \ensuremath{\ominus}_{256}^{\rm s} 1
+\ensuremath{\Delta}_n := \begin{bmatrix}
+2 & -1 \\
+-1 & 2 & -1 \\
+& -1 & 2 & \ensuremath{\ddots} \\
+&& \ensuremath{\ddots} & \ensuremath{\ddots} & -1 \\
+&&& -1 & 2
+\end{bmatrix}
 \]
-\textbf{Problem 3} What is $\ensuremath{\pi}$ to 5 binary places? Hint: recall that $\ensuremath{\pi} \ensuremath{\approx} 3.14$.
+Hint: consider a matrix $K_n^\ensuremath{\alpha}$ that equals $\ensuremath{\Delta}_n$ apart from the top left entry which is $\ensuremath{\alpha} > 1$ and use a proof by induction.
 
-\textbf{Problem 4} What are the single precision $F_{32} = F_{127,8,23}$ floating point representations for the following: 
-\[
-2, \quad 31, \quad 32, \quad 23/4, \quad (23/4)\times 2^{100}
-\]
-\textbf{Problem 5} Let $m(y) = \min\{x \in F_{32} : x > y \}$ be the smallest single precision number greater than $y$. What is $m(2) - 2$ and $m(1024) - 1024$? 
+\textbf{Problem 3(b)}  Deduce its Cholesky factorisations: $\ensuremath{\Delta}_n = L_n L_n^\ensuremath{\top}$ where $L_n$ is lower triangular and $U_n$ is upper triangular.
+
+\textbf{Problem 4} Use Lagrange interpolation to interpolate the function $\cos x$ by a polynomial at the points $[0,2,3,4]$ and evaluate at $x = 1$. 
 
 
 
