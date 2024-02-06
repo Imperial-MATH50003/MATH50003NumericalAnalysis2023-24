@@ -86,7 +86,7 @@ Prove the bound $|δ_{x,2n+1}| ≤ 1/(2n+3)!$, assuming $x ∈ [0,1]$.
 
 **Problem 6(c)** Combine the previous parts to prove that:
 $$
-\sin 1 ∈ [0.11010011000, 0.11010111101] = [0.82421875, 0.84228515625]
+\sin 1 ∈ [(0.11010011000)_2, (0.11010111101)_2] = [0.82421875, 0.84228515625]
 $$
 You may use without proof that $1/120 = 2^{-7} (1.000100010001…)_2$. 
 
