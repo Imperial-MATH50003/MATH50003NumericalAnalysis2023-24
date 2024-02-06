@@ -1,29 +1,17 @@
 # Polynomial Interpolation and Regression
 
 _Polynomial interpolation_ is the process of finding a polynomial that equals data at a precise set of points.
-That is, if we have a function $f$ given at a sequence of data points $x_1,…,x_n$, that is, we know $f_1 = f(x_1),…,f_n = f(x_n)$,
- we want to find a degree $n$ polynomial
-$$
-p(x) = ∑_{k=0}^{n-1} c_k x^k
-$$
-such that $p(x_j) = f_j$. In the lab we see that interpolation often has large errors.
-
-A more robust scheme is _polynomial regression_ where we use more data than the degrees of freedom. That is, we find a degree $m-1 < n-1$ polynomial
-$$
-p(x) = ∑_{k=0}^{m-1} c_k x^k
-$$
-such that $p(x_j) ≈ f_j$. More precisely, we want to find the _least squares_ approximation: choose the unknowns $𝐜$ so that the 2-norm
-$$
-\|\Vectt[p(x_1) - f_1, ⋮, p(x_n) - f_n]\| = \sqrt{∑_{j=0}^{n-1} |p(x_j) - f_j|^2}
-$$
-is minimised. How this least squares problem is done numerically will be discussed in the next few sections.
+A more robust scheme is _polynomial regression_ where we use more data than the degrees of freedom in the polynomial. We therefore determine the polynomial using _least squares_: find
+the polynomial whose samples at the points are as close as possible to the data, as measured in the $2$-norm. This least squares problem is done numerically will be discussed in the next few sections.
 
 
-## Polynomial Interpolation
+## Polynomial interpolation
 
+Our primary goal is given a set of points $x_j$ and data $f_j$, usually samples of a function
+$f_j = f(x_j)$, find a polynomial that interpolates the data at the points:
 
-**Definition (interpolatory polynomial)** Given $n$ distinct points $x_1,…,x_n ∈ 𝔽$ 
-and $n$ _samples_ $f_1,…,f_n ∈ 𝔽$, a degree $n-1$
+**Definition (interpolatory polynomial)** Given _distinct_ points $𝐱 = \vectt[x_1,…,x_n] ∈ 𝔽^n$
+and _data_ $𝐟 = \vectt[f_1,…,f_n] ∈ 𝔽^n$, a degree $n-1$
 _interpolatory polynomial_ $p(x)$ satisfies
 $$
 p(x_j) = f_j
@@ -32,33 +20,38 @@ $$
 
 The easiest way to solve this problem is to invert the Vandermonde system:
 
-**Definition (Vandermonde)** The _Vandermonde matrix_ associated with $n$ distinct points $x_0,…,x_m ∈ 𝔽$
-is the square matrix
+**Definition (Vandermonde)** The _Vandermonde matrix_ associated with $𝐱 ∈ 𝔽^m$
+is the matrix
 $$
-V := \begin{bmatrix} 1 & x_1 & ⋯ & x_1^{n-1} \\
+V_{𝐱,n} := \begin{bmatrix} 1 & x_1 & ⋯ & x_1^{n-1} \\
                     ⋮ & ⋮ & ⋱ & ⋮ \\
                     1 & x_m & ⋯ & x_m^{n-1}
-                    \end{bmatrix} ∈ 𝔽^{m × n}
+                    \end{bmatrix} ∈ 𝔽^{m × n}.
 $$
+When it is clear from context we omit the subscripts $𝐱,n$.
 ∎
 
-Note that $V$ encodes the linear map from coefficients to values at a grid, that is,
+Writing the coefficients of a polynomial
+$$
+p(x) = ∑_{k=0}^{n-1} c_k x^k
+$$
+as a vector
+ $𝐜 = \vectt[c_0,…,c_{n-1}] ∈ 𝔽^n$, we note that $V$ encodes the linear map from coefficients to values at a grid, that is,
 $$
 V𝐜 = \Vectt[c_0 + c_1 x_1 + ⋯ + c_{n-1} x_1^{n-1}, ⋮, c_0 + c_1 x_m + ⋯ + c_{n-1} x_m^{n-1}] = \Vectt[p(x_1),⋮,p(x_m)].
 $$
-
-In the square case (where $m=n$), the coefficients of the polynomial that interpolates $f$ are given by $𝐜 = V^{-1} 𝐟$, so that
+In the square case (where $m=n$), the coefficients of an interpolatory polynomial are given by $𝐜 = V^{-1} 𝐟$, so that
 $$
- \Vectt[p(x_1),⋮,p(x_n)] = V 𝐜 = V V^{-1} 𝐟 = \underbrace{\Vectt[f_1,⋮,f_n]}_{𝐟}.
+\Vectt[p(x_1),⋮,p(x_n)] = V 𝐜 = V V^{-1} 𝐟.
 $$
 This inversion is justified by the following:
 
-**Proposition (interpolatory polynomial uniqueness)** 
+**Proposition (interpolatory polynomial uniqueness)**
 Interpolatory polynomials are unique and therefore square Vandermonde matrices are invertible.
 
 **Proof**
-Suppose $p$ and $p̃$ are both interpolatory polynomials of the same function. Then $p(x) - p̃(x)$ vanishes at $n$ distinct points $x_j$. By the fundamental theorem of
-algebra it must be zero, i.e., $p = p̃$.
+Suppose $p$ and $\pt$ are both interpolatory polynomials of the same function. Then $p(x) - \pt(x)$ vanishes at $n$ distinct points $x_j$. By the fundamental theorem of
+algebra it must be zero, i.e., $p = \pt$.
 
 For the second part, if $V 𝐜 = 0$ for $𝐜 = \vectt[c_0,…,c_{n-1}] ∈ 𝔽^n$ then for $q(x) = c_0 + ⋯ + c_{n-1} x^{n-1}$ we have
 $$
@@ -69,8 +62,8 @@ hence $q$ vanishes at $n$ distinct points and is therefore 0, i.e., $𝐜 = 0$.
 ∎
 
 
-We can invert the Vandermonde matrix numerically in $O(n^3)$ operations using the PLU factorisation. 
-But it turns out we can also construct the interpolatory polynomial directly, and evaluate the polynomial in only $O(n^2)$ operations. 
+We can invert square Vandermonde matrix numerically in $O(n^3)$ operations using the PLU factorisation.
+But it turns out we can also construct the interpolatory polynomial directly, and evaluate the polynomial in only $O(n^2)$ operations.
 We will use the following polynomials which equal $1$ at one grid point and zero at the others:
 
 **Definition (Lagrange basis polynomial)** The _Lagrange basis polynomial_ is defined as
@@ -79,26 +72,25 @@ $$
 $$
 ∎
 
-Plugging in the grid points verifies that: $ℓ_k(x_j) = δ_{kj}$. 
+Plugging in the grid points verifies that: $ℓ_k(x_j) = δ_{kj}$.
 
 We can use these to construct the interpolatory polynomial:
 
 **Theorem (Lagrange interpolation)**
-The unique  polynomial of degree at most $n-1$ that interpolates $f$ at $n$ distinct
-points $x_j$ is:
+The unique interpolation polynomial is:
 $$
-p(x) = f(x_1) ℓ_1(x) + ⋯ + f(x_n) ℓ_n(x)
+p(x) = f_1 ℓ_1(x) + ⋯ + f_n ℓ_n(x)
 $$
 
 **Proof**
 Note that
 $$
-p(x_j) = ∑_{j=1}^n f(x_j) ℓ_k(x_j) = f(x_j)
+p(x_j) = ∑_{j=1}^n f_j ℓ_k(x_j) = f_j.
 $$
-hence $p$ is the (unique) interpolatory polynomial. 
 ∎
 
-**Example (interpolating an exponential)** We can interpolate $\exp(x)$ at the points $0,1,2$:
+**Example (interpolating an exponential)** We can interpolate $\exp(x)$ at the points $0,1,2$.
+That is, our data is $𝐟 = \vectt[{\rm e}, {\rm e},{\rm e}^2]$ and the interpolatory polynomial is
 $$
 \begin{align*}
 p(x) &= ℓ_1(x) + {\rm e} ℓ_2(x) + {\rm e}^2 ℓ_3(x) =
@@ -107,25 +99,41 @@ p(x) &= ℓ_1(x) + {\rm e} ℓ_2(x) + {\rm e}^2 ℓ_3(x) =
 &= (1/2 - {\rm e} +{\rm e}^2/2)x^2 + (-3/2 + 2 {\rm e}  - {\rm e}^2 /2) x + 1
 \end{align*}
 $$
+∎
 
 
-**Remark** Interpolating at evenly spaced points is a really **bad** idea:
-interpolation is inheritely ill-conditioned. 
-The labs will explore this issue experimentally.
+**Remark** Interpolating at evenly spaced points is a really _bad_ idea:
+interpolation is inheritely ill-conditioned.
+The labs will explore this issue experimentally. Another
+serious issue is that monomials are a horrible basis for interpolation. This is intuitive: when $n$ is large $x^n$ is basically zero near the origin and hence $x_j^n$ in numerically lose linear independence. We will discuss alternative bases in Part IV.
 
 ## Polynomial regression
 
+
+
 Often interpolation is not sufficient. Data is often on an evenly spaced grid in which case (as seen in the labs)
 interpolation breaks down catastrophically. Or the data is noisy and one ends up over resolving: approximating the
-noise rather than the signal. A simple solution is to use more sample points than coefficients, that is, we work with
-rectangular Vandermonde matrices. In particular, we want to choose $𝐜 ∈ 𝔽^n$ so that
+noise rather than the signal. A simple solution is _polynomial regression_ use more sample points than than the degrees of freedom in the polynomial. The special case of an affine polynomial is called _linear regression_.
+
+More precisely, for $𝐱 ∈ 𝔽^m$ and for $n < m$ we want to find a degree $n-1$ polynomial
 $$
-\Vectt[p(x_1), ⋮, p(x_m)] = V 𝐜 ≈ \underbrace{\Vectt[f_1,⋮,f_n]}_{𝐟}.
+p(x) = ∑_{k=0}^{n-1} c_k x^k
 $$
-We do so by solving the _least squares_ system: given $V ∈ 𝔽^{m × n}$ and $𝐟 ∈ 𝔽^m$     find $𝐜 ∈ 𝔽^n$ such that
+such that
+$$
+\Vectt[p(x_1), ⋮, p(x_m)] ≈ \underbrace{\Vectt[f_1,⋮,f_m]}_{𝐟}.
+$$
+Mapping between coefficients $𝐜 ∈ 𝔽^n$ to polynomial values on a grid can be accomplished 
+via rectangular Vandermonde matrices. In particular, our goal is to choose $𝐜 ∈ 𝔽^n$ so that
+$$
+V 𝐜  = \Vectt[p(x_1), ⋮, p(x_m)] ≈ 𝐟.
+$$
+We do so by solving the _least squares_ system: given $V ∈ 𝔽^{m × n}$ and $𝐟 ∈ 𝔽^m$ we want to find $𝐜 ∈ 𝔽^n$ such that
 $$
 \| V 𝐜 - 𝐟 \|
 $$
-is minimal. That is, any other other choice of coefficients will have a larger norm. We will discuss the numerical solution
+is minimal. Note interpolation is a special case where this norm is precisely zero (which is indeed minimal), but in general this norm may be rather large.   We will discuss the numerical solution
 of least squares problems in the next few sections.
 
+
+**Remark** Using regression instead of interpolation can overcome the issues with evenly spaced grids. However, the monomial basis is still very problematic.
