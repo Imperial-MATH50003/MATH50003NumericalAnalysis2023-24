@@ -1,4 +1,4 @@
-# # MATH50003 (2022–23)
+# # MATH50003 (2023–24)
 # # Lab 4: II.3 Floating Point Arithmetic and II.4 Interval Arithmetic
 
 # This lab explores the usage of rounding modes for floating point arithmetic and how they
@@ -441,7 +441,7 @@ end
 
 
 # ------
-# **Problem 4** Extend the implementation of `exp` for the case when `-2 ≤ x ≤ 2`.
+# **Problem 4** Extend the implementation of `exp_bound` for the case when `-2 ≤ x ≤ 2`.
 
 ## TODO: re-overload `exp` but without the restrictions on positivity and adjusting the
 ## the bound appropriately.
@@ -451,7 +451,9 @@ function exp_bound(X::Interval, n)
     a,b = promote(X.a, X.b)
     T = typeof(a)
     
-    if !(abs(a) ≤ 2 && abs(b) ≤ 2)
+    if !(abs(a) ≤ 2 && abs(b) ≤ 2)
+        # check our assumptions are met. This is optional: in the exam, proper error checking is
+        # not expected unless explicitly asked for.
         error("Interval must be a subset of [-2, 2]")
     end
     ret = exp_t(X, n) # the code for Taylor series should work on Interval unmodified
