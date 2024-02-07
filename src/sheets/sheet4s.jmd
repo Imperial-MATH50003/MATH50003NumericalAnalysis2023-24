@@ -73,7 +73,7 @@ $$
 we find that
 $$
 |ε_1| ≤ |δ_1| + |δ_2| + |δ_3| + |δ_1δ_2| + |δ_1δ_3| + |δ_2δ_3|+ |δ_1δ_2δ_3| 
-     ≤ (3/2 + 3/4 + 1/8) ≤ 3 ϵ_{\rm m}
+     ≤ (3/2 + 3/4 + 1/8) ≤ 5/2 ϵ_{\rm m}
 $$
 Then we have
 $$
@@ -81,18 +81,16 @@ $$
 $$
 where
 $$
-|ε_2| ≤ (6 + 1) ϵ_{\rm m} = 7 ϵ_{\rm m}.
+|ε_2| ≤ (15/4 + 3/4) ϵ_{\rm m} ≤ 5ϵ_{\rm m}.
 $$
 Finally,
 $$
 (2.62 + ε_2)(1+δ_5) = 2.62 + \underbrace{ε_2 + 2.62δ_5 + ε_2 δ_5}_{ε_3}
 $$
-where, using $|δ_7 δ_5| ≤ ϵ_{\rm m}/4$, 
+where, using $|ε_2 δ_5| ≤ 3ϵ_{\rm m}$ we get, 
 $$
-|ε_3| ≤ (7 + 3/2 + 1/4) ϵ_{\rm m}  ≤ 9 ϵ_{\rm m}.
+|ε_3| ≤ (5 + 3/2 + 3) ϵ_{\rm m}  ≤ 10ϵ_{\rm m}.
 $$
-(Note this our answer is sharper than required as the question gave some breathing room in
-case the pessimistic bounds you used were more pessimistic than mine).
 
 For the second part, we do:
 $$
