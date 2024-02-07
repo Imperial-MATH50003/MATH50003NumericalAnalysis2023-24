@@ -268,6 +268,25 @@ plot([p cos], xlims=(-1,5))
 
 **END**
 
-**Problem 5** Compute the LU factorisation of the square Vandermonde matrices
-$V_{[x_1,x_2],2}$, $V_{[x_1,x_2,x_3],3}$, $V_{[x_1,x_2,x_3,x_4],4}$. Can you spot a pattern?
-Test your conjecture with a $5 × 5$ Vandermonde matrix.
+**Problem 5(a)** Compute the LU factorisation of the following transposed Vandermonde matrices:
+$$
+\begin{bmatrix}
+1 & 1 \\
+x_1 & x_2
+\end{bmatrix}, \begin{bmatrix}
+1 & 1 & 1 \\
+x_1 & x_2 & x_3 \\
+x_1^2 & x_2^2 & x_3^2
+\end{bmatrix}, \begin{bmatrix}
+1 & 1 & 1 & 1 \\
+x_1 & x_2 & x_3 & x_4 \\
+x_1^2 & x_2^2 & x_3^2 & x_4^2 \\
+x_1^3 & x_2^3 & x_3^3 & x_4^3
+\end{bmatrix}
+$$
+Can you spot a pattern? Test your conjecture with a $5 × 5$ Vandermonde matrix. 
+
+**Problem 5(b)** Show that the determinant of a Vandermonde matrix is
+$$
+\det V = ∏_{k=1}^n ∏_{j=k+1}^n (x_j - x_j).
+$$
