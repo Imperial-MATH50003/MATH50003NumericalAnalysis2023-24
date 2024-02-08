@@ -156,7 +156,7 @@ where we assume  that $h = 2^{-n}$ for $n ≤ S$.
 In floating point we have
 $$
 \begin{align*}
-{f^{\rm FP}(x + 2h) ⊖ f^{\rm FP}(x-2h) \over 2h} &= {f(x + h) +  δ_{x+h} - f(x-h) - δ_{x-h} \over 2h} (1 + δ_1) \\
+{f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x-h) \over 2h} &= {f(x + h) +  δ_{x+h} - f(x-h) - δ_{x-h} \over 2h} (1 + δ_1) \\
 &= {f(x+h) - f(x-h) \over 2h} (1 + δ_1) + {δ_{x+h}- δ_{x-h} \over 2h} (1 + δ_1)
 \end{align*}
 $$
