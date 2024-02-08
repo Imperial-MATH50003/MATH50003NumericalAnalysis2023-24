@@ -7,6 +7,7 @@
 \usepackage{graphicx}
 \usepackage{microtype}
 \usepackage{hyperref}
+\usepackage[usenames,dvipsnames]{xcolor}
 {{#:tex_deps}}
 {{{ :tex_deps }}}
 {{/:tex_deps}}
@@ -52,6 +53,11 @@
 \def\u{ {\vc u} }
 \def\y{ {\vc y} }
 \def\z{ {\vc z} }
+
+\def\red#1{ {\color{red} #1} }
+\def\blue#1{ {\color{blue} #1} }
+\def\green#1{ {\color{ForestGreen} #1} }
+\def\magenta#1{ {\color{magenta} #1} }
 
 \input{somacros}
 

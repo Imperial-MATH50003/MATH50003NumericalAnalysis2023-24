@@ -1,0 +1,379 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage[usenames,dvipsnames]{xcolor}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.2ex}
+
+
+
+
+\hypersetup
+       {   pdfauthor = {  },
+           pdftitle={  },
+           colorlinks=TRUE,
+           linkcolor=black,
+           citecolor=blue,
+           urlcolor=blue
+       }
+
+
+
+
+\usepackage{upquote}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    upquote=true,
+    breaklines=true,
+    breakindent=0pt,
+    keepspaces=true,
+    showspaces=false,
+    columns=fullflexible,
+    showtabs=false,
+    showstringspaces=false,
+    escapeinside={(*@}{@*)},
+    extendedchars=true,
+}
+\newcommand{\HLJLt}[1]{#1}
+\newcommand{\HLJLw}[1]{#1}
+\newcommand{\HLJLe}[1]{#1}
+\newcommand{\HLJLeB}[1]{#1}
+\newcommand{\HLJLo}[1]{#1}
+\newcommand{\HLJLk}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkc}[1]{\textcolor[RGB]{59,151,46}{\textit{#1}}}
+\newcommand{\HLJLkd}[1]{\textcolor[RGB]{214,102,97}{\textit{#1}}}
+\newcommand{\HLJLkn}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkp}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkr}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkt}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLn}[1]{#1}
+\newcommand{\HLJLna}[1]{#1}
+\newcommand{\HLJLnb}[1]{#1}
+\newcommand{\HLJLnbp}[1]{#1}
+\newcommand{\HLJLnc}[1]{#1}
+\newcommand{\HLJLncB}[1]{#1}
+\newcommand{\HLJLnd}[1]{\textcolor[RGB]{214,102,97}{#1}}
+\newcommand{\HLJLne}[1]{#1}
+\newcommand{\HLJLneB}[1]{#1}
+\newcommand{\HLJLnf}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnfm}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnp}[1]{#1}
+\newcommand{\HLJLnl}[1]{#1}
+\newcommand{\HLJLnn}[1]{#1}
+\newcommand{\HLJLno}[1]{#1}
+\newcommand{\HLJLnt}[1]{#1}
+\newcommand{\HLJLnv}[1]{#1}
+\newcommand{\HLJLnvc}[1]{#1}
+\newcommand{\HLJLnvg}[1]{#1}
+\newcommand{\HLJLnvi}[1]{#1}
+\newcommand{\HLJLnvm}[1]{#1}
+\newcommand{\HLJLl}[1]{#1}
+\newcommand{\HLJLld}[1]{\textcolor[RGB]{148,91,176}{\textit{#1}}}
+\newcommand{\HLJLs}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsa}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsb}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsc}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsd}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdC}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLse}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLsh}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsi}[1]{#1}
+\newcommand{\HLJLso}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsr}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLss}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLssB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLnB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnbB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnfB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnh}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLni}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnil}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnoB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLoB}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLow}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLp}[1]{#1}
+\newcommand{\HLJLc}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLch}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcm}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcp}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcpB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcs}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcsB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLg}[1]{#1}
+\newcommand{\HLJLgd}[1]{#1}
+\newcommand{\HLJLge}[1]{#1}
+\newcommand{\HLJLgeB}[1]{#1}
+\newcommand{\HLJLgh}[1]{#1}
+\newcommand{\HLJLgi}[1]{#1}
+\newcommand{\HLJLgo}[1]{#1}
+\newcommand{\HLJLgp}[1]{#1}
+\newcommand{\HLJLgs}[1]{#1}
+\newcommand{\HLJLgsB}[1]{#1}
+\newcommand{\HLJLgt}[1]{#1}
+
+
+\def\endash{–}
+\def\bbD{ {\mathbb D} }
+\def\bbZ{ {\mathbb Z} }
+
+\def\x{ {\vc x} }
+\def\a{ {\vc a} }
+\def\b{ {\vc b} }
+\def\e{ {\vc e} }
+\def\f{ {\vc f} }
+\def\u{ {\vc u} }
+
+\def\red#1{ {\color{red} #1} }
+\def\blue#1{ {\color{blue} #1} }
+\def\green#1{ {\color{ForestGreen} #1} }
+\def\magenta#1{ {\color{magenta} #1} }
+
+\input{somacros}
+
+\begin{document}
+
+
+
+\textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Problem Sheet 4}
+
+\textbf{Problem 1} Suppose $x = 1.25$ and consider 16-bit floating point arithmetic ($F_{16}$). What is the error in approximating $x$ by the nearest float point number ${\rm fl}(x)$? What is the error in approximating $2x$, $x/2$, $x + 2$ and $x - 2$ by $2 \otimes x$, $x \oslash 2$, $x \ensuremath{\oplus} 2$ and $x \ominus 2$?
+
+\textbf{SOLUTION} None of these computations have errors since they are all exactly representable as floating point numbers. \textbf{END}
+
+\textbf{Problem 2} Show that $1/5 = 2^{-3} (1.1001100110011\ensuremath{\ldots})_2$. What are the exact bits for $1 \ensuremath{\oslash} 5$, $1 \ensuremath{\oslash} 5 \ensuremath{\oplus} 1$ computed using  half-precision arithmetic ($F_{16} := F_{15,5,10}$) (using default rounding)?
+
+\textbf{SOLUTION}
+
+For the first part we use Geometric series:
+\meeq{
+ 2^{-3} (1.1001100110\magenta{011\ensuremath{\ldots}})_2 =  2^{-3} \left(\ensuremath{\sum}_{k=0}^\ensuremath{\infty} {1 \over 2^{4k}} + 
+{1 \over 2} \ensuremath{\sum}_{k=0}^\ensuremath{\infty} {1 \over 2^{4k}}\right) \ccr
+= {3 \over 2^4} {1 \over 1-1/2^4} = {3 \over 2^4-1} = {1 \over 5}
+}
+Write $-3 = 12 - 15$ hence we have $q = 12 = (01100)_2$. Since $1/5$ is below the midpoint (the midpoint would have been the first magenta bit was 1 and all other bits are 0) we round down and hence have the bits:
+\[
+\red{0}\ \green{01100}\ \blue{1001100110}
+\]
+Adding $1$ we get:
+\[
+1 + 2^{-3} * (1.1001100110)_2 = (1.0011001100\magenta{11})_2 \ensuremath{\approx} (1.0011001101)_2
+\]
+Here we write the exponent as $0 = 15 - 15$ where $q = 15 = (01111)_2$. Thus we have the bits:
+\[
+\red{0}\ \green{01111}\ \blue{0011001101}
+\]
+\textbf{END}
+
+\textbf{Problem 3} Prove the following bounds on the \emph{absolute error} of a floating point calculation in idealised floating-point arithmetic $F_{\ensuremath{\infty},S}$ (i.e., you may assume all operations involve normal floating point numbers):
+\begin{align*}
+({\rm fl}(1.1) \ensuremath{\otimes} {\rm fl}(1.2)) &\ensuremath{\oplus} {\rm fl}(1.3) = 2.62 + \ensuremath{\varepsilon}_1 \\
+({\rm fl}(1.1) \ensuremath{\ominus} 1) & \ensuremath{\oslash} {\rm fl}(0.1) = 1 + \ensuremath{\varepsilon}_2
+\end{align*}
+such that $|\ensuremath{\varepsilon}_1| \ensuremath{\leq} 11 \ensuremath{\epsilon}_{\rm m}$ and $|\ensuremath{\varepsilon}_2| \ensuremath{\leq} 40 \ensuremath{\epsilon}_{\rm m}$, where $\ensuremath{\epsilon}_{\rm m}$ is machine epsilon.
+
+\textbf{SOLUTION}
+
+The first problem is very similar to what we saw in lecture. Write
+\[
+({\rm fl}(1.1)\ensuremath{\otimes} {\rm fl}(1.2)) \ensuremath{\oplus} {\rm fl}(1.3) = ( 1.1(1 + \ensuremath{\delta}_1)1.2(1+\ensuremath{\delta}_2)(1+\ensuremath{\delta}_3) + 1.3(1+\ensuremath{\delta}_4))(1+\ensuremath{\delta}_5)
+\]
+where we have $|\ensuremath{\delta}_1|,\ensuremath{\ldots},|\ensuremath{\delta}_5| \ensuremath{\leq} \ensuremath{\epsilon}_{\rm m}/2$. We first write
+\[
+1.1(1 + \ensuremath{\delta}_1)1.2(1+\ensuremath{\delta}_2)(1+\ensuremath{\delta}_3) = 1.32( 1+ \ensuremath{\varepsilon}_1)
+\]
+where, using the bounds:
+\[
+|\ensuremath{\delta}_1\ensuremath{\delta}_2|,|\ensuremath{\delta}_1\ensuremath{\delta}_3|,|\ensuremath{\delta}_2\ensuremath{\delta}_3| \ensuremath{\leq} \ensuremath{\epsilon}_{\rm m}/4, |\ensuremath{\delta}_1\ensuremath{\delta}_2\ensuremath{\delta}_3| \ensuremath{\leq} \ensuremath{\epsilon}_{\rm m}/8
+\]
+we find that
+\[
+|\ensuremath{\varepsilon}_1| \ensuremath{\leq} |\ensuremath{\delta}_1| + |\ensuremath{\delta}_2| + |\ensuremath{\delta}_3| + |\ensuremath{\delta}_1\ensuremath{\delta}_2| + |\ensuremath{\delta}_1\ensuremath{\delta}_3| + |\ensuremath{\delta}_2\ensuremath{\delta}_3|+ |\ensuremath{\delta}_1\ensuremath{\delta}_2\ensuremath{\delta}_3| 
+     \ensuremath{\leq} (3/2 + 3/4 + 1/8) \ensuremath{\leq} 5/2 \ensuremath{\epsilon}_{\rm m}
+\]
+Then we have
+\[
+1.32 (1 + \ensuremath{\varepsilon}_1) + 1.3 (1 + \ensuremath{\delta}_4) = 2.62 + \underbrace{1.32 \ensuremath{\varepsilon}_1 + 1.3\ensuremath{\delta}_4}_{\ensuremath{\varepsilon}_2}
+\]
+where
+\[
+|\ensuremath{\varepsilon}_2| \ensuremath{\leq} (15/4 + 3/4) \ensuremath{\epsilon}_{\rm m} \ensuremath{\leq} 5\ensuremath{\epsilon}_{\rm m}.
+\]
+Finally,
+\[
+(2.62 + \ensuremath{\varepsilon}_2)(1+\ensuremath{\delta}_5) = 2.62 + \underbrace{\ensuremath{\varepsilon}_2 + 2.62\ensuremath{\delta}_5 + \ensuremath{\varepsilon}_2 \ensuremath{\delta}_5}_{\ensuremath{\varepsilon}_3}
+\]
+where, using $|\ensuremath{\varepsilon}_2 \ensuremath{\delta}_5| \ensuremath{\leq} 3\ensuremath{\epsilon}_{\rm m}$ we get, 
+\[
+|\ensuremath{\varepsilon}_3| \ensuremath{\leq} (5 + 3/2 + 3) \ensuremath{\epsilon}_{\rm m}  \ensuremath{\leq} 10\ensuremath{\epsilon}_{\rm m}.
+\]
+For the second part, we do:
+\[
+({\rm fl}(1.1) \ensuremath{\ominus} 1) \ensuremath{\oslash} {\rm fl}(0.1) = {(1.1 (1 + \ensuremath{\delta}_1) - 1)(1 + \ensuremath{\delta}_2) \over 0.1 (1 + \ensuremath{\delta}_3)} (1 + \ensuremath{\delta}_4)
+\]
+where we have $|\ensuremath{\delta}_1|,\ensuremath{\ldots},|\ensuremath{\delta}_4| \ensuremath{\leq} \ensuremath{\epsilon}_{\rm m}/2$. Write
+\[
+{1 \over 1 + \ensuremath{\delta}_3} = 1 + \ensuremath{\varepsilon}_1
+\]
+where, using that $|\ensuremath{\delta}_3| \ensuremath{\leq} \ensuremath{\epsilon}_{\rm m}/2 \ensuremath{\leq} 1/2$, we have
+\[
+|\ensuremath{\varepsilon}_1| \ensuremath{\leq} \left| {\ensuremath{\delta}_3 \over 1 + \ensuremath{\delta}_3} \right| \ensuremath{\leq}  {\ensuremath{\epsilon}_{\rm m} \over 2} {1 \over 1 - 1/2} \ensuremath{\leq} \ensuremath{\epsilon}_{\rm m}.
+\]
+Further write
+\[
+(1 + \ensuremath{\varepsilon}_1)(1 + \ensuremath{\delta}_4) = 1 + \ensuremath{\varepsilon}_2
+\]
+where
+\[
+|\ensuremath{\varepsilon}_2| \ensuremath{\leq} |\ensuremath{\varepsilon}_1| + |\ensuremath{\delta}_4| + |\ensuremath{\varepsilon}_1| |\ensuremath{\delta}_4| \ensuremath{\leq} (1 + 1/2 + 1/2) \ensuremath{\epsilon}_{\rm m} =   2\ensuremath{\epsilon}_{\rm m}.
+\]
+We also write
+\[
+{(1.1 (1 + \ensuremath{\delta}_1) - 1)(1 + \ensuremath{\delta}_2) \over 0.1} = 1 + \underbrace{11\ensuremath{\delta}_1 + \ensuremath{\delta}_2 + 11\ensuremath{\delta}_1\ensuremath{\delta}_2}_{\ensuremath{\varepsilon}_3}
+\]
+where
+\[
+|\ensuremath{\varepsilon}_3| \ensuremath{\leq} (11/2 + 1/2  + 11/4) \ensuremath{\leq} 9 \ensuremath{\epsilon}_{\rm m}
+\]
+Then we get
+\[
+({\rm fl}(1.1) \ensuremath{\ominus} 1) \ensuremath{\oslash} {\rm fl}(0.1) = (1 + \ensuremath{\varepsilon}_3) (1 + \ensuremath{\varepsilon}_2) =  1 + \underbrace{\ensuremath{\varepsilon}_3 + \ensuremath{\varepsilon}_2 + \ensuremath{\varepsilon}_2 \ensuremath{\varepsilon}_3}_{\ensuremath{\varepsilon}_4}
+\]
+and the error is bounded by:
+\[
+|\ensuremath{\varepsilon}_4| \ensuremath{\leq} (9 + 2 + 18) \ensuremath{\epsilon}_{\rm m} \ensuremath{\leq} 29 \ensuremath{\epsilon}_{\rm m}.
+\]
+\textbf{END}
+
+\textbf{Problem 4} Let $x \ensuremath{\in} [0,1] \ensuremath{\cap} F_{\ensuremath{\infty},S}$. Assume that $f^{\rm FP} : F_{\ensuremath{\infty},S} \ensuremath{\rightarrow} F_{\ensuremath{\infty},S}$ satisfies $f^{\rm FP}(x) = f(x) + \ensuremath{\delta}_x$ where $|\ensuremath{\delta}_x| \ensuremath{\leq} c \ensuremath{\epsilon}_{\rm m}$ for all $x \ensuremath{\in} [0,1]$. Show that
+\[
+{f^{\rm FP}(x+h) \ensuremath{\ominus} f^{\rm FP}(x-h) \over  2h} = f'(x) + \ensuremath{\varepsilon}
+\]
+where absolute error is bounded by
+\[
+|\ensuremath{\varepsilon}| \ensuremath{\leq} {|f'(x)| \over 2} \ensuremath{\epsilon}_{\rm m} + {M \over 3} h^2 + {2 c \ensuremath{\epsilon}_{\rm m} \over h},
+\]
+where we assume  that $h = 2^{-n}$ for $n \ensuremath{\leq} S$.
+
+\textbf{SOLUTION}
+
+In floating point we have
+\begin{align*}
+{f^{\rm FP}(x + h) \ensuremath{\ominus} f^{\rm FP}(x-h) \over 2h} &= {f(x + h) +  \ensuremath{\delta}_{x+h} - f(x-h) - \ensuremath{\delta}_{x-h} \over 2h} (1 + \ensuremath{\delta}_1) \\
+&= {f(x+h) - f(x-h) \over 2h} (1 + \ensuremath{\delta}_1) + {\ensuremath{\delta}_{x+h}- \ensuremath{\delta}_{x-h} \over 2h} (1 + \ensuremath{\delta}_1)
+\end{align*}
+Applying Taylor's theorem we get
+\[
+(f^{\rm FP}(x + h) \ensuremath{\ominus} f^{\rm FP}(x-h)) / (2h) =
+f'(x) + \underbrace{f'(x) \ensuremath{\delta}_1 + \ensuremath{\delta}_{x,h}^{\rm T} (1 + \ensuremath{\delta}_1) + {\ensuremath{\delta}_{x+h}- \ensuremath{\delta}_{x-h} \over 2h} (1 + \ensuremath{\delta}_1)}_{\ensuremath{\delta}_{x,h}^{\rm CD}}
+\]
+where
+\[
+|\ensuremath{\delta}_{x,h}^{\rm CD}| \ensuremath{\leq} {|f'(x)| \over 2} \ensuremath{\epsilon}_{\rm m} + {M \over 3} h^2 + {2 c \ensuremath{\epsilon}_{\rm m} \over h}
+\]
+\textbf{END}
+
+\textbf{Problem 5} For intervals  $X = [a,b]$ and $Y = [c,d]$ satisfying $0 < a < b$ and $0 < c < d$, and $n > 0$ prove that
+\meeq{
+X/n = [a/n,b/n] \ccr
+XY = [ac, bd]
+}
+Generalise (without proof) these formul\ensuremath{\ae} to the case $n < 0$ and to where there are no restrictions on positivity of $a,b,c,d$. You may use the $\min$ or $\max$ functions.
+
+\textbf{SOLUTION}
+
+For $X/n$: if $x \ensuremath{\in} X$ then $a/n \ensuremath{\leq} x/n \ensuremath{\leq} b/n$ means $x \ensuremath{\in} [a/n,b/n]$. Similarly,  if $z \ensuremath{\in} [a/n,b/n]$ then $a \ensuremath{\leq} nz \ensuremath{\leq} b$ hence $nz \ensuremath{\in} X$ and therefore $z \ensuremath{\in} X/n$.
+
+For $XY$: if $x \ensuremath{\in} X$ and $y \ensuremath{\in} Y$ then $ac \ensuremath{\leq} xy \ensuremath{\leq} bd$ means $xy \ensuremath{\in} [ac,bd]$. Note $ac,bd \ensuremath{\in} XY$. To employ convexity we take logarithms. In particular if $z \ensuremath{\in} [ac,bd]$ then $\log a + \log c \ensuremath{\leq} \log z \ensuremath{\leq} \log b + \log d$. Hence write
+\[
+\log z = (1-t) (\log a + \log c) + t (\log b + \log d) =
+        \underbrace{(1-t)\log a + t \log b}_{\log x} + \underbrace{(1-t)\log c + t \log d}_{\log y}
+\]
+i.e. we have $z = xy$ where
+\meeq{
+x = \exp((1-t)\log a + t \log b) = a^{1-t} b^t \ensuremath{\in} X \ccr
+y = \exp((1-t)\log c + t \log d) = c^{1-t} d^t \ensuremath{\in} Y.
+}
+The generalisation to negative cases proceeds by being a bit careful with the signs. Eg if $n < 0$ we need to swap the order hence we get:
+\[
+A/n =  \begin{cases}
+[a/n,b/n] & n > 0  \\
+[b/n,a/n] & n < 0 
+\end{cases}
+\]
+For multiplication we just use $\min$ and $\max$ in a naive fashion:
+\[
+AB = [\min(ac,ad,bc,bd), \max(ac,ad,bc,bd)].
+\]
+\textbf{END}
+
+\textbf{Problem 6(a)} Compute the following floating point interval arithmetic expression assuming half-precision $F_{16}$ arithmetic:
+\[
+[1,1] \ensuremath{\ominus} ([1,1] \ensuremath{\oslash} 6)
+\]
+Hint: it might help to write $1 = (0.1111\ensuremath{\ldots})_2$ when doing subtraction.
+
+\textbf{SOLUTION}  Note that
+\[
+{1 \over 6} = {1 \over 2} {1\over 3} = 2^{-3} (1.010101\ensuremath{\ldots})_2
+\]
+Thus
+\[
+[1,1] \ensuremath{\oslash} 6 = 2^{-3} [(1.0101010101)_2, (1.0101010110)_2]
+\]
+And hence
+\meeq{
+[1,1] \ensuremath{\ominus} ([1,1] \ensuremath{\oslash} 6) = [1,1] \ensuremath{\ominus} [(0.0010101010101)_2, (0.0010101010110)_2] \ccr
+= [{\rm fl}^{\rm down}(0.11010101010\magenta{0111111\ensuremath{\ldots}})_2, {\rm fl}^{\rm up}(0.11010101010\magenta{111111\ensuremath{\ldots}})_2] \ccr
+= 2^{-1}[(1.1010101010)_2, (1.1010101011)_2] = [0.8330078125,0.83349609375]
+}
+\textbf{END}
+
+\textbf{Problem 6(b)} Writing 
+\[
+\sin\ x = \ensuremath{\sum}_{k=0}^n {(-1)^k x^{2k+1} \over (2k+1)!} + \ensuremath{\delta}_{x,2n+1}
+\]
+Prove the bound $|\ensuremath{\delta}_{x,2n+1}| \ensuremath{\leq} 1/(2n+3)!$, assuming $x \ensuremath{\in} [0,1]$.
+
+\textbf{SOLUTION}
+
+We have from Taylor's theorem up to order $x^{2n+2}$:
+\[
+\sin\ x = \ensuremath{\sum}_{k=0}^n {(-1)^k x^{2k+1} \over (2k+1)!} + \underbrace{{\sin^{2n+3}(t) x^{2n+3} \over (2n+3)!}}_{\ensuremath{\delta}_{x,2n+1}}.
+\]
+The bound follows since all derivatives of $\sin$ are bounded by 1 and we have assumed $|x| \ensuremath{\leq} 1$. 
+
+\textbf{END}
+
+\textbf{Problem 6(c)} Combine the previous parts to prove that:
+\[
+\sin 1 \ensuremath{\in} [(0.11010011000)_2, (0.11010111101)_2] = [0.82421875, 0.84228515625]
+\]
+You may use without proof that $1/120 = 2^{-7} (1.000100010001\ensuremath{\ldots})_2$. 
+
+\textbf{SOLUTION} Using $n = 1$ we have
+\[
+\ensuremath{\sum}_{k=0}^1 {(-1)^k x^{2k+1} \over (2k+1)!} = x - {x \over 3!} \ensuremath{\in} x \ensuremath{\ominus} (x \ensuremath{\oslash} 6).
+\]
+Thus we compute
+\begin{align*}
+\sin 1 &\ensuremath{\in} [1,1] \ensuremath{\ominus} [1,1] \ensuremath{\oslash} 6 \ensuremath{\oplus} [{\rm fl}^{\rm down}(-1/120), {\rm fl}^{\rm up}(1/120)] \ccr 
+ = [(0.11010101010)_2, (0.11010101011)_2] \ensuremath{\oplus} [-(0.0000001000100010)_2, (0.00000010001000101)_2] \ccr
+  =
+[{\rm fl}^{\rm down}(0.11010011000\magenta{11101111\ensuremath{\ldots}})_2,
+ {\rm fl}^{\rm up}(0.11010111100\magenta{000101})_2] \ccr 
+ = [(0.11010011000)_2, (0.11010111101)_2] = [0.82421875, 0.84228515625]
+\end{align*}
+\textbf{END}
+
+
+
+\end{document}
