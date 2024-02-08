@@ -1,6 +1,8 @@
 # # MATH50003 (2022–23)
 # # Lab 6: III.3 Cholesky Factorisation and III.4 Polynomial Regression
 
+# In this lab we explore using LU, PLU and Cholesky factorisations, and
+# implement algorithms for computing a Cholesky factorisation.
 
 # **Learning Outcomes**
 #
@@ -37,7 +39,7 @@ using LinearAlgebra, Plots, BenchmarkTools, Test
 # A = LU.
 # $$
 # This is equivalent to Gaussian elimination but we will only focus on practical usage.
-# This is done via the `lu` function, but as the default is a PLU factorisation we add a flag
+# This factorisation can be computed using the `lu` function, but as the default is a PLU factorisation we add a flag
 # telling it not to use pivoting/permutations:
 
 A = [1.0 1 1;
@@ -50,10 +52,12 @@ L,U = lu(A, NoPivot()) # No Pivot is needed to tell lu not to using permutations
 
 @test A ≈ L*U
 
-# This allows us to reduce solving a linear system to inverting triangular matrices:
+# We can use an LU factorisation to reduce solving a linear system to inverting triangular matrices:
 
 b = randn(3)
-@test A \ b ≈ U\(L\b) # L\b 
+c = L \ b # computed using forward elimination (even though L is a Matrix, \ detects it is lower triangular)
+x = U \ c # computed using back substitution
+@test A \ b == x # matches Julia's \ exactly, since this matrix did not need pivoting
 
 # If a matrix has a zero on a pivot we know by equivalence to Gaussian elimination that an LU factorisation
 # does not exist:
@@ -66,9 +70,42 @@ lu(A, NoPivot()) # throws an error
 A[1,1] = 1E-14
 L,U = lu(A, NoPivot()) # Succeeds but suddenly U is on order of 2E14!
 
-norm(A \ b - U\(L\b)) # Very large error! We want this to be "roughly 16 digits"
+norm(A \ b - U\(L\b)) # Very large error! A \ b uses pivoting now.
 
-# **Problem 1(a)** Consider the Helmholtz equation
+# **WARNING** The parantheses are important: algebra is left-associatitive so had we written `U\L\b` this would have been interpreted as
+# `(L\U) \ b` which would have meant `inv(inv(L)*U)*b == U \ (L*b).
+
+
+# **Problem 1** For `A` defined above, consider setting the `A[1,1] = ε` for `ε = 10.0 ^ (-k)` for `k = 0,…,14`
+# with the right-hand side `b = [1,2,3]`.
+# Use a scale the $y$-axis logarithmically to conjecture the growth rate in the error of using LU compared to `\` as $k → ∞$. 
+# Hint: you can either allocate a vector of errors that is populated in a for-loop or write a simple comprehension.
+
+## TODO: Do a log-log plot for A with its 1,1 entry set to different ε and guess the growth rate.
+## SOLUTION
+
+A = [1.0 1 1;
+     2   4 8;
+     1   4 9]
+
+b = [1,2,3]
+
+
+n = 15
+errs = zeros(n)
+for k = 1:n
+    A[1,1] = 10.0 ^ (1-k)
+    L,U = lu(A, NoPivot())
+    errs[k] = norm(A\b - L \ (U \ b))
+end
+
+scatter(0:n-1, errs; yscale=:log10, yticks = 10.0 .^ (0:30), xticks = 1:15)
+## The error grows exponentially, like 10^(2k)
+
+## END
+
+
+# **Problem 2(a)** Consider the Helmholtz equations
 # $$
 # \begin{align*}
 # u(0) &= 0 \\
@@ -78,7 +115,7 @@ norm(A \ b - U\(L\b)) # Very large error! We want this to be "roughly 16 digits"
 # $$
 # discretised with finite-differences to result in a tridiagonal system.
 # Use the `lu` function without pivoting to
-# compute the LU factorization of the tridiagonal matrix. What structure
+# compute the LU factorization of the tridiagonal matrix. What sparsity structure
 # do you observe in `L` and `U`? Does this structure depend on $n$ or $k$?
 
 ## TODO: Apply lu to the discretisation for Helmholtz derived in the last lab and investigate its structure.
@@ -98,43 +135,48 @@ end
 lu(helmholtz(20, 2), NoPivot()) # L is lower bidiagonal and U is lower bidiagonal, regardless of n or k
 ## END
 
-# **Problem 1(b)** Compare the numerical solution computed with `lu` with no pivoting
-# $$
-# u(x) = (-\cos(k x) + {\rm e}^x \cos(k x)^2 + \cot(k) \sin(k x) - {\rm e} \cos(k) \cot(k) \sin(k x) - {\rm e} \sin(k) \sin(k x) + {\rm e}^x \sin(k x)^2)/(1 + k^2)
-# $$
-# for $k = 1, 10, 1000$ with $n = 1000$. What do you observe about the accuracy (as measured in the ∞-norm)?
-
-## TODO: Use lu without pivoting to solve the Helmholtz equation and investigate the accuracy.
-## SOLUTION
-
-
-n  = 1000
-x = range(0, 1; length = n + 1)
-𝐛 = [0; exp.(x[2:end-1]); 0]
-
-u = x -> (-cos(k*x) + exp(x)cos(k*x)^2 + cot(k)sin(k*x) - ℯ*cos(k)cot(k)sin(k*x) - ℯ*sin(k)sin(k*x) + exp(x)sin(k*x)^2)/(1 + k^2)
-
-k = 1
-L,U = lu(helmholtz(n, k), NoPivot())
-𝐮 = U \ (L \ 𝐛)
-norm(u.(x) - 𝐮) # ≈ 5E-8
-
-k = 10
-L,U = lu(helmholtz(n, k), NoPivot())
-𝐮 = U \ (L \ 𝐛)
-norm(u.(x) - 𝐮) # ≈ 1E-4
-
-k = 100
-L,U = lu(helmholtz(n, k), NoPivot())
-𝐮 = U \ (L \ 𝐛)
-norm(u.(x) - 𝐮) # ≈ 1E-4
-
-
-## END
 
 # ## III.3.2 PLU Factorisation
 
+# In general it is necessary to do pivoting, a feature you have seen
+# in Gaussian elimination but as Problem 1 demonstrates we need to do so even if we do not encounter
+# a zero. This corresponds to a factorisation of the form
+# $$
+#  A = P^⊤LU
+# $$
+# where $P$ is a permutation matrix, $L$ is lower triangular and $U$ is upper triangular.
+# We compute this as follows, printing out the permutation:
 
+A = [0.1 1 1;
+     2   4 8;
+     1   4 9]
+
+L,U,σ = lu(A)
+σ
+
+# The permutation is encoded as a vector $σ$. More precisely, we have
+# $$
+#     P^⊤ 𝐯 = 𝐯[σ]
+# $$
+# Thus we can solve a linear system as follows: we first permute the entries of the right-hand side:
+
+b = [10,11,12]
+b̃ = b[σ] # permute the entries to [b[2],b[3],b[1]]
+
+# We now solve as before:
+c = L \ b̃ # invert L with forward elimination
+x = U \ c # invert U with back substitution
+
+@test x == A \ b # \ also use PLU to do the solve so these exactly equal
+
+# **Problem 2(b)** Repeat Problem 2(a) but with a PLU decomposition. 
+# Are $L$ and $U$ still banded?
+
+## TODO:
+
+## SOLUTION
+lu(helmholtz(20, 2)).L # L is no longer banded: its penultimate row is dense
+## END
 
 # ## III.3.3 Cholesky Factorisation
 
