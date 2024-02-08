@@ -10,7 +10,7 @@ In particular, we will discuss some basic types of structure in matrices:
 \item[1. ] \emph{Dense}: This can be considered unstructured, where we need to store all entries in a vector or matrix. Matrix-vector multiplication reduces directly to standard algebraic operations. Solving linear systems with dense matrices will be discussed later.
 
 
-\item[2. ] \emph{Triangular}: If a matrix is upper or lower triangular, multiplication requires roughly half the number of operations. Crucially, we can apply the inverse of a triangular matrix using forward-elimination or back-substitution.
+\item[2. ] \emph{Triangular}: If a matrix is upper or lower triangular, multiplication requires roughly half the number of operations. Crucially, we can apply the inverse of a triangular matrix using forward- or back-substitution.
 
 
 \item[3. ] \emph{Banded}: If a matrix is zero apart from entries a fixed distance from  the diagonal it is called banded and matrix-vector multiplication has a lower \emph{complexity}: the number of operations scales linearly with the dimension (instead of quadratically). We discuss three cases: diagonal, tridiagonal and bidiagonal matrices.

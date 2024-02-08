@@ -16,7 +16,7 @@ We shall see that this comes up naturally in numerical methods for solving diffe
 In particular, we will discuss some basic types of structure in matrices:
 
 1. _Dense_: This can be considered unstructured, where we need to store all entries in a vector or matrix. Matrix-vector multiplication reduces directly to standard algebraic operations. Solving linear systems with dense matrices will be discussed later.
-2. _Triangular_: If a matrix is upper or lower triangular, multiplication requires roughly half the number of operations. Crucially, we can apply the inverse of a triangular matrix using forward-elimination or back-substitution.
+2. _Triangular_: If a matrix is upper or lower triangular, multiplication requires roughly half the number of operations. Crucially, we can apply the inverse of a triangular matrix using forward- or back-substitution.
 3. _Banded_: If a matrix is zero apart from entries a fixed distance from  the diagonal it is called banded and matrix-vector multiplication has a lower _complexity_: the number of operations scales linearly with the dimension (instead of quadratically). We discuss three cases: diagonal, tridiagonal and bidiagonal matrices.
 
 **Remark** For those who took the first half of the module, there was an important emphasis on working with _linear operators_ rather than _matrices_. That is, there was

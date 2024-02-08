@@ -37,7 +37,7 @@ plot(u)
 #
 # Mathematical knowledge:
 #
-# 1. Matrix multiplication, back-substitution and forward-elimination.
+# 1. Matrix multiplication, back- and forward-substitution.
 # 2. Banded matrices and their utilisation for better complexity linear algebra.
 # 2. Reduction of differential equations to bidiagonal or tridiagonal linear systems.
 # 3. Two-point boundary value problems and their convergence rates.
@@ -432,7 +432,7 @@ x = [10, 11, 12]
 b = [5, 6, 7]
 x = L \ b # Excercise: why does this return a float vector?
 
-# Behind the seens, `\` is doing forward-elimination.
+# Behind the seens, `\` is doing forward-substitution.
 # We can implement our own version as follows:
 
 ## ldiv is our own version of \
@@ -716,9 +716,9 @@ n = 10
 x = range(0, 1; length=n+1) # makes an n+1 point evenly spaced grid
 h = step(x) # equivalent to 1/n
 L = Bidiagonal([1; fill(1/h, n)], fill(-1/h, n), :L)
-
+ 
 # We can use this bidiagonal matrix along with `\` to solve the
-# system via Forward elimination:
+# system via forward substitution:
 
 c = 0 # u(0) = 0
 f = x -> cos(x)
