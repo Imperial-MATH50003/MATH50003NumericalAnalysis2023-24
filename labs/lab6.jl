@@ -91,27 +91,7 @@ norm(A \ b - U\(L\b)) # Very large error! A \ b uses pivoting now.
 # Hint: you can either allocate a vector of errors that is populated in a for-loop or write a simple comprehension.
 
 ## TODO: Do a log-log plot for A with its 1,1 entry set to different ε and guess the growth rate.
-## SOLUTION
 
-A = [1.0 1 1;
-     2   4 8;
-     1   4 9]
-
-b = [1,2,3]
-
-
-n = 15
-errs = zeros(n)
-for k = 1:n
-    A[1,1] = 10.0 ^ (1-k)
-    L,U = lu(A, NoPivot())
-    errs[k] = norm(A\b - L \ (U \ b))
-end
-
-scatter(0:n-1, errs; yscale=:log10, yticks = 10.0 .^ (0:30), xticks = 1:15)
-## The error grows exponentially, like 10^(2k)
-
-## END
 
 
 # **Problem 2(a)** Consider the Helmholtz equations
@@ -129,20 +109,7 @@ scatter(0:n-1, errs; yscale=:log10, yticks = 10.0 .^ (0:30), xticks = 1:15)
 
 ## TODO: Apply lu to the discretisation for Helmholtz derived in the last lab and investigate its structure.
 
-## SOLUTION
 
-
-## We make a function that returns the Helmholtz matrix:
-function helmholtz(n, k)
-    x = range(0, 1; length = n + 1)
-    h = step(x)
-    Tridiagonal([fill(1/h^2, n-1); 0], 
-                    [1; fill(k^2-2/h^2, n-1); 1], 
-                    [0; fill(1/h^2, n-1)])
-end
-
-lu(helmholtz(20, 2), NoPivot()) # L is lower bidiagonal and U is lower bidiagonal, regardless of n or k
-## END
 
 # -----
 
@@ -192,9 +159,7 @@ x = U \ c # invert U with back substitution
 
 ## TODO: Check sparsity of PLU factorisation
 
-## SOLUTION
-lu(helmholtz(20, 2)).L # L is no longer banded: its penultimate row is dense
-## END
+
 
 # **Problem 3(a)** Complete the function  `badmatrix(n)` that returns the following $ℤ^{n × n}$ matrix:
 # $$
@@ -211,19 +176,7 @@ lu(helmholtz(20, 2)).L # L is no longer banded: its penultimate row is dense
 
 function badmatrix(n)
     ## TODO: make the "bad matrix" with `Int` entries defined above and return it
-    ## SOLUTION
-    A = zeros(Int, n, n)
-    for k = 1:n
-        A[k,n] = 1
-    end
-    for j = 1:n-1
-        A[j,j] = 1
-        for k = j+1:n
-            A[k,j] = -1
-        end
-    end
-    A
-    ## END
+    
 end
 
 @test badmatrix(3) isa Matrix{Int}
@@ -236,10 +189,7 @@ end
 ## TODO: Use `lu` on `badmatrix(n)` and a small perturbation to determine if it
 ## is using pivoting.
 
-## SOLUTION
-lu(badmatrix(5)).p # == 1:5, that is no pivoting has occurred
-lu(badmatrix(5) + eps()randn(5,5)).p # ≠ 1:5, we have pivoted
-## END
+
 
 
 # **Problem 3(c)** We can test the accuracy of a method for inverting a matrix
@@ -251,25 +201,7 @@ lu(badmatrix(5) + eps()randn(5,5)).p # ≠ 1:5, we have pivoted
 
 ## TODO: plot the error norm(A*(A\b) - b) for the perturbed and unperturbed badmatrix(n).
 ## What do you observe?
-## SOLUTION
-baderrs = zeros(4)
-perterrs = zeros(4)
 
-for k = 1:4
-    n = 25k
-    b = randn(n)
-    A = badmatrix(n)
-    Ã = A + 1E-15*randn(n,n)
-    baderrs[k] = norm(A * (A \ b) - b)
-    perterrs[k] = norm(Ã * (Ã \ b) - b)
-end
-
-plot(25:25:100, baderrs; label="bad", yscale=:log10)
-plot!(25:25:100, perterrs; label="perturbed")
-
-## The perturbation errors stay very small, whilst the unperturbed
-## errors blow up.
-## END
 
 
 # -----
@@ -350,12 +282,7 @@ L̃ = cholesky(A).L
 # $$
 
 ## TODO: Check if you got PS6 Q1 correct using a computer to do the Cholesky factorisation.
-## SOLUTION
-cholesky([1 -1; -1 3]) # succeeds so is SPD
-cholesky([1 2 2; 2 1 2; 2 2 1]) # throws an error so not SPD
-cholesky([3 2 1; 2 4 2; 1 2 5]) # succeeds so is SPD
-cholesky([4 2 2 1; 2 4 2 2; 2 2 4 2; 1 2 2 4]) # succeeds so is SPD
-## END
+
 
 
 # **Problem 5** Complete the following
@@ -374,13 +301,7 @@ function mycholesky(A::SymTridiagonal)
 
     ## TODO: populate the diagonal entries ld and the sub-diagonal entries ll
     ## of L so that L*L' ≈ A
-    ## SOLUTION
-    ld[1] = sqrt(d[1])
-    for k = 1:n-1
-        ll[k] = u[k]/ld[k]
-        ld[k+1] = sqrt(d[k+1]-ll[k]^2)
-    end
-    ## END
+    
 
     Bidiagonal(ld, ll, :L)
 end
@@ -465,59 +386,7 @@ scatter!(𝐱, f.(𝐱); label="samples")
 ## TODO: interpolate 1/(10x^2 + 1) and 1/(25x^2 + 1) at $n$ evenly spaced points, plotting both solutions evaluated at
 ## the plotting grid with 1000 points, for $n = 50$ and $400$.
 
-## SOLUTION
 
-n = 50
-𝐱 = range(-1, 1; length=n)
-𝐠 = range(-1, 1; length=1000) # plotting grid
-
-V = 𝐱 .^ (0:n-1)'
-V_g = 𝐠 .^ (0:n-1)'
-
-f_4 = x -> 1/(4x^2 + 1)
-𝐜_4 = V \ f_4.(𝐱)
-f_25 = x -> 1/(25x^2 + 1)
-𝐜_25 = V \ f_25.(𝐱)
-
-plot(𝐠, V_g*𝐜_4; ylims=(-1,1))
-plot!(𝐠, V_g*𝐜_25)
-## We see large errors near ±1 for both examples. 
-
-
-n = 400
-𝐱 = range(-1, 1; length=n)
-
-V = 𝐱 .^ (0:n-1)'
-V_g = 𝐠 .^ (0:n-1)'
-f_4 = x -> 1/(4x^2 + 1)
-𝐜_4 = V \ f_4.(𝐱)
-f_25 = x -> 1/(25x^2 + 1)
-𝐜_25 = V \ f_25.(𝐱)
-
-plot(𝐠, V_g*𝐜_4; ylims=(-1,1))
-plot!(𝐠, V_g*𝐜_25)
-##  M = 4 appears to converge whilst M = 25 breaks down.
-
-## Now do big float
-n = 400
-𝐱 = range(big(-1), 1; length=n)
-𝐠 = range(big(-1), 1; length=1000) # plotting grid
-
-V = 𝐱 .^ (0:n-1)'
-V_g = 𝐠 .^ (0:n-1)'
-
-f_4 = x -> 1/(4x^2 + 1)
-𝐜_4 = V \ f_4.(𝐱)
-f_25 = x -> 1/(25x^2 + 1)
-𝐜_25 = V \ f_25.(𝐱)
-
-plot(𝐠, V_g*𝐜_4; ylims=(-1,1))
-plot!(𝐠, V_g*𝐜_25)
-## With M = 4 it looks like it now is converging. This suggests the issue before was numerical error.
-## For M = 25 the solution is even less accurate, which suggests the issue is a lack of mathematical
-## convergence.
-
-## END
 
 # ------
 
@@ -571,23 +440,4 @@ plot!(𝐠, p.(𝐠); label="quadratic")
 
 ## TODO: approximate 1/(10x^2 + 1) and 1/(25x^2 + 1) using a least squares system where the 
 
-## SOLUTION
-n = 50 # use basis [1,x,…,x^(49)]
-𝐱 = range(-1, 1; length=500) # least squares grid
-𝐠 = range(-1, 1; length=2000) # plotting grid
 
-V = 𝐱 .^ (0:n-1)'
-V_g = 𝐠 .^ (0:n-1)'
-f_4 = x -> 1/(4x^2 + 1)
-𝐜_4 = V \ f_4.(𝐱)
-f_25 = x -> 1/(25x^2 + 1)
-𝐜_25 = V \ f_25.(𝐱)
-
-plot(𝐠, V_g*𝐜_4; ylims=(-1,1))
-plot!(𝐠, V_g*𝐜_25)
-
-## Yes, now both approximations appear to be converging.
-## This is despite the radius of convergence of both functions being
-## smaller than the interval of interpolation.
-
-## END

@@ -470,3 +470,4 @@ f(r)
 # $sin(x) - 1/x$. Hint: you may need to add an overload for `/(x::Real, y::Dual)`.
 
 ## TODO: Use `newton` to compute roots of `sin(x) - 1/x`.
+

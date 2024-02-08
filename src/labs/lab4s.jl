@@ -1,4 +1,4 @@
-# # MATH50003 (2022–23)
+# # MATH50003 (2023–24)
 # # Lab 4: II.3 Floating Point Arithmetic and II.4 Interval Arithmetic
 
 # This lab explores the usage of rounding modes for floating point arithmetic and how they

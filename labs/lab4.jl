@@ -1,4 +1,4 @@
-# # MATH50003 (2022–23)
+# # MATH50003 (2023–24)
 # # Lab 4: II.3 Floating Point Arithmetic and II.4 Interval Arithmetic
 
 # This lab explores the usage of rounding modes for floating point arithmetic and how they
@@ -63,7 +63,7 @@ end
 # was changed. 
 
 # **Problem 1** Complete functions `exp_t_3_down`/`exp_t_3_up` implementing the first
-# three terms of the Taylor expansion of $\exp(x)$, that is, $1 + x + x/2 + x^2/6$ but where
+# three terms of the Taylor expansion of $\exp(x)$, that is, $1 + x + x^2/2 + x^3/6$ but where
 # each operation is rounded down/up. Use `typeof(x)` to make sure you are changing the
 # rounding mode for the right floating point type.
 

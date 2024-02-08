@@ -39,7 +39,7 @@ end
 ####
 # Labs
 ####
-for k = 1:5
+for k = 1:6
     compilelab(k)
 end
 
