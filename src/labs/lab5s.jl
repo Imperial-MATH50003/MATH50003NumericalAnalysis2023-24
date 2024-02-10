@@ -484,7 +484,7 @@ end
 
 U = UpperTriangular(randn(5,5))
 x = randn(5)
-@test U*x ≈ mul_cols(L, x)
+@test U*x ≈ mul_cols(U, x)
 
 
 # **Problem 3(b)** Complete the following function for solving linear systems with
@@ -766,7 +766,8 @@ plot!(ns, ns .^ (-1); label="1/n", linestyle=:dash)
 ## TODO: Implement Backward Euler by constructing a lower bidiagonal linear system.
 ## SOLUTION
 
-
+## To help with understanding we will also plot the errors even though this
+## wasn't asked for in the question. We first compare backward and forward Euler:
 c = 0 # u(0) = 0
 f = x -> cos(x)
 n = 10
@@ -775,20 +776,15 @@ x = range(0,1;length=n)
 h=step(x)
 A = Bidiagonal([1; fill(1/h, n-1)], fill(-1/h, n-1), :L)
 ub = A\[c; f.(x[2:end])]
-
-##adding the forward and midpoint solutions here as well for comparison
-m = (x[1:end-1] + x[2:end])/2
-
 uf = A \ [c; f.(x[1:end-1])]
-um = A \ [c; f.(m)]
 
 plot(x, sin.(x); label="sin(x)", legend=:bottomright)
 scatter!(x, ub; label="backward")
-scatter!(x, um; label="mid")
 scatter!(x, uf; label="forward")
 
+#
 
-# Comparing each method's errors, we see that the backward method has the same error as the forward method:
+## Comparing each method's errors, we see that the backward method has the same error as the forward method:
 
 
 function forward_err(u, c, f, n)
@@ -815,17 +811,18 @@ ns = 10 .^ (1:8) # solve up to n = 10 million
 
 
 scatter(ns, forward_err.(sin, 0, f, ns); xscale=:log10, yscale=:log10, label="forward")
-scatter!(ns, mid_err.(sin, 0, f, ns); label="mid")
 scatter!(ns, back_err.(sin, 0, f, ns); label="back",alpha=0.5)
 plot!(ns, ns .^ (-1); label="1/n")
 plot!(ns, ns .^ (-2); label="1/n^2")
 
 
-# Part two:
+## Finally we get to the last part. One can increase n until
+## 3 digits don't change. Or we can use the fact that the rate of convergence
+## is O(n^(-1)) and guess that n = 100k suffices.
 
 
 c = 0 # u(0) = 0
-n = 10000
+n = 100_000
 
 #functions defined in the solutions to problem sheet 2
 f = x -> exp(exp(x)cos(x) + sin(x))
@@ -1073,10 +1070,11 @@ plot!(ns, ns .^ (-2); label="1/n^2")
 ## TODO: Generalise the second-order finite differences to allow for a $k^2 u$ term.
 
 ## SOLUTION
+## We do something slightly different and use SymTridiagonal.
+## You can also do this with Tridiagonal
 function helm(k, n)
     x = range(0, 1; length = n)
     h = step(x)
-    # TODO: Create a SymTridiagonal discretisation
     T = SymTridiagonal(ones(n-2)*(-2/h^2 + k^2),ones(n-3)*1/h^2)
     u = T \ exp.(x[2:end-1])
     [0; u; 0]
