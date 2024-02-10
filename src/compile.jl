@@ -29,7 +29,7 @@ for k = 1:5
     compilesheet(k)
 end
 
-for k = 1:4
+for k = 1:5
     compilesheetsolution(k)
 end
 
