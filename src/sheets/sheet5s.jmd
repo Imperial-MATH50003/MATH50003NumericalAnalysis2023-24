@@ -162,3 +162,34 @@ $$
 u(a) =  c,\qquad u''(x) + V(x) u(x) = f(x), \qquad u(b) = d.
 }
 $$
+
+**SOLUTION**
+
+(Step 1) 
+$$
+\Vectt[u(x_0), u''(x_1) + V(x_1) u(x_1), ⋮, u'(x_{n-1}) + V(x_{n-1}) u(x_{n-1}), u(x_n)] = \underbrace{\Vectt[c, f(x_1),⋮,f(x_{n-1}), d]}_{𝐛}
+$$
+
+(Step 2) Replace with divided differences:
+$$
+\Vectt[u(x_0), (u(x_0)-2u(x_1)+u(x_2))/h^2 + V(x_1)u(x_1), ⋮, (u(x_{n-2} - 2u(x_{n-1})+u(x_n))/h^2 + V(x_{n-1})u(x_{n-1}), u(x_n)] ≈ 𝐛
+$$
+
+(Step 3) Replace with discrete system with equality:
+$$
+\Vectt[u_0, (u_0-2u_1+u_2)/h^2 + V(x_1)u_1, ⋮, (u_{n-2}-2u_{n-1}+u_n))/h^2+ V(x_{n-1})u_{n-1},u_n] = 𝐛
+$$
+
+(Step 4) Write as a tridiagonal linear system:
+$$
+\begin{bmatrix}
+1 \\
+-1/h^2 & V(x_1)-2/h^2 & 1/h^2 \\
+& ⋱ & ⋱ & ⋱ \\
+&&-1/h^2 & V(x_{n-1})-2/h^2 & 1/h^2 \\
+&& &&1
+\end{bmatrix} \Vectt[u_0,⋮,u_n] = 𝐛
+$$
+
+
+**END**
