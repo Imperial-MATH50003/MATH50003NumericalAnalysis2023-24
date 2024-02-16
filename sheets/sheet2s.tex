@@ -124,6 +124,7 @@
 \def\endash{–}
 \def\bbD{ {\mathbb D} }
 \def\bbZ{ {\mathbb Z} }
+\def\bbR{ {\mathbb R} }
 
 \def\x{ {\vc x} }
 \def\a{ {\vc a} }
@@ -131,6 +132,8 @@
 \def\e{ {\vc e} }
 \def\f{ {\vc f} }
 \def\u{ {\vc u} }
+\def\y{ {\vc y} }
+\def\z{ {\vc z} }
 
 \def\red#1{ {\color{red} #1} }
 \def\blue#1{ {\color{blue} #1} }
@@ -173,13 +176,13 @@ so the derivative is 76.
 
 \textbf{Problem 2} What should the following functions applied to dual numbers return for $x = a+b \ensuremath{\epsilon}$:
 \[
-f(x) = x^{100}    + 1, g(x) = 1/x, h(x) = \tan x
+f(x) = x^{100} + 1, g(x) = 1/x, h(x) = \tan x
 \]
 State  the domain where these definitions are valid.
 
 \textbf{SOLUTION}
 \[
-f(a+ b\ensuremath{\epsilon}) = f(a) + b f'(a) \ensuremath{\epsilon} = a^{100} + 100ba^{99} \ensuremath{\epsilon}
+f(a+ b\ensuremath{\epsilon}) = f(a) + b f'(a) \ensuremath{\epsilon} = a^{100} + 1 + 100ba^{99} \ensuremath{\epsilon}
 \]
 valid everywhere.
 \[

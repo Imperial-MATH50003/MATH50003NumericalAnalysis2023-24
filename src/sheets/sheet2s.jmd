@@ -33,14 +33,14 @@ so the derivative is 76.
 
 **Problem 2** What should the following functions applied to dual numbers return for $x = a+b ϵ$:
 $$
-f(x) = x^{100}    + 1, g(x) = 1/x, h(x) = \tan x
+f(x) = x^{100} + 1, g(x) = 1/x, h(x) = \tan x
 $$
 State  the domain where these definitions are valid.
 
 **SOLUTION**
 
 $$
-f(a+ bϵ) = f(a) + b f'(a) ϵ = a^{100} + 100ba^{99} ϵ
+f(a+ bϵ) = f(a) + b f'(a) ϵ = a^{100} + 1 + 100ba^{99} ϵ
 $$
 valid everywhere.
 
