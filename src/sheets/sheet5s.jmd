@@ -48,9 +48,11 @@ $$
 
 Using Problem 2.1 we write:
 $$
+\meeq{
 (⋯((x_1 + x_2)(1+δ_1) + x_3)(1+δ_2)⋯+x_n)(1+δ_{n-1})
-= x_1 ∏_{k=1}^{n-1} (1+δ_k) +  ∑_{j=2}^n x_j ∏_{k=j-1}^{n-1} (1+δ_j)
+= x_1 ∏_{k=1}^{n-1} (1+δ_k) +  ∑_{j=2}^n x_j ∏_{k=j-1}^{n-1} (1+δ_j) \ccr
 = x_1(1+θ_{n-1}) + ∑_{j=2}^n x_j (1 + θ_{n-j+1})
+}
 $$
 where we have for $j = 2,…,n$
 $$
@@ -61,7 +63,6 @@ $$
 ∑_{j=1}^n x_j (1 + θ_{n-j+1})= ∑_{j=1}^n x_j + \underbrace{∑_{j=1}^n x_j θ_{n-j+1}}_{σ_n}
 $$
 where $|σ_n| ≤ M E_{n-1,ϵ_{\rm m}/2}$.
-∎
 
 
 **END**
@@ -121,44 +122,38 @@ to a lower triangular system by discretising on the grid $x_j = a + j h$ for $h 
 gridpoints $x_1,…,x_n$ so that the divided difference does not depend on behaviour at $x_{-1}$.
 
 
-## SOLUTION
+**SOLUTION**
 
-We have,
-\begin{align*}
-\frac{u_{k+1} - u_k}{h} \approx \frac{u'(x_{k+1}) + u'(x_k)}{2} = \frac{a(x_{k+1})u_{k+1} + a(x_{k})u_{k}}{2} + \frac{1}{2}(f(x_{k+1}) + f(x_k)),
-\end{align*}
-so we can write,
-\begin{align*}
-\left(\frac{1}{h} - \frac{a(x_{k+1})}{2}\right)u_{k+1} + \left(-\frac{1}{h} - \frac{a(x_{k})}{2}\right)u_k = \frac{1}{2}(f(x_{k+1}) + f(x_k)).
-\end{align*}
-With the initial condition $u(0) = c$, we can write the whole system as,
+We go through all 4 steps (this is to help you understand what to do. In an exam I will still give full credit if you get the right result,
+even if you don't write down all 4 steps):
+
+(Step 1) Since we need to avoid going off the left in step 2 we start the ODE discretisation at $x_1$:
 $$
-\left[\begin{matrix}
+\Vectt[u(x_0), u'(x_1), ⋮, u'(x_n)] = \underbrace{\Vectt[c, f(x_1),⋮,f(x_n)]}_{𝐛}
+$$
+
+(Step 2) Replace with divided differences:
+$$
+\Vectt[u(x_0), (u(x_1)-u(x_0))/h, ⋮, (u(x_n)-u(x_{n-1}))/h] ≈ 𝐛
+$$
+
+(Step 3) Replace with discrete system with equality:
+$$
+\Vectt[u_0, (u_1-u_0)/h, ⋮, (u_n-u_{n-1}))/h] = 𝐛
+$$
+
+(Step 4) Write as linear system:
+$$
+\begin{bmatrix}
 1 \\
--\frac{1}{h} - \frac{a(x_1)}{2} && \frac{1}{h} - \frac{a(x_2)}{2} \\
-& \ddots && \ddots \\
- & & -\frac{1}{h} - \frac{a(x_{n-1})}{2} && \frac{1}{h} - \frac{a(x_n)}{2}
-\end{matrix}\right]\mathbf{u} =  \left[\begin{matrix} 
-c \\
-\frac{1}{2}\left(f(x_1) + f(x_2)\right) \\
-\vdots \\
-\frac{1}{2}\left(f(x_{n-1}) + f(x_n)\right)
-\end{matrix}\right],
+-1/h & 1/h \\
+& ⋱ & ⋱ \\
+&& -1/h & 1/h 
+\end{bmatrix} \Vectt[u_0,⋮,u_n] = 𝐛
 $$
-which is lower bidiagonal.
+This is the exact same matrix as Forward Euler but with a different right-hand side.
 
-Now if we wish to use forward substitution in a vector linear problem, we can derive in much the same way as above:
-$$
-\left(\frac{1}{h}I - \frac{A(x_{k+1})}{2}\right)\mathbf{u}_{k+1} + \left(-\frac{1}{h}I - \frac{A(x_{k})}{2}\right)\mathbf{u}_k = \frac{1}{2}(\mathbf{f}(x_{k+1}) + \mathbf{f}(x_k)),
-$$
-to make the update equation,
-$$
-\mathbf{u}_{k+1} = \left(I - \frac{h}{2}A(x_{k+1})\right)^{-1}\left(\left(I + \frac{h}{2}A(x_{k})\right)\mathbf{u}_k + \frac{h}{2}(\mathbf{f}(x_{k+1}) + \mathbf{f}(x_k)) \right),
-$$
-with initial value,
-$$
-\mathbf{u}_1 = \mathbf{c}.
-$$
+**END**
 
 
 **Problem 3** Reduce a Schrödinger equation to a tridiagonal linear system by discretising on the grid $x_j = a + j h$ for $h = (b-a)/n$:
@@ -167,3 +162,34 @@ $$
 u(a) =  c,\qquad u''(x) + V(x) u(x) = f(x), \qquad u(b) = d.
 }
 $$
+
+**SOLUTION**
+
+(Step 1) 
+$$
+\Vectt[u(x_0), u''(x_1) + V(x_1) u(x_1), ⋮, u'(x_{n-1}) + V(x_{n-1}) u(x_{n-1}), u(x_n)] = \underbrace{\Vectt[c, f(x_1),⋮,f(x_{n-1}), d]}_{𝐛}
+$$
+
+(Step 2) Replace with divided differences:
+$$
+\Vectt[u(x_0), (u(x_0)-2u(x_1)+u(x_2))/h^2 + V(x_1)u(x_1), ⋮, (u(x_{n-2} - 2u(x_{n-1})+u(x_n))/h^2 + V(x_{n-1})u(x_{n-1}), u(x_n)] ≈ 𝐛
+$$
+
+(Step 3) Replace with discrete system with equality:
+$$
+\Vectt[u_0, (u_0-2u_1+u_2)/h^2 + V(x_1)u_1, ⋮, (u_{n-2}-2u_{n-1}+u_n))/h^2+ V(x_{n-1})u_{n-1},u_n] = 𝐛
+$$
+
+(Step 4) Write as a tridiagonal linear system:
+$$
+\begin{bmatrix}
+1 \\
+-1/h^2 & V(x_1)-2/h^2 & 1/h^2 \\
+& ⋱ & ⋱ & ⋱ \\
+&&-1/h^2 & V(x_{n-1})-2/h^2 & 1/h^2 \\
+&& &&1
+\end{bmatrix} \Vectt[u_0,⋮,u_n] = 𝐛
+$$
+
+
+**END**

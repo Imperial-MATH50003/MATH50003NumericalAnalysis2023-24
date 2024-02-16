@@ -1,0 +1,306 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage[usenames,dvipsnames]{xcolor}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.2ex}
+
+
+
+
+\hypersetup
+       {   pdfauthor = {  },
+           pdftitle={  },
+           colorlinks=TRUE,
+           linkcolor=black,
+           citecolor=blue,
+           urlcolor=blue
+       }
+
+
+
+
+\usepackage{upquote}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    upquote=true,
+    breaklines=true,
+    breakindent=0pt,
+    keepspaces=true,
+    showspaces=false,
+    columns=fullflexible,
+    showtabs=false,
+    showstringspaces=false,
+    escapeinside={(*@}{@*)},
+    extendedchars=true,
+}
+\newcommand{\HLJLt}[1]{#1}
+\newcommand{\HLJLw}[1]{#1}
+\newcommand{\HLJLe}[1]{#1}
+\newcommand{\HLJLeB}[1]{#1}
+\newcommand{\HLJLo}[1]{#1}
+\newcommand{\HLJLk}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkc}[1]{\textcolor[RGB]{59,151,46}{\textit{#1}}}
+\newcommand{\HLJLkd}[1]{\textcolor[RGB]{214,102,97}{\textit{#1}}}
+\newcommand{\HLJLkn}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkp}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkr}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkt}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLn}[1]{#1}
+\newcommand{\HLJLna}[1]{#1}
+\newcommand{\HLJLnb}[1]{#1}
+\newcommand{\HLJLnbp}[1]{#1}
+\newcommand{\HLJLnc}[1]{#1}
+\newcommand{\HLJLncB}[1]{#1}
+\newcommand{\HLJLnd}[1]{\textcolor[RGB]{214,102,97}{#1}}
+\newcommand{\HLJLne}[1]{#1}
+\newcommand{\HLJLneB}[1]{#1}
+\newcommand{\HLJLnf}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnfm}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnp}[1]{#1}
+\newcommand{\HLJLnl}[1]{#1}
+\newcommand{\HLJLnn}[1]{#1}
+\newcommand{\HLJLno}[1]{#1}
+\newcommand{\HLJLnt}[1]{#1}
+\newcommand{\HLJLnv}[1]{#1}
+\newcommand{\HLJLnvc}[1]{#1}
+\newcommand{\HLJLnvg}[1]{#1}
+\newcommand{\HLJLnvi}[1]{#1}
+\newcommand{\HLJLnvm}[1]{#1}
+\newcommand{\HLJLl}[1]{#1}
+\newcommand{\HLJLld}[1]{\textcolor[RGB]{148,91,176}{\textit{#1}}}
+\newcommand{\HLJLs}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsa}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsb}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsc}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsd}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdC}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLse}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLsh}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsi}[1]{#1}
+\newcommand{\HLJLso}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsr}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLss}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLssB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLnB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnbB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnfB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnh}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLni}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnil}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnoB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLoB}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLow}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLp}[1]{#1}
+\newcommand{\HLJLc}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLch}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcm}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcp}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcpB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcs}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcsB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLg}[1]{#1}
+\newcommand{\HLJLgd}[1]{#1}
+\newcommand{\HLJLge}[1]{#1}
+\newcommand{\HLJLgeB}[1]{#1}
+\newcommand{\HLJLgh}[1]{#1}
+\newcommand{\HLJLgi}[1]{#1}
+\newcommand{\HLJLgo}[1]{#1}
+\newcommand{\HLJLgp}[1]{#1}
+\newcommand{\HLJLgs}[1]{#1}
+\newcommand{\HLJLgsB}[1]{#1}
+\newcommand{\HLJLgt}[1]{#1}
+
+
+\def\endash{–}
+\def\bbD{ {\mathbb D} }
+\def\bbZ{ {\mathbb Z} }
+
+\def\x{ {\vc x} }
+\def\a{ {\vc a} }
+\def\b{ {\vc b} }
+\def\e{ {\vc e} }
+\def\f{ {\vc f} }
+\def\u{ {\vc u} }
+
+\def\red#1{ {\color{red} #1} }
+\def\blue#1{ {\color{blue} #1} }
+\def\green#1{ {\color{ForestGreen} #1} }
+\def\magenta#1{ {\color{magenta} #1} }
+
+\input{somacros}
+
+\begin{document}
+
+
+
+\textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Problem Sheet 5}
+
+\textbf{Problem 1(a)}  Suppose $|\ensuremath{\epsilon}_k| \ensuremath{\leq} \ensuremath{\epsilon}$ and $n \ensuremath{\epsilon} < 1$. Use induction to show that
+\[
+\ensuremath{\prod}_{k=1}^n (1+\ensuremath{\epsilon}_k) = 1+\ensuremath{\theta}_n
+\]
+for some constant $\ensuremath{\theta}_n$ satisfying
+\[
+|\ensuremath{\theta}_n| \ensuremath{\leq} \underbrace{n \ensuremath{\epsilon} \over 1-n\ensuremath{\epsilon}}_{E_{n,\ensuremath{\epsilon}}}
+\]
+\textbf{SOLUTION}
+\[
+\ensuremath{\prod}_{k=1}^{n+1} (1+\ensuremath{\epsilon}_k) = \ensuremath{\prod}_{k=1}^n (1+\ensuremath{\epsilon}_k) (1+\ensuremath{\epsilon}_{n+1}) = (1+\ensuremath{\theta}_n)(1+\ensuremath{\epsilon}_{n+1}) = 1 + \underbrace{\ensuremath{\theta}_n + \ensuremath{\epsilon}_{n+1} + \ensuremath{\theta}_n\ensuremath{\epsilon}_{n+1}}_{\ensuremath{\theta}_{n+1}}
+\]
+where
+\begin{align*}
+|\ensuremath{\theta}_{n+1}| &\ensuremath{\leq} {n \ensuremath{\epsilon} \over 1-n\ensuremath{\epsilon}}(1+\ensuremath{\epsilon}) + \ensuremath{\epsilon} \\
+&={n \ensuremath{\epsilon} + n \ensuremath{\epsilon}^2 \over 1-(n+1)\ensuremath{\epsilon}} {1-(n+1)\ensuremath{\epsilon} \over 1-n\ensuremath{\epsilon}}  + {\ensuremath{\epsilon}-(n+1)\ensuremath{\epsilon}^2 \over 1-(n+1)\ensuremath{\epsilon}} \\
+&\ensuremath{\leq} {(n+1)  - n \ensuremath{\epsilon} \over 1-(n+1)\ensuremath{\epsilon}} \ensuremath{\epsilon} \ensuremath{\leq} {(n+1) \ensuremath{\epsilon} \over 1-(n+1)\ensuremath{\epsilon}} 
+\end{align*}
+\textbf{END}
+
+\textbf{Problem 1(b)} Show for an idealised floating point vector $\ensuremath{\bm{\x}} \ensuremath{\in} F_{\ensuremath{\infty},S}^n$  that
+\[
+x_1 \ensuremath{\oplus} \ensuremath{\cdots} \ensuremath{\oplus} x_n = x_1 +  \ensuremath{\cdots} + x_n + \ensuremath{\sigma}_n
+\]
+where
+\[
+|\ensuremath{\sigma}_n| \ensuremath{\leq} \| \ensuremath{\bm{\x}} \|_\ensuremath{\infty} E_{n-1,\ensuremath{\epsilon}_{\rm m}/2},
+\]
+assuming $n \ensuremath{\epsilon}_{\rm m} < 2$ and where $\|\ensuremath{\bm{\x}}\|_\ensuremath{\infty} := \max_k |x_k|$. Hint: use the previous part to first write
+\[
+x_1 \ensuremath{\oplus} \ensuremath{\cdots} \ensuremath{\oplus} x_n = x_1(1+\ensuremath{\theta}_{n-1}) + \ensuremath{\sum}_{j=2}^n x_j (1 + \ensuremath{\theta}_{n-j+1}).
+\]
+\textbf{SOLUTION}
+
+Using Problem 2.1 we write:
+\meeq{
+(\ensuremath{\cdots}((x_1 + x_2)(1+\ensuremath{\delta}_1) + x_3)(1+\ensuremath{\delta}_2)\ensuremath{\cdots}+x_n)(1+\ensuremath{\delta}_{n-1})
+= x_1 \ensuremath{\prod}_{k=1}^{n-1} (1+\ensuremath{\delta}_k) +  \ensuremath{\sum}_{j=2}^n x_j \ensuremath{\prod}_{k=j-1}^{n-1} (1+\ensuremath{\delta}_j) \ccr
+= x_1(1+\ensuremath{\theta}_{n-1}) + \ensuremath{\sum}_{j=2}^n x_j (1 + \ensuremath{\theta}_{n-j+1})
+}
+where we have for $j = 2,\ensuremath{\ldots},n$
+\[
+|\ensuremath{\theta}_{n-j+1}| \ensuremath{\leq} E_{n-j+1,\ensuremath{\epsilon}_{\rm m}/2} \ensuremath{\leq} E_{n-1,\ensuremath{\epsilon}_{\rm m}/2}.
+\]
+Thus we have 
+\[
+\ensuremath{\sum}_{j=1}^n x_j (1 + \ensuremath{\theta}_{n-j+1})= \ensuremath{\sum}_{j=1}^n x_j + \underbrace{\ensuremath{\sum}_{j=1}^n x_j \ensuremath{\theta}_{n-j+1}}_{\ensuremath{\sigma}_n}
+\]
+where $|\ensuremath{\sigma}_n| \ensuremath{\leq} M E_{n-1,\ensuremath{\epsilon}_{\rm m}/2}$.
+
+\textbf{END}
+
+\textbf{Problem 1(c)} For $A \ensuremath{\in} F_{\ensuremath{\infty},S}^{n \ensuremath{\times} n}$ and $\ensuremath{\bm{\x}} \ensuremath{\in} F_{\ensuremath{\infty},S}^n$ consider the error in approximating matrix multiplication with idealised floating point: for
+\[
+A \ensuremath{\bm{\x}} =  \begin{pmatrix}
+\ensuremath{\bigoplus}_{j=1}^n A_{1,j} \ensuremath{\otimes} x_j\\
+\ensuremath{\vdots} \\
+\ensuremath{\bigoplus}_{j=1}^n A_{1,j} \ensuremath{\otimes} x_j
+\end{pmatrix} + \ensuremath{\delta}
+\]
+show that
+\[
+\| \ensuremath{\delta} \|_\ensuremath{\infty} \ensuremath{\leq} 2 \|A\|_\ensuremath{\infty} \| \ensuremath{\bm{\x}} \|_\ensuremath{\infty} E_{n,\ensuremath{\epsilon}_{\rm m}/2}
+\]
+where  $n \ensuremath{\epsilon}_{\rm m} < 2$ and the matrix norm is $\|A \|_\ensuremath{\infty} := \max_k \ensuremath{\sum}_{j=1}^n |a_{kj}|$.
+
+\textbf{SOLUTION} We have for the $k$=th row
+\[
+\ensuremath{\bigoplus}_{j=1}^n A_{k,j} \ensuremath{\otimes} x_j =  \ensuremath{\bigoplus}_{j=1}^n A_{k,j} x_j (1+\ensuremath{\delta}_j) = 
+\ensuremath{\sum}_{j=1}^n A_{k,j} x_k (1+\ensuremath{\delta}_j) + \ensuremath{\sigma}_{k,n}
+\]
+where we know $|\ensuremath{\sigma}_n| \ensuremath{\leq} M_k E_{n-1,\ensuremath{\epsilon}_{\rm m}/2}$, where
+\[
+M_k \ensuremath{\leq} \ensuremath{\Sigma}_{j=1}^n |A_{k,j}| |x_k| (1+|\ensuremath{\delta}_j|)  \ensuremath{\leq} 2 \max |x_k| \ensuremath{\Sigma}_{j=1}^n |A_{k,j}|
+\ensuremath{\leq} 2 \|\ensuremath{\bm{\x}}\|_\ensuremath{\infty} \|A \|_\ensuremath{\infty}
+\]
+Similarly, we also have 
+\[
+|\ensuremath{\sum}_{j=1}^n A_{k,j} x_k \ensuremath{\delta}_j| \ensuremath{\leq} \|\ensuremath{\bm{\x}}\|_\ensuremath{\infty} \|A \|_\ensuremath{\infty} \ensuremath{\epsilon}_{\rm m}/2
+\]
+and so the result follows from
+\[
+\ensuremath{\epsilon}_{\rm m}/2 + 2E_{n-1,\ensuremath{\epsilon}_{\rm m}/2} \ensuremath{\leq} {\ensuremath{\epsilon}_{\rm m}/2 + \ensuremath{\epsilon}_{\rm m} (n-1) \over 1-(n-1)\ensuremath{\epsilon}_{\rm m}/2} \ensuremath{\leq} {\ensuremath{\epsilon}_{\rm m} n \over 1-n\ensuremath{\epsilon}_{\rm m}/2} = 2E_{n,\ensuremath{\epsilon}_{\rm m}/2}.
+\]
+\textbf{END}
+
+\rule{\textwidth}{1pt}
+\textbf{Problem 2} Derive  Backward Euler: use the left-sided divided difference approximation
+\[
+u'(x) \ensuremath{\approx} {u(x) - u(x-h)  \over h}
+\]
+to reduce the first order ODE
+\meeq{
+u(a) =  c, \qquad u'(x) + \ensuremath{\omega}(x) u(x) = f(x)
+}
+to a lower triangular system by discretising on the grid $x_j = a + j h$ for $h = (b-a)/n$. Hint: only impose the ODE on the gridpoints $x_1,\ensuremath{\ldots},x_n$ so that the divided difference does not depend on behaviour at $x_{-1}$.
+
+\textbf{SOLUTION}
+
+We go through all 4 steps (this is to help you understand what to do. In an exam I will still give full credit if you get the right result, even if you don't write down all 4 steps):
+
+(Step 1) Since we need to avoid going off the left in step 2 we start the ODE discretisation at $x_1$:
+\[
+\Vectt[u(x_0), u'(x_1), \ensuremath{\vdots}, u'(x_n)] = \underbrace{\Vectt[c, f(x_1),\ensuremath{\vdots},f(x_n)]}_{\ensuremath{\bm{\b}}}
+\]
+(Step 2) Replace with divided differences:
+\[
+\Vectt[u(x_0), (u(x_1)-u(x_0))/h, \ensuremath{\vdots}, (u(x_n)-u(x_{n-1}))/h] \ensuremath{\approx} \ensuremath{\bm{\b}}
+\]
+(Step 3) Replace with discrete system with equality:
+\[
+\Vectt[u_0, (u_1-u_0)/h, \ensuremath{\vdots}, (u_n-u_{n-1}))/h] = \ensuremath{\bm{\b}}
+\]
+(Step 4) Write as linear system:
+\[
+\begin{bmatrix}
+1 \\
+-1/h & 1/h \\
+& \ensuremath{\ddots} & \ensuremath{\ddots} \\
+&& -1/h & 1/h 
+\end{bmatrix} \Vectt[u_0,\ensuremath{\vdots},u_n] = \ensuremath{\bm{\b}}
+\]
+This is the exact same matrix as Forward Euler but with a different right-hand side.
+
+\textbf{END}
+
+\textbf{Problem 3} Reduce a Schrödinger equation to a tridiagonal linear system by discretising on the grid $x_j = a + j h$ for $h = (b-a)/n$:
+\meeq{
+u(a) =  c,\qquad u''(x) + V(x) u(x) = f(x), \qquad u(b) = d.
+}
+\textbf{SOLUTION}
+
+(Step 1) 
+\[
+\Vectt[u(x_0), u''(x_1) + V(x_1) u(x_1), \ensuremath{\vdots}, u'(x_{n-1}) + V(x_{n-1}) u(x_{n-1}), u(x_n)] = \underbrace{\Vectt[c, f(x_1),\ensuremath{\vdots},f(x_{n-1}), d]}_{\ensuremath{\bm{\b}}}
+\]
+(Step 2) Replace with divided differences:
+\[
+\Vectt[u(x_0), (u(x_0)-2u(x_1)+u(x_2))/h^2 + V(x_1)u(x_1), \ensuremath{\vdots}, (u(x_{n-2} - 2u(x_{n-1})+u(x_n))/h^2 + V(x_{n-1})u(x_{n-1}), u(x_n)] \ensuremath{\approx} \ensuremath{\bm{\b}}
+\]
+(Step 3) Replace with discrete system with equality:
+\[
+\Vectt[u_0, (u_0-2u_1+u_2)/h^2 + V(x_1)u_1, \ensuremath{\vdots}, (u_{n-2}-2u_{n-1}+u_n))/h^2+ V(x_{n-1})u_{n-1},u_n] = \ensuremath{\bm{\b}}
+\]
+(Step 4) Write as a tridiagonal linear system:
+\[
+\begin{bmatrix}
+1 \\
+-1/h^2 & V(x_1)-2/h^2 & 1/h^2 \\
+& \ensuremath{\ddots} & \ensuremath{\ddots} & \ensuremath{\ddots} \\
+&&-1/h^2 & V(x_{n-1})-2/h^2 & 1/h^2 \\
+&& &&1
+\end{bmatrix} \Vectt[u_0,\ensuremath{\vdots},u_n] = \ensuremath{\bm{\b}}
+\]
+\textbf{END}
+
+
+
+\end{document}

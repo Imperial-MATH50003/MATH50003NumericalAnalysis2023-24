@@ -462,7 +462,7 @@ function exp_bound(X::Interval, n)
     f = T(factorial(big(n + 1)),RoundDown)
 
     δ = setrounding(T, RoundUp) do
-        T(3) * T(2)^(n+1) / f # need to convert 3 to the right type to set the rounding
+        T(8) * T(2)^(n+1) / f # need to convert 3 to the right type to set the rounding
     end
     ret + Interval(-δ,δ)
 end

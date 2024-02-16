@@ -372,7 +372,7 @@ x = [10, 11, 12]
 b = [5, 6, 7]
 x = L \ b # Excercise: why does this return a float vector?
 
-# Behind the seens, `\` is doing forward-substitution.
+# Behind the scenes, `\` is doing forward-substitution.
 # We can implement our own version as follows:
 
 ## ldiv is our own version of \

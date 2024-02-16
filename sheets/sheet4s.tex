@@ -361,9 +361,9 @@ You may use without proof that $1/120 = 2^{-7} (1.000100010001\ensuremath{\ldots
 
 \textbf{SOLUTION} Using $n = 1$ we have
 \[
-\ensuremath{\sum}_{k=0}^1 {(-1)^k x^{2k+1} \over (2k+1)!} = x - {x \over 3!} \ensuremath{\in} x \ensuremath{\ominus} (x \ensuremath{\oslash} 6).
+\ensuremath{\sum}_{k=0}^1 {(-1)^k x^{2k+1} \over (2k+1)!} = x - {x^2 \over 3!} \ensuremath{\in} x \ensuremath{\ominus} ((x \ensuremath{\otimes} x) \ensuremath{\oslash} 6).
 \]
-Thus we compute
+Noting that in floating point $1 \ensuremath{\otimes} 1 = 1$ (ie it is exact) we compute
 \begin{align*}
 \sin 1 &\ensuremath{\in} [1,1] \ensuremath{\ominus} [1,1] \ensuremath{\oslash} 6 \ensuremath{\oplus} [{\rm fl}^{\rm down}(-1/120), {\rm fl}^{\rm up}(1/120)] \ccr 
  = [(0.11010101010)_2, (0.11010101011)_2] \ensuremath{\oplus} [-(0.0000001000100010)_2, (0.00000010001000101)_2] \ccr

@@ -32,7 +32,7 @@ for k = 1:6
     compilesheet(k)
 end
 
-for k = 1:4
+for k = 1:5
     compilesheetsolution(k)
 end
 
@@ -48,6 +48,7 @@ compilelabsolution(1)
 compilelabsolution(2)
 compilelabsolution(3)
 compilelabsolution(4)
+compilelabsolution(5)
 
 
 
