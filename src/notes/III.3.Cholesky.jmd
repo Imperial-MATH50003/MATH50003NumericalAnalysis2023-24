@@ -204,7 +204,7 @@ is positive definite.
 
 For all  $𝐱 ∈ ℝ^n, 𝐱 ≠ 0$, define $𝐲 = V 𝐱 ≠ 0$ (since $V$ is non-singular). Thus we have
 $$
-𝐱^⊤ V^⊤ A V 𝐱 = 𝐲^⊤ A 𝐲 > 0.å
+𝐱^⊤ V^⊤ A V 𝐱 = 𝐲^⊤ A 𝐲 > 0.
 $$
 
 ∎
