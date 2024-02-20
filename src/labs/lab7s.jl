@@ -1,10 +1,38 @@
 # # MATH50003 (2023–24)
 # # Lab 7: III.5 Orthogonal and Unitary Matrices and III.6 QR Factorisation
 
+# This lab explores orthogonal matrices, including rotations and reflections.
+# We will construct special types to capture the structure of these orthogonal operations,
+# With the goal of implementing fast matrix*vector and matrix\vector operations.
+# We also compute the QR factorisation with Householder reflections.
+
+# **Learning Outcomes**
+#
+# Mathematical knowledge:
+#
+# 1. 
+
+using LinearAlgebra, Test
+import Base: getindex, *, size, \
+
+
 
 # ## III.5 Orthogonal and Unitary Matrices
 
-# ### III.5.1 Reflections
+# ### III.5.2 Reflections
+
+
+function dense_householderreflection(x)
+    y = copy(x)
+    if x[1] == 0
+        y[1] += norm(x) 
+    else # note sign(z) = exp(im*angle(z)) where `angle` is the argument of a complex number
+        y[1] += sign(x[1])*norm(x) 
+    end
+    w = y/norm(y)
+    I - 2*w*w'
+end
+
 
 # **Problem 1(a)** Complete the implementation of a type representing an n × n
 # reflection that supports `Q[k,j]` in $O(1)$ operations and `*` in $O(n)$ operations.
@@ -57,9 +85,9 @@ Q = Reflection(v)
 # Here `s == true` means the Householder reflection is sent to the positive axis and `s == false` is the negative axis.
 
 function householderreflection(s::Bool, x::AbstractVector)
-    ## TODO: return a `Reflection` corresponding to a Householder reflection
+    ## TODO: return a Reflection corresponding to a Householder reflection
     ## SOLUTION
-    y = copy(x) # don't modify `x`
+    y = copy(x) # don't modify x
     if s
         y[1] -= norm(x)
     else
@@ -135,6 +163,9 @@ Q = Reflections(V)
 
 
 
+
+# III.6 QR Factorisation
+
 # This proof by induction leads naturally to an iterative algorithm. Note that $\tilde Q$ is a product of all
 # Householder reflections that come afterwards, that is, we can think of $Q$ as:
 # $$
@@ -143,19 +174,9 @@ Q = Reflections(V)
 # where $Q_j$ is a single Householder reflection corresponding to the first column of $A_j$. 
 # This is stated cleanly in Julia code:
 
-# III.6 QR Factorisation
 
 
-function householderreflection(x)
-    y = copy(x)
-    if x[1] == 0
-        y[1] += norm(x) 
-    else # note sign(z) = exp(im*angle(z)) where `angle` is the argument of a complex number
-        y[1] += sign(x[1])*norm(x) 
-    end
-    w = y/norm(y)
-    I - 2*w*w'
-end
+
 function householderqr(A)
     T = eltype(A)
     m,n = size(A)
@@ -169,7 +190,7 @@ function householderqr(A)
 
     for j = 1:n
         𝐚₁ = Aⱼ[:,1] # first columns of Aⱼ
-        Q₁ = householderreflection(𝐚₁)
+        Q₁ = dense_householderreflection(𝐚₁)
         Q₁Aⱼ = Q₁*Aⱼ
         α,𝐰 = Q₁Aⱼ[1,1],Q₁Aⱼ[1,2:end]
         Aⱼ₊₁ = Q₁Aⱼ[2:end,2:end]

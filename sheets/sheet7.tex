@@ -148,25 +148,47 @@
 
 
 
-\textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Problem Sheet 3}
+\textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Problem Sheet 6}
 
-\textbf{Problem 1} With 8-bit unsigned integers, what is the result for the following computations:
+\textbf{Problem 1(a)} Show for a unitary matrix $Q \ensuremath{\in} U(n)$ and a vector $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbC}^n$ that multiplication by $Q$ preserve the 2-norm:
 \[
-127 \ensuremath{\oplus}_{256} 200,\quad 2 \ensuremath{\otimes}_{256} 127,\quad 2 \ensuremath{\otimes}_{256} 128, \quad 0 \ensuremath{\ominus}_{256} 1
+\|Q \ensuremath{\bm{\x}}\| = \|\ensuremath{\bm{\x}}\|.
 \]
-\textbf{Problem 2(a)} With 8-bit signed integers, what are the bits for the following: $10, 120, -10$.
+\textbf{Problem 1(b)} Show that the eigenvalues $\ensuremath{\lambda}$ of a unitary matrix $Q$ are on the unit circle: $|\ensuremath{\lambda}| = 1$. Hint: recall for any eigenvalue $\ensuremath{\lambda}$ that there exists a unit vector $\ensuremath{\bm{\v}} \ensuremath{\in} \ensuremath{\bbC}^n$ (satisfying $\| \ensuremath{\bm{\v}} \| = 1$). 
 
-\textbf{Problem 2(b)} With 8-bit signed integers, what is the result for the following computations:
-\[
-127 \ensuremath{\oplus}_{256}^{\rm s} 200,\quad 2 \ensuremath{\otimes}_{256}^{\rm s} 127, \quad 2 \ensuremath{\otimes}_{256}^{\rm s} 128, \quad 0 \ensuremath{\ominus}_{256}^{\rm s} 1
-\]
-\textbf{Problem 3} What is $\ensuremath{\pi}$ to 5 binary places? Hint: recall that $\ensuremath{\pi} \ensuremath{\approx} 3.14$.
+\textbf{Problem 1(c)} Show for an orthogonal matrix $Q \ensuremath{\in} O(n)$ that $\det Q = \ensuremath{\pm}1$. Give an example of $Q \ensuremath{\in} U(n)$ such that $\det Q \ensuremath{\neq} \ensuremath{\pm}1$. Hint: recall for any real matrices $A$ and $B$ that $\det A = \det A^\ensuremath{\top}$ and $\det(AB) = \det A \det B$.
 
-\textbf{Problem 4} What are the single precision $F_{32} = F_{127,8,23}$ floating point representations for the following: 
+\textbf{Problem 1(d)} A normal matrix commutes with its adjoint. Show that $Q \ensuremath{\in} U(n)$ is normal.
+
+\textbf{Problem 1(e)}  The spectral theorem states that any normal matrix is unitarily diagonalisable: if $A$ is normal then $A = V \ensuremath{\Lambda} V^\ensuremath{\star}$ where $V \ensuremath{\in} U(n)$ and $\ensuremath{\Lambda}$ is diagonal. Use this to show that  $Q \ensuremath{\in} U(n)$ is equal to $I$ if and only if all its eigenvalues are 1.
+
+\textbf{Problem 2} Consider the vectors
 \[
-2, \quad 31, \quad 32, \quad 23/4, \quad (23/4)\times 2^{100}
+\ensuremath{\bm{\a}} = \begin{bmatrix} 1 \\ 2 \\ 2 \end{bmatrix}\qquad\hbox{and}\qquad  \ensuremath{\bm{\b}} = \begin{bmatrix} 1 \\ 2{\rm i} \\ 2 \end{bmatrix}.
 \]
-\textbf{Problem 5} Let $m(y) = \min\{x \in F_{32} : x > y \}$ be the smallest single precision number greater than $y$. What is $m(2) - 2$ and $m(1024) - 1024$? 
+Use reflections to determine the entries of orthogonal/unitary matrices $Q_1, Q_2, Q_3$ such that
+\[
+Q_1 \ensuremath{\bm{\a}} = \begin{bmatrix} 3 \\ 0 \\ 0 \end{bmatrix}, Q_2 \ensuremath{\bm{\a}} = \begin{bmatrix} -3 \\ 0 \\ 0 \end{bmatrix},
+Q_3 \ensuremath{\bm{\b}} = \begin{bmatrix} -3 \\ 0 \\ 0 \end{bmatrix}
+\]
+\textbf{Problem 3(a)} What simple rotation matrices $Q_1,Q_2 \ensuremath{\in} SO(2)$ have the property that:
+\[
+Q_1 \begin{bmatrix} 1 \\ 2 \end{bmatrix} =\begin{bmatrix} \sqrt{5} \\ 0 \end{bmatrix},  Q_2 \begin{bmatrix} \sqrt{5} \\ 2 \end{bmatrix} =  \begin{bmatrix} 3 \\ 0 \end{bmatrix}
+\]
+\textbf{Problem 3(b)} Find an orthogonal matrix that is a product of two simple rotations but acting on two different subspaces:
+\[
+Q  = \underbrace{\begin{bmatrix} \cos \ensuremath{\theta}_2 & & -\sin \ensuremath{\theta}_2  \\ & 1 \\
+\sin \ensuremath{\theta}_2  & & \cos \ensuremath{\theta}_2  \end{bmatrix}}_{Q_2} \underbrace{\begin{bmatrix} \cos \ensuremath{\theta}_1 & -\sin \ensuremath{\theta}_1  \\ \sin \ensuremath{\theta}_1 & \cos \ensuremath{\theta}_1 \\ && 1 \end{bmatrix}}_{Q_1}
+\]
+so that, for $\ensuremath{\bm{\a}}$ defined in 1.1, 
+\[
+Q \ensuremath{\bm{\a}}  = \begin{bmatrix} \|\ensuremath{\bm{\a}}\| \\ 0 \\ 0 \end{bmatrix}.
+\]
+Hint: you do not need to determine $\ensuremath{\theta}_1, \ensuremath{\theta}_2$, instead you can write the entries of  $Q_1, Q_2$  directly using just square-roots. 
+
+\textbf{Problem 4(a)} Show that every matrix $A \ensuremath{\in} \ensuremath{\bbR}^{m \ensuremath{\times} n}$ has a  QR factorisation such that the diagonal of $R$ is non-negative. Make sure to include the case of more columns than rows (i.e. $m < n$). 
+
+\textbf{Problem 4(b)} Show that the QR factorisation of a square invertible matrix $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is unique, provided that the diagonal of $R$ is positive.
 
 
 

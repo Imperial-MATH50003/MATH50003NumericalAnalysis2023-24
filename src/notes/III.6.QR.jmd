@@ -70,9 +70,9 @@ $$
 𝐯 = \begin{bmatrix} 𝐚_1 | ⋯ | 𝐚_j \end{bmatrix} 𝐜 = 
 \begin{bmatrix} 𝐪_1 | ⋯ | 𝐪_j \end{bmatrix}  \hat R[1:j,1:j] 𝐜 ∈ \hbox{span}(𝐪_1,…,𝐪_j)
 $$
- while if $𝐰 ∈ \hbox{span}(𝐪_1,…,𝐪_j)$ we have for $𝐝 ∈ ℝ^j$
+ while if $𝐰 ∈ \hbox{span}(𝐪_1,…,𝐪_j)$ we have for $\vc d ∈ ℝ^j$
 $$
-𝐰 = \begin{bmatrix} 𝐪_1 | ⋯ | 𝐪_j \end{bmatrix} 𝐝  =  \begin{bmatrix} 𝐚_1 | ⋯ | 𝐚_j \end{bmatrix} \hat R[1:j,1:j]^{-1} 𝐝 ∈  \hbox{span}(𝐚_1,…,𝐚_j).
+𝐰 = \begin{bmatrix} 𝐪_1 | ⋯ | 𝐪_j \end{bmatrix} \vc d  =  \begin{bmatrix} 𝐚_1 | ⋯ | 𝐚_j \end{bmatrix} \hat R[1:j,1:j]^{-1} \vc d ∈  \hbox{span}(𝐚_1,…,𝐚_j).
 $$
 
 ∎
@@ -175,11 +175,11 @@ $$
 
 If $A$ has more columns then rows, write 
 $$
-Α = \begin{bmatrix} Ã & B \end{bmatrix}
+A = \begin{bmatrix} \At & B \end{bmatrix}
 $$
-where $Ã ∈ ℂ^{m × m}$. From above we know we can write $Ã = Q R̃$. We thus have
+where $\At ∈ ℂ^{m × m}$. From above we know we can write $\At = Q \Rt$. We thus have
 $$
-A = Q \underbrace{\begin{bmatrix} R̃ & Q^⋆ B \end{bmatrix}}_R
+A = Q \underbrace{\begin{bmatrix} \Rt & Q^⋆ B \end{bmatrix}}_R
 $$
 where $R$ is right triangular.
 

@@ -1,0 +1,217 @@
+**Numerical Analysis MATH50003 (2023–24) Problem Sheet 7**
+
+**Problem 1(a)** Show for a unitary matrix $Q ∈ U(n)$ and a vector $𝐱 ∈ ℂ^n$ that multiplication by $Q$ preserve the 2-norm:
+$$
+\|Q 𝐱\| = \|𝐱\|.
+$$
+
+**SOLUTION**
+$$
+\|Q 𝐱\|^2 = (Q 𝐱)^⋆ Q 𝐱 = 𝐱^⋆ Q^⋆ Q 𝐱 = 𝐱^⋆  𝐱 = \|𝐱\|^2
+$$
+**END**
+
+**Problem 1(b)** Show that the eigenvalues $λ$ of a unitary matrix $Q$ are
+on the unit circle: $|λ| = 1$. Hint: recall for any eigenvalue $λ$ that there exists a unit vector
+$𝐯 ∈ ℂ^n$ (satisfying $\| 𝐯 \| = 1$). 
+
+**SOLUTION**
+Let $𝐯$ be a unit eigenvector corresponding to $λ$: $Q 𝐯 = λ 𝐯$ with $\|𝐯\| = 1$. Then
+$$
+1 = \| 𝐯 \| = \|Q 𝐯 \| =  \| λ 𝐯 \| = |λ|.
+$$
+
+**END**
+
+**Problem 1(c)** Show for an orthogonal matrix $Q ∈ O(n)$ that $\det Q = ±1$.
+Give an example of $Q ∈ U(n)$ such that $\det Q ≠ ±1$.
+Hint: recall for any real matrices $A$ and $B$ that $\det A = \det A^⊤$ and
+$\det(AB) = \det A \det B$.
+
+**SOLUTION**
+
+$$
+(\det Q)^2 = (\det Q^⊤)(\det Q) = \det Q^⊤Q = \det I = 1.
+$$
+An example would be a 1 × 1 complex-valued matrix $\exp({\rm i})$.
+
+**END**
+
+**Problem 1(d)** A normal matrix commutes with its adjoint. Show that $Q ∈ U(n)$ is normal.
+
+**SOLUTION**
+$$
+ QQ^⋆ = I = Q^⋆Q
+$$
+**END**
+
+**Problem 1(e)** 
+The spectral theorem states that any normal matrix is unitarily diagonalisable: if $A$ is normal then $A = V Λ V^⋆$
+where $V ∈ U(n)$ and $Λ$ is diagonal.
+Use this to show that  $Q ∈ U(n)$ is equal to $I$ if and only if all its eigenvalues are 1.
+
+**SOLUTION**
+
+Note that $Q$ is normal and therefore by the spectral theorem for 
+normal matrices we have
+$$
+Q = Q̃ Λ Q̃^⋆ = Q̃ Q̃^⋆ = I
+$$
+since $Q̃$ is unitary. 
+
+**END**
+
+
+**Problem 2** Consider the vectors
+$$
+𝐚 = \begin{bmatrix} 1 \\ 2 \\ 2 \end{bmatrix}\qquad\hbox{and}\qquad  𝐛 = \begin{bmatrix} 1 \\ 2{\rm i} \\ 2 \end{bmatrix}.
+$$
+Use reflections to determine the entries of orthogonal/unitary matrices $Q_1, Q_2, Q_3$ such that
+$$
+Q_1 𝐚 = \begin{bmatrix} 3 \\ 0 \\ 0 \end{bmatrix}, Q_2 𝐚 = \begin{bmatrix} -3 \\ 0 \\ 0 \end{bmatrix},
+Q_3 𝐛 = \begin{bmatrix} -3 \\ 0 \\ 0 \end{bmatrix}
+$$
+
+**SOLUTION**
+
+For $Q_1$: we have
+$$
+\begin{align*}
+𝐲 = 𝐚 - \| 𝐚\| 𝐞_1 =  \begin{bmatrix} -2 \\ 2 \\ 2 \end{bmatrix} \\
+𝐰 = {𝐲 \over \|𝐲\|} = {1 \over \sqrt{3}} \begin{bmatrix} -1 \\ 1 \\ 1 \end{bmatrix} \\
+Q_1 = Q_{𝐰} = I - {2 \over 3} \begin{bmatrix} -1 \\ 1 \\ 1 \end{bmatrix}  [-1\ 1\ 1] = 
+I - {2 \over 3} \begin{bmatrix} 1 & -1 & -1 \\ -1 & 1 & 1 \\ -1 & 1 & 1 \end{bmatrix} \\
+&={1 \over 3} \begin{bmatrix} 1 & 2 & 2 \\ 2 & 1 & -2 \\ 2 & -2 & 1 \end{bmatrix} 
+\end{align*}
+$$
+
+For $Q_2$: we have
+$$
+\begin{align*}
+𝐲 = 𝐚 + \| 𝐚\| 𝐞_1 =  \begin{bmatrix} 4 \\ 2 \\ 2 \end{bmatrix} \\
+𝐰 = {𝐲 \over \|𝐲\|} = {1 \over \sqrt{6}} \begin{bmatrix} 2 \\ 1 \\ 1 \end{bmatrix} \\
+Q_1 = Q_{𝐰} = I - {1 \over 3} \begin{bmatrix} 2 \\ 1 \\ 1 \end{bmatrix}  [2 1 1] = 
+I - {1 \over 3} \begin{bmatrix} 4 & 2 & 2 \\ 2 & 1  & 1 \\ 2&  1 & 1 \end{bmatrix} \\
+&={1 \over 3} \begin{bmatrix} -1 & -2 & -2 \\ -2& 2 &-1 \\ -2& -1& 2 \end{bmatrix} 
+\end{align*}
+$$
+
+For $Q_3$ we just need to be careful to conjugate:
+$$
+\begin{align*}
+𝐲 = 𝐛 - \| 𝐛\| 𝐞_1 =  \begin{bmatrix} -2 \\ 2{\rm i} \\ 2 \end{bmatrix} \\
+𝐰 = {𝐲 \over \|𝐲\|} = {1 \over \sqrt{3}} \begin{bmatrix} -1 \\ {\rm i} \\ 1 \end{bmatrix} \\
+Q_1 = Q_{𝐰} = I - {2 \over 3} \begin{bmatrix} -1 \\ {\rm i} \\ 1 \end{bmatrix}  [-1\ -{\rm i}\ 1] = 
+I - {2 \over 3} \begin{bmatrix} 1 & {\rm i} & -1 \\ -{\rm i}& 1 & {\rm i} \\ -1 &-{\rm i} & 1 \end{bmatrix} \\
+&={1 \over 3} \begin{bmatrix} 1 & -2{\rm i} & 2 \\ 2{\rm i} & 1 & -2{\rm i} \\ 2& 2{\rm i} & 1 \end{bmatrix} 
+\end{align*}
+$$
+
+
+
+**END**
+
+**Problem 3(a)** What simple rotation matrices $Q_1,Q_2 ∈ SO(2)$ have the property that:
+$$
+Q_1 \begin{bmatrix} 1 \\ 2 \end{bmatrix} =\begin{bmatrix} \sqrt{5} \\ 0 \end{bmatrix},  Q_2 \begin{bmatrix} \sqrt{5} \\ 2 \end{bmatrix} =  \begin{bmatrix} 3 \\ 0 \end{bmatrix}
+$$
+
+**SOLUTION**
+
+The rotation that takes $[x,y]$ to the x-axis is
+$$
+{1 \over \sqrt{x^2+y^2}} \begin{bmatrix}
+x & y \\
+-y & x
+\end{bmatrix}.
+$$
+Hence we get
+$$
+\begin{align*}
+Q_1 &= {1 \over \sqrt{5}} \begin{bmatrix} 1 & 2 \\ -2 & 1 \end{bmatrix} \\
+Q_2 &= {1 \over 3} \begin{bmatrix} \sqrt{5} & 2 \\ -2 & \sqrt{5} \end{bmatrix}
+\end{align*}
+$$
+
+
+**END**
+
+**Problem 3(b)** Find an orthogonal matrix that is a product of two simple rotations but
+acting on two different subspaces:
+$$
+Q  = \underbrace{\begin{bmatrix} \cos θ_2 & & -\sin θ_2  \\ & 1 \\
+\sin θ_2  & & \cos θ_2  \end{bmatrix}}_{Q_2} \underbrace{\begin{bmatrix} \cos θ_1 & -\sin θ_1  \\ \sin θ_1 & \cos θ_1 \\ && 1 \end{bmatrix}}_{Q_1}
+$$
+so that, for $𝐚$ defined in 1.1, 
+$$
+Q 𝐚  = \begin{bmatrix} \|𝐚\| \\ 0 \\ 0 \end{bmatrix}.
+$$
+Hint: you do not need to determine $θ_1, θ_2$, instead you can write the entries of  $Q_1, Q_2$ 
+directly using just square-roots. 
+
+**SOLUTION**
+
+We use $Q_1$ to introduce a 0 in the second entry by rotating the vector $[1,2]$:
+$$
+Q_1 =  \begin{bmatrix} 1/\sqrt{5}  & 2/\sqrt{5} \\ -2/\sqrt{5} & 1/\sqrt{5} \\ && 1 \end{bmatrix}
+$$
+so that
+$$
+Q_1 𝐚 = \begin{bmatrix} \sqrt{5} \\ 0 \\ 2 \end{bmatrix}.
+$$
+Now we use the matrix that rotates the vector $[\sqrt{5},2]$ whose norm is $3$ to deduce the entries
+$$
+Q_2 = \begin{bmatrix} \sqrt{5}/3 & & 2/3  \\ & 1 \\
+-2/3  & & \sqrt{5}/3  \end{bmatrix}
+$$
+so that
+$$
+Q_2 Q_1 = \begin{bmatrix} 1/3 & 2/3 & 2/3 \\ 
+ -2/\sqrt{5} & 1/\sqrt{5} & \\ 
+ -2/(3\sqrt{5}) & -4/(3\sqrt{5}) & \sqrt{5}/3
+ \end{bmatrix}
+$$
+
+
+**END**
+
+
+
+**Problem 4(a)** Show that every matrix $A ∈ ℝ^{m × n}$ has a  QR factorisation such that the diagonal of $R$ is non-negative.
+Make sure to include the case of more columns than rows (i.e. $m < n$). 
+
+**SOLUTION**
+
+We first show for $m < n$ that a QR decomposition exists. Writing
+$$
+A = [𝐚_1 | ⋯ | 𝐚_n]
+$$
+and taking the first $m$ columns (so that it is square) we can write $[𝐚_1 | ⋯ | 𝐚_m] = Q R_m$. It follows that $R := Q^⋆ A$ is right-triangular.
+
+We can write:
+$$
+D = \begin{bmatrix} \hbox{sign}(r_{11}) \\ & ⋱  \\ && \hbox{sign}(r_{pp}) \end{bmatrix}
+$$
+where $p = \min(m,n)$ and we define $\hbox{sign}(0) = 1$. Note that $D^⊤ D = I$. Thus we can write:
+$A = Q R = Q D D R$
+where $(QD)$ is orthogonal and $DR$ is upper-triangular with positive entries.
+
+
+**END**
+
+**Problem 4(b)** Show that the QR factorisation of a square invertible matrix $A ∈ ℝ^{n × n}$ is unique,
+provided that the diagonal of $R$ is positive.
+
+**SOLUTION**
+
+Assume there is a second factorisation also with positive diagonal
+$$
+A = QR = Q̃  R̃
+$$
+Then we know
+$$
+Q^⊤ Q̃  = R R̃^{-1}
+$$
+Note $Q^⊤ Q̃ $ is orthogonal, and $R R̃^{-1}$ has positive eigenvalues (the diagonal), hence all $m$ eigenvalues of
+$Q^⊤ Q̃ $ are 1. This means that $Q^⊤ Q̃  = I$ and hence $Q̃ = Q$, which then implies $R̃ = R$.∎
+**END**

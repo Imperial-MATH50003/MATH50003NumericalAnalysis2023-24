@@ -11,7 +11,7 @@ A square complex matrix is _unitary_ if its inverse is its adjoint:
 $$
 U(n) = \{Q ∈ ℂ^{n × n} : Q^⋆Q = I \}.
 $$
-Here the adjoint is the same as the conjugate-transpose: $Q^⋆ := Q̄^⊤$. 
+Here the adjoint is the same as the conjugate-transpose: $Q^⋆ := \bar Q^⊤$. 
 ∎
 
 
@@ -109,7 +109,9 @@ basic algebraic functions (no trigonometric functions):
 
 **Proposition (rotation of a vector)** 
 The matrix
-$$Q = {1 \over \sqrt{a^2 + b^2}}\begin{bmatrix}
+$$
+Q = {1 \over \sqrt{a^2 + b^2}}
+\begin{bmatrix}
  a & b \cr -b & a
 \end{bmatrix}
 $$
@@ -140,39 +142,42 @@ In addition to rotations, another type of orthogonal/unitary matrix are reflecti
 **Definition (reflection matrix)** 
 Given a unit vector $𝐯 ∈ ℂ^n$ (satisfying $\|𝐯\|=1$), the _reflection matrix_
 $$
-Q_𝐯 := I - 2 𝐯 𝐯^⋆
+Q_{𝐯} := I - 2 𝐯 𝐯^⋆
 $$
 ∎
 
 
 These are reflections in the direction of $𝐯$. We can show this as follows:
 
-**Proposition (Householder properties)** $Q_𝐯$ satisfies:
-1. $Q_𝐯 = Q_𝐯^⋆$ (Symmetry)
-2. $Q_𝐯^⋆ Q_𝐯 = I$ (Orthogonality $Q_𝐯 ∈ U(n)$)
-2. $𝐯$ is an eigenvector of $Q_𝐯$ with eigenvalue $-1$
-4. $Q_𝐯$ is a rank-1 perturbation of $I$
-3. $\det Q_𝐯 = -1$ ($Q_𝐯 ∉ SO(n)$)
+**Proposition (Householder properties)** $Q_{𝐯}$ satisfies:
+1. Symmetry: $Q_{𝐯} = Q_{𝐯}^⋆$
+2. Orthogonality: $Q_{𝐯} ∈ U(n)$
+3. The vector $𝐯$ is an eigenvector of $Q_{𝐯}$ with eigenvalue $-1$
+4. Rank-1 perturbation: $Q_{𝐯}$ is a rank-1 perturbation of $I$
+5. Not a rotation: $\det Q_{𝐯} = -1$
 
 
 **Proof**
 
 Property 1 follows immediately. Property 2 follows from
 $$
-Q_𝐯^⋆ Q_𝐯 = Q_𝐯^2 = I - 4 𝐯 𝐯^⋆ + 4 𝐯 𝐯^⋆ 𝐯 𝐯^⋆ = I
+Q_{𝐯}^⋆ Q_{𝐯} = Q_{𝐯}^2 = I - 4 𝐯 𝐯^⋆ + 4 𝐯 𝐯^⋆ 𝐯 𝐯^⋆ = I
 $$
 Property 3 follows since
 $$
-Q_𝐯 𝐯 = -𝐯
+Q_{𝐯} 𝐯 = 𝐯 - 2𝐯 (𝐯^⋆𝐯) = -𝐯
 $$
-Property 4 follows since $𝐯 𝐯^⊤$ is a rank-1 matrix as all rows are linear combinations of each other.
-To see property 5, note there is a dimension $n-1$ space $W$ orthogonal to $𝐯$, that is, for all
-$𝐰 ∈ W$ we have $𝐰^⋆ 𝐯 = 0$, which implies that
+Property 4 follows since $𝐯 𝐯^⋆$ is a rank-1 matrix as all rows are linear combinations of each other.
+To see property 5, note there is a dimension $n-1$ space $W$ orthogonal to $𝐯$, that is,
 $$
-Q_𝐯 𝐰 = 𝐰
+W := \{𝐰 : 𝐰^⋆ 𝐯 = 0 \}.
+$$ 
+This implies that
+$$
+Q_{𝐯} 𝐰 = 𝐰 - 2 𝐯 (𝐰^⋆ 𝐯) =  𝐰
 $$
 In other words, $1$ is an eigenvalue with multiplicity $n-1$ and $-1$ is an eigenvalue with multiplicity 1,
-and thus the product of the eigenvalues is $-1$.
+and thus the determinant, which is product of the eigenvalues, is $-1$.
 
 ∎
 
@@ -189,24 +194,24 @@ $$
 $$
 Thus the reflection matrix is:
 $$
-Q_𝐯 = I - 2 𝐯 𝐯^⊤ = \begin{bmatrix}1 \\ & 1 \end{bmatrix} - {2 \over 5} \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}
+Q_{𝐯} = I - 2 𝐯 𝐯^⊤ = \begin{bmatrix}1 \\ & 1 \end{bmatrix} - {2 \over 5} \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}
  =  {1 \over 5} \begin{bmatrix} 3 & -4 \\ -4 & -3 \end{bmatrix}
 $$
 Indeed it is symmetric, and orthogonal. It sends $𝐱$ to $-𝐱$:
 $$
-Q_𝐯 𝐱 = {1 \over 5} \begin{bmatrix}3 - 8 \\ -4 - 6 \end{bmatrix} = -𝐱
+Q_{𝐯} 𝐱 = {1 \over 5} \begin{bmatrix}3 - 8 \\ -4 - 6 \end{bmatrix} = -𝐱
 $$
 Any vector orthogonal to $𝐱$, like $𝐲 = [-2,1]^⊤$, is left fixed:
 $$
-Q_𝐯 𝐲 = {1 \over 5} \begin{bmatrix}-6 -4 \\ 8 - 3 \end{bmatrix} = 𝐲
+Q_{𝐯} 𝐲 = {1 \over 5} \begin{bmatrix}-6 -4 \\ 8 - 3 \end{bmatrix} = 𝐲
 $$
 ∎
 
 
-Note that _building_ the matrix $Q_𝐯$ will be expensive ($O(n^2)$ operations), but we can _apply_
-$Q_𝐯$ to a vector in $O(n)$ operations using the expression:
+Note that _building_ the matrix $Q_{𝐯}$ will be expensive ($O(n^2)$ operations), but we can _apply_
+$Q_{𝐯}$ to a vector in $O(n)$ operations using the expression:
 $$
-Q_𝐯 𝐱 = 𝐱 - 2 𝐯 (𝐯^⋆ 𝐱) = 𝐱 - 2 𝐯 (𝐯 ⋅ 𝐱).
+Q_{𝐯} 𝐱 = 𝐱 - 2 𝐯 (𝐯^⋆ 𝐱) = 𝐱 - 2 𝐯 (𝐯 ⋅ 𝐱).
 $$
 
 
@@ -216,18 +221,18 @@ but in this case it works for vectors in $ℂ^n$, not just $ℝ^2$:
 **Definition (Householder reflection, real case)** For a given vector
 $𝐱 ∈ ℝ^n$, define the Householder reflection
 $$
-Q_𝐱^{±,\rm H} := Q_𝐰
+Q_{𝐱}^{±,\rm H} := Q_{𝐰}
 $$
 for $𝐲 = ∓ \|𝐱\| 𝐞_1 + 𝐱$ and $𝐰 = {𝐲 \over \|𝐲\|}$.
 The default choice in sign is:
 $$
-Q_𝐱^{\rm H} := Q_𝐱^{-\hbox{sign}(x_1),\rm H}.
+Q_{𝐱}^{\rm H} := Q_{𝐱}^{-\hbox{sign}(x_1),\rm H}.
 $$
 ∎
 
 **Lemma (Householder reflection maps to axis)** For $𝐱 ∈ ℝ^n$,
 $$
-Q_𝐱^{±,\rm H} 𝐱 = ±\|𝐱\| 𝐞_1
+Q_{𝐱}^{±,\rm H} 𝐱 = ±\|𝐱\| 𝐞_1
 $$
 
 **Proof**
@@ -240,7 +245,7 @@ $$
 $$
 where $x_1 = 𝐞_1^⊤ 𝐱$. Therefore:
 $$
-Q_𝐱^{±,\rm H} 𝐱  =  (I - 2 𝐰 𝐰^⊤) 𝐱 = 𝐱 - 2 {𝐲  \|𝐱\|  \over \|𝐲\|^2} (\|𝐱\|∓x_1) = 𝐱 - 𝐲 =  ±\|𝐱\| 𝐞_1.
+Q_{𝐱}^{±,\rm H} 𝐱  =  (I - 2 𝐰 𝐰^⊤) 𝐱 = 𝐱 - 2 {𝐲  \|𝐱\|  \over \|𝐲\|^2} (\|𝐱\|∓x_1) = 𝐱 - 𝐲 =  ±\|𝐱\| 𝐞_1.
 $$
 
 ∎
@@ -252,7 +257,7 @@ We can extend this definition for complexes:
 **Definition (Householder reflection, complex case)** For a given vector
 $𝐱 ∈ ℂ^n$, define the Householder reflection as
 $$
-Q_𝐱^{\rm H} := Q_𝐰
+Q_{𝐱}^{\rm H} := Q_{𝐰}
 $$
 for $𝐲 = {\rm csign}(x_1) \|𝐱\| 𝐞_1 + 𝐱$ and $𝐰 = {𝐲 \over \|𝐲\|}$, for ${\rm csign}(z) = {\rm e}^{{\rm i} \arg z}$. 
 ∎
@@ -260,22 +265,22 @@ for $𝐲 = {\rm csign}(x_1) \|𝐱\| 𝐞_1 + 𝐱$ and $𝐰 = {𝐲 \over \|�
 
 **Lemma (Householder reflection maps to axis, complex case)** For $𝐱 ∈ ℂ^n$,
 $$
-Q_𝐱^{\rm H} 𝐱 = -{\rm csign}(x_1) \|𝐱\| 𝐞_1
+Q_{𝐱}^{\rm H} 𝐱 = -{\rm csign}(x_1) \|𝐱\| 𝐞_1
 $$
 
 **Proof**
 Denote $α := {\rm csign}(x_1)$. 
-Note that $ᾱ x_1 = {\rm e}^{-{\rm i} \arg x_1} x_1 = |x_1|$.  Now we have
+Note that $\baralpha x_1 = {\rm e}^{-{\rm i} \arg x_1} x_1 = |x_1|$.  Now we have
 $$
 \begin{align*}
-\| 𝐲 \|^2 &= (α \|𝐱\| 𝐞_1 + 𝐱)^⋆(α \|𝐱\| 𝐞_1 + 𝐱) = |α|\| 𝐱 \|^2 + \| 𝐱 \|  α x̄_1 + ᾱ x_1 \| 𝐱 \| + \| 𝐱 \|^2 \\
+\| 𝐲 \|^2 &= (α \|𝐱\| 𝐞_1 + 𝐱)^⋆(α \|𝐱\| 𝐞_1 + 𝐱) = |α|\| 𝐱 \|^2 + \| 𝐱 \|  α \bar x_1 + \baralpha x_1 \| 𝐱 \| + \| 𝐱 \|^2 \\
 &= 2\| 𝐱 \|^2 + 2|x_1| \| 𝐱 \| \\
-𝐲^⋆ 𝐱 &= ᾱ x_1 \| 𝐱 \| + \|𝐱 \|^2 = \|𝐱 \|^2 + |x_1| \| 𝐱 \|
+𝐲^⋆ 𝐱 &= \baralpha x_1 \| 𝐱 \| + \|𝐱 \|^2 = \|𝐱 \|^2 + |x_1| \| 𝐱 \|
 \end{align*}
 $$
 Therefore:
 $$
-Q_𝐱^{\rm H} 𝐱  =  (I - 2 𝐰 𝐰^⋆) 𝐱 = 𝐱 - 2 {𝐲    \over \|𝐲\|^2} (\|𝐱 \|^2 + |x_1| \|𝐱 \|) = 𝐱 - 𝐲 =  -α \|𝐱\| 𝐞_1.
+Q_{𝐱}^{\rm H} 𝐱  =  (I - 2 𝐰 𝐰^⋆) 𝐱 = 𝐱 - 2 {𝐲    \over \|𝐲\|^2} (\|𝐱 \|^2 + |x_1| \|𝐱 \|) = 𝐱 - 𝐲 =  -α \|𝐱\| 𝐞_1.
 $$
 
 ∎
