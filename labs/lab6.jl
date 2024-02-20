@@ -10,7 +10,7 @@
 # We also explore polynomial interpolation and regression, and see that when
 # interpolating at an evenly spaced grid one can encounter issues with convergence.
 # This is overcome via regression, but we are left with the question of how to
-# solve the underlying least sqaures problems. 
+# solve the underlying least squares problems. 
 
 # **Learning Outcomes**
 #
@@ -34,14 +34,14 @@ using LinearAlgebra, Plots, Test
 # LU, PLU and Cholesky factorisations are closely related
 # matrix factorisations that reduce a square matrix to a product of
 # lower and upper triangular matrices, possibly with a permutation matrix.
-# We will only focus on the practical usage of LU and PLU, whilst digging into the
-# details of implementation. For the Cholesky factorisation we see look at implementation.
+# We will only focus on the practical usage of LU and PLU, without digging into the
+# details of implementation. For the Cholesky factorisation we will look at implementation.
 
 # ### III.3.1 LU Factorisation
 
 
 # If $A ∈ 𝔽^{n × n}$ is a square matrix where $𝔽$ is a field ($ℝ$ or $ℂ$)
-# then we can find lower and upper triangular matrices $L,U ∈ 𝔽^{n × n}$ such that 
+# then we can sometimes find lower and upper triangular matrices $L,U ∈ 𝔽^{n × n}$ such that 
 # $$
 # A = LU.
 # $$
@@ -53,7 +53,7 @@ A = [1.0 1 1;
      2   4 8;
      1   4 9]
 
-L,U = lu(A, NoPivot()) # No Pivot is needed to tell lu not to using permutations
+L,U = lu(A, NoPivot()) # NoPivot is a flag that tells lu to not use permutations
 
 # This matches what we derived by hand in the notes and indeed:
 
@@ -79,7 +79,7 @@ L,U = lu(A, NoPivot()) # Succeeds but suddenly U is on order of 2E14!
 #
 norm(A \ b - U\(L\b)) # Very large error! A \ b uses pivoting now.
 
-# **WARNING** The parantheses are important: algebra is left-associatitive so had we written `U\L\b` this would have been interpreted as
+# **WARNING** The parantheses are important: algebra is left-associative so had we written `U\L\b` this would have been interpreted as
 # `(L\U) \ b` which would have meant `inv(inv(L)*U)*b == U \ (L*b)`.
 
 # -----
@@ -115,7 +115,7 @@ norm(A \ b - U\(L\b)) # Very large error! A \ b uses pivoting now.
 
 # ## III.3.2 PLU Factorisation
 
-# In general it is necessary to do pivoting, a feature you have seen
+# In general it is necessary to use pivoting, a feature you have seen
 # in Gaussian elimination but as Problem 1 demonstrates we need to do so even if we do not encounter
 # a zero. This corresponds to a factorisation of the form
 # $$
@@ -135,7 +135,7 @@ L,U,σ = lu(A)
 # $$
 #     P^⊤ 𝐯 = 𝐯[σ]
 # $$
-# Thus we can solve a linear systemby  first permuting the entries of the right-hand side:
+# Thus we can solve a linear system by  first permuting the entries of the right-hand side:
 
 b = [10,11,12]
 b̃ = b[σ] # permute the entries to [b[2],b[3],b[1]]
@@ -258,7 +258,7 @@ L̃ = cholesky(A).L
 
 # In the following problem we consider a Cholesky factorisation for tridiagonal matrices. Since we are assuming the
 # matrix is symmetric, we will use a special type `SymTridiagonal` that captures the symmetry.
-# In particular, `SymTridiagonal(dv, eu) == Tridiagonal(ev, dv, ev)`.
+# In particular, `SymTridiagonal(dv, ev) == Tridiagonal(ev, dv, ev)`.
 
 
 # -----
@@ -338,7 +338,7 @@ L = mycholesky(A)
 # $$
 #  𝐟 = \begin{bmatrix} f(x_1) \\ ⋮ \\ f(x_n) \end{bmatrix}
 # $$
-# then for the coefficients of the interpolatory polynomial
+# then the coefficients of the interpolatory polynomial
 # $$
 #       𝐜 = \begin{bmatrix}
 #           c_0 \\ ⋮ \\ c_{n-1} \end{bmatrix} 

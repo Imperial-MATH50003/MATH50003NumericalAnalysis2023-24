@@ -48,7 +48,7 @@ $$A_1=\begin{bmatrix}
 -2&-3
 \end{bmatrix}$$
 
-$A_1[1,1] ≤ 0$, so Matrix 2 is not SPD.
+$A_1[1,1] ≤ 0$, so Matrix 2 is not SPD.
 
 *Matrix 3*
 
@@ -118,7 +118,7 @@ cholesky([4 2 2 1; 2 4 2 2; 2 2 4 2; 1 2 2 4])
 ```
 **END**
 
-**Problem 2** Show that a matrix is symmetric positive definite if and only if it has a _reverse_ Cholesky
+**Problem 2** Show that a matrix $A ∈ ℝ^{n × n}$ is symmetric positive definite if and only if it has a _reverse_ Cholesky
 factorisation of the form
 $$
 A = U U^⊤
@@ -206,7 +206,7 @@ we conclude that $Δ_n$ has a Cholesky factorisation and hence is symmetric posi
 
 **Problem 3(b)** 
 Deduce its Cholesky factorisations: $Δ_n = L_n L_n^⊤$ where
-$L_n$ is lower triangular and $U_n$ is upper triangular.
+$L_n$ is lower triangular.
 
 **SOLUTION**
 
@@ -268,25 +268,186 @@ plot([p cos], xlims=(-1,5))
 
 **END**
 
-**Problem 5(a)** Compute the LU factorisation of the following transposed Vandermonde matrices:
+**Problem 5** Compute the LU factorisation of the following transposed Vandermonde matrices:
 $$
 \begin{bmatrix}
 1 & 1 \\
-x_1 & x_2
-\end{bmatrix}, \begin{bmatrix}
+x & y
+\end{bmatrix}, 
+\begin{bmatrix}
 1 & 1 & 1 \\
-x_1 & x_2 & x_3 \\
-x_1^2 & x_2^2 & x_3^2
-\end{bmatrix}, \begin{bmatrix}
+x & y & z \\
+x^2 & y^2 & z^2
+\end{bmatrix}, 
+\begin{bmatrix}
 1 & 1 & 1 & 1 \\
-x_1 & x_2 & x_3 & x_4 \\
-x_1^2 & x_2^2 & x_3^2 & x_4^2 \\
-x_1^3 & x_2^3 & x_3^3 & x_4^3
+x & y & z & t \\
+x^2 & y^2 & z^2 & t^2 \\
+x^3 & y^3 & z^3 & t^3
 \end{bmatrix}
 $$
 Can you spot a pattern? Test your conjecture with a $5 × 5$ Vandermonde matrix. 
 
-**Problem 5(b)** Show that the determinant of a Vandermonde matrix is
+**SOLUTION**
+(1)
 $$
-\det V = ∏_{k=1}^n ∏_{j=k+1}^n (x_j - x_j).
+\begin{bmatrix}
+1 & 1 \\
+x & y
+\end{bmatrix} =  \begin{bmatrix}
+1 &  \\
+x & 1
+\end{bmatrix} \begin{bmatrix}
+1 & 1 \\
+ & y-x
+\end{bmatrix}
 $$
+
+(2)
+$$
+V := \begin{bmatrix}
+1 & 1 & 1 \\
+x & y & z \\
+x^2 & y^2 & z^2
+\end{bmatrix} =  \begin{bmatrix}
+1 &  \\
+x & 1 \\
+x^2 && 1
+\end{bmatrix} \begin{bmatrix}
+1 & 1 & 1\\
+ & y-x & z-x \\
+ & y^2-x^2 & z^2 - x^2
+\end{bmatrix}
+$$
+We then have
+$$
+\begin{bmatrix}
+ y-x & z-x \\
+ y^2-x^2 & z^2 - x^2
+\end{bmatrix} = \begin{bmatrix}
+ 1 &  \\
+ y+x & 1
+\end{bmatrix} \begin{bmatrix}
+y-x & z-x 
+& (z-y)(z-x)
+\end{bmatrix}
+$$
+since $z^2 - x^2 - (z-x) (y+x) = z^2 + xy  - zy = (z-y)(z-x)$. Thus we have
+$$
+V = \begin{bmatrix}
+1 &  \\
+x & 1 \\
+x^2 & x+y& 1
+\end{bmatrix}  \begin{bmatrix}
+1 & 1 & 1\\
+ & y-x & z-x \\
+ &  &  (z-y)(z-x)
+\end{bmatrix}
+$$
+
+(3)
+$$
+V := \begin{bmatrix}
+1 & 1 & 1 & 1 \\
+x & y & z & t \\
+x^2 & y^2 & z^2 & t^2 \\
+x^3 & y^3 & z^3 & t^3
+\end{bmatrix} = 
+\begin{bmatrix}
+1 &  \\
+x & 1 \\
+x^2 && 1 \\
+x^3 &&& 1
+\end{bmatrix} \begin{bmatrix}
+1 & 1 & 1 & 1\\
+ & y-x & z-x & t-x \\
+ & y^2-x^2 & z^2 - x^2 & t^2 - x^2 \\
+ & y^3-x^3 & z^3 - x^3 & t^3 - x^3 
+\end{bmatrix}
+$$
+We then have
+$$
+\begin{bmatrix}
+y-x & z-x & t-x \\
+y^2-x^2 & z^2 - x^2 & t^2 - x^2 \\
+y^3-x^3 & z^3 - x^3 & t^3 - x^3 
+\end{bmatrix} = \begin{bmatrix}
+1 &  &  \\
+y + x & 1 &  \\
+y^2 + xy + x^2 &  & 1
+\end{bmatrix} 
+\begin{bmatrix}
+y-x & z-x & t-x \\
+ & (z-y)(z-x) & (t-y)(t-x)
+ & (z-x)(z-y) (x+y+z) & (t-x)(t-y) (x+y+t)
+\end{bmatrix} 
+$$
+since
+$$
+z^3 - x^3 - (z-x) (y^2 + x y + x^2) = z^3 - z y^2 - x y z  - z x^2 + x y^2  + x^2 y 
+= (x-z)(y-z) (x+y+z).
+$$
+Finally we have
+$$
+\begin{bmatrix}
+ (z-y)(z-x) & (t-y)(t-x)
+ (z-x)(z-y) (x+y+z) & (t-x)(t-y) (x+y+t)
+\end{bmatrix} = \begin{bmatrix}
+ 1 & 
+ x+y+z & 1
+\end{bmatrix}  \begin{bmatrix}
+ (z-y)(z-x) & (t-y)(t-x)
+  & (t-x)(t-y) (t-z)
+\end{bmatrix} 
+$$
+since
+$$
+(t-x)(t-y) (x+y+t) - (x+y+z) (t-y)(t-x) = (t-y)(t-x)(t-z)
+$$
+Putting everything together we have
+$$
+V = \begin{bmatrix}
+1 &  \\
+x & 1 \\
+x^2 & x+y  & 1 \\
+x^3 &y^2 + xy + x^2  & x+ y + z & 1
+\end{bmatrix} \begin{bmatrix}
+1 & 1 & 1 & 1\\
+ & y-x & z-x & t-x \\
+ &  & (z-y)(z-x) & (t-y)(t-x) \\
+ &  &  & (t-y)(t-x)(t-z)
+\end{bmatrix}
+$$
+
+
+We conjecture that $L[k,j]$ for $k > j$ contains a sum of all monomials of degree $k$ of $x_1,…,x_j$, and
+$$
+U[k,j] = ∏_{s = 1}^{k-1} (x_j-x_s)
+$$ 
+for $1 < k ≤ j$. We can confirm that
+$$
+\begin{bmatrix}
+1 & 1 & 1 & 1 & 1 \\
+x & y & z & t & s\\
+x^2 & y^2 & z^2 & t^2 & s^2 \\
+x^3 & y^3 & z^3 & t^3 & s^3 \\
+x^4 & y^4 & z^4 & t^4 & s^4 
+\end{bmatrix} =
+\begin{bmatrix}
+1 &  \\
+x & 1 \\
+x^2 & x+y  & 1 \\
+x^3 &y^2 + xy + x^2  & x+ y + z & 1 \\
+x^4 & x^3 + x^2 y + x y^2 + y^3 & x^2 + y^2 + z^2 + xy + xz + yz  & x + y + z + t & 1 
+\end{bmatrix}
+\begin{bmatrix}
+1 & 1 & 1 & 1 & 1\\
+ & y-x & z-x & t-x & s-x  \\
+ &  & (z-y)(z-x) & (t-y)(t-x) & (s-x) (s-y) \\
+ &  &  & (t-y)(t-x)(t-z) &   (s-y)(s-x)(s-z)  \\
+ &  &  &  &   (s-y)(s-x)(s-z)(s-t)
+\end{bmatrix}
+$$
+Multiplying it out we confirm that our conjecture is correct in this case.
+
+**END**

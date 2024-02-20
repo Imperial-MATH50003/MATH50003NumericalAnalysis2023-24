@@ -21,7 +21,7 @@ $$
 
 
 
-**Problem 2** Show that a matrix is symmetric positive definite if and only if it has a _reverse_ Cholesky
+**Problem 2** Show that a matrix $A ∈ ℝ^{n × n}$ is symmetric positive definite if and only if it has a _reverse_ Cholesky
 factorisation of the form
 $$
 A = U U^⊤
@@ -49,7 +49,7 @@ Hint: consider a matrix $K_n^α$ that equals $Δ_n$ apart from the top left entr
 
 **Problem 3(b)** 
 Deduce its Cholesky factorisations: $Δ_n = L_n L_n^⊤$ where
-$L_n$ is lower triangular and $U_n$ is upper triangular.
+$L_n$ is lower triangular.
 
 
 
@@ -60,25 +60,23 @@ $[0,2,3,4]$ and evaluate at $x = 1$.
 
 
 
-**Problem 5(a)** Compute the LU factorisation of the following transposed Vandermonde matrices:
+**Problem 5** Compute the LU factorisation of the following transposed Vandermonde matrices:
 $$
 \begin{bmatrix}
 1 & 1 \\
-x_1 & x_2
-\end{bmatrix}, \begin{bmatrix}
+x & y
+\end{bmatrix}, 
+\begin{bmatrix}
 1 & 1 & 1 \\
-x_1 & x_2 & x_3 \\
-x_1^2 & x_2^2 & x_3^2
-\end{bmatrix}, \begin{bmatrix}
+x & y & z \\
+x^2 & y^2 & z^2
+\end{bmatrix}, 
+\begin{bmatrix}
 1 & 1 & 1 & 1 \\
-x_1 & x_2 & x_3 & x_4 \\
-x_1^2 & x_2^2 & x_3^2 & x_4^2 \\
-x_1^3 & x_2^3 & x_3^3 & x_4^3
+x & y & z & t \\
+x^2 & y^2 & z^2 & t^2 \\
+x^3 & y^3 & z^3 & t^3
 \end{bmatrix}
 $$
 Can you spot a pattern? Test your conjecture with a $5 × 5$ Vandermonde matrix. 
 
-**Problem 5(b)** Show that the determinant of a Vandermonde matrix is
-$$
-\det V = ∏_{k=1}^n ∏_{j=k+1}^n (x_j - x_j).
-$$

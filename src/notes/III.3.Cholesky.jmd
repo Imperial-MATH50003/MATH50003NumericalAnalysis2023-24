@@ -13,9 +13,9 @@ In what follows we will use outer products extensively:
 $$
 𝐱 𝐲^⊤ := [𝐱 y_1 | ⋯ | 𝐱 y_n] = \begin{bmatrix} x_1 y_1 & ⋯ & x_1 y_n \\
                         ⋮ & ⋱ & ⋮ \\
-                        x_m y_1 & ⋯ & x_m y_n \end{bmatrix}.
+                        x_m y_1 & ⋯ & x_m y_n \end{bmatrix} ∈ 𝔽^{m × n}.
 $$
-Note this is equivalent to matrix-matrix multiplication if we view $𝐱$ as a $m × 1$ matrix and $𝐲$ as a $n × 1$ matrix.
+Note this is equivalent to matrix-matrix multiplication if we view $𝐱$ as a $m × 1$ matrix and $𝐲^⊤$ as a $1 × n$ matrix.
 ∎
 
 **Proposition (rank-1)** A matrix $A ∈ 𝔽^{m×n}$ has rank 1 if and only if there exists $𝐱 ∈ 𝔽^m$ and $𝐲 ∈ 𝔽^n$ such that
@@ -35,13 +35,13 @@ $$
 A =  \begin{bmatrix} α_1 & 𝐰_1^⊤ \\ 𝐯_1 & K_1 \end{bmatrix}
 $$
 where $α_1 = a_{11}$, $𝐯_1 = A[2:n, 1]$ and $𝐰_1 = A[1, 2:n]$ (that is, $𝐯_1 ∈ 𝔽^{n-1}$ is a vector whose entries are the 2nd through last row of the first column of $A$ whilst $𝐰_1 ∈ 𝔽^{n-1}$ is a vector containing the 2nd through last entries in the last column of $A$). Gaussian elimination consists of taking the first row, dividing by
-$α$ and subtracting from all other rows. That is equivalent to multiplying by a lower triangular matrix:
+$α_1$ and subtracting from all other rows. That is equivalent to multiplying by a lower triangular matrix:
 $$
 \begin{bmatrix}
 1 \\
 -𝐯_1/α_1 & I \end{bmatrix} A = \begin{bmatrix} α_1 & 𝐰_1^⊤ \\  & K_1 -𝐯_1𝐰_1^⊤ /α_1 \end{bmatrix}
 $$
-where $A_2 := K_1 -𝐯_1𝐰_1^⊤ /α_1$  happens to be a rank-1 perturbation of $K$.
+where $A_2 := K_1 -𝐯_1𝐰_1^⊤ /α_1$  happens to be a rank-1 perturbation of $K_1$.
 We can write this another way:
 $$
 A = \underbrace{\begin{bmatrix}
@@ -100,14 +100,14 @@ The last “matrix" is 1 x 1 so we get the trivial decomposition:
 $$
 A_3 := K_2 - 𝐯_2 𝐰_2^⊤ /α_2 =  [-1] = \underbrace{[1]}_{L_3} [-1]
 $$
-Putting everything together and placing the columns of $L_k$ inside the columns of $L$ we have
+Putting everything together and placing the $j$-th column of $L_j$ inside the $j$-th column of $L$ we have
 $$
 A = \underbrace{\begin{bmatrix} 1  \\
                     2 & 1 &  \\
                     1 & 3/2 & 1
                     \end{bmatrix}}_{L} \underbrace{\begin{bmatrix} 1 & 1 & 1 \\
-                    0 & 2 & 6 \\
-                    0 & 0 & -1
+                     & 2 & 6 \\
+                     &  & -1
                     \end{bmatrix}}_U
 $$
 ∎
@@ -125,7 +125,7 @@ permutation which we identify with a vector ${\mathbf σ} = [σ_1,…,σ_n]$ con
 $$
 P_σ(𝐯) := 𝐯[{\mathbf σ}] = \Vectt[v_{σ_1},⋮,v_{σ_n}]
 $$
-This is a linear operator, and hence we can identify it with a _permutation matrix_ $P_σ ∈ ℝ^{n × n}$ (more precisely the entries  of $P_σ$ are either 1 or 0). Importantly, products of permutation matrices are also permutation matrices and permutation matrices are orthogon al, that is, $P_σ^{-1} = P_σ^\top$.
+This is a linear operator, and hence we can identify it with a _permutation matrix_ $P_σ ∈ ℝ^{n × n}$ (more precisely the entries  of $P_σ$ are either 1 or 0). Importantly, products of permutation matrices are also permutation matrices and permutation matrices are orthogonal, that is, $P_σ^{-1} = P_σ^\top$.
 
 
 **Theorem (PLU)** A matrix $A ∈ ℂ^{n × n}$ is invertible if and only if it has a PLU decomposition:
@@ -201,21 +201,33 @@ V^⊤ A V
 $$
 is positive definite.
 **Proof**
-See problem sheet.
+
+For all  $𝐱 ∈ ℝ^n, 𝐱 ≠ 0$, define $𝐲 = V 𝐱 ≠ 0$ (since $V$ is non-singular). Thus we have
+$$
+𝐱^⊤ V^⊤ A V 𝐱 = 𝐲^⊤ A 𝐲 > 0.
+$$
+
 ∎
 
 **Proposition (diag positivity)** If $A ∈ ℝ^{n × n}$ is positive definite
 then its diagonal entries are positive: $a_{kk} > 0$.
 **Proof**
-See problem sheet.
+$$
+a_{kk} = 𝐞_k^⊤ A 𝐞_k > 0.
+$$
+
 ∎
 
 **Theorem (subslice pos. def.)** If $A ∈ ℝ^{n × n}$ is positive definite
-and $𝐤 ∈ \{1,…,n\}^m$ is a vector of $m$ integers where any integer appears only once,
+and $𝐤 = [k_1,…,k_m]^⊤ ∈ \{1,…,n\}^m$ is a vector of $m$ integers where any integer appears only once,
  then $A[𝐤,𝐤] ∈ ℝ^{m × m}$ is also
 positive definite.
 **Proof**
-See problem sheet.
+For all $𝐱 ∈ ℝ^m, 𝐱 ≠ 0$, consider $𝐲 ∈ ℝ^n$ such that $y_j = x_{k_j}$ and zero otherwise. Then we have
+$$
+𝐱^⊤ A[𝐤,𝐤] 𝐱 = ∑_{ℓ=1}^m ∑_{j=1}^m x_ℓ x_j a_{k_ℓ,k_j}  = ∑_{ℓ=1}^n ∑_{j=1}^n y_ℓ y_j a_{ℓ,j} = 𝐲^⊤ A 𝐲 > 0.
+$$
+
 ∎
 
 
@@ -226,7 +238,7 @@ Here is the key result:
 $$
 A = L L^⊤
 $$
-where the diagonals of $L$ are positive.
+where $L$ is lower triangular with positive diagonal entries.
 
 **Proof** If $A$ has a Cholesky factorisation it is symmetric ($A^⊤ = (L L^⊤)^⊤ = A$) and for $𝐱 ≠ 0$ we have
 $$
@@ -246,7 +258,7 @@ A = \begin{bmatrix} α & 𝐯^⊤ \\
                                     \underbrace{\begin{bmatrix} \sqrt{α} & {𝐯^⊤ \over \sqrt{α}} \\
                                      & I \end{bmatrix}}_{L_1^⊤}.
 $$
-Note that $A_2 := K - {𝐯 𝐯^⊤ \over α}$ is a subslice of $L_1^{-1} A L_1^{-⊤}$, hence by the previous proposition is
+Note that $A_2 := K - {𝐯 𝐯^⊤ \over α}$ is a subslice of $L_1^{-1} A L_1^{-⊤}$, hence by combining the previous propositions is
 itself SPD. Thus we can write
 $$
 A_2 = K - {𝐯 𝐯^⊤ \over α} = L_2 L_2^⊤
@@ -269,7 +281,7 @@ A = \begin{bmatrix}
 1 & 1 & 1 & 2
 \end{bmatrix}
 $$
-Then $α₁ = 2$, $𝐯₁ = [1,1,1]$, and
+Then $α_1 = 2$, $𝐯_1 = [1,1,1]$, and
 $$
 A_2 = \begin{bmatrix}
 2 &1 &1 \\
@@ -299,10 +311,10 @@ i.e. $α_4 = 5/4$.
 Thus we get
 $$
 L= \begin{bmatrix}
-\sqrt{α₁} \\
-{𝐯_1[1] \over \sqrt{α₁}} & \sqrt{α₂} \\
-{𝐯_1[2] \over \sqrt{α₁}} & {𝐯_2[1] \over \sqrt{α₂}}  & \sqrt{α_3} \\
-{𝐯_1[3] \over \sqrt{α₁}} & {𝐯_2[2] \over \sqrt{α₂}}  & {𝐯_3[1] \over \sqrt{α_3}}  & \sqrt{α_4}
+\sqrt{α_1} \\
+{𝐯_1[1] \over \sqrt{α_1}} & \sqrt{α_2} \\
+{𝐯_1[2] \over \sqrt{α_1}} & {𝐯_2[1] \over \sqrt{α_2}}  & \sqrt{α_3} \\
+{𝐯_1[3] \over \sqrt{α_1}} & {𝐯_2[2] \over \sqrt{α_2}}  & {𝐯_3[1] \over \sqrt{α_3}}  & \sqrt{α_4}
 \end{bmatrix}
  = \begin{bmatrix} \sqrt{2} \\ {1 \over \sqrt{2}} & \sqrt{3 \over 2} \\
 {1 \over \sqrt{2}} & {1 \over \sqrt 6} & {2 \over \sqrt{3}} \\
