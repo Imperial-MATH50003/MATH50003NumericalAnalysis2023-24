@@ -1,9 +1,9 @@
 
 \section{Polynomial Interpolation and Regression}
-\emph{Polynomial interpolation} is the process of finding a polynomial that equals data at a precise set of points. A more robust scheme is \emph{polynomial regression} where we use more data than the degrees of freedom in the polynomial. We therefore determine the polynomial using \emph{least squares}: find the polynomial whose samples at the points are as close as possible to the data, as measured in the $2$-norm. This least squares problem is done numerically will be discussed in the next few sections.
+In this section we switch tracks and begin to consider numerical linear algebra related to rectangular matrices and least squares systems, which we motivate with an application to polynomial regression. \emph{Polynomial interpolation} is the process of finding a polynomial that equals data at a precise set of points. A more robust scheme is \emph{polynomial regression} where we use more data than the degrees of freedom in the polynomial. We therefore determine the polynomial using \emph{least squares}: find the polynomial whose samples at the points are as close as possible to the data, as measured in the $2$-norm. This least squares problem is done numerically which will be discussed in the next few sections.
 
 \subsection{Polynomial interpolation}
-Our primary goal is given a set of points $x_j$ and data $f_j$, usually samples of a function $f_j = f(x_j)$, find a polynomial that interpolates the data at the points:
+Our prelimary goal is given a set of points $x_j$ and data $f_j$, usually samples of a function $f_j = f(x_j)$, find a polynomial that interpolates the data at the points:
 
 \begin{definition}[interpolatory polynomial] Given \emph{distinct} points $\ensuremath{\bm{\x}} = \vectt[x_1,\ensuremath{\ldots},x_n] \ensuremath{\in} \ensuremath{\bbF}^n$ and \emph{data} $\ensuremath{\bm{\f}} = \vectt[f_1,\ensuremath{\ldots},f_n] \ensuremath{\in} \ensuremath{\bbF}^n$, a degree $n-1$ \emph{interpolatory polynomial} $p(x)$ satisfies
 \[
@@ -32,7 +32,7 @@ V\ensuremath{\bm{\c}} = \Vectt[c_0 + c_1 x_1 + \ensuremath{\cdots} + c_{n-1} x_1
 \]
 In the square case (where $m=n$), the coefficients of an interpolatory polynomial are given by $\ensuremath{\bm{\c}} = V^{-1} \ensuremath{\bm{\f}}$, so that
 \[
-\Vectt[p(x_1),\ensuremath{\vdots},p(x_n)] = V \ensuremath{\bm{\c}} = V V^{-1} \ensuremath{\bm{\f}}.
+\Vectt[p(x_1),\ensuremath{\vdots},p(x_n)] = V \ensuremath{\bm{\c}} = V V^{-1} \ensuremath{\bm{\f}} = \Vectt[f_1,\ensuremath{\ldots},f_n].
 \]
 This inversion is justified by the following:
 
@@ -81,10 +81,10 @@ p(x) &= \ensuremath{\ell}_1(x) + {\rm e} \ensuremath{\ell}_2(x) + {\rm e}^2 \ens
 \end{align*}
 \end{example}
 
-\textbf{Remark} Interpolating at evenly spaced points is a really \emph{bad} idea: interpolation is inheritely ill-conditioned. The labs will explore this issue experimentally. Another serious issue is that monomials are a horrible basis for interpolation. This is intuitive: when $n$ is large $x^n$ is basically zero near the origin and hence $x_j^n$ in numerically lose linear independence. We will discuss alternative bases in Part IV.
+\textbf{Remark} Interpolating at evenly spaced points is a really \emph{bad} idea: interpolation is inheritely ill-conditioned. The labs will explore this issue experimentally. Another serious issue is that monomials are a horrible basis for interpolation. This is intuitive: when $n$ is large $x^n$ is basically zero near the origin and hence $x_j^n$ numerically lose linear independence, that is, on a computer they appear to be linearly dependent (up to rounding errors). We will discuss alternative bases in Part IV.
 
 \subsection{Polynomial regression}
-Often interpolation is not sufficient. Data is often on an evenly spaced grid in which case (as seen in the labs) interpolation breaks down catastrophically. Or the data is noisy and one ends up over resolving: approximating the noise rather than the signal. A simple solution is \emph{polynomial regression} use more sample points than than the degrees of freedom in the polynomial. The special case of an affine polynomial is called \emph{linear regression}.
+In many settings interpolation is not an accurate or appropriate tool. Data is often on an evenly spaced grid in which case (as seen in the labs) interpolation breaks down catastrophically. Or the data is noisy and one ends up over resolving: approximating the noise rather than the signal. A simple solution is \emph{polynomial regression} use more sample points than than the degrees of freedom in the polynomial. The special case of an affine polynomial is called \emph{linear regression}.
 
 More precisely, for $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbF}^m$ and for $n < m$ we want to find a degree $n-1$ polynomial
 \[

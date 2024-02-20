@@ -377,7 +377,7 @@ end
 
 
 # ------
-# **Problem 4** Extend the implementation of `exp` for the case when `-2 ≤ x ≤ 2`.
+# **Problem 4** Extend the implementation of `exp_bound` for the case when `-2 ≤ x ≤ 2`.
 
 ## TODO: re-overload `exp` but without the restrictions on positivity and adjusting the
 ## the bound appropriately.

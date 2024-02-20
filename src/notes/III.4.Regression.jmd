@@ -1,13 +1,14 @@
 # Polynomial Interpolation and Regression
 
+In this section we switch tracks and begin to consider numerical linear algebra related to rectangular matrices and least squares systems, which we motivate with an application to polynomial regression.
 _Polynomial interpolation_ is the process of finding a polynomial that equals data at a precise set of points.
 A more robust scheme is _polynomial regression_ where we use more data than the degrees of freedom in the polynomial. We therefore determine the polynomial using _least squares_: find
-the polynomial whose samples at the points are as close as possible to the data, as measured in the $2$-norm. This least squares problem is done numerically will be discussed in the next few sections.
+the polynomial whose samples at the points are as close as possible to the data, as measured in the $2$-norm. This least squares problem is done numerically which will be discussed in the next few sections.
 
 
 ## Polynomial interpolation
 
-Our primary goal is given a set of points $x_j$ and data $f_j$, usually samples of a function
+Our prelimary goal is given a set of points $x_j$ and data $f_j$, usually samples of a function
 $f_j = f(x_j)$, find a polynomial that interpolates the data at the points:
 
 **Definition (interpolatory polynomial)** Given _distinct_ points $𝐱 = \vectt[x_1,…,x_n] ∈ 𝔽^n$
@@ -42,7 +43,7 @@ V𝐜 = \Vectt[c_0 + c_1 x_1 + ⋯ + c_{n-1} x_1^{n-1}, ⋮, c_0 + c_1 x_m + ⋯
 $$
 In the square case (where $m=n$), the coefficients of an interpolatory polynomial are given by $𝐜 = V^{-1} 𝐟$, so that
 $$
-\Vectt[p(x_1),⋮,p(x_n)] = V 𝐜 = V V^{-1} 𝐟.
+\Vectt[p(x_1),⋮,p(x_n)] = V 𝐜 = V V^{-1} 𝐟 = \Vectt[f_1,…,f_n].
 $$
 This inversion is justified by the following:
 
@@ -105,13 +106,13 @@ $$
 **Remark** Interpolating at evenly spaced points is a really _bad_ idea:
 interpolation is inheritely ill-conditioned.
 The labs will explore this issue experimentally. Another
-serious issue is that monomials are a horrible basis for interpolation. This is intuitive: when $n$ is large $x^n$ is basically zero near the origin and hence $x_j^n$ in numerically lose linear independence. We will discuss alternative bases in Part IV.
+serious issue is that monomials are a horrible basis for interpolation. This is intuitive: when $n$ is large $x^n$ is basically zero near the origin and hence $x_j^n$ numerically lose linear independence, that is, on a computer they appear to be linearly dependent (up to rounding errors). We will discuss alternative bases in Part IV.
 
 ## Polynomial regression
 
 
 
-Often interpolation is not sufficient. Data is often on an evenly spaced grid in which case (as seen in the labs)
+In many settings interpolation is not an accurate or appropriate tool. Data is often on an evenly spaced grid in which case (as seen in the labs)
 interpolation breaks down catastrophically. Or the data is noisy and one ends up over resolving: approximating the
 noise rather than the signal. A simple solution is _polynomial regression_ use more sample points than than the degrees of freedom in the polynomial. The special case of an affine polynomial is called _linear regression_.
 

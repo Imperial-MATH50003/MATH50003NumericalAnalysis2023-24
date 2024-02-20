@@ -48,7 +48,7 @@ $$A_1=\begin{bmatrix}
 -2&-3
 \end{bmatrix}$$
 
-$A_1[1,1] ≤ 0$, so Matrix 2 is not SPD.
+$A_1[1,1] ≤ 0$, so Matrix 2 is not SPD.
 
 *Matrix 3*
 
@@ -118,7 +118,7 @@ cholesky([4 2 2 1; 2 4 2 2; 2 2 4 2; 1 2 2 4])
 ```
 **END**
 
-**Problem 2** Show that a matrix is symmetric positive definite if and only if it has a _reverse_ Cholesky
+**Problem 2** Show that a matrix $A ∈ ℝ^{n × n}$ is symmetric positive definite if and only if it has a _reverse_ Cholesky
 factorisation of the form
 $$
 A = U U^⊤
@@ -206,7 +206,7 @@ we conclude that $Δ_n$ has a Cholesky factorisation and hence is symmetric posi
 
 **Problem 3(b)** 
 Deduce its Cholesky factorisations: $Δ_n = L_n L_n^⊤$ where
-$L_n$ is lower triangular and $U_n$ is upper triangular.
+$L_n$ is lower triangular.
 
 **SOLUTION**
 
@@ -268,7 +268,7 @@ plot([p cos], xlims=(-1,5))
 
 **END**
 
-**Problem 5(a)** Compute the LU factorisation of the following transposed Vandermonde matrices:
+**Problem 5** Compute the LU factorisation of the following transposed Vandermonde matrices:
 $$
 \begin{bmatrix}
 1 & 1 \\
@@ -286,7 +286,3 @@ x_1^3 & x_2^3 & x_3^3 & x_4^3
 $$
 Can you spot a pattern? Test your conjecture with a $5 × 5$ Vandermonde matrix. 
 
-**Problem 5(b)** Show that the determinant of a Vandermonde matrix is
-$$
-\det V = ∏_{k=1}^n ∏_{j=k+1}^n (x_j - x_j).
-$$

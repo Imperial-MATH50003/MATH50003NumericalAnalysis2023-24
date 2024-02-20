@@ -420,7 +420,7 @@ end
 
 U = UpperTriangular(randn(5,5))
 x = randn(5)
-@test U*x ≈ mul_cols(L, x)
+@test U*x ≈ mul_cols(U, x)
 
 
 # **Problem 3(b)** Complete the following function for solving linear systems with
