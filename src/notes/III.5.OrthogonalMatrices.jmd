@@ -1,0 +1,281 @@
+# Orthogonal and Unitary Matrices
+
+To solve least squares problems, we will  factorise a matrix $A$ as $A = QR$
+where $R$ is a _right-triangular matrix_ and $Q$ is either an _orthogonal_ or _unitary_ matrices.
+
+**Definition (orthogonal/unitary matrix)** A square real matrix is _orthogonal_ if its inverse is its transpose:
+$$
+O(n) = \{Q ∈ ℝ^{n × n} : Q^⊤Q = I \}
+$$
+A square complex matrix is _unitary_ if its inverse is its adjoint:
+$$
+U(n) = \{Q ∈ ℂ^{n × n} : Q^⋆Q = I \}.
+$$
+Here the adjoint is the same as the conjugate-transpose: $Q^⋆ := Q̄^⊤$. 
+∎
+
+
+Note that $O(n) ⊂ U(n)$ as for real matrices $Q^⋆ = Q^⊤$. Because in either case $Q^{-1} = Q^⋆$ we also have
+$Q Q^⋆ = I$ (which for real matrices is $Q Q^⊤ = I$). These matrices are particularly important for
+numerical linear algebra for a number of reasons (we'll explore these properties in the problem sheets):
+
+1. They are norm-preserving: for any vector $𝐱 ∈ ℂ^n$ we have
+$\|Q 𝐱 \| = \| 𝐱\|$ where $\| 𝐱 \|^2 := ∑_{k=1}^n x_k^2$ (i.e. the 2-norm).
+2. All eigenvalues have absolute value equal to $1$
+3. For $Q ∈ O(n)$,  $\det Q = ±1$.
+2. They are trivially invertible (just take the transpose).
+3. They are generally "stable": errors are controlled.
+4. They are _normal matrices_: they commute with their adjoint ($Q Q^⋆ = Q Q^⋆$). See Chapter C for
+why this is important. 
+
+On a computer there are multiple ways of representing orthogonal/unitary matrices,
+and it is almost never to store a dense matrix storing the entries. In the appendices we have seen permutation matrices, which
+are a special type of orthogonal matrices. Here we investigate two other classes that can be used to compute QR factorisations.
+
+1. _Rotations_: The simple rotations are also known as $2 × 2$ special orthogonal matrices ($SO(2)$)  and correspond to rotations in 2D.
+2. _Reflections_:  Reflections are $n × n$ orthogonal matrices that have simple definitions in terms of a single vector.
+
+We remark a very similar concept are rectangular matrices with orthonormal columns, e.g.
+$$
+U = [𝐮_1 | ⋯ | 𝐮_n] ∈ ℂ^{m × n}
+$$
+where $m ≥ n$ such that
+$U^⋆ U =  I_n$ (the $n × n$ identity matrix). In this case we must have $UU^⋆ ≠ I_m$ as the rank of $U$ is $n$. 
+
+
+## Rotations
+
+We begin with a general definition:
+
+**Definition (Special Orthogonal and Rotations)** _Special Orthogonal Matrices_ are
+$$
+SO(n) := \{Q ∈ O(n) | \det Q = 1 \}
+$$
+And (simple) _rotations_ are $SO(2)$.
+∎
+
+In what follows we use the following for writing the angle of a vector:
+
+**Definition (two-arg arctan)** The two-argument arctan function gives the angle `θ` through the point
+$[a,b]^⊤$, i.e., 
+$$
+\sqrt{a^2 + b^2} \begin{bmatrix} \cos θ \\ \sin θ \end{bmatrix} =  \begin{bmatrix} a \\ b \end{bmatrix}
+$$
+It can be defined in terms of the standard arctan as follows:
+$$
+{\rm atan}(b,a) := \begin{cases} {\rm atan}{b \over a} & a > 0 \\
+                            {\rm atan}{b \over a} + π & a < 0\hbox{ and }b >0 \\
+                            {\rm atan}{b \over a} - π & a < 0\hbox{ and }b < 0 \\
+                            π/2 & a = 0\hbox{ and }b >0 \\
+                            -π/2 & a = 0\hbox{ and }b < 0 
+                            \end{cases}
+$$
+∎
+
+
+We show $SO(2)$ are exactly equivalent to standard rotations:
+
+
+**Proposition (simple rotation)**
+A 2×2 _rotation matrix_ through angle $θ$ is
+$$
+Q_θ := \begin{bmatrix} \cos θ & -\sin θ \cr \sin θ & \cos θ \end{bmatrix}
+$$
+We have $Q ∈ SO(2)$ iff $Q = Q_θ$ for some $θ ∈ ℝ$.
+
+**Proof**
+
+We will write $c = \cos θ$ and $s = \sin θ$. Then we have
+$$
+Q_θ^⊤Q_θ = \begin{pmatrix} c & s \\ -s & c \end{pmatrix} \begin{pmatrix} c & -s \\ s & c \end{pmatrix} = 
+\begin{pmatrix} c^2 + s^2 & 0 \\ 0 & c^2 + s^2 \end{pmatrix} = I
+$$
+and $\det Q_θ = c^2 + s^2 = 1$ hence $Q_θ ∈ SO(2)$. 
+
+Now suppose $Q = [𝐪_1, 𝐪_2] ∈ SO(2)$ where we know its columns have norm 1 $\|𝐪_k\| = 1$ and are orthogonal.
+Write $𝐪_1 = [c,s]$ where we know $c = \cos θ$ and $s = \sin θ$ for $θ = {\rm atan}(s, c)$. 
+Since $𝐪_1\cdot 𝐪_2 = 0$ we can deduce $𝐪_2 = ± [-s,c]$. The sign is positive as $\det Q = ±(c^2 + s^2) = ±1$.
+
+∎
+
+
+
+
+We can rotate an arbitrary vector in $ℝ^2$ to the unit axis using rotations, which are useful in
+linear algebra decompositions. Interestingly it only requires
+basic algebraic functions (no trigonometric functions):
+
+
+
+**Proposition (rotation of a vector)** 
+The matrix
+$$Q = {1 \over \sqrt{a^2 + b^2}}\begin{bmatrix}
+ a & b \cr -b & a
+\end{bmatrix}
+$$
+is a rotation matrix ($Q ∈ SO(2)$) satisfying
+$$
+Q \begin{bmatrix} a \\ b \end{bmatrix} = \sqrt{a^2 + b^2} \begin{bmatrix} 1 \\ 0 \end{bmatrix}
+$$
+
+**Proof** 
+
+The last equation is trivial so the only question is that it is a rotation matrix. This follows immediately:
+$$
+Q^⊤ Q = {1 \over a^2 + b^2}  \begin{bmatrix}
+ a^2 + b^2 & 0 \cr 0 & a^2 + b^2
+\end{bmatrix} = I
+$$
+and $\det Q = 1$.
+
+∎
+
+
+
+
+## Reflections
+
+In addition to rotations, another type of orthogonal/unitary matrix are reflections:
+
+**Definition (reflection matrix)** 
+Given a unit vector $𝐯 ∈ ℂ^n$ (satisfying $\|𝐯\|=1$), the _reflection matrix_
+$$
+Q_𝐯 := I - 2 𝐯 𝐯^⋆
+$$
+∎
+
+
+These are reflections in the direction of $𝐯$. We can show this as follows:
+
+**Proposition (Householder properties)** $Q_𝐯$ satisfies:
+1. $Q_𝐯 = Q_𝐯^⋆$ (Symmetry)
+2. $Q_𝐯^⋆ Q_𝐯 = I$ (Orthogonality $Q_𝐯 ∈ U(n)$)
+2. $𝐯$ is an eigenvector of $Q_𝐯$ with eigenvalue $-1$
+4. $Q_𝐯$ is a rank-1 perturbation of $I$
+3. $\det Q_𝐯 = -1$ ($Q_𝐯 ∉ SO(n)$)
+
+
+**Proof**
+
+Property 1 follows immediately. Property 2 follows from
+$$
+Q_𝐯^⋆ Q_𝐯 = Q_𝐯^2 = I - 4 𝐯 𝐯^⋆ + 4 𝐯 𝐯^⋆ 𝐯 𝐯^⋆ = I
+$$
+Property 3 follows since
+$$
+Q_𝐯 𝐯 = -𝐯
+$$
+Property 4 follows since $𝐯 𝐯^⊤$ is a rank-1 matrix as all rows are linear combinations of each other.
+To see property 5, note there is a dimension $n-1$ space $W$ orthogonal to $𝐯$, that is, for all
+$𝐰 ∈ W$ we have $𝐰^⋆ 𝐯 = 0$, which implies that
+$$
+Q_𝐯 𝐰 = 𝐰
+$$
+In other words, $1$ is an eigenvalue with multiplicity $n-1$ and $-1$ is an eigenvalue with multiplicity 1,
+and thus the product of the eigenvalues is $-1$.
+
+∎
+
+
+
+**Example (reflection through 2-vector)** Consider reflection through $𝐱 = [1,2]^⊤$. 
+We first need to normalise $𝐱$:
+$$
+𝐯 = {𝐱 \over \|𝐱\|} = \begin{bmatrix} {1 \over \sqrt{5}} \\ {2 \over \sqrt{5}} \end{bmatrix}
+$$
+Note this indeed has unit norm:
+$$
+\|𝐯\|^2 = {1 \over 5} + {4 \over 5} = 1.
+$$
+Thus the reflection matrix is:
+$$
+Q_𝐯 = I - 2 𝐯 𝐯^⊤ = \begin{bmatrix}1 \\ & 1 \end{bmatrix} - {2 \over 5} \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}
+ =  {1 \over 5} \begin{bmatrix} 3 & -4 \\ -4 & -3 \end{bmatrix}
+$$
+Indeed it is symmetric, and orthogonal. It sends $𝐱$ to $-𝐱$:
+$$
+Q_𝐯 𝐱 = {1 \over 5} \begin{bmatrix}3 - 8 \\ -4 - 6 \end{bmatrix} = -𝐱
+$$
+Any vector orthogonal to $𝐱$, like $𝐲 = [-2,1]^⊤$, is left fixed:
+$$
+Q_𝐯 𝐲 = {1 \over 5} \begin{bmatrix}-6 -4 \\ 8 - 3 \end{bmatrix} = 𝐲
+$$
+∎
+
+
+Note that _building_ the matrix $Q_𝐯$ will be expensive ($O(n^2)$ operations), but we can _apply_
+$Q_𝐯$ to a vector in $O(n)$ operations using the expression:
+$$
+Q_𝐯 𝐱 = 𝐱 - 2 𝐯 (𝐯^⋆ 𝐱) = 𝐱 - 2 𝐯 (𝐯 ⋅ 𝐱).
+$$
+
+
+Just as rotations can be used to rotate vectors to be aligned with coordinate axis, so can reflections,
+but in this case it works for vectors in $ℂ^n$, not just $ℝ^2$:
+
+**Definition (Householder reflection, real case)** For a given vector
+$𝐱 ∈ ℝ^n$, define the Householder reflection
+$$
+Q_𝐱^{±,\rm H} := Q_𝐰
+$$
+for $𝐲 = ∓ \|𝐱\| 𝐞_1 + 𝐱$ and $𝐰 = {𝐲 \over \|𝐲\|}$.
+The default choice in sign is:
+$$
+Q_𝐱^{\rm H} := Q_𝐱^{-\hbox{sign}(x_1),\rm H}.
+$$
+∎
+
+**Lemma (Householder reflection maps to axis)** For $𝐱 ∈ ℝ^n$,
+$$
+Q_𝐱^{±,\rm H} 𝐱 = ±\|𝐱\| 𝐞_1
+$$
+
+**Proof**
+Note that
+$$
+\begin{align*}
+\| 𝐲 \|^2 &= 2\|𝐱\|^2 ∓ 2 \|𝐱\| x_1, \\
+𝐲^⊤ 𝐱 &= \|𝐱\|^2 ∓  \|𝐱\| x_1
+\end{align*}
+$$
+where $x_1 = 𝐞_1^⊤ 𝐱$. Therefore:
+$$
+Q_𝐱^{±,\rm H} 𝐱  =  (I - 2 𝐰 𝐰^⊤) 𝐱 = 𝐱 - 2 {𝐲  \|𝐱\|  \over \|𝐲\|^2} (\|𝐱\|∓x_1) = 𝐱 - 𝐲 =  ±\|𝐱\| 𝐞_1.
+$$
+
+∎
+
+Why do we choose the the opposite sign of $x_1$ for the default reflection? For stability, as explained in the lab.
+
+We can extend this definition for complexes:
+
+**Definition (Householder reflection, complex case)** For a given vector
+$𝐱 ∈ ℂ^n$, define the Householder reflection as
+$$
+Q_𝐱^{\rm H} := Q_𝐰
+$$
+for $𝐲 = {\rm csign}(x_1) \|𝐱\| 𝐞_1 + 𝐱$ and $𝐰 = {𝐲 \over \|𝐲\|}$, for ${\rm csign}(z) = {\rm e}^{{\rm i} \arg z}$. 
+∎
+
+
+**Lemma (Householder reflection maps to axis, complex case)** For $𝐱 ∈ ℂ^n$,
+$$
+Q_𝐱^{\rm H} 𝐱 = -{\rm csign}(x_1) \|𝐱\| 𝐞_1
+$$
+
+**Proof**
+Denote $α := {\rm csign}(x_1)$. 
+Note that $ᾱ x_1 = {\rm e}^{-{\rm i} \arg x_1} x_1 = |x_1|$.  Now we have
+$$
+\begin{align*}
+\| 𝐲 \|^2 &= (α \|𝐱\| 𝐞_1 + 𝐱)^⋆(α \|𝐱\| 𝐞_1 + 𝐱) = |α|\| 𝐱 \|^2 + \| 𝐱 \|  α x̄_1 + ᾱ x_1 \| 𝐱 \| + \| 𝐱 \|^2 \\
+&= 2\| 𝐱 \|^2 + 2|x_1| \| 𝐱 \| \\
+𝐲^⋆ 𝐱 &= ᾱ x_1 \| 𝐱 \| + \|𝐱 \|^2 = \|𝐱 \|^2 + |x_1| \| 𝐱 \|
+\end{align*}
+$$
+Therefore:
+$$
+Q_𝐱^{\rm H} 𝐱  =  (I - 2 𝐰 𝐰^⋆) 𝐱 = 𝐱 - 2 {𝐲    \over \|𝐲\|^2} (\|𝐱 \|^2 + |x_1| \|𝐱 \|) = 𝐱 - 𝐲 =  -α \|𝐱\| 𝐞_1.
+$$
+
+∎

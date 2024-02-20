@@ -1,0 +1,311 @@
+# QR factorisation
+
+Let $A ∈ ℂ^{m × n}$ be a rectangular or square matrix such that $m ≥ n$ (i.e. more rows then columns).
+In this chapter we consider two closely related factorisations:
+
+1. The _QR factorisation_
+$$
+A = Q R = \underbrace{\begin{bmatrix} 𝐪_1 | ⋯ | 𝐪_m \end{bmatrix}}_{Q ∈ U(m)} \underbrace{\begin{bmatrix} × & ⋯ & × \\ & ⋱ & ⋮ \\ && × \\ &&0 \\ &&⋮ \\ && 0 \end{bmatrix}}_{R ∈ ℂ^{m × n}}
+$$
+where $Q$ is unitary (i.e., $Q ∈ U(m)$, satisfying $Q^⋆Q = I$, with columns $𝐪_j ∈ ℂ^m$) and $R$ is _right triangular_, which means it 
+is only nonzero on or to the right of the diagonal ($r_{kj} = 0$ if $k > j$).
+
+2. The _reduced QR factorisation_
+$$
+A = \hat Q \hat R = \underbrace{\begin{bmatrix} 𝐪_1 | ⋯ | 𝐪_n \end{bmatrix}}_{ \hat Q ∈ ℂ^{m × n}} \underbrace{\begin{bmatrix} × & ⋯ & × \\ & ⋱ & ⋮ \\ && ×  \end{bmatrix}}_{\hat R ∈ ℂ^{n × n}}
+$$
+where $Q$ has orthonormal columns ($Q^⋆ Q = I$, $𝐪_j ∈ ℂ^m$) and $\hat R$ is upper triangular.
+
+Note for a square matrix the reduced QR factorisation is equivalent to the QR factorisation, in which case $R$ is _upper triangular_.
+The importance of these decomposition for square matrices is that their component pieces are easy to invert:
+$$
+A = QR \qquad ⇒ \qquad A^{-1}𝐛 = R^{-1} Q^⊤ 𝐛
+$$
+and we saw previously that triangular and orthogonal matrices are easy to invert when applied to a vector $𝐛$.
+
+For rectangular matrices we will see that they lead to efficient solutions to the _least squares problem_: find
+$𝐱$ that minimizes the 2-norm
+$$
+\| A 𝐱 - 𝐛 \|.
+$$
+Note in the rectangular case the QR decomposition contains within it the reduced QR decomposition:
+$$
+A = QR = \begin{bmatrix} \hat Q | 𝐪_{n+1} | ⋯ | 𝐪_m \end{bmatrix} \begin{bmatrix} \hat R \\  𝟎_{m-n × n} \end{bmatrix} = \hat Q \hat R.
+$$
+
+
+
+
+In this lecture we discuss the followng:
+
+1. Reduced QR and Gram–Schmidt: We discuss computation of the Reduced QR decomposition using Gram–Schmidt.
+2. Householder reflections and QR: We discuss computing the  QR decomposition using Householder reflections.
+3. QR and least squares: We discuss the QR decomposition and its usage in solving least squares problems.
+
+
+## Reduced QR and Gram–Schmidt
+
+
+How do we compute the QR decomposition? We begin with a method
+you may have seen before in another guise. Write
+$$
+A = \begin{bmatrix} 𝐚_1 | ⋯ | 𝐚_n \end{bmatrix}
+$$
+where $𝐚_k ∈  ℂ^m$ and assume they are linearly independent ($A$ has full column rank).
+
+
+**Proposition (Column spaces match)** Suppose $A = \hat Q  \hat R$ where $\hat Q = [𝐪_1|…|𝐪_n]$
+has orthonormal columns and $\hat R$ is upper-triangular, and $A$ has full rank.
+Then the first $j$ columns of
+$\hat Q$ span the same space as the first $j$ columns of $A$:
+$$
+\hbox{span}(𝐚_1,…,𝐚_j) = \hbox{span}(𝐪_1,…,𝐪_j).
+$$
+
+**Proof**
+
+Because $A$ has full rank we know $\hat R$ is invertible, i.e. its diagonal entries do not vanish: $r_{jj} ≠ 0$.
+If $𝐯 ∈ \hbox{span}(𝐚_1,…,𝐚_j)$ we have for $𝐜 ∈ ℂ^j$
+$$
+𝐯 = \begin{bmatrix} 𝐚_1 | ⋯ | 𝐚_j \end{bmatrix} 𝐜 = 
+\begin{bmatrix} 𝐪_1 | ⋯ | 𝐪_j \end{bmatrix}  \hat R[1:j,1:j] 𝐜 ∈ \hbox{span}(𝐪_1,…,𝐪_j)
+$$
+ while if $𝐰 ∈ \hbox{span}(𝐪_1,…,𝐪_j)$ we have for $𝐝 ∈ ℝ^j$
+$$
+𝐰 = \begin{bmatrix} 𝐪_1 | ⋯ | 𝐪_j \end{bmatrix} 𝐝  =  \begin{bmatrix} 𝐚_1 | ⋯ | 𝐚_j \end{bmatrix} \hat R[1:j,1:j]^{-1} 𝐝 ∈  \hbox{span}(𝐚_1,…,𝐚_j).
+$$
+
+∎
+
+ 
+It is possible to find $\hat Q$ and $\hat R$ the  using the _Gram–Schmidt algorithm_.
+We construct it column-by-column. For $j = 1, 2, …, n$ define
+$$
+\begin{align*}
+𝐯_j &:= 𝐚_j - ∑_{k=1}^{j-1} \underbrace{𝐪_k^⋆ 𝐚_j}_{r_{kj}} 𝐪_k \\
+r_{jj} &:= {\|𝐯_j\|} \\
+𝐪_j &:= {𝐯_j \over r_{jj}}
+\end{align*}
+$$
+
+**Theorem (Gram–Schmidt and reduced QR)** Define $𝐪_j$ and $r_{kj}$ as above
+(with $r_{kj} = 0$ if $k > j$). Then a reduced QR decomposition is given by:
+$$
+A = \underbrace{\begin{bmatrix} 𝐪_1 | ⋯ | 𝐪_n \end{bmatrix}}_{ \hat Q ∈ ℂ^{m × n}} \underbrace{\begin{bmatrix} r_{11} & ⋯ & r_{1n} \\ & ⋱ & ⋮ \\ && r_{nn}  \end{bmatrix}}_{\hat R ∈ ℂ^{n × n}}
+$$
+
+**Proof**
+
+We first show that $\hat Q$ has orthonormal columns. Assume that $𝐪_ℓ^⋆ 𝐪_k = δ_{ℓk}$ for $k,ℓ < j$. 
+For $ℓ < j$ we then have
+$$
+𝐪_ℓ^⋆ 𝐯_j = 𝐪_ℓ^⋆ 𝐚_j - ∑_{k=1}^{j-1}  𝐪_ℓ^⋆𝐪_k 𝐪_k^⋆ 𝐚_j = 0
+$$
+hence $𝐪_ℓ^⋆ 𝐪_j = 0$ and indeed $\hat Q$ has orthonormal columns. Further: from the definition of $𝐯_j$ we find
+$$
+𝐚_j = 𝐯_j + ∑_{k=1}^{j-1} r_{kj} 𝐪_k = ∑_{k=1}^j r_{kj} 𝐪_k  = \hat Q \hat R 𝐞_j
+$$
+
+∎
+
+## Householder reflections and QR
+
+As an alternative, we will consider using Householder reflections to introduce zeros below
+the diagonal.
+Thus, if Gram–Schmidt is a process of _triangular orthogonalisation_ (using triangular matrices
+to orthogonalise), Householder reflections is a process of _orthogonal triangularisation_ 
+(using orthogonal matrices to triangularise).
+
+Consider multiplication by the Householder reflection corresponding to the first column,
+that is, for
+$$
+Q_1 := Q_{𝐚_1}^{\rm H},
+$$
+consider
+$$
+Q_1 A = \begin{bmatrix} × & × & ⋯ & × \\
+& × & ⋯ & × \\
+                    & ⋮ & ⋱ & ⋮ \\
+                    & × & ⋯ & × \end{bmatrix} = 
+\begin{bmatrix}  α & 𝐰^⊤ \\ 
+& A_2   \end{bmatrix}
+$$
+where 
+$$
+α := -{\rm csign}(a_{11})  \|𝐚_1\|, 𝐰 = (Q_1 A)[1, 2:n]  \qquad \hbox{and} \qquad A_2 = (Q_1 A)[2:m, 2:n],
+$$
+${\rm csign}(z) :=  {\rm e}^{{\rm i} \arg z}$. 
+That is, we have made the first column triangular.
+In terms of an algorithm, we then introduce zeros into the first column of $A_2$,
+leaving an $A_3$, and so-on. But we can wrap this iterative algorithm into a simple
+proof by induction:
+
+**Theorem (QR)** 
+Every matrix $A ∈ ℂ^{m × n}$ has a QR factorisation:
+$$
+A = QR
+$$
+where $Q ∈ U(m)$ and $R ∈ ℂ^{m × n}$ is right triangular.
+
+**Proof**
+
+First assume $m ≥ n$. If $A = [𝐚_1] ∈ ℂ^{m × 1}$ then we have for the Householder
+reflection $Q_1 = Q_{𝐚_1}^{\rm H}$
+$$
+Q_1 A = [α 𝐞₁]
+$$
+which is right triangular, where $α = -{\rm sign}(a_{11}) \|𝐚_1\|$. 
+In other words 
+$$
+A = \underbrace{Q_1}_Q \underbrace{[α 𝐞₁]}_R.
+$$
+
+For $n > 1$, assume every matrix with less columns than $n$ has a QR factorisation.
+For $A = [𝐚_1|…|𝐚_n] ∈ ℂ^{m × n}$, let $Q_1 = Q_{𝐚_1}^{\rm H}$ so that
+$$
+Q_1 A =  \begin{bmatrix} α & 𝐰^⊤ \\ & A_2 \end{bmatrix}
+$$
+where $A_2 = (Q_1 A)[2:m,2:n]$ and $𝐰 = (Q_1 A)[1,2:n]$. By assumption $A_2 = \tilde Q \tilde R$. Thus we have
+$$
+\begin{align*}
+A = Q_1 \begin{bmatrix} α & 𝐰^⊤ \\ & \tilde Q \tilde R \end{bmatrix} \\
+=\underbrace{Q_1 \begin{bmatrix} 1 \\ & \tilde Q \end{bmatrix}}_Q  \underbrace{\begin{bmatrix} α & 𝐰^⊤ \\ &  \tilde R \end{bmatrix}}_R.
+\end{align*}
+$$
+
+If $A$ has more columns then rows, write 
+$$
+Α = \begin{bmatrix} Ã & B \end{bmatrix}
+$$
+where $Ã ∈ ℂ^{m × m}$. From above we know we can write $Ã = Q R̃$. We thus have
+$$
+A = Q \underbrace{\begin{bmatrix} R̃ & Q^⋆ B \end{bmatrix}}_R
+$$
+where $R$ is right triangular.
+
+∎
+
+
+
+**Example (QR by hand, non-examinable)** We will now do an example by hand. Consider the $4 × 3$ matrix
+$$
+A = \begin{bmatrix} 
+2 & 3 & 0 \\ 
+0 & 0 & 1 \\
+-2 & -3 & 0 \\
+-1 & -3 & -3
+\end{bmatrix}
+$$
+For the first column we have
+$$
+𝐲_1 := [-1,0,-2,-1]
+$$
+where $\| 𝐲_1 \|^2 = 6$. Hence
+$$
+Q_1 := I - {1 \over 3} \begin{bmatrix} -1 \\ 0 \\ -2 \\ -1 \end{bmatrix} \begin{bmatrix} -1 & 0 & -2 & -1 \end{bmatrix} =
+ {1 \over 3} \begin{bmatrix}
+2 & 0 & -2 & -1 \\
+0 & 3 & 0 & 0 \\
+-2 & 0 & -1 & -2 \\
+-1 & 0 & -2 &  2
+\end{bmatrix}
+$$
+so that
+$$
+Q_1 A = \begin{bmatrix} 3 &  5 & 1 \\
+ & 0 & 1 \\
+  & 1 & 2 \\
+& -1 & -2
+\end{bmatrix}
+$$
+For the second column we have
+$$
+𝐲_2 :=  [-\sqrt{2},1,-1]
+$$
+where $\| 𝐲_2 \|^2 = 4$. Thus we have
+$$
+Q_2 := I - {1 \over 2}
+ \begin{bmatrix} -\sqrt{2} \\1 \\ -1
+\end{bmatrix} \begin{bmatrix} -\sqrt{2} & 1 & -1 \end{bmatrix}
+= \begin{bmatrix}
+0 & 1/\sqrt{2} & -1/\sqrt{2} \\
+1/\sqrt{2} & 1/2 & 1/2 \\
+-1/\sqrt{2} & 1/2 & 1/2
+\end{bmatrix}
+$$
+so that
+$$
+\tilde Q_2 Q_1 A = \begin{bmatrix} 3 & 5 & 1 \\
+ & \sqrt{2} & 2\sqrt{2} \\
+  & 0 & 1/\sqrt{2} \\
+& 0 & -1/\sqrt{2}
+\end{bmatrix}
+$$
+The final vector is 
+$$
+𝐲_3 := [1/\sqrt{2}-1,-1/\sqrt{2}]
+$$
+where $\| 𝐲_3 \|^2 = 2 - 2/\sqrt{2}$. Hence
+$$
+Q_3 := I - {\sqrt{2} \over \sqrt{2} - 1} \begin{bmatrix}
+1/\sqrt{2}-1 \\
+-1/\sqrt{2}
+\end{bmatrix} \begin{bmatrix}
+1/\sqrt{2}-1 &
+-1/\sqrt{2}
+\end{bmatrix} =
+\begin{bmatrix}
+\sqrt{2} & -\sqrt{2}\\
+-\sqrt{2} & -\sqrt{2}
+\end{bmatrix}
+$$
+so that 
+$$
+\tilde Q_3 \tilde Q_2 Q_1 A = \begin{bmatrix} 3 & 5 & 1 \\
+ & \sqrt{2} & 2\sqrt{2} \\
+  & 0 & 1 \\
+& 0 & 0
+\end{bmatrix} =: R
+$$
+and
+$$
+Q := Q_1 \tilde Q_2 \tilde Q_3 =  \begin{bmatrix}
+2/3 & -1/(3\sqrt{2}) & 0 & 1/\sqrt{2} \\
+0 &  0 & 1 & 0 \\
+-2/3 & 1/(3\sqrt{2}) & 0 & 1/\sqrt{2} \\ 
+-1/3 & - 4/(3\sqrt{2}) & 0 & 0
+\end{bmatrix}.
+$$
+
+
+## QR and least squares
+
+We consider rectangular matrices with more rows than columns. Given $A ∈ ℂ^{m × n}$ and $𝐛 ∈ ℂ^m$,
+least squares consists of finding a vector $𝐱 ∈ ℂ^n$ that minimises the 2-norm: $\| A 𝐱 - 𝐛 \|$.
+
+
+**Theorem (least squares via QR)** Suppose $A ∈ ℂ^{m × n}$ has full rank. Given a QR decomposition $A = Q R$
+then
+$$
+𝐱 = \hat R^{-1} \hat Q^⋆ 𝐛
+$$
+minimises $\| A 𝐱 - 𝐛 \|$. 
+
+**Proof**
+
+The norm-preserving property (see PS4 Q3.1) of unitary matrices tells us
+$$
+\| A 𝐱 - 𝐛 \| = \| Q R 𝐱 - 𝐛 \| = \| Q (R 𝐱 - Q^⋆ 𝐛) \| = \| R 𝐱 - Q^⋆ 𝐛 \| = \left \| 
+\begin{bmatrix} \hat R \\ 𝟎_{m-n × n} \end{bmatrix} 𝐱 - \begin{bmatrix} \hat Q^⋆ \\ 𝐪_{n+1}^⋆ \\ ⋮ \\ 𝐪_m^⋆ \end{bmatrix}     𝐛 \right \|
+$$
+Now note that the rows $k > n$ are independent of $𝐱$ and are a fixed contribution. Thus to minimise this norm it suffices to
+drop them and minimise:
+$$
+\| \hat R 𝐱 - \hat Q^⋆ 𝐛 \|
+$$
+This norm is minimised if it is zero. Provided the column rank of $A$ is full, $\hat R$ will be invertible (Exercise: why is this?).
+
+∎
+
+
+
