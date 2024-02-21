@@ -10,7 +10,15 @@
 #
 # Mathematical knowledge:
 #
-# 1. 
+# 1. Constructing rotation matrices 
+# 2. Householder reflections
+# 3. QR factorisation
+#
+# Coding knowledge:
+#
+# 1. The `atan(y,x)` function
+# 2. Templating fields in a type
+# 3. Using the `qr` function to solve least squares.
 
 using LinearAlgebra, Test
 import Base: getindex, *, size, \
@@ -19,7 +27,81 @@ import Base: getindex, *, size, \
 
 # ## III.5 Orthogonal and Unitary Matrices
 
+# ### III.5.1 Rotations
+
+# A rotation matrix has the form
+# $$
+#  \begin{bmatrix} c & -s \\ s & c \end{bmatrix}
+# $$
+# such that $c^2 + s^2 = 1$. 
+
+# An alternative to using reflections to introduce zeros is to use rotations.
+# This is particularly convenient for tridiagonal matrices, where one needs to only
+# make one sub-diagonal zero. Here we explore a tridiagonal QR built from rotations
+# in a way that the factorisation can be computed in $O(n)$ operations.
+
+
+# **Problem 2** Complete the implementation of `Rotations`, which represents an orthogonal matrix `Q` that is a product
+# of rotations of angle `θ[k]`, each acting on the entries `k:k+1`. That is, it returns $Q = Q_1⋯Q_k$ such that
+# $$
+# Q_k[k:k+1,k:k+1] = 
+# \begin{bmatrix}
+# \cos θ[k] & -\sin θ[k]\\
+# \sin θ[k] & \cos θ[k]
+# \end{bmatrix}
+# $$
+
+struct Rotations{T} <: AbstractMatrix{T}
+    θ::Vector{T} # a vector of angles
+end
+
+import Base: *, size, getindex
+
+## we use the number of rotations to deduce the dimensions of the matrix
+size(Q::Rotations) = (length(Q.θ)+1, length(Q.θ)+1)
+
+function *(Q::Rotations, x::AbstractVector)
+    T = promote_type(eltype(Q), eltype(x))
+    y = Vector{T}(x) # copies x to a new Vector whose eltype is T
+    ## TODO: Apply Q in O(n) operations, modifying y in-place
+
+    ## SOLUTION
+    θ = Q.θ
+    ## Does Q1....Qn x
+    for k = length(θ):-1:1
+        #below has 4 ops to make the matrix and 12 to do the matrix-vector multiplication,
+        #total operations will be 48n = O(n)
+        c, s = cos(θ[k]), sin(θ[k])
+        y[k:(k+1)] = [c -s; s c] * y[k:(k+1)]
+    end
+    ## END
+
+    y
+end
+
+function getindex(Q::Rotations, k::Int, j::Int)
+    ## TODO: Return Q[k,j] in O(n) operations (hint: use *)
+
+    ## SOLUTION
+    ## recall that A_kj = e_k'*A*e_j for any matrix A
+    ## so if we use * above, this will take O(n) operations
+    n = size(Q)[1]
+    ej = zeros(eltype(Q), n)
+    ej[j] = 1
+    ## note, must be careful to ensure that ej is a VECTOR
+    ## not a MATRIX, otherwise * above will not be used
+    Qj = Q * ej
+    Qj[k]
+    ## END
+end
+
+θ1 = randn(5)
+Q = Rotations(θ1)
+@test Q'Q ≈ I
+@test Rotations([π/2, -π/2]) ≈ [0 0 -1; 1 0 0; 0 -1 0]
+
 # ### III.5.2 Reflections
+
 
 
 function dense_householderreflection(x)
@@ -34,13 +116,13 @@ function dense_householderreflection(x)
 end
 
 
-# **Problem 1(a)** Complete the implementation of a type representing an n × n
+# **Problem 3(a)** Complete the implementation of a type representing an n × n
 # reflection that supports `Q[k,j]` in $O(1)$ operations and `*` in $O(n)$ operations.
 # The reflection may be complex (that is, $Q ∈ U(n)$ is unitary).
 
 ## Represents I - 2v*v'
-struct Reflection <: AbstractMatrix{ComplexF64}
-    v::Vector{ComplexF64} # We are assuming v is normalised. 
+struct Reflection{T} <: AbstractMatrix{T}
+    v::Vector{T} # We are assuming v is normalised. 
 end
 
 size(Q::Reflection) = (length(Q.v),length(Q.v))
@@ -80,7 +162,7 @@ Q = Reflection(v)
 
 
 
-# **Problem 1(b)** Complete the following implementation of a Housholder reflection  so that the
+# **Problem 3(b)** Complete the following implementation of a Housholder reflection  so that the
 # unit tests pass, using the `Reflection` type created above.
 # Here `s == true` means the Householder reflection is sent to the positive axis and `s == false` is the negative axis.
 
@@ -107,9 +189,8 @@ Q = householderreflection(false, x)
 @test Q*x ≈ [-norm(x);zeros(eltype(x),length(x)-1)]
 
 
-# ---------
 
-# **Problem 2**
+# **Problem 4(a)**
 # Complete the definition of `Reflections` which supports a sequence of reflections,
 # that is,
 # $$
@@ -161,10 +242,12 @@ Q = Reflections(V)
 @test Q ≈ (I - 2V[:,1]*V[:,1]')*(I - 2V[:,2]*V[:,2]')*(I - 2V[:,3]*V[:,3]')
 @test Q'Q ≈ I
 
-
+# -----
 
 
 # III.6 QR Factorisation
+
+# III.6.2 Householder reflections and QR
 
 # This proof by induction leads naturally to an iterative algorithm. Note that $\tilde Q$ is a product of all
 # Householder reflections that come afterwards, that is, we can think of $Q$ as:
@@ -228,7 +311,7 @@ Q,R = householderqr(A)
 # in particular, taking advantage of the types `Reflection` and `Reflections` we developed
 # last lab. 
 
-# **Problem 2** Complete the following function that implements
+# **Problem 4(b)** Complete the following function that implements
 # Householder QR for a real matrix $A ∈ ℝ^{m × n}$ where $m ≥ n$ using only $O(mn^2)$ operations, using 
 #  `Reflection` and `Reflections`.
 # Hint: We have added the overload functions `*(::Reflection, ::AbstractMatrix)` and
@@ -272,3 +355,117 @@ A = randn(600,400)
 Q,R = householderqr(A)
 @test Q*R ≈ A
 
+
+
+
+# **Problem 5** This problem explores computing  a QR factorisation of a Tridiagonal matrix in $O(n)$ operations.
+# This will introduce entries in the second super-diagonal, hence we will use the `UpperTridiagonal` type
+# from Lab 6 (solution copied below). Complete the implementation of `bandedqr`, that only takes $O(n)$ operations,
+# using an instance of `Reflections` to represent `Q` and `UpperTriangular` to represent `R`.
+
+import Base: *, size, getindex, setindex!
+struct UpperTridiagonal{T} <: AbstractMatrix{T}
+    d::Vector{T}   # diagonal entries
+    du::Vector{T}  # super-diagonal enries
+    du2::Vector{T} # second-super-diagonal entries
+end
+
+size(U::UpperTridiagonal) = (length(U.d),length(U.d))
+
+function getindex(U::UpperTridiagonal, k::Int, j::Int)
+    d,du,du2 = U.d,U.du,U.du2
+    if j - k == 0
+        d[j]
+    elseif j - k == 1
+        du[k]
+    elseif j - k == 2
+        du2[k]
+    else
+        0
+    end
+end
+
+function setindex!(U::UpperTridiagonal, v, k::Int, j::Int)
+    d,du,du2 = U.d,U.du,U.du2
+    if j > k+2
+        error("Cannot modify off-band")
+    end
+    if j - k == 0
+        d[k] = v
+    elseif j - k == 1
+        du[k] = v
+    elseif j - k == 2
+        du2[k] = v
+    else
+        error("Cannot modify off-band")
+    end
+    U # by convention we return the matrix
+end
+
+
+function bandedqr(A::Tridiagonal)
+    n = size(A, 1)
+    Q = Rotations(zeros(n - 1)) # Assume Float64
+    R = UpperTridiagonal(zeros(n), zeros(n - 1), zeros(n - 2))
+
+    ## TODO: Populate Q and R by looping through the columns of A.
+
+    ## SOLUTION
+    R[1, 1:2] = A[1, 1:2]
+        
+    for j = 1:n-1
+        ## angle of rotation
+        Q.θ[j] = atan(A[j+1, j], R[j, j])
+        θ = -Q.θ[j] # rotate in opposite direction 
+
+        c, s = cos(θ), sin(θ)
+        ## [c -s; s c] represents the rotation that introduces a zero.
+        ## This is [c -s; s c] to j-th column, but ignore second row
+        ## which is zero
+        R[j, j] = c * R[j, j] - s * A[j+1, j]
+        ## This is [c -s; s c] to (j+1)-th column
+        R[j:j+1, j+1] = [c -s; s c] * [R[j, j+1]; A[j+1, j+1]]
+
+        if j < n - 1
+            ## This is [c -s; s c] to (j+2)-th column, where R is still zero
+            R[j:j+1, j+2] = [-s; c] * A[j+1, j+2]
+        end
+    end
+    ## END
+    Q, R
+end
+
+A = Tridiagonal([1, 2, 3, 4], [1, 2, 3, 4, 5], [1, 2, 3, 4])
+Q, R = bandedqr(A)
+@test Q*R ≈ A
+
+
+
+# III.6.3 QR and least squares
+
+# When we type `A \ b` with a rectangular matrix `A` it is
+# solving a least squares system. We can use the `qr` function 
+
+A = randn(600,400)
+b = randn(600)
+
+Q,R̂ = qr(A)
+
+# Here `Q` is a special type representing an orthogonal matrix.
+# `R̂` is an `UpperTriangular`, that is, we only store the upper triangular
+# entries of `R` (which is the same as the reduced QR factorisation). 
+# Thus to solve a least squares problem we need to drop the extra entries as
+# follows:
+
+c = Q'b # invert Q
+c̃ = c[1:size(R̂,1)] # drop extra entries
+A \ b ≈ R\c̃
+
+# **Problem 6** Complete the function `leastsquares(A, b)` that uses your
+# `householderqr` function to solve a least squares problem.
+
+function leastsquares(A, b)
+    ## TODO: use householderqr to solve a least squares problem.
+    ## SOLUTION
+    ## END
+end
