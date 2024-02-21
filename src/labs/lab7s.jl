@@ -4,28 +4,34 @@
 # This lab explores orthogonal matrices, including rotations and reflections.
 # We will construct special types to capture the structure of these orthogonal operations,
 # With the goal of implementing fast matrix*vector and matrix\vector operations.
-# We also compute the QR factorisation with Householder reflections.
+# We also compute the QR factorisation with Householder reflections, and use this
+# to solve least squares problems.
 
 # **Learning Outcomes**
 #
 # Mathematical knowledge:
 #
-# 1. Constructing rotation matrices 
-# 2. Householder reflections
-# 3. QR factorisation
+# 1. Constructing rotation and reflection matrices.
+# 2. Computing the QR factorisation using reflections.
+# 3. Computing a tridiagonal QR factorisation using rotations.
+# 4. The relationship between QR and least squares.
 #
 # Coding knowledge:
 #
-# 1. The `atan(y,x)` function
-# 2. Templating fields in a type
+# 1. The `atan(y,x)` function.
+# 2. Templating fields in a type.
 # 3. Using the `qr` function to solve least squares.
 
+
+
 using LinearAlgebra, Test
-import Base: getindex, *, size, \
 
 
 
 # ## III.5 Orthogonal and Unitary Matrices
+
+# Here we explore representing rotations and reflections, which are
+# special types of orthogonal/unitary matrices. 
 
 # ### III.5.1 Rotations
 
@@ -34,14 +40,54 @@ import Base: getindex, *, size, \
 #  \begin{bmatrix} c & -s \\ s & c \end{bmatrix}
 # $$
 # such that $c^2 + s^2 = 1$. 
+# More generally, we can use rotations on higher dimensional vectors by acting on two entries at a time.
+# There are multiple ways of storing a rotation matrix, here we explore the simplest of storing just an angle.
 
-# An alternative to using reflections to introduce zeros is to use rotations.
-# This is particularly convenient for tridiagonal matrices, where one needs to only
-# make one sub-diagonal zero. Here we explore a tridiagonal QR built from rotations
-# in a way that the factorisation can be computed in $O(n)$ operations.
+# We will use a syntax in a struct that forces a field to be a special type. In what follows we define
+# the `getindex` by first implementing multiplication, a pattern that will be reused in the questions
 
 
-# **Problem 2** Complete the implementation of `Rotations`, which represents an orthogonal matrix `Q` that is a product
+
+struct Rotation <: AbstractMatrix{Float64}
+    θ::Float64 # The ::Float64 means θ can only be a Float64
+end
+
+import Base: *, size, getindex
+
+size(Q::Rotation) = (2, 2)
+
+function *(Q::Rotation, x::AbstractVector)
+    if length(x) ≠ 2
+        error("dimension mismatch")
+    end
+    θ = Q.θ
+    c,s = cos(θ), sin(θ)
+    a,b = x
+    [c*a - s*b, s*a + c*b]
+end
+
+function getindex(Q::Rotation, k::Int, j::Int)
+    e_k = zeros(2)
+    e_j = zeros(2)
+    e_k[k] = 1  # will error if k ≠ 0,1
+    e_j[j] = 1  # will error if j ≠ 0,1
+    e_k'*(Q*e_j)
+end
+
+Q = Rotation(0.1)
+
+# We can test the ability to rotate a vector to the $x$-axis. Here we use the `atan(y,x)` function
+# to compute the angle of a vector:
+
+
+x = [-1,-2]
+Q = Rotation(-atan(x[2], x[1]))
+Q * x # first entry is norm(x), second entry is 0
+
+
+# -----
+
+# **Problem 1** Complete the implementation of `Rotations`, which represents an orthogonal matrix `Q` that is a product
 # of rotations of angle `θ[k]`, each acting on the entries `k:k+1`. That is, it returns $Q = Q_1⋯Q_k$ such that
 # $$
 # Q_k[k:k+1,k:k+1] = 
@@ -51,18 +97,17 @@ import Base: getindex, *, size, \
 # \end{bmatrix}
 # $$
 
-struct Rotations{T} <: AbstractMatrix{T}
-    θ::Vector{T} # a vector of angles
+struct Rotations <: AbstractMatrix{Float64}
+    θ::Vector{Float64} # a vector of angles
 end
 
-import Base: *, size, getindex
+
 
 ## we use the number of rotations to deduce the dimensions of the matrix
 size(Q::Rotations) = (length(Q.θ)+1, length(Q.θ)+1)
 
 function *(Q::Rotations, x::AbstractVector)
-    T = promote_type(eltype(Q), eltype(x))
-    y = Vector{T}(x) # copies x to a new Vector whose eltype is T
+    y = copy(x) # copies x to a new Vector 
     ## TODO: Apply Q in O(n) operations, modifying y in-place
 
     ## SOLUTION
@@ -80,7 +125,7 @@ function *(Q::Rotations, x::AbstractVector)
 end
 
 function getindex(Q::Rotations, k::Int, j::Int)
-    ## TODO: Return Q[k,j] in O(n) operations (hint: use *)
+    ## TODO: Return Q[k,j] in O(n) operations using *.
 
     ## SOLUTION
     ## recall that A_kj = e_k'*A*e_j for any matrix A
@@ -95,12 +140,19 @@ function getindex(Q::Rotations, k::Int, j::Int)
     ## END
 end
 
-θ1 = randn(5)
-Q = Rotations(θ1)
+θ = randn(5)
+Q = Rotations(θ)
 @test Q'Q ≈ I
 @test Rotations([π/2, -π/2]) ≈ [0 0 -1; 1 0 0; 0 -1 0]
 
+
+# ------
+
 # ### III.5.2 Reflections
+
+
+# We can also construct reflections. We do so first using the non-optimal approach of
+# create a dense matrix. 
 
 
 
@@ -116,14 +168,37 @@ function dense_householderreflection(x)
 end
 
 
-# **Problem 3(a)** Complete the implementation of a type representing an n × n
+x = randn(3) + im*randn(3)
+Q = dense_householderreflection(x)
+Q * x # all the entries apart from the first are numerically zero
+
+# A matrix-vector product is $O(n^2)$ operations but we know we can reduce it to $O(n)$.
+# Thus we will create a special type to represent the reflection and obtain the better complexity
+# multiplication. Because we want the matrix to be real when the entries are real we will use
+# a special feature called "templating". Here by adding the `{T}` after the type we allow this to
+# be either a `Float64` or `ComplexF64` (or indeed a `BigFloat`). We also do some checking
+# to make sure that our defining vector is already normalised. 
+
+struct Reflection{T} <: AbstractMatrix{T}
+    v::Vector{T} # T can be either a Float64 or ComplexF64
+end
+
+function Reflection(v::Vector)
+    T = eltype(v) # find the type of the entries of v
+    if !(norm(v) ≈ 1)
+        error("input must be normalised")
+    end
+    Reflection{T}(v) # create an instance of Reflection, specifying the entry type
+end
+
+# -----
+
+# **Problem 2(a)** Complete the implementation of a type representing an n × n
 # reflection that supports `Q[k,j]` in $O(1)$ operations and `*` in $O(n)$ operations.
 # The reflection may be complex (that is, $Q ∈ U(n)$ is unitary).
 
 ## Represents I - 2v*v'
-struct Reflection{T} <: AbstractMatrix{T}
-    v::Vector{T} # We are assuming v is normalised. 
-end
+
 
 size(Q::Reflection) = (length(Q.v),length(Q.v))
 
@@ -149,20 +224,23 @@ end
 ## If your code is correct, these "unit tests" will succeed
 n = 10
 x = randn(n) + im*randn(n)
-Q = Reflection(x)
 v = x/norm(x)
+Q = Reflection(v)
 @test Q == I-2v*v'
 @test Q'Q ≈ I
+
+
+## We can scale to very large sizes. here we check the reflection property on an 100_000 matrix:
 n = 100_000
 x = randn(n) + im*randn(n)
 v = x/norm(x)
 Q = Reflection(v)
-@test Q*v ≈ -v
+@test Q*x ≈ -x
 
 
 
 
-# **Problem 3(b)** Complete the following implementation of a Housholder reflection  so that the
+# **Problem 2(b)** Complete the following implementation of a Housholder reflection  so that the
 # unit tests pass, using the `Reflection` type created above.
 # Here `s == true` means the Householder reflection is sent to the positive axis and `s == false` is the negative axis.
 
@@ -190,7 +268,7 @@ Q = householderreflection(false, x)
 
 
 
-# **Problem 4(a)**
+# **Problem 2(c)**
 # Complete the definition of `Reflections` which supports a sequence of reflections,
 # that is,
 # $$
@@ -203,8 +281,8 @@ Q = householderreflection(false, x)
 # is a reflection.
 
 
-struct Reflections <: AbstractMatrix{ComplexF64}
-    V::Matrix{ComplexF64} # Columns of V are the householder vectors
+struct Reflections{T} <: AbstractMatrix{T}
+    V::Matrix{T} # Columns of V are the householder vectors
 end
 
 size(Q::Reflections) = (size(Q.V,1), size(Q.V,1))
@@ -249,7 +327,7 @@ Q = Reflections(V)
 
 # III.6.2 Householder reflections and QR
 
-# This proof by induction leads naturally to an iterative algorithm. Note that $\tilde Q$ is a product of all
+# The proof by induction in the notes leads naturally to an iterative algorithm. Note that $\tilde Q$ is a product of all
 # Householder reflections that come afterwards, that is, we can think of $Q$ as:
 # $$
 # Q = Q_1 \tilde Q_2 \tilde Q_3 ⋯ \tilde Q_n\qquad\hbox{for}\qquad \tilde Q_j = \begin{bmatrix} I_{j-1} \\ & Q_j \end{bmatrix}
@@ -298,20 +376,13 @@ Q,R = householderqr(A)
 
 
 # Note because we are forming a full matrix representation of each Householder
-# reflection this is a slow algorithm, taking $O(n^4)$ operations. The problem sheet
-# will consider a better implementation that takes $O(n^3)$ operations.
-
-
-
-
-
-# In lectures we did a quick-and-dirty implementation of Householder QR.
-# One major issue though: it used $O(m^2 n^2)$ operations, which is too many!
+# reflection this is a slow algorithm: it uses $O(m^2 n^2)$ operations, which is too many!
 # By being more careful about how we apply and store reflections we can avoid this,
-# in particular, taking advantage of the types `Reflection` and `Reflections` we developed
-# last lab. 
+# in particular, taking advantage of the types `Reflection` and `Reflections`.
 
-# **Problem 4(b)** Complete the following function that implements
+# ------
+
+# **Problem 3** Complete the following function that implements
 # Householder QR for a real matrix $A ∈ ℝ^{m × n}$ where $m ≥ n$ using only $O(mn^2)$ operations, using 
 #  `Reflection` and `Reflections`.
 # Hint: We have added the overload functions `*(::Reflection, ::AbstractMatrix)` and
@@ -356,9 +427,18 @@ Q,R = householderqr(A)
 @test Q*R ≈ A
 
 
+# ------ 
+
+# An alternative to using reflections to introduce zeros is to use rotations.
+# This is particularly convenient for tridiagonal matrices, where one needs to only
+# make one sub-diagonal zero. Here we explore a tridiagonal QR built from rotations
+# in a way that the factorisation can be computed in $O(n)$ operations.
 
 
-# **Problem 5** This problem explores computing  a QR factorisation of a Tridiagonal matrix in $O(n)$ operations.
+# -----
+
+
+# **Problem 4** This problem explores computing  a QR factorisation of a Tridiagonal matrix in $O(n)$ operations.
 # This will introduce entries in the second super-diagonal, hence we will use the `UpperTridiagonal` type
 # from Lab 6 (solution copied below). Complete the implementation of `bandedqr`, that only takes $O(n)$ operations,
 # using an instance of `Reflections` to represent `Q` and `UpperTriangular` to represent `R`.
@@ -461,7 +541,7 @@ c = Q'b # invert Q
 c̃ = c[1:size(R̂,1)] # drop extra entries
 A \ b ≈ R\c̃
 
-# **Problem 6** Complete the function `leastsquares(A, b)` that uses your
+# **Problem 5** Complete the function `leastsquares(A, b)` that uses your
 # `householderqr` function to solve a least squares problem.
 
 function leastsquares(A, b)

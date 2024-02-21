@@ -15,16 +15,10 @@ Here the adjoint is the same as the conjugate-transpose: $Q^\ensuremath{\star} :
 Note that $O(n) \ensuremath{\subset} U(n)$ as for real matrices $Q^\ensuremath{\star} = Q^\ensuremath{\top}$. Because in either case $Q^{-1} = Q^\ensuremath{\star}$ we also have $Q Q^\ensuremath{\star} = I$ (which for real matrices is $Q Q^\ensuremath{\top} = I$). These matrices are particularly important for numerical linear algebra for a number of reasons (we'll explore these properties in the problem sheets):
 
 \begin{itemize}
-\item[1. ] They are norm-preserving: for any vector $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbC}^n$ we have
+\item[1. ] They are norm-preserving: for any vector $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbC}^n$ we have $\|Q \ensuremath{\bm{\x}} \| = \| \ensuremath{\bm{\x}}\|$ where $\| \ensuremath{\bm{\x}} \|^2 := \ensuremath{\sum}_{k=1}^n x_k^2$ (i.e. the 2-norm).
 
-\end{itemize}
-\[
-\|Q \ensuremath{\bm{\x}} \| = \| \ensuremath{\bm{\x}}\|
-\]
-where $\| \ensuremath{\bm{\x}} \|^2 := \ensuremath{\sum}_{k=1}^n x_k^2$ (i.e. the 2-norm).
 
-\begin{itemize}
-\item[2. ] All eigenvalues have absolute value equal to $1$
+\item[2. ] All eigenvalues have absolute value equal to $1$.
 
 
 \item[3. ] For $Q \ensuremath{\in} O(n)$,  $\det Q = \ensuremath{\pm}1$.
@@ -33,18 +27,16 @@ where $\| \ensuremath{\bm{\x}} \|^2 := \ensuremath{\sum}_{k=1}^n x_k^2$ (i.e. th
 \item[4. ] They are trivially invertible (just take the transpose).
 
 
-\item[5. ] They are generally "stable": errors are controlled.
+\item[5. ] They are generally \ensuremath{\ldq}stable": errors due to rounding are controlled.
 
 
-\item[6. ] They are \emph{normal matrices}: they commute with their adjoint ($Q Q^\ensuremath{\star} = Q Q^\ensuremath{\star}$). See Chapter C for
+\item[6. ] They are \emph{normal matrices}: they commute with their adjoint ($Q Q^\ensuremath{\star} = Q Q^\ensuremath{\star}$). 
 
 \end{itemize}
-why this is important. 
-
-On a computer there are multiple ways of representing orthogonal/unitary matrices, and it is almost never to store a dense matrix storing the entries. In the appendices we have seen permutation matrices, which are a special type of orthogonal matrices. Here we investigate two other classes that can be used to compute QR factorisations.
+On a computer there are multiple ways of representing orthogonal/unitary matrices, and it is almost never to store a dense matrix, that is, we do not want to store all the entries. In the appendices we have seen permutation matrices, which are a special type of orthogonal matrices where we can store only the order the entries are permuted as a vector.  Here we investigate two other classes, that are important for computing QR factorisations.
 
 \begin{itemize}
-\item[1. ] \emph{Rotations}: The simple rotations are also known as $2 \ensuremath{\times} 2$ special orthogonal matrices ($SO(2)$)  and correspond to rotations in 2D.
+\item[1. ] \emph{Rotations}: Rotations are equivalent to special orthogonal matrices $SO(2)$  and correspond to rotations in 2D.
 
 
 \item[2. ] \emph{Reflections}:  Reflections are $n \ensuremath{\times} n$ orthogonal matrices that have simple definitions in terms of a single vector.
@@ -54,7 +46,7 @@ We remark a very similar concept are rectangular matrices with orthonormal colum
 \[
 U = [\ensuremath{\bm{\u}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\u}}_n] \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}
 \]
-where $m \ensuremath{\geq} n$ such that $U^\ensuremath{\star} U =  I_n$ (the $n \ensuremath{\times} n$ identity matrix). In this case we must have $UU^\ensuremath{\star} \ensuremath{\neq} I_m$ as the rank of $U$ is $n$. 
+where $m \ensuremath{\geq} n$ such that $U^\ensuremath{\star} U =  I_n$ (the $n \ensuremath{\times} n$ identity matrix). In this case we must have $UU^\ensuremath{\star} \ensuremath{\neq} I_m$ as the rank of $U$ is $n < m$. 
 
 \subsection{Rotations}
 We begin with a general definition:
@@ -69,7 +61,7 @@ In what follows we use the following for writing the angle of a vector:
 
 \begin{definition}[two-arg arctan] The two-argument arctan function gives the angle \texttt{\ensuremath{\theta}} through the point $[a,b]^\ensuremath{\top}$, i.e., 
 \[
-\sqrt{a^2 + b^2} \begin{bmatrix} \cos \ensuremath{\theta} \\ \sin \ensuremath{\theta} \end{bmatrix} =  \begin{bmatrix} a \\ b \end{bmatrix}
+\sqrt{a^2 + b^2} \begin{bmatrix} \cos \ensuremath{\theta} \\ \sin \ensuremath{\theta} \end{bmatrix} =  \begin{bmatrix} a \\ b \end{bmatrix}.
 \]
 It can be defined in terms of the standard arctan as follows:
 \[
@@ -88,7 +80,7 @@ We show $SO(2)$ are exactly equivalent to standard rotations:
 \[
 Q_\ensuremath{\theta} := \begin{bmatrix} \cos \ensuremath{\theta} & -\sin \ensuremath{\theta} \cr \sin \ensuremath{\theta} & \cos \ensuremath{\theta} \end{bmatrix}
 \]
-We have $Q \ensuremath{\in} SO(2)$ iff $Q = Q_\ensuremath{\theta}$ for some $\ensuremath{\theta} \ensuremath{\in} \ensuremath{\bbR}$.
+We have $Q \ensuremath{\in} SO(2)$ if and only if $Q = Q_\ensuremath{\theta}$ for some $\ensuremath{\theta} \ensuremath{\in} \ensuremath{\bbR}$.
 
 \end{proposition}
 \textbf{Proof}
@@ -100,7 +92,7 @@ Q_\ensuremath{\theta}^\ensuremath{\top}Q_\ensuremath{\theta} = \begin{pmatrix} c
 \]
 and $\det Q_\ensuremath{\theta} = c^2 + s^2 = 1$ hence $Q_\ensuremath{\theta} \ensuremath{\in} SO(2)$. 
 
-Now suppose $Q = [\ensuremath{\bm{\q}}_1, \ensuremath{\bm{\q}}_2] \ensuremath{\in} SO(2)$ where we know its columns have norm 1 $\|\ensuremath{\bm{\q}}_k\| = 1$ and are orthogonal. Write $\ensuremath{\bm{\q}}_1 = [c,s]$ where we know $c = \cos \ensuremath{\theta}$ and $s = \sin \ensuremath{\theta}$ for $\ensuremath{\theta} = {\rm atan}(s, c)$.  Since $\ensuremath{\bm{\q}}_1\cdot \ensuremath{\bm{\q}}_2 = 0$ we can deduce $\ensuremath{\bm{\q}}_2 = \ensuremath{\pm} [-s,c]$. The sign is positive as $\det Q = \ensuremath{\pm}(c^2 + s^2) = \ensuremath{\pm}1$.
+Now suppose $Q = [\ensuremath{\bm{\q}}_1, \ensuremath{\bm{\q}}_2] \ensuremath{\in} SO(2)$ where we know its columns have norm 1, i.e. $\|\ensuremath{\bm{\q}}_k\| = 1$, and are orthogonal. Write $\ensuremath{\bm{\q}}_1 = [c,s]$ where we know $c = \cos \ensuremath{\theta}$ and $s = \sin \ensuremath{\theta}$ for $\ensuremath{\theta} = {\rm atan}(s, c)$.  Since $\ensuremath{\bm{\q}}_1\cdot \ensuremath{\bm{\q}}_2 = 0$ we can deduce $\ensuremath{\bm{\q}}_2 = \ensuremath{\pm} [-s,c]$. The sign is positive as $\det Q = \ensuremath{\pm}(c^2 + s^2) = \ensuremath{\pm}1$.
 
 \ensuremath{\QED}
 
@@ -130,33 +122,52 @@ and $\det Q = 1$.
 
 \ensuremath{\QED}
 
-\subsection{Reflections}
-In addition to rotations, another type of orthogonal/unitary matrix are reflections:
-
-\begin{definition}[reflection matrix]  Given a unit vector $\ensuremath{\bm{\v}} \ensuremath{\in} \ensuremath{\bbC}^n$ (satisfying $\|\ensuremath{\bm{\v}}\|=1$), the \emph{reflection matrix}
+\begin{example}[rotating a vector] Consider the vector
 \[
-Q_{\ensuremath{\bm{\v}}} := I - 2 \ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\star}
+\ensuremath{\bm{\x}} = \Vectt[-\sqrt{3},-1].
+\]
+We can use the proposition above to deduce the rotation matrix that rotates this vector to the positive real axis is:
+\[
+{1 \over \sqrt{1+3}} \begin{bmatrix} -1 & -\sqrt{3} \\ \sqrt{3} & -1 \end{bmatrix} = 
+{1 \over 2} \begin{bmatrix} -1 & -\sqrt{3} \\ \sqrt{3} & -1 \end{bmatrix}.
+\]
+Alternatively, we could determine the matrix by computing the angle of the vector via:
+\[
+\ensuremath{\theta} =  {\rm atan}(-\sqrt{3}, -1) = {\rm atan}(\sqrt{3}) - \ensuremath{\pi} = -{2\ensuremath{\pi} \over 3}.
+\]
+We thus compute:
+\[
+Q_{-\ensuremath{\theta}} = \begin{bmatrix}
+\cos(2\ensuremath{\pi}/3) & -\sin(2\ensuremath{\pi}/3) \\
+\sin(2\ensuremath{\pi}/3) & \cos(2\ensuremath{\pi}/3)
+\end{bmatrix} = {1 \over 2} \begin{bmatrix} -1 & -\sqrt{3} \\ \sqrt{3} & -1 \end{bmatrix}.
+\]
+\end{example}
+
+\subsection{Reflections}
+In addition to rotations, another type of orthogonal/unitary matrix are reflections. These are specified by a single vector which is reflected, with everything orthogonal to the vector left fixed. 
+
+\begin{definition}[reflection matrix]  Given a unit vector $\ensuremath{\bm{\v}} \ensuremath{\in} \ensuremath{\bbC}^n$ (satisfying $\|\ensuremath{\bm{\v}}\|=1$), define the corresponding \emph{reflection matrix} as:
+\[
+Q_{\vc v} := I - 2 \ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\star}
 \]
 \end{definition}
 
-These are reflections in the direction of $\ensuremath{\bm{\v}}$. We can show this as follows:
+These are indeed reflections in the direction of $\ensuremath{\bm{\v}}$. We can show this as follows:
 
-\begin{proposition}[Householder properties] $Q_{\ensuremath{\bm{\v}}}$ satisfies:
+\begin{proposition}[Householder properties] $Q_{\vc v}$ satisfies:
 
 \begin{itemize}
-\item[1. ] Symmetry: $Q_{\ensuremath{\bm{\v}}} = Q_{\ensuremath{\bm{\v}}}^\ensuremath{\star}$
+\item[1. ] Symmetry: $Q_{\vc v} = Q_{\vc v}^\ensuremath{\star}$
 
 
-\item[2. ] Orthogonality: $Q_{\ensuremath{\bm{\v}}} \ensuremath{\in} U(n)$
+\item[2. ] Orthogonality: $Q_{\vc v} \ensuremath{\in} U(n)$
 
 
-\item[3. ] The vector $\ensuremath{\bm{\v}}$ is an eigenvector of $Q_{\ensuremath{\bm{\v}}}$ with eigenvalue $-1$
+\item[3. ] The vector $\ensuremath{\bm{\v}}$ is an eigenvector of $Q_{\vc v}$ with eigenvalue $-1$
 
 
-\item[4. ] Rank-1 perturbation: $Q_{\ensuremath{\bm{\v}}}$ is a rank-1 perturbation of $I$
-
-
-\item[5. ] Not a rotation: $\det Q_{\ensuremath{\bm{\v}}} = -1$
+\item[4. ] Not a rotation: $\det Q_{\vc v} = -1$
 
 \end{itemize}
 \end{proposition}
@@ -164,17 +175,21 @@ These are reflections in the direction of $\ensuremath{\bm{\v}}$. We can show th
 
 Property 1 follows immediately. Property 2 follows from
 \[
-Q_{\ensuremath{\bm{\v}}}^\ensuremath{\star} Q_{\ensuremath{\bm{\v}}} = Q_{\ensuremath{\bm{\v}}}^2 = I - 4 \ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\star} + 4 \ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\star} \ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\star} = I
+Q_{\vc v}^\ensuremath{\star} Q_{\vc v} = Q_{\vc v}^2 = I - 4 \ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\star} + 4 \ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\star} \ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\star} = I.
 \]
 Property 3 follows since
 \[
-Q_{\ensuremath{\bm{\v}}} \ensuremath{\bm{\v}} = \ensuremath{\bm{\v}} - 2\ensuremath{\bm{\v}} (\ensuremath{\bm{\v}}^\ensuremath{\star}\ensuremath{\bm{\v}}) = -\ensuremath{\bm{\v}}
+Q_{\vc v} \ensuremath{\bm{\v}} = \ensuremath{\bm{\v}} - 2\ensuremath{\bm{\v}} (\ensuremath{\bm{\v}}^\ensuremath{\star}\ensuremath{\bm{\v}}) = -\ensuremath{\bm{\v}}.
 \]
-Property 4 follows since $\ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\star}$ is a rank-1 matrix as all rows are linear combinations of each other. To see property 5, note there is a dimension $n-1$ space $W$ orthogonal to $\ensuremath{\bm{\v}}$, that is, for all $\ensuremath{\bm{\w}} \ensuremath{\in} W$ we have $\ensuremath{\bm{\w}}^\ensuremath{\star} \ensuremath{\bm{\v}} = 0$, which implies that
+To see property 4, note there is a dimension $n-1$ space $W$ orthogonal to $\ensuremath{\bm{\v}}$, that is,
 \[
-Q_{\ensuremath{\bm{\v}}} \ensuremath{\bm{\w}} = \ensuremath{\bm{\w}}
+W := \{\ensuremath{\bm{\w}} : \ensuremath{\bm{\w}}^\ensuremath{\star} \ensuremath{\bm{\v}} = 0 \}.
 \]
-In other words, $1$ is an eigenvalue with multiplicity $n-1$ and $-1$ is an eigenvalue with multiplicity 1, and thus the product of the eigenvalues is $-1$.
+This implies that
+\[
+Q_{\vc v} \ensuremath{\bm{\w}} = \ensuremath{\bm{\w}} - 2 \ensuremath{\bm{\v}} (\ensuremath{\bm{\w}}^\ensuremath{\star} \ensuremath{\bm{\v}}) =  \ensuremath{\bm{\w}}
+\]
+In other words, $1$ is an eigenvalue with multiplicity $n-1$ and $-1$ is an eigenvalue with multiplicity 1, and thus the determinant, which is product of the eigenvalues, is $-1$.
 
 \ensuremath{\QED}
 
@@ -188,22 +203,22 @@ Note this indeed has unit norm:
 \]
 Thus the reflection matrix is:
 \[
-Q_{\ensuremath{\bm{\v}}} = I - 2 \ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\top} = \begin{bmatrix}1 \\ & 1 \end{bmatrix} - {2 \over 5} \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}
+Q_{\vc v} = I - 2 \ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\top} = \begin{bmatrix}1 \\ & 1 \end{bmatrix} - {2 \over 5} \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}
  =  {1 \over 5} \begin{bmatrix} 3 & -4 \\ -4 & -3 \end{bmatrix}
 \]
 Indeed it is symmetric, and orthogonal. It sends $\ensuremath{\bm{\x}}$ to $-\ensuremath{\bm{\x}}$:
 \[
-Q_{\ensuremath{\bm{\v}}} \ensuremath{\bm{\x}} = {1 \over 5} \begin{bmatrix}3 - 8 \\ -4 - 6 \end{bmatrix} = -\ensuremath{\bm{\x}}
+Q_{\vc v} \ensuremath{\bm{\x}} = {1 \over 5} \begin{bmatrix}3 - 8 \\ -4 - 6 \end{bmatrix} = -\ensuremath{\bm{\x}}
 \]
 Any vector orthogonal to $\ensuremath{\bm{\x}}$, like $\ensuremath{\bm{\y}} = [-2,1]^\ensuremath{\top}$, is left fixed:
 \[
-Q_{\ensuremath{\bm{\v}}} \ensuremath{\bm{\y}} = {1 \over 5} \begin{bmatrix}-6 -4 \\ 8 - 3 \end{bmatrix} = \ensuremath{\bm{\y}}
+Q_{\vc v} \ensuremath{\bm{\y}} = {1 \over 5} \begin{bmatrix}-6 -4 \\ 8 - 3 \end{bmatrix} = \ensuremath{\bm{\y}}
 \]
 \end{example}
 
-Note that \emph{building} the matrix $Q_{\ensuremath{\bm{\v}}}$ will be expensive ($O(n^2)$ operations), but we can \emph{apply} $Q_{\ensuremath{\bm{\v}}}$ to a vector in $O(n)$ operations using the expression:
+Note that \emph{building} the matrix $Q_{\vc v}$ will be expensive ($O(n^2)$ operations), but we can \emph{apply} $Q_{\vc v}$ to a vector in $O(n)$ operations using the expression:
 \[
-Q_{\ensuremath{\bm{\v}}} \ensuremath{\bm{\x}} = \ensuremath{\bm{\x}} - 2 \ensuremath{\bm{\v}} (\ensuremath{\bm{\v}}^\ensuremath{\star} \ensuremath{\bm{\x}}) = \ensuremath{\bm{\x}} - 2 \ensuremath{\bm{\v}} (\ensuremath{\bm{\v}} \ensuremath{\cdot} \ensuremath{\bm{\x}}).
+Q_{\vc v} \ensuremath{\bm{\x}} = \ensuremath{\bm{\x}} - 2 \ensuremath{\bm{\v}} (\ensuremath{\bm{\v}}^\ensuremath{\star} \ensuremath{\bm{\x}}) = \ensuremath{\bm{\x}} - 2 \ensuremath{\bm{\v}} (\ensuremath{\bm{\v}} \ensuremath{\cdot} \ensuremath{\bm{\x}}).
 \]
 Just as rotations can be used to rotate vectors to be aligned with coordinate axis, so can reflections, but in this case it works for vectors in $\ensuremath{\bbC}^n$, not just $\ensuremath{\bbR}^2$:
 

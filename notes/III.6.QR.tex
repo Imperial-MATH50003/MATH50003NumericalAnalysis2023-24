@@ -1,24 +1,18 @@
 
-\section{QR factorisation}
+\section{QR Factorisation}
 Let $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ be a rectangular or square matrix such that $m \ensuremath{\geq} n$ (i.e. more rows then columns). In this chapter we consider two closely related factorisations:
 
-\begin{itemize}
-\item[1. ] The \emph{QR factorisation}
-
-\end{itemize}
+\begin{definition}[QR factorisation] The \emph{QR factorisation} is
 \[
 A = Q R = \underbrace{\begin{bmatrix} \ensuremath{\bm{\q}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\q}}_m \end{bmatrix}}_{Q \ensuremath{\in} U(m)} \underbrace{\begin{bmatrix} \ensuremath{\times} & \ensuremath{\cdots} & \ensuremath{\times} \\ & \ensuremath{\ddots} & \ensuremath{\vdots} \\ && \ensuremath{\times} \\ &&0 \\ &&\ensuremath{\vdots} \\ && 0 \end{bmatrix}}_{R \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}}
 \]
-where $Q$ is unitary (i.e., $Q \ensuremath{\in} U(m)$, satisfying $Q^\ensuremath{\star}Q = I$, with columns $\ensuremath{\bm{\q}}_j \ensuremath{\in} \ensuremath{\bbC}^m$) and $R$ is \emph{right triangular}, which means it  is only nonzero on or to the right of the diagonal ($r_{kj} = 0$ if $k > j$).
+where $Q$ is unitary (i.e., $Q \ensuremath{\in} U(m)$, satisfying $Q^\ensuremath{\star}Q = I$, with columns $\ensuremath{\bm{\q}}_j \ensuremath{\in} \ensuremath{\bbC}^m$) and $R$ is \emph{right triangular}, which means it  is only nonzero on or to the right of the diagonal ($r_{kj} = 0$ if $k > j$). \end{definition}
 
-\begin{itemize}
-\item[2. ] The \emph{reduced QR factorisation}
-
-\end{itemize}
+\begin{definition}[Reduced QR factorisation] The \emph{reduced QR factorisation}
 \[
 A = \hat Q \hat R = \underbrace{\begin{bmatrix} \ensuremath{\bm{\q}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\q}}_n \end{bmatrix}}_{ \hat Q \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}} \underbrace{\begin{bmatrix} \ensuremath{\times} & \ensuremath{\cdots} & \ensuremath{\times} \\ & \ensuremath{\ddots} & \ensuremath{\vdots} \\ && \ensuremath{\times}  \end{bmatrix}}_{\hat R \ensuremath{\in} \ensuremath{\bbC}^{n \ensuremath{\times} n}}
 \]
-where $Q$ has orthonormal columns ($Q^\ensuremath{\star} Q = I$, $\ensuremath{\bm{\q}}_j \ensuremath{\in} \ensuremath{\bbC}^m$) and $\hat R$ is upper triangular.
+where $Q$ has orthonormal columns ($Q^\ensuremath{\star} Q = I$, $\ensuremath{\bm{\q}}_j \ensuremath{\in} \ensuremath{\bbC}^m$) and $\hat R$ is upper triangular. \end{definition}
 
 Note for a square matrix the reduced QR factorisation is equivalent to the QR factorisation, in which case $R$ is \emph{upper triangular}. The importance of these decomposition for square matrices is that their component pieces are easy to invert:
 \[
@@ -34,7 +28,7 @@ Note in the rectangular case the QR decomposition contains within it the reduced
 \[
 A = QR = \begin{bmatrix} \hat Q | \ensuremath{\bm{\q}}_{n+1} | \ensuremath{\cdots} | \ensuremath{\bm{\q}}_m \end{bmatrix} \begin{bmatrix} \hat R \\  \ensuremath{\bm{\zero}}_{m-n \ensuremath{\times} n} \end{bmatrix} = \hat Q \hat R.
 \]
-In this lecture we discuss the followng:
+In this chapter we discuss the followng:
 
 \begin{itemize}
 \item[1. ] Reduced QR and Gram\ensuremath{\endash}Schmidt: We discuss computation of the Reduced QR decomposition using Gram\ensuremath{\endash}Schmidt.
@@ -106,17 +100,14 @@ Q_1 A = \begin{bmatrix} \ensuremath{\times} & \ensuremath{\times} & \ensuremath{
 & \ensuremath{\times} & \ensuremath{\cdots} & \ensuremath{\times} \\
                     & \ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
                     & \ensuremath{\times} & \ensuremath{\cdots} & \ensuremath{\times} \end{bmatrix} = 
-\begin{bmatrix}  \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\ 
+\begin{bmatrix}  \ensuremath{\alpha}_1 & \ensuremath{\bm{\w}}_1^\ensuremath{\top} \\ 
 & A_2   \end{bmatrix}
 \]
 where 
 \[
-\ensuremath{\alpha} := -{\rm csign}(a_{11})  \|\ensuremath{\bm{\a}}_1\|, \ensuremath{\bm{\w}} = (Q_1 A)[1, 2:n]  \qquad \hbox{and} \qquad A_2 = (Q_1 A)[2:m, 2:n],
+\ensuremath{\alpha}_1 := -{\rm csign}(a_{11})  \|\ensuremath{\bm{\a}}_1\|, \ensuremath{\bm{\w}}_1 = (Q_1 A)[1, 2:n]  \qquad \hbox{and} \qquad A_2 = (Q_1 A)[2:m, 2:n],
 \]
-\[
-{\rm csign}(z) :=  {\rm e}^{{\rm i} \arg z}
-\]
-.  That is, we have made the first column triangular. In terms of an algorithm, we then introduce zeros into the first column of $A_2$, leaving an $A_3$, and so-on. But we can wrap this iterative algorithm into a simple proof by induction:
+where as before ${\rm csign}(z) :=  {\rm e}^{{\rm i} \arg z}$. That is, we have made the first column triangular. In terms of an algorithm, we then introduce zeros into the first column of $A_2$, leaving an $A_3$, and so-on. But we can wrap this iterative algorithm into a simple proof by induction, reminisicent of our proof for the Cholesky factorisation:
 
 \begin{theorem}[QR]  Every matrix $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ has a QR factorisation:
 \[
@@ -129,20 +120,20 @@ where $Q \ensuremath{\in} U(m)$ and $R \ensuremath{\in} \ensuremath{\bbC}^{m \en
 
 First assume $m \ensuremath{\geq} n$. If $A = [\ensuremath{\bm{\a}}_1] \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} 1}$ then we have for the Householder reflection $Q_1 = Q_{\ensuremath{\bm{\a}}_1}^{\rm H}$
 \[
-Q_1 A = [\ensuremath{\alpha} \ensuremath{\bm{\e}}\ensuremath{\_1}]
+Q_1 A = [\ensuremath{\alpha} \ensuremath{\bm{\e}}_1]
 \]
 which is right triangular, where $\ensuremath{\alpha} = -{\rm sign}(a_{11}) \|\ensuremath{\bm{\a}}_1\|$.  In other words 
 \[
-A = \underbrace{Q_1}_Q \underbrace{[\ensuremath{\alpha} \ensuremath{\bm{\e}}\ensuremath{\_1}]}_R.
+A = \underbrace{Q_1}_Q \underbrace{[\ensuremath{\alpha} \ensuremath{\bm{\e}}_1]}_R.
 \]
 For $n > 1$, assume every matrix with less columns than $n$ has a QR factorisation. For $A = [\ensuremath{\bm{\a}}_1|\ensuremath{\ldots}|\ensuremath{\bm{\a}}_n] \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$, let $Q_1 = Q_{\ensuremath{\bm{\a}}_1}^{\rm H}$ so that
 \[
 Q_1 A =  \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\ & A_2 \end{bmatrix}
 \]
-where $A_2 = (Q_1 A)[2:m,2:n]$ and $\ensuremath{\bm{\w}} = (Q_1 A)[1,2:n]$. By assumption $A_2 = \tilde Q \tilde R$. Thus we have
+where $A_2 = (Q_1 A)[2:m,2:n]$ and $\ensuremath{\bm{\w}} = (Q_1 A)[1,2:n]$. By assumption $A_2 = Q_2 R_2$. Thus we have
 \begin{align*}
-A = Q_1 \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\ & \tilde Q \tilde R \end{bmatrix} \\
-=\underbrace{Q_1 \begin{bmatrix} 1 \\ & \tilde Q \end{bmatrix}}_Q  \underbrace{\begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\ &  \tilde R \end{bmatrix}}_R.
+A = Q_1 \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\ & Q_2 R_2 \end{bmatrix} \\
+=\underbrace{Q_1 \begin{bmatrix} 1 \\ & Q_2 \end{bmatrix}}_Q  \underbrace{\begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\ &  R_2 \end{bmatrix}}_R.
 \end{align*}
 If $A$ has more columns then rows, write 
 \[
@@ -257,7 +248,7 @@ minimises $\| A \ensuremath{\bm{\x}} - \ensuremath{\bm{\b}} \|$.
 \end{theorem}
 \textbf{Proof}
 
-The norm-preserving property (see PS4 Q3.1) of unitary matrices tells us
+The norm-preserving property ($\|Q\ensuremath{\bm{\x}}\| = \|\ensuremath{\bm{\x}}\|$) of unitary matrices tells us
 \[
 \| A \ensuremath{\bm{\x}} - \ensuremath{\bm{\b}} \| = \| Q R \ensuremath{\bm{\x}} - \ensuremath{\bm{\b}} \| = \| Q (R \ensuremath{\bm{\x}} - Q^\ensuremath{\star} \ensuremath{\bm{\b}}) \| = \| R \ensuremath{\bm{\x}} - Q^\ensuremath{\star} \ensuremath{\bm{\b}} \| = \left \| 
 \begin{bmatrix} \hat R \\ \ensuremath{\bm{\zero}}_{m-n \ensuremath{\times} n} \end{bmatrix} \ensuremath{\bm{\x}} - \begin{bmatrix} \hat Q^\ensuremath{\star} \\ \ensuremath{\bm{\q}}_{n+1}^\ensuremath{\star} \\ \ensuremath{\vdots} \\ \ensuremath{\bm{\q}}_m^\ensuremath{\star} \end{bmatrix}     \ensuremath{\bm{\b}} \right \|
@@ -266,7 +257,7 @@ Now note that the rows $k > n$ are independent of $\ensuremath{\bm{\x}}$ and are
 \[
 \| \hat R \ensuremath{\bm{\x}} - \hat Q^\ensuremath{\star} \ensuremath{\bm{\b}} \|
 \]
-This norm is minimised if it is zero. Provided the column rank of $A$ is full, $\hat R$ will be invertible (Exercise: why is this?).
+This norm is minimised if it is zero. Provided the column rank of $A$ is full, $\hat R$ will be invertible.
 
 \end{example}
 

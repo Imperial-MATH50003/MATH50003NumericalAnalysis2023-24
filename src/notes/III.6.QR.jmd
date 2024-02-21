@@ -1,20 +1,23 @@
-# QR factorisation
+# QR Factorisation
 
 Let $A ∈ ℂ^{m × n}$ be a rectangular or square matrix such that $m ≥ n$ (i.e. more rows then columns).
 In this chapter we consider two closely related factorisations:
 
-1. The _QR factorisation_
+
+**Definition (QR factorisation)** The _QR factorisation_ is
 $$
 A = Q R = \underbrace{\begin{bmatrix} 𝐪_1 | ⋯ | 𝐪_m \end{bmatrix}}_{Q ∈ U(m)} \underbrace{\begin{bmatrix} × & ⋯ & × \\ & ⋱ & ⋮ \\ && × \\ &&0 \\ &&⋮ \\ && 0 \end{bmatrix}}_{R ∈ ℂ^{m × n}}
 $$
 where $Q$ is unitary (i.e., $Q ∈ U(m)$, satisfying $Q^⋆Q = I$, with columns $𝐪_j ∈ ℂ^m$) and $R$ is _right triangular_, which means it 
 is only nonzero on or to the right of the diagonal ($r_{kj} = 0$ if $k > j$).
+∎
 
-2. The _reduced QR factorisation_
+**Definition (Reduced QR factorisation)** The _reduced QR factorisation_
 $$
 A = \hat Q \hat R = \underbrace{\begin{bmatrix} 𝐪_1 | ⋯ | 𝐪_n \end{bmatrix}}_{ \hat Q ∈ ℂ^{m × n}} \underbrace{\begin{bmatrix} × & ⋯ & × \\ & ⋱ & ⋮ \\ && ×  \end{bmatrix}}_{\hat R ∈ ℂ^{n × n}}
 $$
 where $Q$ has orthonormal columns ($Q^⋆ Q = I$, $𝐪_j ∈ ℂ^m$) and $\hat R$ is upper triangular.
+∎
 
 Note for a square matrix the reduced QR factorisation is equivalent to the QR factorisation, in which case $R$ is _upper triangular_.
 The importance of these decomposition for square matrices is that their component pieces are easy to invert:
@@ -36,7 +39,7 @@ $$
 
 
 
-In this lecture we discuss the followng:
+In this chapter we discuss the followng:
 
 1. Reduced QR and Gram–Schmidt: We discuss computation of the Reduced QR decomposition using Gram–Schmidt.
 2. Householder reflections and QR: We discuss computing the  QR decomposition using Householder reflections.
@@ -127,18 +130,18 @@ Q_1 A = \begin{bmatrix} × & × & ⋯ & × \\
 & × & ⋯ & × \\
                     & ⋮ & ⋱ & ⋮ \\
                     & × & ⋯ & × \end{bmatrix} = 
-\begin{bmatrix}  α & 𝐰^⊤ \\ 
+\begin{bmatrix}  α_1 & 𝐰_1^⊤ \\ 
 & A_2   \end{bmatrix}
 $$
 where 
 $$
-α := -{\rm csign}(a_{11})  \|𝐚_1\|, 𝐰 = (Q_1 A)[1, 2:n]  \qquad \hbox{and} \qquad A_2 = (Q_1 A)[2:m, 2:n],
+α_1 := -{\rm csign}(a_{11})  \|𝐚_1\|, 𝐰_1 = (Q_1 A)[1, 2:n]  \qquad \hbox{and} \qquad A_2 = (Q_1 A)[2:m, 2:n],
 $$
-${\rm csign}(z) :=  {\rm e}^{{\rm i} \arg z}$. 
+where as before ${\rm csign}(z) :=  {\rm e}^{{\rm i} \arg z}$.
 That is, we have made the first column triangular.
 In terms of an algorithm, we then introduce zeros into the first column of $A_2$,
 leaving an $A_3$, and so-on. But we can wrap this iterative algorithm into a simple
-proof by induction:
+proof by induction, reminisicent of our proof for the Cholesky factorisation:
 
 **Theorem (QR)** 
 Every matrix $A ∈ ℂ^{m × n}$ has a QR factorisation:
@@ -152,12 +155,12 @@ where $Q ∈ U(m)$ and $R ∈ ℂ^{m × n}$ is right triangular.
 First assume $m ≥ n$. If $A = [𝐚_1] ∈ ℂ^{m × 1}$ then we have for the Householder
 reflection $Q_1 = Q_{𝐚_1}^{\rm H}$
 $$
-Q_1 A = [α 𝐞₁]
+Q_1 A = [α 𝐞_1]
 $$
 which is right triangular, where $α = -{\rm sign}(a_{11}) \|𝐚_1\|$. 
 In other words 
 $$
-A = \underbrace{Q_1}_Q \underbrace{[α 𝐞₁]}_R.
+A = \underbrace{Q_1}_Q \underbrace{[α 𝐞_1]}_R.
 $$
 
 For $n > 1$, assume every matrix with less columns than $n$ has a QR factorisation.
@@ -165,11 +168,11 @@ For $A = [𝐚_1|…|𝐚_n] ∈ ℂ^{m × n}$, let $Q_1 = Q_{𝐚_1}^{\rm H}$ s
 $$
 Q_1 A =  \begin{bmatrix} α & 𝐰^⊤ \\ & A_2 \end{bmatrix}
 $$
-where $A_2 = (Q_1 A)[2:m,2:n]$ and $𝐰 = (Q_1 A)[1,2:n]$. By assumption $A_2 = \tilde Q \tilde R$. Thus we have
+where $A_2 = (Q_1 A)[2:m,2:n]$ and $𝐰 = (Q_1 A)[1,2:n]$. By assumption $A_2 = Q_2 R_2$. Thus we have
 $$
 \begin{align*}
-A = Q_1 \begin{bmatrix} α & 𝐰^⊤ \\ & \tilde Q \tilde R \end{bmatrix} \\
-=\underbrace{Q_1 \begin{bmatrix} 1 \\ & \tilde Q \end{bmatrix}}_Q  \underbrace{\begin{bmatrix} α & 𝐰^⊤ \\ &  \tilde R \end{bmatrix}}_R.
+A = Q_1 \begin{bmatrix} α & 𝐰^⊤ \\ & Q_2 R_2 \end{bmatrix} \\
+=\underbrace{Q_1 \begin{bmatrix} 1 \\ & Q_2 \end{bmatrix}}_Q  \underbrace{\begin{bmatrix} α & 𝐰^⊤ \\ &  R_2 \end{bmatrix}}_R.
 \end{align*}
 $$
 
@@ -293,7 +296,7 @@ minimises $\| A 𝐱 - 𝐛 \|$.
 
 **Proof**
 
-The norm-preserving property (see PS4 Q3.1) of unitary matrices tells us
+The norm-preserving property ($\|Q𝐱\| = \|𝐱\|$) of unitary matrices tells us
 $$
 \| A 𝐱 - 𝐛 \| = \| Q R 𝐱 - 𝐛 \| = \| Q (R 𝐱 - Q^⋆ 𝐛) \| = \| R 𝐱 - Q^⋆ 𝐛 \| = \left \| 
 \begin{bmatrix} \hat R \\ 𝟎_{m-n × n} \end{bmatrix} 𝐱 - \begin{bmatrix} \hat Q^⋆ \\ 𝐪_{n+1}^⋆ \\ ⋮ \\ 𝐪_m^⋆ \end{bmatrix}     𝐛 \right \|
@@ -303,7 +306,7 @@ drop them and minimise:
 $$
 \| \hat R 𝐱 - \hat Q^⋆ 𝐛 \|
 $$
-This norm is minimised if it is zero. Provided the column rank of $A$ is full, $\hat R$ will be invertible (Exercise: why is this?).
+This norm is minimised if it is zero. Provided the column rank of $A$ is full, $\hat R$ will be invertible.
 
 ∎
 

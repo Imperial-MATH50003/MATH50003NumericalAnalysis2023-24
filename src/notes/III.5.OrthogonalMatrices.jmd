@@ -19,28 +19,26 @@ Note that $O(n) ⊂ U(n)$ as for real matrices $Q^⋆ = Q^⊤$. Because in eithe
 $Q Q^⋆ = I$ (which for real matrices is $Q Q^⊤ = I$). These matrices are particularly important for
 numerical linear algebra for a number of reasons (we'll explore these properties in the problem sheets):
 
-1. They are norm-preserving: for any vector $𝐱 ∈ ℂ^n$ we have
-$\|Q 𝐱 \| = \| 𝐱\|$ where $\| 𝐱 \|^2 := ∑_{k=1}^n x_k^2$ (i.e. the 2-norm).
-2. All eigenvalues have absolute value equal to $1$
+1. They are norm-preserving: for any vector $𝐱 ∈ ℂ^n$ we have $\|Q 𝐱 \| = \| 𝐱\|$ where $\| 𝐱 \|^2 := ∑_{k=1}^n x_k^2$ (i.e. the 2-norm).
+2. All eigenvalues have absolute value equal to $1$.
 3. For $Q ∈ O(n)$,  $\det Q = ±1$.
 2. They are trivially invertible (just take the transpose).
-3. They are generally "stable": errors are controlled.
-4. They are _normal matrices_: they commute with their adjoint ($Q Q^⋆ = Q Q^⋆$). See Chapter C for
-why this is important. 
+3. They are generally “stable": errors due to rounding are controlled.
+4. They are _normal matrices_: they commute with their adjoint ($Q Q^⋆ = Q Q^⋆$). 
 
 On a computer there are multiple ways of representing orthogonal/unitary matrices,
-and it is almost never to store a dense matrix storing the entries. In the appendices we have seen permutation matrices, which
-are a special type of orthogonal matrices. Here we investigate two other classes that can be used to compute QR factorisations.
+and it is almost never to store a dense matrix, that is, we do not want to store all the entries. In the appendices we have seen permutation matrices, which
+are a special type of orthogonal matrices where we can store only the order the entries are permuted as a vector. 
+Here we investigate two other classes, that are important for computing QR factorisations.
 
-1. _Rotations_: The simple rotations are also known as $2 × 2$ special orthogonal matrices ($SO(2)$)  and correspond to rotations in 2D.
+1. _Rotations_: Rotations are equivalent to special orthogonal matrices $SO(2)$  and correspond to rotations in 2D.
 2. _Reflections_:  Reflections are $n × n$ orthogonal matrices that have simple definitions in terms of a single vector.
 
 We remark a very similar concept are rectangular matrices with orthonormal columns, e.g.
 $$
 U = [𝐮_1 | ⋯ | 𝐮_n] ∈ ℂ^{m × n}
 $$
-where $m ≥ n$ such that
-$U^⋆ U =  I_n$ (the $n × n$ identity matrix). In this case we must have $UU^⋆ ≠ I_m$ as the rank of $U$ is $n$. 
+where $m ≥ n$ such that $U^⋆ U =  I_n$ (the $n × n$ identity matrix). In this case we must have $UU^⋆ ≠ I_m$ as the rank of $U$ is $n < m$. 
 
 
 ## Rotations
@@ -59,7 +57,7 @@ In what follows we use the following for writing the angle of a vector:
 **Definition (two-arg arctan)** The two-argument arctan function gives the angle `θ` through the point
 $[a,b]^⊤$, i.e., 
 $$
-\sqrt{a^2 + b^2} \begin{bmatrix} \cos θ \\ \sin θ \end{bmatrix} =  \begin{bmatrix} a \\ b \end{bmatrix}
+\sqrt{a^2 + b^2} \begin{bmatrix} \cos θ \\ \sin θ \end{bmatrix} =  \begin{bmatrix} a \\ b \end{bmatrix}.
 $$
 It can be defined in terms of the standard arctan as follows:
 $$
@@ -92,7 +90,7 @@ Q_θ^⊤Q_θ = \begin{pmatrix} c & s \\ -s & c \end{pmatrix} \begin{pmatrix} c &
 $$
 and $\det Q_θ = c^2 + s^2 = 1$ hence $Q_θ ∈ SO(2)$. 
 
-Now suppose $Q = [𝐪_1, 𝐪_2] ∈ SO(2)$ where we know its columns have norm 1 $\|𝐪_k\| = 1$ and are orthogonal.
+Now suppose $Q = [𝐪_1, 𝐪_2] ∈ SO(2)$ where we know its columns have norm 1, i.e. $\|𝐪_k\| = 1$, and are orthogonal.
 Write $𝐪_1 = [c,s]$ where we know $c = \cos θ$ and $s = \sin θ$ for $θ = {\rm atan}(s, c)$. 
 Since $𝐪_1\cdot 𝐪_2 = 0$ we can deduce $𝐪_2 = ± [-s,c]$. The sign is positive as $\det Q = ±(c^2 + s^2) = ±1$.
 
@@ -158,41 +156,40 @@ $$
 
 ## Reflections
 
-In addition to rotations, another type of orthogonal/unitary matrix are reflections:
+In addition to rotations, another type of orthogonal/unitary matrix are reflections. These are
+specified by a single vector which is reflected, with everything orthogonal to the vector left fixed. 
 
 **Definition (reflection matrix)** 
-Given a unit vector $𝐯 ∈ ℂ^n$ (satisfying $\|𝐯\|=1$), the _reflection matrix_
+Given a unit vector $𝐯 ∈ ℂ^n$ (satisfying $\|𝐯\|=1$), define the corresponding _reflection matrix_ as:
 $$
 Q_{𝐯} := I - 2 𝐯 𝐯^⋆
 $$
 ∎
 
 
-These are reflections in the direction of $𝐯$. We can show this as follows:
+These are indeed reflections in the direction of $𝐯$. We can show this as follows:
 
 **Proposition (Householder properties)** $Q_{𝐯}$ satisfies:
 1. Symmetry: $Q_{𝐯} = Q_{𝐯}^⋆$
 2. Orthogonality: $Q_{𝐯} ∈ U(n)$
 3. The vector $𝐯$ is an eigenvector of $Q_{𝐯}$ with eigenvalue $-1$
-4. Rank-1 perturbation: $Q_{𝐯}$ is a rank-1 perturbation of $I$
-5. Not a rotation: $\det Q_{𝐯} = -1$
+4. Not a rotation: $\det Q_{𝐯} = -1$
 
 
 **Proof**
 
 Property 1 follows immediately. Property 2 follows from
 $$
-Q_{𝐯}^⋆ Q_{𝐯} = Q_{𝐯}^2 = I - 4 𝐯 𝐯^⋆ + 4 𝐯 𝐯^⋆ 𝐯 𝐯^⋆ = I
+Q_{𝐯}^⋆ Q_{𝐯} = Q_{𝐯}^2 = I - 4 𝐯 𝐯^⋆ + 4 𝐯 𝐯^⋆ 𝐯 𝐯^⋆ = I.
 $$
 Property 3 follows since
 $$
-Q_{𝐯} 𝐯 = 𝐯 - 2𝐯 (𝐯^⋆𝐯) = -𝐯
+Q_{𝐯} 𝐯 = 𝐯 - 2𝐯 (𝐯^⋆𝐯) = -𝐯.
 $$
-Property 4 follows since $𝐯 𝐯^⋆$ is a rank-1 matrix as all rows are linear combinations of each other.
-To see property 5, note there is a dimension $n-1$ space $W$ orthogonal to $𝐯$, that is,
+To see property 4, note there is a dimension $n-1$ space $W$ orthogonal to $𝐯$, that is,
 $$
 W := \{𝐰 : 𝐰^⋆ 𝐯 = 0 \}.
-$$ 
+$$
 This implies that
 $$
 Q_{𝐯} 𝐰 = 𝐰 - 2 𝐯 (𝐰^⋆ 𝐯) =  𝐰
@@ -237,7 +234,7 @@ $$
 
 
 Just as rotations can be used to rotate vectors to be aligned with coordinate axis, so can reflections,
-but in this case it works for vectors in $ℂ^n$, not just $ℝ^2$:
+but in this case it works for vectors in $ℂ^n$, not just $ℝ^2$. We begin with the real case:
 
 **Definition (Householder reflection, real case)** For a given vector
 $𝐱 ∈ ℝ^n$, define the Householder reflection
@@ -271,7 +268,8 @@ $$
 
 ∎
 
-Why do we choose the the opposite sign of $x_1$ for the default reflection? For stability, as explained in the lab.
+**Remark** Why do we choose the the opposite sign of $x_1$ for the default reflection? For stability, but
+we won't discuss this in more detail.
 
 We can extend this definition for complexes:
 
