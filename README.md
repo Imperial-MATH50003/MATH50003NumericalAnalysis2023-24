@@ -5,7 +5,7 @@ Lecturer: [Dr Sheehan Olver](https://www.ma.imperial.ac.uk/~solver/)
 
 Office hour: Mondays 11am, Huxley 6M40
 
-## [Notes](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/raw/main/notes/notes.pdf) (up to Week 6)
+## [Notes](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/raw/main/notes/notes.pdf) (up to Week 7)
 
 ## Weekly Material
 
@@ -27,6 +27,9 @@ Office hour: Mondays 11am, Huxley 6M40
 6. III.3 Cholesky Factorisations and III.4 Polynomial Regression
    - [Lab 6](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab6.ipynb)
    - [Sheet 6](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet6.pdf)
+7. III.5 Orthogonal and Unitary Matrices and III.6 QR Factorisation
+   - [Lab 7](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab7.ipynb)
+   - [Sheet 7](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet7.pdf)   
 
 
 ## Assessment

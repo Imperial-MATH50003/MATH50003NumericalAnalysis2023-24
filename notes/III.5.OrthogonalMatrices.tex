@@ -149,25 +149,25 @@ In addition to rotations, another type of orthogonal/unitary matrix are reflecti
 
 \begin{definition}[reflection matrix]  Given a unit vector $\ensuremath{\bm{\v}} \ensuremath{\in} \ensuremath{\bbC}^n$ (satisfying $\|\ensuremath{\bm{\v}}\|=1$), define the corresponding \emph{reflection matrix} as:
 \[
-Q_{\vc v} := I - 2 \ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\star}
+Q_{\ensuremath{\bm{\v}}} := I - 2 \ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\star}
 \]
 \end{definition}
 
 These are indeed reflections in the direction of $\ensuremath{\bm{\v}}$. We can show this as follows:
 
-\begin{proposition}[Householder properties] $Q_{\vc v}$ satisfies:
+\begin{proposition}[Householder properties] $Q_{\ensuremath{\bm{\v}}}$ satisfies:
 
 \begin{itemize}
-\item[1. ] Symmetry: $Q_{\vc v} = Q_{\vc v}^\ensuremath{\star}$
+\item[1. ] Symmetry: $Q_{\ensuremath{\bm{\v}}} = Q_{\ensuremath{\bm{\v}}}^\ensuremath{\star}$
 
 
-\item[2. ] Orthogonality: $Q_{\vc v} \ensuremath{\in} U(n)$
+\item[2. ] Orthogonality: $Q_{\ensuremath{\bm{\v}}} \ensuremath{\in} U(n)$
 
 
-\item[3. ] The vector $\ensuremath{\bm{\v}}$ is an eigenvector of $Q_{\vc v}$ with eigenvalue $-1$
+\item[3. ] The vector $\ensuremath{\bm{\v}}$ is an eigenvector of $Q_{\ensuremath{\bm{\v}}}$ with eigenvalue $-1$
 
 
-\item[4. ] Not a rotation: $\det Q_{\vc v} = -1$
+\item[4. ] Not a rotation: $\det Q_{\ensuremath{\bm{\v}}} = -1$
 
 \end{itemize}
 \end{proposition}
@@ -175,11 +175,11 @@ These are indeed reflections in the direction of $\ensuremath{\bm{\v}}$. We can 
 
 Property 1 follows immediately. Property 2 follows from
 \[
-Q_{\vc v}^\ensuremath{\star} Q_{\vc v} = Q_{\vc v}^2 = I - 4 \ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\star} + 4 \ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\star} \ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\star} = I.
+Q_{\ensuremath{\bm{\v}}}^\ensuremath{\star} Q_{\ensuremath{\bm{\v}}} = Q_{\ensuremath{\bm{\v}}}^2 = I - 4 \ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\star} + 4 \ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\star} \ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\star} = I.
 \]
 Property 3 follows since
 \[
-Q_{\vc v} \ensuremath{\bm{\v}} = \ensuremath{\bm{\v}} - 2\ensuremath{\bm{\v}} (\ensuremath{\bm{\v}}^\ensuremath{\star}\ensuremath{\bm{\v}}) = -\ensuremath{\bm{\v}}.
+Q_{\ensuremath{\bm{\v}}} \ensuremath{\bm{\v}} = \ensuremath{\bm{\v}} - 2\ensuremath{\bm{\v}} (\ensuremath{\bm{\v}}^\ensuremath{\star}\ensuremath{\bm{\v}}) = -\ensuremath{\bm{\v}}.
 \]
 To see property 4, note there is a dimension $n-1$ space $W$ orthogonal to $\ensuremath{\bm{\v}}$, that is,
 \[
@@ -187,7 +187,7 @@ W := \{\ensuremath{\bm{\w}} : \ensuremath{\bm{\w}}^\ensuremath{\star} \ensuremat
 \]
 This implies that
 \[
-Q_{\vc v} \ensuremath{\bm{\w}} = \ensuremath{\bm{\w}} - 2 \ensuremath{\bm{\v}} (\ensuremath{\bm{\w}}^\ensuremath{\star} \ensuremath{\bm{\v}}) =  \ensuremath{\bm{\w}}
+Q_{\ensuremath{\bm{\v}}} \ensuremath{\bm{\w}} = \ensuremath{\bm{\w}} - 2 \ensuremath{\bm{\v}} (\ensuremath{\bm{\w}}^\ensuremath{\star} \ensuremath{\bm{\v}}) =  \ensuremath{\bm{\w}}
 \]
 In other words, $1$ is an eigenvalue with multiplicity $n-1$ and $-1$ is an eigenvalue with multiplicity 1, and thus the determinant, which is product of the eigenvalues, is $-1$.
 
@@ -203,24 +203,24 @@ Note this indeed has unit norm:
 \]
 Thus the reflection matrix is:
 \[
-Q_{\vc v} = I - 2 \ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\top} = \begin{bmatrix}1 \\ & 1 \end{bmatrix} - {2 \over 5} \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}
+Q_{\ensuremath{\bm{\v}}} = I - 2 \ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\top} = \begin{bmatrix}1 \\ & 1 \end{bmatrix} - {2 \over 5} \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}
  =  {1 \over 5} \begin{bmatrix} 3 & -4 \\ -4 & -3 \end{bmatrix}
 \]
 Indeed it is symmetric, and orthogonal. It sends $\ensuremath{\bm{\x}}$ to $-\ensuremath{\bm{\x}}$:
 \[
-Q_{\vc v} \ensuremath{\bm{\x}} = {1 \over 5} \begin{bmatrix}3 - 8 \\ -4 - 6 \end{bmatrix} = -\ensuremath{\bm{\x}}
+Q_{\ensuremath{\bm{\v}}} \ensuremath{\bm{\x}} = {1 \over 5} \begin{bmatrix}3 - 8 \\ -4 - 6 \end{bmatrix} = -\ensuremath{\bm{\x}}
 \]
 Any vector orthogonal to $\ensuremath{\bm{\x}}$, like $\ensuremath{\bm{\y}} = [-2,1]^\ensuremath{\top}$, is left fixed:
 \[
-Q_{\vc v} \ensuremath{\bm{\y}} = {1 \over 5} \begin{bmatrix}-6 -4 \\ 8 - 3 \end{bmatrix} = \ensuremath{\bm{\y}}
+Q_{\ensuremath{\bm{\v}}} \ensuremath{\bm{\y}} = {1 \over 5} \begin{bmatrix}-6 -4 \\ 8 - 3 \end{bmatrix} = \ensuremath{\bm{\y}}
 \]
 \end{example}
 
-Note that \emph{building} the matrix $Q_{\vc v}$ will be expensive ($O(n^2)$ operations), but we can \emph{apply} $Q_{\vc v}$ to a vector in $O(n)$ operations using the expression:
+Note that \emph{building} the matrix $Q_{\ensuremath{\bm{\v}}}$ will be expensive ($O(n^2)$ operations), but we can \emph{apply} $Q_{\ensuremath{\bm{\v}}}$ to a vector in $O(n)$ operations using the expression:
 \[
-Q_{\vc v} \ensuremath{\bm{\x}} = \ensuremath{\bm{\x}} - 2 \ensuremath{\bm{\v}} (\ensuremath{\bm{\v}}^\ensuremath{\star} \ensuremath{\bm{\x}}) = \ensuremath{\bm{\x}} - 2 \ensuremath{\bm{\v}} (\ensuremath{\bm{\v}} \ensuremath{\cdot} \ensuremath{\bm{\x}}).
+Q_{\ensuremath{\bm{\v}}} \ensuremath{\bm{\x}} = \ensuremath{\bm{\x}} - 2 \ensuremath{\bm{\v}} (\ensuremath{\bm{\v}}^\ensuremath{\star} \ensuremath{\bm{\x}}) = \ensuremath{\bm{\x}} - 2 \ensuremath{\bm{\v}} (\ensuremath{\bm{\v}} \ensuremath{\cdot} \ensuremath{\bm{\x}}).
 \]
-Just as rotations can be used to rotate vectors to be aligned with coordinate axis, so can reflections, but in this case it works for vectors in $\ensuremath{\bbC}^n$, not just $\ensuremath{\bbR}^2$:
+Just as rotations can be used to rotate vectors to be aligned with coordinate axis, so can reflections, but in this case it works for vectors in $\ensuremath{\bbC}^n$, not just $\ensuremath{\bbR}^2$. We begin with the real case:
 
 \begin{definition}[Householder reflection, real case] For a given vector $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^n$, define the Householder reflection
 \[
@@ -248,7 +248,7 @@ Q_{\ensuremath{\bm{\x}}}^{\ensuremath{\pm},\rm H} \ensuremath{\bm{\x}}  =  (I - 
 \]
 \ensuremath{\QED}
 
-Why do we choose the the opposite sign of $x_1$ for the default reflection? For stability, as explained in the lab.
+\textbf{Remark} Why do we choose the the opposite sign of $x_1$ for the default reflection? For stability, but we won't discuss this in more detail.
 
 We can extend this definition for complexes:
 
