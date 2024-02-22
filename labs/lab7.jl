@@ -3,7 +3,7 @@
 
 # This lab explores orthogonal matrices, including rotations and reflections.
 # We will construct special types to capture the structure of these orthogonal operations,
-# With the goal of implementing fast matrix*vector and matrix\vector operations.
+# with the goal of implementing fast matrix*vector and matrix\vector operations.
 # We also compute the QR factorisation with Householder reflections, and use this
 # to solve least squares problems.
 
@@ -18,7 +18,7 @@
 #
 # Coding knowledge:
 #
-# 1. The `atan(y,x)` function.
+# 1. The `atan(y,x)` function and the `I` convenience syntax.
 # 2. Templating fields in a type.
 # 3. Using the `qr` function to solve least squares.
 
@@ -35,16 +35,17 @@ using LinearAlgebra, Test
 
 # ### III.5.1 Rotations
 
-# A rotation matrix has the form
+# A (simple) rotation matrix is an element of the special orthogonal group $SO(2)$ and has a matrix representation
 # $$
 #  \begin{bmatrix} c & -s \\ s & c \end{bmatrix}
 # $$
 # such that $c^2 + s^2 = 1$. 
-# More generally, we can use rotations on higher dimensional vectors by acting on two entries at a time.
-# There are multiple ways of storing a rotation matrix, here we explore the simplest of storing just an angle.
+# More generally, we can generalise simple rotations on higher dimensional vectors by acting on two indices at a time.
+# There are multiple ways of storing a rotation matrix, here we explore the most intuitive (but not the fastest!) way of storing just an angle $θ$
+# so that $c = \cos θ$ and $s = \sin θ$.
 
 # We will use a syntax in a struct that forces a field to be a special type. In what follows we define
-# the `getindex` by first implementing multiplication, a pattern that will be reused in the questions
+# the `getindex` by first implementing multiplication, a pattern that will be reused in the problems.
 
 
 
@@ -62,11 +63,12 @@ function *(Q::Rotation, x::AbstractVector)
     end
     θ = Q.θ
     c,s = cos(θ), sin(θ)
-    a,b = x
+    a,b = x # special syntax so that a == x[1] and b == x[2]
     [c*a - s*b, s*a + c*b]
 end
 
 function getindex(Q::Rotation, k::Int, j::Int)
+    ## We use the overloaded * above as we will follow this pattern later.
     e_k = zeros(2)
     e_j = zeros(2)
     e_k[k] = 1  # will error if k ≠ 0,1
@@ -81,7 +83,8 @@ Q = Rotation(0.1)
 
 
 x = [-1,-2]
-Q = Rotation(-atan(x[2], x[1]))
+θ = atan(x[2], x[1]) # angle of the vector x
+Q = Rotation(-θ) # rotate back
 Q * x # first entry is norm(x), second entry is 0
 
 
@@ -96,6 +99,7 @@ Q * x # first entry is norm(x), second entry is 0
 # \sin θ[k] & \cos θ[k]
 # \end{bmatrix}
 # $$
+# (with all other entries left unmodified).
 
 struct Rotations <: AbstractMatrix{Float64}
     θ::Vector{Float64} # a vector of angles
@@ -107,9 +111,8 @@ end
 size(Q::Rotations) = (length(Q.θ)+1, length(Q.θ)+1)
 
 function *(Q::Rotations, x::AbstractVector)
-    y = copy(x) # copies x to a new Vector 
     ## TODO: Apply Q in O(n) operations, modifying y in-place
-
+    ## Hint: you may wish to use copy(x) and only change the relevant entries.
     
 
     y
@@ -132,9 +135,20 @@ Q = Rotations(θ)
 # ### III.5.2 Reflections
 
 
-# We can also construct reflections. We do so first using the non-optimal approach of
-# create a dense matrix. 
+# We can also construct reflections, defined by a normalised vector $𝐯$ as
+# $$
+# Q_{𝐯} := I - 2𝐯𝐯^⋆
+# $$
+# The obvious way is to create a dense vector, eg.
 
+x = randn(5) # vector we want to reflect
+v = x/norm(x) # normalise x
+Q = I - 2v*v' # a reflection matrix
+
+# Note `I` is a special convenience type that represents the identity matrix for any dimension.
+
+# A special type of reflection is a Householder reflection, which maps a vector to the $x$-axis.
+# Using dense matrices we can construct it as follows:
 
 
 function dense_householderreflection(x)
@@ -171,6 +185,20 @@ function Reflection(v::Vector)
     end
     Reflection{T}(v) # create an instance of Reflection, specifying the entry type
 end
+
+
+## Implementations of Reflection * AbstractMatrix
+## You may wish to use this below to solve Problem 3.
+function *(Q::Reflection, X::AbstractMatrix)
+    T = promote_type(eltype(Q), eltype(X))
+    m,n = size(X)
+    ret = zeros(T, m, n)
+    for j = 1:n
+        ret[:,j] = Q * X[:,j]
+    end
+    ret
+end
+
 
 # -----
 
@@ -211,11 +239,10 @@ Q = Reflection(v)
 @test Q*x ≈ -x
 
 
-
-
 # **Problem 2(b)** Complete the following implementation of a Housholder reflection  so that the
 # unit tests pass, using the `Reflection` type created above.
 # Here `s == true` means the Householder reflection is sent to the positive axis and `s == false` is the negative axis.
+# You may assume `x` has real entries.
 
 function householderreflection(s::Bool, x::AbstractVector)
     ## TODO: return a Reflection corresponding to a Householder reflection
@@ -262,9 +289,29 @@ function *(Q::Reflections, x::AbstractVector)
     x
 end
 
+
+## Implementations of Reflections * AbstractMatrix
+## You may wish to use this below to solve Problem 3.
+function *(Q::Reflections, X::AbstractMatrix)
+    T = promote_type(eltype(Q), eltype(X))
+    m,n = size(X)
+    ret = zeros(T, m, n)
+    for j = 1:n
+        ret[:,j] = Q * X[:,j]
+    end
+    ret
+end
+
+
 function getindex(Q::Reflections, k::Int, j::Int)
     ## TODO: Return Q[k,j] in O(mn) operations (hint: use *)
 
+    
+end
+
+import LinearAlgebra: adjoint
+function adjoint(Q::Reflections) # called when calling Q'
+    ## TODO: return the adjoint as a Reflections
     
 end
 
@@ -272,24 +319,31 @@ Y = randn(5,3)
 V = Y * Diagonal([1/norm(Y[:,j]) for j=1:3])
 Q = Reflections(V)
 @test Q ≈ (I - 2V[:,1]*V[:,1]')*(I - 2V[:,2]*V[:,2]')*(I - 2V[:,3]*V[:,3]')
+@test Q' isa Reflections
+@test Q' ≈ (I - 2V[:,3]*V[:,3]')*(I - 2V[:,2]*V[:,2]')*(I - 2V[:,1]*V[:,1]')
 @test Q'Q ≈ I
 
 # -----
 
 
-# III.6 QR Factorisation
+# ## III.6 QR Factorisation
 
-# III.6.2 Householder reflections and QR
-
-# The proof by induction in the notes leads naturally to an iterative algorithm. Note that $\tilde Q$ is a product of all
-# Householder reflections that come afterwards, that is, we can think of $Q$ as:
+# The QR factorisation of a matrix $A ∈ ℂ^{m × n}$ is of the form
 # $$
-# Q = Q_1 \tilde Q_2 \tilde Q_3 ⋯ \tilde Q_n\qquad\hbox{for}\qquad \tilde Q_j = \begin{bmatrix} I_{j-1} \\ & Q_j \end{bmatrix}
+# A = QR
 # $$
-# where $Q_j$ is a single Householder reflection corresponding to the first column of $A_j$. 
-# This is stated cleanly in Julia code:
+# where $Q$ is unitary and $R$ is right-triangular. We focus on the case where $m ≥ n$. 
+# It can be computed using Gram–Schmidt, Householder reflections or rotations.
 
+# ### III.6.1 Reduced QR and Gram–Schmidt
 
+# The Gram–Schmidt process can be used to compute the QR decomposition by orthogonalising the columns
+# of $A$ in sequence. We won't discuss this in more detail as it is numerically better to use reflections/rotations.
+
+# ### III.6.2 Householder reflections and QR
+
+# In the notes we use Householder reflections to prove that a QR factorisartion exists.
+# The iterative proof actually encodes an algorithm, which we can implement as follows:
 
 
 function householderqr(A)
@@ -310,11 +364,11 @@ function householderqr(A)
         α,𝐰 = Q₁Aⱼ[1,1],Q₁Aⱼ[1,2:end]
         Aⱼ₊₁ = Q₁Aⱼ[2:end,2:end]
 
-        # populate returned data
+        ## populate returned data
         R[j,j] = α
         R[j,j+1:end] = 𝐰
 
-        # following is equivalent to Q = Q*[I 0 ; 0 Qⱼ]
+        ## following is equivalent to Q = Q*[I 0 ; 0 Qⱼ]
         Q[:,j:end] = Q[:,j:end]*Q₁
 
         Aⱼ = Aⱼ₊₁ # this is the "induction"
@@ -339,9 +393,6 @@ Q,R = householderqr(A)
 # **Problem 3** Complete the following function that implements
 # Householder QR for a real matrix $A ∈ ℝ^{m × n}$ where $m ≥ n$ using only $O(mn^2)$ operations, using 
 #  `Reflection` and `Reflections`.
-# Hint: We have added the overload functions `*(::Reflection, ::AbstractMatrix)` and
-# `*(::Reflections, ::AbstractMatrix)` so that they can be multiplied by an $m × n$ matrix in $O(mn)$ operations.
-
 
 function householderqr(A)
     T = eltype(A)
@@ -368,8 +419,10 @@ Q,R = householderqr(A)
 
 
 # ------ 
+# ### Given's Rotations and QR
 
-# An alternative to using reflections to introduce zeros is to use rotations.
+# An alternative to using reflections to introduce zeros is to use rotations, which
+# are called Given's Rotations.
 # This is particularly convenient for tridiagonal matrices, where one needs to only
 # make one sub-diagonal zero. Here we explore a tridiagonal QR built from rotations
 # in a way that the factorisation can be computed in $O(n)$ operations.
@@ -440,13 +493,13 @@ Q, R = bandedqr(A)
 
 
 
-# III.6.3 QR and least squares
+# ### III.6.3 QR and least squares
 
 # When we type `A \ b` with a rectangular matrix `A` it is
 # solving a least squares system. We can use the `qr` function 
 
-A = randn(600,400)
-b = randn(600)
+A = randn(200,100)
+b = randn(200)
 
 Q,R̂ = qr(A)
 
@@ -458,7 +511,7 @@ Q,R̂ = qr(A)
 
 c = Q'b # invert Q
 c̃ = c[1:size(R̂,1)] # drop extra entries
-A \ b ≈ R\c̃
+@test A \ b ≈ R\c̃
 
 # **Problem 5** Complete the function `leastsquares(A, b)` that uses your
 # `householderqr` function to solve a least squares problem.
@@ -467,3 +520,5 @@ function leastsquares(A, b)
     ## TODO: use householderqr to solve a least squares problem.
     
 end
+
+@test A\b ≈ leastsquares(A,b)
