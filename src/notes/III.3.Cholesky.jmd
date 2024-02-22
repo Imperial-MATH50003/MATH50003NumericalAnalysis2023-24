@@ -218,7 +218,7 @@ $$
 
 ∎
 
-**Theorem (subslice pos. def.)** If $A ∈ ℝ^{n × n}$ is positive definite
+**Lemma (subslice pos. def.)** If $A ∈ ℝ^{n × n}$ is positive definite
 and $𝐤 = [k_1,…,k_m]^⊤ ∈ \{1,…,n\}^m$ is a vector of $m$ integers where any integer appears only once,
  then $A[𝐤,𝐤] ∈ ℝ^{m × m}$ is also
 positive definite.

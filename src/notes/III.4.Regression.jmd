@@ -43,7 +43,7 @@ V𝐜 = \Vectt[c_0 + c_1 x_1 + ⋯ + c_{n-1} x_1^{n-1}, ⋮, c_0 + c_1 x_m + ⋯
 $$
 In the square case (where $m=n$), the coefficients of an interpolatory polynomial are given by $𝐜 = V^{-1} 𝐟$, so that
 $$
-\Vectt[p(x_1),⋮,p(x_n)] = V 𝐜 = V V^{-1} 𝐟 = \Vectt[f_1,…,f_n].
+\Vectt[p(x_1),⋮,p(x_n)] = V 𝐜 = V V^{-1} 𝐟 = \Vectt[f_1,⋮,f_n].
 $$
 This inversion is justified by the following:
 
