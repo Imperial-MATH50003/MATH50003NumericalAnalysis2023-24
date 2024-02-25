@@ -1,7 +1,7 @@
 # Orthogonal and Unitary Matrices
 
 To solve least squares problems, we will  factorise a matrix $A$ as $A = QR$
-where $R$ is a _right-triangular matrix_ and $Q$ is either an _orthogonal_ or _unitary_ matrices.
+where $R$ is a _right-triangular matrix_ and $Q$ is either an _orthogonal_ or _unitary_ matrix.
 
 **Definition (orthogonal/unitary matrix)** A square real matrix is _orthogonal_ if its inverse is its transpose:
 $$
@@ -22,19 +22,24 @@ numerical linear algebra for a number of reasons (we'll explore these properties
 1. They are norm-preserving: for any vector $𝐱 ∈ ℂ^n$ we have $\|Q 𝐱 \| = \| 𝐱\|$ where $\| 𝐱 \|^2 := ∑_{k=1}^n x_k^2$ (i.e. the 2-norm).
 2. All eigenvalues have absolute value equal to $1$.
 3. For $Q ∈ O(n)$,  $\det Q = ±1$.
-2. They are trivially invertible (just take the transpose).
-3. They are generally “stable": errors due to rounding are controlled.
+2. They are trivially invertible (just take the adjoint).
+3. They are generally “stable": errors due to rounding when multiplying a vector by $Q$ are controlled.
 4. They are _normal matrices_: they commute with their adjoint ($Q Q^⋆ = Q Q^⋆$). 
+5. $O(n)$ and $U(n)$ are groups, in particular, they are closed under multiplication.
 
 On a computer there are multiple ways of representing orthogonal/unitary matrices,
-and it is almost never to store a dense matrix, that is, we do not want to store all the entries. In the appendices we have seen permutation matrices, which
+and it is almost never to store a dense matrix, that is, we do not want to store all the entries.
+In the appendices we have seen permutation matrices, which
 are a special type of orthogonal matrices where we can store only the order the entries are permuted as a vector. 
-Here we investigate two other classes, that are important for computing QR factorisations.
+
+More generally, we will use the group structure: represent general orthogonal/unitary matrices as products of simpler
+elements of the group. In partular we will use two building blocks:
+
 
 1. _Rotations_: Rotations are equivalent to special orthogonal matrices $SO(2)$  and correspond to rotations in 2D.
-2. _Reflections_:  Reflections are $n × n$ orthogonal matrices that have simple definitions in terms of a single vector.
+2. _Reflections_:  Reflections are elements of $U(n)$ that are defined in terms of a single unit vector $𝐯 ∈ ℂ^n$ which is reflected.
 
-We remark a very similar concept are rectangular matrices with orthonormal columns, e.g.
+We remark a related concept to orthogonal/unitary matrices are rectangular matrices with orthonormal columns, e.g.
 $$
 U = [𝐮_1 | ⋯ | 𝐮_n] ∈ ℂ^{m × n}
 $$
@@ -77,7 +82,7 @@ We show $SO(2)$ are exactly equivalent to standard rotations:
 **Proposition (simple rotation)**
 A 2×2 _rotation matrix_ through angle $θ$ is
 $$
-Q_θ := \begin{bmatrix} \cos θ & -\sin θ \cr \sin θ & \cos θ \end{bmatrix}
+Q_θ := \begin{bmatrix} \cos θ & -\sin θ \cr \sin θ & \cos θ \end{bmatrix}.
 $$
 We have $Q ∈ SO(2)$ if and only if $Q = Q_θ$ for some $θ ∈ ℝ$.
 
@@ -153,6 +158,9 @@ Q_{-θ} = \begin{bmatrix}
 $$
 ∎
 
+More generally, we can consider rotations that operate on two entries of a vector at a time.
+This will be explored in the problem sheet/lab.
+
 
 ## Reflections
 
@@ -173,7 +181,8 @@ These are indeed reflections in the direction of $𝐯$. We can show this as fol
 1. Symmetry: $Q_{𝐯} = Q_{𝐯}^⋆$
 2. Orthogonality: $Q_{𝐯} ∈ U(n)$
 3. The vector $𝐯$ is an eigenvector of $Q_{𝐯}$ with eigenvalue $-1$
-4. Not a rotation: $\det Q_{𝐯} = -1$
+4. For the dimension $n-1$ space $W := \{𝐰 : 𝐰^⋆ 𝐯 = 0 \}$, all vectors $𝐰 ∈ W$ satisfy $Q_{𝐯}𝐰 = 𝐰$.
+5. Not a rotation: $\det Q_{𝐯} = -1$
 
 
 **Proof**
@@ -186,16 +195,13 @@ Property 3 follows since
 $$
 Q_{𝐯} 𝐯 = 𝐯 - 2𝐯 (𝐯^⋆𝐯) = -𝐯.
 $$
-To see property 4, note there is a dimension $n-1$ space $W$ orthogonal to $𝐯$, that is,
-$$
-W := \{𝐰 : 𝐰^⋆ 𝐯 = 0 \}.
-$$
-This implies that
+Property 4 follows from:
 $$
 Q_{𝐯} 𝐰 = 𝐰 - 2 𝐯 (𝐰^⋆ 𝐯) =  𝐰
 $$
-In other words, $1$ is an eigenvalue with multiplicity $n-1$ and $-1$ is an eigenvalue with multiplicity 1,
-and thus the determinant, which is product of the eigenvalues, is $-1$.
+Property 5 then follows: Property 4 tells us that
+$1$ is an eigenvalue with multiplicity $n-1$. Since $-1$ is an eigenvalue with multiplicity 1,
+ the determinant, which is product of the eigenvalues, is $-1$.
 
 ∎
 
@@ -206,11 +212,7 @@ We first need to normalise $𝐱$:
 $$
 𝐯 = {𝐱 \over \|𝐱\|} = \begin{bmatrix} {1 \over \sqrt{5}} \\ {2 \over \sqrt{5}} \end{bmatrix}
 $$
-Note this indeed has unit norm:
-$$
-\|𝐯\|^2 = {1 \over 5} + {4 \over 5} = 1.
-$$
-Thus the reflection matrix is:
+The reflection matrix is:
 $$
 Q_{𝐯} = I - 2 𝐯 𝐯^⊤ = \begin{bmatrix}1 \\ & 1 \end{bmatrix} - {2 \over 5} \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}
  =  {1 \over 5} \begin{bmatrix} 3 & -4 \\ -4 & -3 \end{bmatrix}
@@ -232,6 +234,7 @@ $$
 Q_{𝐯} 𝐱 = 𝐱 - 2 𝐯 (𝐯^⋆ 𝐱) = 𝐱 - 2 𝐯 (𝐯 ⋅ 𝐱).
 $$
 
+### Householder reflections
 
 Just as rotations can be used to rotate vectors to be aligned with coordinate axis, so can reflections,
 but in this case it works for vectors in $ℂ^n$, not just $ℝ^2$. We begin with the real case:

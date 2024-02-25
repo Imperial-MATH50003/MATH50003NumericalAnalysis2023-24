@@ -1,6 +1,6 @@
 
 \section{Orthogonal and Unitary Matrices}
-To solve least squares problems, we will  factorise a matrix $A$ as $A = QR$ where $R$ is a \emph{right-triangular matrix} and $Q$ is either an \emph{orthogonal} or \emph{unitary} matrices.
+To solve least squares problems, we will  factorise a matrix $A$ as $A = QR$ where $R$ is a \emph{right-triangular matrix} and $Q$ is either an \emph{orthogonal} or \emph{unitary} matrix.
 
 \begin{definition}[orthogonal/unitary matrix] A square real matrix is \emph{orthogonal} if its inverse is its transpose:
 \[
@@ -24,25 +24,33 @@ Note that $O(n) \ensuremath{\subset} U(n)$ as for real matrices $Q^\ensuremath{\
 \item[3. ] For $Q \ensuremath{\in} O(n)$,  $\det Q = \ensuremath{\pm}1$.
 
 
-\item[4. ] They are trivially invertible (just take the transpose).
+\item[4. ] They are trivially invertible (just take the adjoint).
 
 
-\item[5. ] They are generally \ensuremath{\ldq}stable": errors due to rounding are controlled.
+\item[5. ] They are generally \ensuremath{\ldq}stable": errors due to rounding when multiplying a vector by $Q$ are controlled.
 
 
 \item[6. ] They are \emph{normal matrices}: they commute with their adjoint ($Q Q^\ensuremath{\star} = Q Q^\ensuremath{\star}$). 
 
+
+\item[7. ] \[
+O(n)
+\]
+and $U(n)$ are groups, in particular, they are closed under multiplication.
+
 \end{itemize}
-On a computer there are multiple ways of representing orthogonal/unitary matrices, and it is almost never to store a dense matrix, that is, we do not want to store all the entries. In the appendices we have seen permutation matrices, which are a special type of orthogonal matrices where we can store only the order the entries are permuted as a vector.  Here we investigate two other classes, that are important for computing QR factorisations.
+On a computer there are multiple ways of representing orthogonal/unitary matrices, and it is almost never to store a dense matrix, that is, we do not want to store all the entries. In the appendices we have seen permutation matrices, which are a special type of orthogonal matrices where we can store only the order the entries are permuted as a vector. 
+
+More generally, we will use the group structure: represent general orthogonal/unitary matrices as products of simpler elements of the group. In partular we will use two building blocks:
 
 \begin{itemize}
 \item[1. ] \emph{Rotations}: Rotations are equivalent to special orthogonal matrices $SO(2)$  and correspond to rotations in 2D.
 
 
-\item[2. ] \emph{Reflections}:  Reflections are $n \ensuremath{\times} n$ orthogonal matrices that have simple definitions in terms of a single vector.
+\item[2. ] \emph{Reflections}:  Reflections are elements of $U(n)$ that are defined in terms of a single unit vector $\ensuremath{\bm{\v}} \ensuremath{\in} \ensuremath{\bbC}^n$ which is reflected.
 
 \end{itemize}
-We remark a very similar concept are rectangular matrices with orthonormal columns, e.g.
+We remark a related concept to orthogonal/unitary matrices are rectangular matrices with orthonormal columns, e.g.
 \[
 U = [\ensuremath{\bm{\u}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\u}}_n] \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}
 \]
@@ -78,7 +86,7 @@ We show $SO(2)$ are exactly equivalent to standard rotations:
 
 \begin{proposition}[simple rotation] A 2\ensuremath{\times}2 \emph{rotation matrix} through angle $\ensuremath{\theta}$ is
 \[
-Q_\ensuremath{\theta} := \begin{bmatrix} \cos \ensuremath{\theta} & -\sin \ensuremath{\theta} \cr \sin \ensuremath{\theta} & \cos \ensuremath{\theta} \end{bmatrix}
+Q_\ensuremath{\theta} := \begin{bmatrix} \cos \ensuremath{\theta} & -\sin \ensuremath{\theta} \cr \sin \ensuremath{\theta} & \cos \ensuremath{\theta} \end{bmatrix}.
 \]
 We have $Q \ensuremath{\in} SO(2)$ if and only if $Q = Q_\ensuremath{\theta}$ for some $\ensuremath{\theta} \ensuremath{\in} \ensuremath{\bbR}$.
 
@@ -144,6 +152,8 @@ Q_{-\ensuremath{\theta}} = \begin{bmatrix}
 \]
 \end{example}
 
+More generally, we can consider rotations that operate on two entries of a vector at a time. This will be explored in the problem sheet/lab.
+
 \subsection{Reflections}
 In addition to rotations, another type of orthogonal/unitary matrix are reflections. These are specified by a single vector which is reflected, with everything orthogonal to the vector left fixed. 
 
@@ -167,7 +177,10 @@ These are indeed reflections in the direction of $\ensuremath{\bm{\v}}$. We can 
 \item[3. ] The vector $\ensuremath{\bm{\v}}$ is an eigenvector of $Q_{\ensuremath{\bm{\v}}}$ with eigenvalue $-1$
 
 
-\item[4. ] Not a rotation: $\det Q_{\ensuremath{\bm{\v}}} = -1$
+\item[4. ] For the dimension $n-1$ space $W := \{\ensuremath{\bm{\w}} : \ensuremath{\bm{\w}}^\ensuremath{\star} \ensuremath{\bm{\v}} = 0 \}$, all vectors $\ensuremath{\bm{\w}} \ensuremath{\in} W$ satisfy $Q_{\ensuremath{\bm{\v}}}\ensuremath{\bm{\w}} = \ensuremath{\bm{\w}}$.
+
+
+\item[5. ] Not a rotation: $\det Q_{\ensuremath{\bm{\v}}} = -1$
 
 \end{itemize}
 \end{proposition}
@@ -181,15 +194,11 @@ Property 3 follows since
 \[
 Q_{\ensuremath{\bm{\v}}} \ensuremath{\bm{\v}} = \ensuremath{\bm{\v}} - 2\ensuremath{\bm{\v}} (\ensuremath{\bm{\v}}^\ensuremath{\star}\ensuremath{\bm{\v}}) = -\ensuremath{\bm{\v}}.
 \]
-To see property 4, note there is a dimension $n-1$ space $W$ orthogonal to $\ensuremath{\bm{\v}}$, that is,
-\[
-W := \{\ensuremath{\bm{\w}} : \ensuremath{\bm{\w}}^\ensuremath{\star} \ensuremath{\bm{\v}} = 0 \}.
-\]
-This implies that
+Property 4 follows from:
 \[
 Q_{\ensuremath{\bm{\v}}} \ensuremath{\bm{\w}} = \ensuremath{\bm{\w}} - 2 \ensuremath{\bm{\v}} (\ensuremath{\bm{\w}}^\ensuremath{\star} \ensuremath{\bm{\v}}) =  \ensuremath{\bm{\w}}
 \]
-In other words, $1$ is an eigenvalue with multiplicity $n-1$ and $-1$ is an eigenvalue with multiplicity 1, and thus the determinant, which is product of the eigenvalues, is $-1$.
+Property 5 then follows: Property 4 tells us that $1$ is an eigenvalue with multiplicity $n-1$. Since $-1$ is an eigenvalue with multiplicity 1,  the determinant, which is product of the eigenvalues, is $-1$.
 
 \ensuremath{\QED}
 
@@ -197,11 +206,7 @@ In other words, $1$ is an eigenvalue with multiplicity $n-1$ and $-1$ is an eige
 \[
 \ensuremath{\bm{\v}} = {\ensuremath{\bm{\x}} \over \|\ensuremath{\bm{\x}}\|} = \begin{bmatrix} {1 \over \sqrt{5}} \\ {2 \over \sqrt{5}} \end{bmatrix}
 \]
-Note this indeed has unit norm:
-\[
-\|\ensuremath{\bm{\v}}\|^2 = {1 \over 5} + {4 \over 5} = 1.
-\]
-Thus the reflection matrix is:
+The reflection matrix is:
 \[
 Q_{\ensuremath{\bm{\v}}} = I - 2 \ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\top} = \begin{bmatrix}1 \\ & 1 \end{bmatrix} - {2 \over 5} \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}
  =  {1 \over 5} \begin{bmatrix} 3 & -4 \\ -4 & -3 \end{bmatrix}
@@ -220,6 +225,7 @@ Note that \emph{building} the matrix $Q_{\ensuremath{\bm{\v}}}$ will be expensiv
 \[
 Q_{\ensuremath{\bm{\v}}} \ensuremath{\bm{\x}} = \ensuremath{\bm{\x}} - 2 \ensuremath{\bm{\v}} (\ensuremath{\bm{\v}}^\ensuremath{\star} \ensuremath{\bm{\x}}) = \ensuremath{\bm{\x}} - 2 \ensuremath{\bm{\v}} (\ensuremath{\bm{\v}} \ensuremath{\cdot} \ensuremath{\bm{\x}}).
 \]
+\subsubsection{Householder reflections}
 Just as rotations can be used to rotate vectors to be aligned with coordinate axis, so can reflections, but in this case it works for vectors in $\ensuremath{\bbC}^n$, not just $\ensuremath{\bbR}^2$. We begin with the real case:
 
 \begin{definition}[Householder reflection, real case] For a given vector $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^n$, define the Householder reflection
