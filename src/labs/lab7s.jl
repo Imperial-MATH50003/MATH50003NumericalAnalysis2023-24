@@ -71,14 +71,14 @@ function getindex(Q::Rotation, k::Int, j::Int)
     ## We use the overloaded * above as we will follow this pattern later.
     e_k = zeros(2)
     e_j = zeros(2)
-    e_k[k] = 1  # will error if k ≠ 0,1
-    e_j[j] = 1  # will error if j ≠ 0,1
+    e_k[k] = 1  # will error if k ≠ 1 or 2
+    e_j[j] = 1  # will error if j ≠ 1 or 2
     e_k'*(Q*e_j)
 end
 
 Q = Rotation(0.1)
 
-# We can test the ability to rotate a vector to the $x$-axis. Here we use the `atan(y,x)` function
+# We can test the ability to rotate a vector to the $x$-axis. Here we use the inbuilt `atan(y,x)` function
 # to compute the angle of a vector:
 
 
@@ -99,7 +99,7 @@ Q * x # first entry is norm(x), second entry is 0
 # \sin θ[k] & \cos θ[k]
 # \end{bmatrix}
 # $$
-# (with all other entries left unmodified).
+# with all other entries being equivalent to the identity.
 
 struct Rotations <: AbstractMatrix{Float64}
     θ::Vector{Float64} # a vector of angles
@@ -111,8 +111,8 @@ end
 size(Q::Rotations) = (length(Q.θ)+1, length(Q.θ)+1)
 
 function *(Q::Rotations, x::AbstractVector)
-    ## TODO: Apply Q in O(n) operations, modifying y in-place
-    ## Hint: you may wish to use copy(x) and only change the relevant entries.
+    ## TODO: Apply Q in O(n) operations. You may assume x has Float64 entries.
+    ## Hint: you may wish to use copy(x) and only change the relevant entries. 
     ## SOLUTION
     y = copy(x) # copies x to a new Vector 
     θ = Q.θ
@@ -381,17 +381,17 @@ Q = Reflections(V)
 # $$
 # A = QR
 # $$
-# where $Q$ is unitary and $R$ is right-triangular. We focus on the case where $m ≥ n$. 
+# where $Q$ is unitary and $R$ is right-triangular: all entries below the diagonal are zero. We focus on the case where $m ≥ n$. 
 # It can be computed using Gram–Schmidt, Householder reflections or rotations.
 
 # ### III.6.1 Reduced QR and Gram–Schmidt
 
-# The Gram–Schmidt process can be used to compute the QR decomposition by orthogonalising the columns
+# The Gram–Schmidt process can be used to compute the QR factorisation by orthogonalising the columns
 # of $A$ in sequence. We won't discuss this in more detail as it is numerically better to use reflections/rotations.
 
 # ### III.6.2 Householder reflections and QR
 
-# In the notes we use Householder reflections to prove that a QR factorisartion exists.
+# In the notes we use Householder reflections to prove that a QR factorisation exists.
 # The iterative proof actually encodes an algorithm, which we can implement as follows:
 
 
@@ -409,9 +409,8 @@ function householderqr(A)
     for j = 1:n
         𝐚₁ = Aⱼ[:,1] # first columns of Aⱼ
         Q₁ = dense_householderreflection(𝐚₁)
-        Q₁Aⱼ = Q₁*Aⱼ
+        Q₁Aⱼ = Q₁*Aⱼ # multiply Aⱼ by the Householder reflection
         α,𝐰 = Q₁Aⱼ[1,1],Q₁Aⱼ[1,2:end]
-        Aⱼ₊₁ = Q₁Aⱼ[2:end,2:end]
 
         ## populate returned data
         R[j,j] = α
@@ -420,7 +419,7 @@ function householderqr(A)
         ## following is equivalent to Q = Q*[I 0 ; 0 Qⱼ]
         Q[:,j:end] = Q[:,j:end]*Q₁
 
-        Aⱼ = Aⱼ₊₁ # this is the "induction"
+        Aⱼ = Q₁Aⱼ[2:end,2:end] # this is the "induction"
     end
     Q,R
 end
@@ -455,8 +454,8 @@ function householderqr(A)
     Aⱼ = copy(A)
 
     for j = 1:n
-        ## TODO: rewrite householder QR to use Reflection and
-        ## Reflections, in a way that one achieves O(mn^2) operations
+        ## TODO: rewrite householder QR to use Reflection,
+        ## Reflections and householderreflection, in a way that one achieves O(mn^2) operations
         ## SOLUTION
         𝐚₁ = Aⱼ[:,1] # first columns of Aⱼ
         Q₁ = householderreflection(𝐚₁[1] < 0, 𝐚₁)
@@ -580,7 +579,8 @@ Q, R = bandedqr(A)
 # ### III.6.3 QR and least squares
 
 # When we type `A \ b` with a rectangular matrix `A` it is
-# solving a least squares system. We can use the `qr` function 
+# solving a least squares system, and behind the scenes it is using a QR factorisation.
+# We can see this via the inbulit `qr` function 
 
 A = randn(200,100)
 b = randn(200)

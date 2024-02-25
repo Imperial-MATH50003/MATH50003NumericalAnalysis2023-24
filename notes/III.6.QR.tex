@@ -12,36 +12,35 @@ where $Q$ is unitary (i.e., $Q \ensuremath{\in} U(m)$, satisfying $Q^\ensuremath
 \[
 A = \hat Q \hat R = \underbrace{\begin{bmatrix} \ensuremath{\bm{\q}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\q}}_n \end{bmatrix}}_{ \hat Q \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}} \underbrace{\begin{bmatrix} \ensuremath{\times} & \ensuremath{\cdots} & \ensuremath{\times} \\ & \ensuremath{\ddots} & \ensuremath{\vdots} \\ && \ensuremath{\times}  \end{bmatrix}}_{\hat R \ensuremath{\in} \ensuremath{\bbC}^{n \ensuremath{\times} n}}
 \]
-where $Q$ has orthonormal columns ($Q^\ensuremath{\star} Q = I$, $\ensuremath{\bm{\q}}_j \ensuremath{\in} \ensuremath{\bbC}^m$) and $\hat R$ is upper triangular. \end{definition}
+where $\hat Q$ has orthonormal columns ($\hat Q^\ensuremath{\star} \hat Q = I$, $\ensuremath{\bm{\q}}_j \ensuremath{\in} \ensuremath{\bbC}^m$) and $\hat R$ is upper triangular. \end{definition}
 
-Note for a square matrix the reduced QR factorisation is equivalent to the QR factorisation, in which case $R$ is \emph{upper triangular}. The importance of these decomposition for square matrices is that their component pieces are easy to invert:
+Note for a square matrix the reduced QR factorisation is equivalent to the QR factorisation, in which case $R$ is \emph{upper triangular}. The importance of these factorisation for square matrices is that their component pieces are easy to invert:
 \[
 A = QR \qquad \ensuremath{\Rightarrow} \qquad A^{-1}\ensuremath{\bm{\b}} = R^{-1} Q^\ensuremath{\top} \ensuremath{\bm{\b}}
 \]
 and we saw previously that triangular and orthogonal matrices are easy to invert when applied to a vector $\ensuremath{\bm{\b}}$.
 
-For rectangular matrices we will see that they lead to efficient solutions to the \emph{least squares problem}: find $\ensuremath{\bm{\x}}$ that minimizes the 2-norm
-\[
-\| A \ensuremath{\bm{\x}} - \ensuremath{\bm{\b}} \|.
-\]
-Note in the rectangular case the QR decomposition contains within it the reduced QR decomposition:
+For rectangular matrices we will see that the QR factorisation leads to efficient solutions to the \emph{least squares problem}: find $\ensuremath{\bm{\x}}$ that minimizes the 2-norm $\| A \ensuremath{\bm{\x}} - \ensuremath{\bm{\b}} \|.$ Note in the rectangular case the QR factorisation contains within it the reduced QR factorisation:
 \[
 A = QR = \begin{bmatrix} \hat Q | \ensuremath{\bm{\q}}_{n+1} | \ensuremath{\cdots} | \ensuremath{\bm{\q}}_m \end{bmatrix} \begin{bmatrix} \hat R \\  \ensuremath{\bm{\zero}}_{m-n \ensuremath{\times} n} \end{bmatrix} = \hat Q \hat R.
 \]
-In this chapter we discuss the followng:
+In this chapter we discuss the following:
 
 \begin{itemize}
-\item[1. ] Reduced QR and Gram\ensuremath{\endash}Schmidt: We discuss computation of the Reduced QR decomposition using Gram\ensuremath{\endash}Schmidt.
+\item[1. ] Reduced QR and Gram\ensuremath{\endash}Schmidt: We discuss computation of the Reduced QR factorisation using Gram\ensuremath{\endash}Schmidt.
 
 
-\item[2. ] Householder reflections and QR: We discuss computing the  QR decomposition using Householder reflections.
+\item[2. ] Householder reflections and QR: We discuss computing the  QR factorisation using Householder reflections. This is a more accurate approach
 
+\end{itemize}
+for computing QR factorisations.
 
-\item[3. ] QR and least squares: We discuss the QR decomposition and its usage in solving least squares problems.
+\begin{itemize}
+\item[3. ] QR and least squares: We discuss the QR factorisation and its usage in solving least squares problems.
 
 \end{itemize}
 \subsection{Reduced QR and Gram\ensuremath{\endash}Schmidt}
-How do we compute the QR decomposition? We begin with a method you may have seen before in another guise. Write
+How do we compute the QR factorisation? We begin with a method you may have seen before in another guise. Write
 \[
 A = \begin{bmatrix} \ensuremath{\bm{\a}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\a}}_n \end{bmatrix}
 \]
@@ -71,7 +70,7 @@ It is possible to find $\hat Q$ and $\hat R$ the  using the \emph{Gram\ensuremat
 r_{jj} &:= {\|\ensuremath{\bm{\v}}_j\|} \\
 \ensuremath{\bm{\q}}_j &:= {\ensuremath{\bm{\v}}_j \over r_{jj}}
 \end{align*}
-\textbf{Theorem (Gram\ensuremath{\endash}Schmidt and reduced QR)} Define $\ensuremath{\bm{\q}}_j$ and $r_{kj}$ as above (with $r_{kj} = 0$ if $k > j$). Then a reduced QR decomposition is given by:
+\textbf{Theorem (Gram\ensuremath{\endash}Schmidt and reduced QR)} Define $\ensuremath{\bm{\q}}_j$ and $r_{kj}$ as above (with $r_{kj} = 0$ if $k > j$). Then a reduced QR factorisation is given by:
 \[
 A = \underbrace{\begin{bmatrix} \ensuremath{\bm{\q}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\q}}_n \end{bmatrix}}_{ \hat Q \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}} \underbrace{\begin{bmatrix} r_{11} & \ensuremath{\cdots} & r_{1n} \\ & \ensuremath{\ddots} & \ensuremath{\vdots} \\ && r_{nn}  \end{bmatrix}}_{\hat R \ensuremath{\in} \ensuremath{\bbC}^{n \ensuremath{\times} n}}
 \]
@@ -120,22 +119,22 @@ where $Q \ensuremath{\in} U(m)$ and $R \ensuremath{\in} \ensuremath{\bbC}^{m \en
 
 First assume $m \ensuremath{\geq} n$. If $A = [\ensuremath{\bm{\a}}_1] \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} 1}$ then we have for the Householder reflection $Q_1 = Q_{\ensuremath{\bm{\a}}_1}^{\rm H}$
 \[
-Q_1 A = [\ensuremath{\alpha} \ensuremath{\bm{\e}}_1]
+Q_1 A = \ensuremath{\alpha} \ensuremath{\bm{\e}}_1
 \]
-which is right triangular, where $\ensuremath{\alpha} = -{\rm sign}(a_{11}) \|\ensuremath{\bm{\a}}_1\|$.  In other words 
+which is right triangular, where $\ensuremath{\alpha} = -{\rm csign}(a_{11}) \|\ensuremath{\bm{\a}}_1\|$.  In other words 
 \[
-A = \underbrace{Q_1}_Q \underbrace{[\ensuremath{\alpha} \ensuremath{\bm{\e}}_1]}_R.
+A = \underbrace{Q_1}_Q \underbrace{\ensuremath{\alpha} \ensuremath{\bm{\e}}_1}_R.
 \]
 For $n > 1$, assume every matrix with less columns than $n$ has a QR factorisation. For $A = [\ensuremath{\bm{\a}}_1|\ensuremath{\ldots}|\ensuremath{\bm{\a}}_n] \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$, let $Q_1 = Q_{\ensuremath{\bm{\a}}_1}^{\rm H}$ so that
 \[
-Q_1 A =  \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\ & A_2 \end{bmatrix}
+Q_1 A =  \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\ & A_2 \end{bmatrix}.
 \]
-where $A_2 = (Q_1 A)[2:m,2:n]$ and $\ensuremath{\bm{\w}} = (Q_1 A)[1,2:n]$. By assumption $A_2 = Q_2 R_2$. Thus we have
+By assumption $A_2 = Q_2 R_2$. Thus we have (recalling that $Q_1^{-1} = Q_1^\ensuremath{\star} = Q_1$):
 \begin{align*}
 A = Q_1 \begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\ & Q_2 R_2 \end{bmatrix} \\
 =\underbrace{Q_1 \begin{bmatrix} 1 \\ & Q_2 \end{bmatrix}}_Q  \underbrace{\begin{bmatrix} \ensuremath{\alpha} & \ensuremath{\bm{\w}}^\ensuremath{\top} \\ &  R_2 \end{bmatrix}}_R.
 \end{align*}
-If $A$ has more columns then rows, write 
+If $m < n$, i.e., $A$ has more columns then rows, write 
 \[
 A = \begin{bmatrix} \At & B \end{bmatrix}
 \]
@@ -239,7 +238,7 @@ Q := Q_1 \tilde Q_2 \tilde Q_3 =  \begin{bmatrix}
 \subsection{QR and least squares}
 We consider rectangular matrices with more rows than columns. Given $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ and $\ensuremath{\bm{\b}} \ensuremath{\in} \ensuremath{\bbC}^m$, least squares consists of finding a vector $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbC}^n$ that minimises the 2-norm: $\| A \ensuremath{\bm{\x}} - \ensuremath{\bm{\b}} \|$.
 
-\begin{theorem}[least squares via QR] Suppose $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ has full rank. Given a QR decomposition $A = Q R$ then
+\begin{theorem}[least squares via QR] Suppose $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ has full rank. Given a reduced QR factorisation $A = Q R$ then
 \[
 \ensuremath{\bm{\x}} = \hat R^{-1} \hat Q^\ensuremath{\star} \ensuremath{\bm{\b}}
 \]

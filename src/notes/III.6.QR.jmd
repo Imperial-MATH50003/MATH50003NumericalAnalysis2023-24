@@ -16,22 +16,19 @@ is only nonzero on or to the right of the diagonal ($r_{kj} = 0$ if $k > j$).
 $$
 A = \hat Q \hat R = \underbrace{\begin{bmatrix} 𝐪_1 | ⋯ | 𝐪_n \end{bmatrix}}_{ \hat Q ∈ ℂ^{m × n}} \underbrace{\begin{bmatrix} × & ⋯ & × \\ & ⋱ & ⋮ \\ && ×  \end{bmatrix}}_{\hat R ∈ ℂ^{n × n}}
 $$
-where $Q$ has orthonormal columns ($Q^⋆ Q = I$, $𝐪_j ∈ ℂ^m$) and $\hat R$ is upper triangular.
+where $\hat Q$ has orthonormal columns ($\hat Q^⋆ \hat Q = I$, $𝐪_j ∈ ℂ^m$) and $\hat R$ is upper triangular.
 ∎
 
 Note for a square matrix the reduced QR factorisation is equivalent to the QR factorisation, in which case $R$ is _upper triangular_.
-The importance of these decomposition for square matrices is that their component pieces are easy to invert:
+The importance of these factorisation for square matrices is that their component pieces are easy to invert:
 $$
 A = QR \qquad ⇒ \qquad A^{-1}𝐛 = R^{-1} Q^⊤ 𝐛
 $$
 and we saw previously that triangular and orthogonal matrices are easy to invert when applied to a vector $𝐛$.
 
-For rectangular matrices we will see that they lead to efficient solutions to the _least squares problem_: find
-$𝐱$ that minimizes the 2-norm
-$$
-\| A 𝐱 - 𝐛 \|.
-$$
-Note in the rectangular case the QR decomposition contains within it the reduced QR decomposition:
+For rectangular matrices we will see that the QR factorisation leads to efficient solutions to the _least squares problem_: find
+$𝐱$ that minimizes the 2-norm $\| A 𝐱 - 𝐛 \|.$
+Note in the rectangular case the QR factorisation contains within it the reduced QR factorisation:
 $$
 A = QR = \begin{bmatrix} \hat Q | 𝐪_{n+1} | ⋯ | 𝐪_m \end{bmatrix} \begin{bmatrix} \hat R \\  𝟎_{m-n × n} \end{bmatrix} = \hat Q \hat R.
 $$
@@ -39,17 +36,18 @@ $$
 
 
 
-In this chapter we discuss the followng:
+In this chapter we discuss the following:
 
-1. Reduced QR and Gram–Schmidt: We discuss computation of the Reduced QR decomposition using Gram–Schmidt.
-2. Householder reflections and QR: We discuss computing the  QR decomposition using Householder reflections.
-3. QR and least squares: We discuss the QR decomposition and its usage in solving least squares problems.
+1. Reduced QR and Gram–Schmidt: We discuss computation of the Reduced QR factorisation using Gram–Schmidt.
+2. Householder reflections and QR: We discuss computing the  QR factorisation using Householder reflections. This is a more accurate approach
+for computing QR factorisations.
+3. QR and least squares: We discuss the QR factorisation and its usage in solving least squares problems.
 
 
 ## Reduced QR and Gram–Schmidt
 
 
-How do we compute the QR decomposition? We begin with a method
+How do we compute the QR factorisation? We begin with a method
 you may have seen before in another guise. Write
 $$
 A = \begin{bmatrix} 𝐚_1 | ⋯ | 𝐚_n \end{bmatrix}
@@ -92,7 +90,7 @@ r_{jj} &:= {\|𝐯_j\|} \\
 $$
 
 **Theorem (Gram–Schmidt and reduced QR)** Define $𝐪_j$ and $r_{kj}$ as above
-(with $r_{kj} = 0$ if $k > j$). Then a reduced QR decomposition is given by:
+(with $r_{kj} = 0$ if $k > j$). Then a reduced QR factorisation is given by:
 $$
 A = \underbrace{\begin{bmatrix} 𝐪_1 | ⋯ | 𝐪_n \end{bmatrix}}_{ \hat Q ∈ ℂ^{m × n}} \underbrace{\begin{bmatrix} r_{11} & ⋯ & r_{1n} \\ & ⋱ & ⋮ \\ && r_{nn}  \end{bmatrix}}_{\hat R ∈ ℂ^{n × n}}
 $$
@@ -155,20 +153,20 @@ where $Q ∈ U(m)$ and $R ∈ ℂ^{m × n}$ is right triangular.
 First assume $m ≥ n$. If $A = [𝐚_1] ∈ ℂ^{m × 1}$ then we have for the Householder
 reflection $Q_1 = Q_{𝐚_1}^{\rm H}$
 $$
-Q_1 A = [α 𝐞_1]
+Q_1 A = α 𝐞_1
 $$
-which is right triangular, where $α = -{\rm sign}(a_{11}) \|𝐚_1\|$. 
+which is right triangular, where $α = -{\rm csign}(a_{11}) \|𝐚_1\|$. 
 In other words 
 $$
-A = \underbrace{Q_1}_Q \underbrace{[α 𝐞_1]}_R.
+A = \underbrace{Q_1}_Q \underbrace{α 𝐞_1}_R.
 $$
 
 For $n > 1$, assume every matrix with less columns than $n$ has a QR factorisation.
 For $A = [𝐚_1|…|𝐚_n] ∈ ℂ^{m × n}$, let $Q_1 = Q_{𝐚_1}^{\rm H}$ so that
 $$
-Q_1 A =  \begin{bmatrix} α & 𝐰^⊤ \\ & A_2 \end{bmatrix}
+Q_1 A =  \begin{bmatrix} α & 𝐰^⊤ \\ & A_2 \end{bmatrix}.
 $$
-where $A_2 = (Q_1 A)[2:m,2:n]$ and $𝐰 = (Q_1 A)[1,2:n]$. By assumption $A_2 = Q_2 R_2$. Thus we have
+By assumption $A_2 = Q_2 R_2$. Thus we have (recalling that $Q_1^{-1} = Q_1^⋆ = Q_1$):
 $$
 \begin{align*}
 A = Q_1 \begin{bmatrix} α & 𝐰^⊤ \\ & Q_2 R_2 \end{bmatrix} \\
@@ -176,7 +174,7 @@ A = Q_1 \begin{bmatrix} α & 𝐰^⊤ \\ & Q_2 R_2 \end{bmatrix} \\
 \end{align*}
 $$
 
-If $A$ has more columns then rows, write 
+If $m < n$, i.e., $A$ has more columns then rows, write 
 $$
 A = \begin{bmatrix} \At & B \end{bmatrix}
 $$
@@ -287,7 +285,7 @@ We consider rectangular matrices with more rows than columns. Given $A ∈ ℂ^{
 least squares consists of finding a vector $𝐱 ∈ ℂ^n$ that minimises the 2-norm: $\| A 𝐱 - 𝐛 \|$.
 
 
-**Theorem (least squares via QR)** Suppose $A ∈ ℂ^{m × n}$ has full rank. Given a QR decomposition $A = Q R$
+**Theorem (least squares via QR)** Suppose $A ∈ ℂ^{m × n}$ has full rank. Given a reduced QR factorisation $A = Q R$
 then
 $$
 𝐱 = \hat R^{-1} \hat Q^⋆ 𝐛

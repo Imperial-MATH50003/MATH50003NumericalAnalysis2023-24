@@ -1,14 +1,11 @@
-**Numerical Analysis MATH50003 (2023–24) Problem Sheet 6**
+**Numerical Analysis MATH50003 (2023–24) Problem Sheet 7**
 
-**Problem 1(a)** Show for a unitary matrix $Q ∈ U(n)$ and a vector $𝐱 ∈ ℂ^n$ that multiplication by $Q$ preserve the 2-norm:
-$$
-\|Q 𝐱\| = \|𝐱\|.
-$$
+**Problem 1(a)** Show for a unitary matrix $Q ∈ U(n)$ and a vector $𝐱 ∈ ℂ^n$ that multiplication by $Q$ preserve the 2-norm: $\|Q 𝐱\| = \|𝐱\|.$
 
 
 
 **Problem 1(b)** Show that the eigenvalues $λ$ of a unitary matrix $Q$ are
-on the unit circle: $|λ| = 1$. Hint: recall for any eigenvalue $λ$ that there exists a unit vector
+on the unit circle: $|λ| = 1$. Hint: recall for any eigenvalue $λ$ that there exists a unit eigenvector
 $𝐯 ∈ ℂ^n$ (satisfying $\| 𝐯 \| = 1$). 
 
 
@@ -57,7 +54,7 @@ $$
 Q  = \underbrace{\begin{bmatrix} \cos θ_2 & & -\sin θ_2  \\ & 1 \\
 \sin θ_2  & & \cos θ_2  \end{bmatrix}}_{Q_2} \underbrace{\begin{bmatrix} \cos θ_1 & -\sin θ_1  \\ \sin θ_1 & \cos θ_1 \\ && 1 \end{bmatrix}}_{Q_1}
 $$
-so that, for $𝐚$ defined in 1.1, 
+so that, for $𝐚$ defined above,
 $$
 Q 𝐚  = \begin{bmatrix} \|𝐚\| \\ 0 \\ 0 \end{bmatrix}.
 $$
