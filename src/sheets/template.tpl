@@ -56,6 +56,8 @@
 \def\y{ {\vc y} }
 \def\z{ {\vc z} }
 
+\def\Ut{ {\tilde U} }
+
 \def\red#1{ {\color{red} #1} }
 \def\blue#1{ {\color{blue} #1} }
 \def\green#1{ {\color{ForestGreen} #1} }

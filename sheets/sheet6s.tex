@@ -1,0 +1,583 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage[usenames,dvipsnames]{xcolor}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.2ex}
+
+
+
+
+\hypersetup
+       {   pdfauthor = {  },
+           pdftitle={  },
+           colorlinks=TRUE,
+           linkcolor=black,
+           citecolor=blue,
+           urlcolor=blue
+       }
+
+
+
+
+\usepackage{upquote}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    upquote=true,
+    breaklines=true,
+    breakindent=0pt,
+    keepspaces=true,
+    showspaces=false,
+    columns=fullflexible,
+    showtabs=false,
+    showstringspaces=false,
+    escapeinside={(*@}{@*)},
+    extendedchars=true,
+}
+\newcommand{\HLJLt}[1]{#1}
+\newcommand{\HLJLw}[1]{#1}
+\newcommand{\HLJLe}[1]{#1}
+\newcommand{\HLJLeB}[1]{#1}
+\newcommand{\HLJLo}[1]{#1}
+\newcommand{\HLJLk}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkc}[1]{\textcolor[RGB]{59,151,46}{\textit{#1}}}
+\newcommand{\HLJLkd}[1]{\textcolor[RGB]{214,102,97}{\textit{#1}}}
+\newcommand{\HLJLkn}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkp}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkr}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkt}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLn}[1]{#1}
+\newcommand{\HLJLna}[1]{#1}
+\newcommand{\HLJLnb}[1]{#1}
+\newcommand{\HLJLnbp}[1]{#1}
+\newcommand{\HLJLnc}[1]{#1}
+\newcommand{\HLJLncB}[1]{#1}
+\newcommand{\HLJLnd}[1]{\textcolor[RGB]{214,102,97}{#1}}
+\newcommand{\HLJLne}[1]{#1}
+\newcommand{\HLJLneB}[1]{#1}
+\newcommand{\HLJLnf}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnfm}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnp}[1]{#1}
+\newcommand{\HLJLnl}[1]{#1}
+\newcommand{\HLJLnn}[1]{#1}
+\newcommand{\HLJLno}[1]{#1}
+\newcommand{\HLJLnt}[1]{#1}
+\newcommand{\HLJLnv}[1]{#1}
+\newcommand{\HLJLnvc}[1]{#1}
+\newcommand{\HLJLnvg}[1]{#1}
+\newcommand{\HLJLnvi}[1]{#1}
+\newcommand{\HLJLnvm}[1]{#1}
+\newcommand{\HLJLl}[1]{#1}
+\newcommand{\HLJLld}[1]{\textcolor[RGB]{148,91,176}{\textit{#1}}}
+\newcommand{\HLJLs}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsa}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsb}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsc}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsd}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdC}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLse}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLsh}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsi}[1]{#1}
+\newcommand{\HLJLso}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsr}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLss}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLssB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLnB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnbB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnfB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnh}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLni}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnil}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnoB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLoB}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLow}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLp}[1]{#1}
+\newcommand{\HLJLc}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLch}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcm}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcp}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcpB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcs}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcsB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLg}[1]{#1}
+\newcommand{\HLJLgd}[1]{#1}
+\newcommand{\HLJLge}[1]{#1}
+\newcommand{\HLJLgeB}[1]{#1}
+\newcommand{\HLJLgh}[1]{#1}
+\newcommand{\HLJLgi}[1]{#1}
+\newcommand{\HLJLgo}[1]{#1}
+\newcommand{\HLJLgp}[1]{#1}
+\newcommand{\HLJLgs}[1]{#1}
+\newcommand{\HLJLgsB}[1]{#1}
+\newcommand{\HLJLgt}[1]{#1}
+
+
+\def\endash{–}
+\def\bbD{ {\mathbb D} }
+\def\bbZ{ {\mathbb Z} }
+\def\bbR{ {\mathbb R} }
+\def\bbC{ {\mathbb C} }
+
+\def\x{ {\vc x} }
+\def\a{ {\vc a} }
+\def\b{ {\vc b} }
+\def\e{ {\vc e} }
+\def\f{ {\vc f} }
+\def\u{ {\vc u} }
+\def\v{ {\vc v} }
+\def\y{ {\vc y} }
+\def\z{ {\vc z} }
+
+\def\Ut{ {\tilde U} }
+
+\def\red#1{ {\color{red} #1} }
+\def\blue#1{ {\color{blue} #1} }
+\def\green#1{ {\color{ForestGreen} #1} }
+\def\magenta#1{ {\color{magenta} #1} }
+
+\input{somacros}
+
+\begin{document}
+
+
+
+\textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Problem Sheet 6}
+
+\textbf{Problem 1} By computing the Cholesky factorisation, determine which of the following matrices are symmetric positive definite:
+\[
+\begin{bmatrix} 1 & -1  \\
+-1 & 3
+\end{bmatrix}, \begin{bmatrix} 1 & 2 & 2  \\
+2 & 1 & 2\\
+2 & 2 & 1
+\end{bmatrix}, \begin{bmatrix} 3 & 2 & 1  \\
+2 & 4 & 2\\
+1 & 2 & 5
+\end{bmatrix},
+\begin{bmatrix} 4 & 2 & 2 & 1  \\
+2 & 4 & 2 & 2\\
+2 & 2 & 4 & 2 \\
+1 & 2 & 2 & 4
+\end{bmatrix}
+\]
+\textbf{SOLUTION}
+
+A matrix is symmetric positive definite (SPD) if and only if it has a Cholesky factorisation, so the task here is really just to compute Cholesky factorisations (by hand). Since our goal is to tell if the Cholesky factorisations exist, we do not have to compute $L_k$'s. We only need to see if the factorisation process can continue to the end.
+
+\emph{Matrix 1}
+\[
+A_0=\begin{bmatrix} 1 & -1  \\
+-1 & 3
+\end{bmatrix}
+\]
+and     $A_1=3-\frac{(-1)\ensuremath{\times}(-1)}{1}>0$, so Matrix 1 is SPD.
+
+\emph{Matrix 2}
+\[
+A_0=\begin{bmatrix}
+1 & 2 & 2 \\
+2 & 1 & 2 \\
+2 & 2 & 1
+\end{bmatrix}
+\]
+Then
+\[
+A_1=\begin{bmatrix}
+1&2\\
+2&1
+\end{bmatrix}-\begin{bmatrix} 2 \\ 2 \end{bmatrix}\begin{bmatrix} 2 & 2 \end{bmatrix}=
+\begin{bmatrix}
+-3&-2\\
+-2&-3
+\end{bmatrix}
+\]
+and finally $A_1[1,1] \ensuremath{\leq} 0$, so Matrix 2 is not SPD.
+
+\emph{Matrix 3}
+\[
+A_0=\begin{bmatrix}
+3 & 2 & 1 \\
+2 & 4 & 2 \\
+1 & 2 & 5
+\end{bmatrix}
+\]
+and then
+\[
+A_1=
+\begin{bmatrix}
+4&2\\
+2&5
+\end{bmatrix}-\frac{1}{3}\begin{bmatrix} 2 \\ 1 \end{bmatrix}\begin{bmatrix} 2 & 1 \end{bmatrix}=\frac{1}{3}
+\begin{bmatrix}
+8&4\\
+4&14
+\end{bmatrix}
+\]
+and finally $3A_2=14-\frac{4\ensuremath{\times} 4}{8} = 12 >0$, so Matrix 3 is SPD.
+
+\emph{Matrix 4}
+\[
+A_0=\begin{bmatrix}
+4 & 2 & 2 & 1 \\
+2 & 4 & 2 & 2 \\
+2 & 2 & 4 & 2 \\
+1 & 2 & 2 & 4
+\end{bmatrix}
+\]
+and then
+\[
+A_1=\begin{bmatrix}
+4&2&2\\
+2&4&2\\
+2&2&4
+\end{bmatrix}-\frac{1}{4}\begin{bmatrix} 2 \\ 2 \\ 1 \end{bmatrix}\begin{bmatrix} 2 & 2 & 1 \end{bmatrix}=\frac{1}{4}
+\begin{bmatrix}
+12&4&6\\
+4&12&6\\
+6&6&15
+\end{bmatrix}
+\]
+Furthermore
+\[
+4A_2=\begin{bmatrix}
+12&6\\
+6&15
+\end{bmatrix}-\frac{1}{12}\begin{bmatrix} 4 \\ 6 \end{bmatrix}\begin{bmatrix} 4 & 6 \end{bmatrix}=\frac{4}{3}
+\begin{bmatrix}
+8&3\\
+3&9
+\end{bmatrix}
+\]
+and finally $3A_3=9-\frac{3\ensuremath{\times} 3}{8}>0$, so Matrix 4 is SPD.
+
+\textbf{END}
+
+\textbf{Problem 2} Show that a matrix $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is symmetric positive definite if and only if it has a \emph{reverse} Cholesky factorisation of the form
+\[
+A = U U^\ensuremath{\top}
+\]
+where $U$ is upper triangular with positive entries on the diagonal.
+
+\textbf{SOLUTION}
+
+Note $\ensuremath{\bm{\x}}^\ensuremath{\top} U U^\ensuremath{\top} \ensuremath{\bm{\x}} = \| U^\ensuremath{\top} \ensuremath{\bm{\x}} \| > 0$ since $U$ is invertible.
+
+For the other direction, we replicate the proof by induction for standard Cholesky, beginning in the bottom right instead of the top left. Again the basis case is trivial. Since all diagonal entries are positive we can write
+\[
+A = \begin{bmatrix} K & \ensuremath{\bm{\v}}\\
+                    \ensuremath{\bm{\v}}^\ensuremath{\top} & \ensuremath{\alpha} \end{bmatrix} =
+                    \underbrace{\begin{bmatrix} I & {\ensuremath{\bm{\v}} \over \sqrt{\ensuremath{\alpha}}} \\
+                                        & \sqrt{\ensuremath{\alpha}}
+                                        \end{bmatrix}}_{U_1}
+                    \begin{bmatrix} K - {\ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\top} \over \ensuremath{\alpha}}  & \\
+                     & 1 \end{bmatrix}
+                     \underbrace{\begin{bmatrix} I \\
+                      {\ensuremath{\bm{\v}}^\ensuremath{\top} \over \sqrt{\ensuremath{\alpha}}} & \sqrt{\ensuremath{\alpha}}
+                                        \end{bmatrix}}_{U_1^\ensuremath{\top}}
+\]
+By assumption $K - {\ensuremath{\bm{\v}} \ensuremath{\bm{\v}}^\ensuremath{\top} \over \ensuremath{\alpha}} = \Ut\Ut^\ensuremath{\top}$ hence we have
+\[
+A = \underbrace{U_1 \begin{bmatrix} \Ut \\ & 1 \end{bmatrix}}_U  \underbrace{\begin{bmatrix} \Ut^\top \\ & 1 \end{bmatrix} U_1^\top}_{U^\top}
+\]
+\textbf{END}
+
+\textbf{Problem 3(a)} Use the Cholesky factorisation to prove that the following $n \ensuremath{\times} n$ matrix is symmetric positive definite for any $n$:
+\[
+\ensuremath{\Delta}_n := \begin{bmatrix}
+2 & -1 \\
+-1 & 2 & -1 \\
+& -1 & 2 & \ensuremath{\ddots} \\
+&& \ensuremath{\ddots} & \ensuremath{\ddots} & -1 \\
+&&& -1 & 2
+\end{bmatrix}
+\]
+Hint: consider a matrix $K_n^{(\ensuremath{\alpha})}$ that equals $\ensuremath{\Delta}_n$ apart from the top left entry which is $\ensuremath{\alpha} > 1$ and use a proof by induction.
+
+\textbf{SOLUTION}
+
+Consider the first step of the Cholesky factorisation:
+\[
+\ensuremath{\Delta}_n = \begin{bmatrix} 2 & -\ensuremath{\bm{\e}}_1^\ensuremath{\top} \\
+                    -\ensuremath{\bm{\e}}_1 & \ensuremath{\Delta}_{n-1} \end{bmatrix} =
+                    \underbrace{\begin{bmatrix} \sqrt{2} \\
+                                    {-\ensuremath{\bm{\e}}_1 \over \sqrt{2}} & I
+                                        \end{bmatrix}}_{L_1}
+                    \begin{bmatrix}1 \\ & \ensuremath{\Delta}_{n-1} - {\ensuremath{\bm{\e}}_1 \ensuremath{\bm{\e}}_1^\ensuremath{\top} \over 2} \end{bmatrix}
+                    \underbrace{\begin{bmatrix} \sqrt{2} & {-\ensuremath{\bm{\e}}_1^\ensuremath{\top} \over \sqrt{2}} \\
+                                                            & I
+                                        \end{bmatrix}}_{L_1^\ensuremath{\top}}
+\]
+The bottom right is merely $\ensuremath{\Delta}_{n-1}$ but with a different $(1,1)$ entry! This hints at a strategy of proving by induction.
+
+Assuming $\ensuremath{\alpha} > 1$ write
+\[
+K_n^{(\ensuremath{\alpha})} := \begin{bmatrix}
+\ensuremath{\alpha} & -1 \\
+-1 & 2 & -1 \\
+& -1 & 2 & \ensuremath{\ddots} \\
+&& \ensuremath{\ddots} & \ensuremath{\ddots} & -1 \\
+&&& -1 & 2
+\end{bmatrix} =
+                    \begin{bmatrix} \sqrt{\ensuremath{\alpha}} \\
+                                    {-\ensuremath{\bm{\e}}_1 \over \sqrt{\ensuremath{\alpha}}} & I
+                                        \end{bmatrix}
+                    \begin{bmatrix}1 \\ & K_{n-1}^{(2 - 1/\ensuremath{\alpha})} \end{bmatrix}
+                    \begin{bmatrix} \sqrt{\ensuremath{\alpha}} & {-\ensuremath{\bm{\e}}_1^\ensuremath{\top} \over \sqrt{\ensuremath{\alpha}}} \\
+                                                            & I
+                                        \end{bmatrix}
+\]
+Note if $n = 1$ this is trivially SPD. Hence assume $K_{n-1}^{(\ensuremath{\alpha})}$ is SPD for all $\ensuremath{\alpha} > 1$. If $\ensuremath{\alpha} > 1$ then $2 - 1/\ensuremath{\alpha} > 1$. Hence by induction and the fact that $\ensuremath{\Delta}_n = K_n^{(2)}$ we conclude that $\ensuremath{\Delta}_n$ has a Cholesky factorisation and hence is symmetric positive definite.
+
+\textbf{END}
+
+\textbf{Problem 3(b)} Deduce its Cholesky factorisations: $\ensuremath{\Delta}_n = L_n L_n^\ensuremath{\top}$ where $L_n$ is lower triangular.
+
+\textbf{SOLUTION}
+
+We can  write down the factors explicitly: define $\ensuremath{\alpha}_1 := 2$ and
+\[
+\ensuremath{\alpha}_{k+1} = 2- 1/\ensuremath{\alpha}_k.
+\]
+Let's try out the first few:
+\[
+\ensuremath{\alpha}_1 = 2, \ensuremath{\alpha}_2 = 3/2, \ensuremath{\alpha}_3 = 4/3, \ensuremath{\alpha}_4 = 5/4, \ensuremath{\ldots}
+\]
+The pattern is clear and one can show by induction that $\ensuremath{\alpha}_k = (k+1)/k$. Thus we have the Cholesky factorisation
+\meeq{
+\ensuremath{\Delta} _n = \underbrace{\begin{bmatrix}
+\sqrt{2} \\
+-1/\sqrt{2} & \sqrt{3/2} \\
+& -\sqrt{2/3} & \sqrt{4/3} \\
+    && \ensuremath{\ddots} & \ensuremath{\ddots} \\
+    &&& -\sqrt{(n-1)/n} & \sqrt{(n+1)/n}
+    \end{bmatrix}}_{L_n}  \\
+    & \qquad \ensuremath{\times}     \underbrace{\begin{bmatrix}
+\sqrt{2} & -1/\sqrt{2} \\
+ & \sqrt{3/2} & -\sqrt{2/3} \\
+    && \ensuremath{\ddots} & \ensuremath{\ddots} \\
+    &&& \sqrt{n/(n-1)} & -\sqrt{(n-1)/n} \\
+    &&&& \sqrt{(n+1)/n}
+    \end{bmatrix}}_{L_n^\ensuremath{\top}}
+}
+\textbf{END}
+
+\textbf{Problem 4} Use Lagrange interpolation to interpolate the function $\cos x$ by a polynomial at the points $[0,2,3,4]$ and evaluate at $x = 1$.
+
+\textbf{SOLUTION}
+
+\begin{itemize}
+\item \[
+\ensuremath{\ell}_1(x)=\frac{(x-2)(x-3)(x-4)}{(0-2)(0-3)(0-4)}=-\frac{1}{24}(x-2)(x-3)(x-4)
+\]
+
+\item \[
+\ensuremath{\ell}_2(x)=\frac{(x-0)(x-3)(x-4)}{(2-0)(2-3)(2-4)}=\frac{1}{4}x(x-3)(x-4)
+\]
+
+\item \[
+\ensuremath{\ell}_3(x)=\frac{(x-0)(x-2)(x-4)}{(3-0)(3-2)(3-4)}=-\frac{1}{3}x(x-2)(x-4)
+\]
+
+\item \[
+\ensuremath{\ell}_4(x)=\frac{(x-0)(x-2)(x-3)}{(4-0)(4-2)(4-3)}=\frac{1}{8}x(x-2)(x-3)
+\]
+\end{itemize}
+So that $p(x)=\cos(0)\ensuremath{\ell}_1(x)+\cos(2)\ensuremath{\ell}_2(x)+\cos(3)\ensuremath{\ell}_3(x)+\cos(4)\ensuremath{\ell}_4(x)$. Note that $\ensuremath{\ell}_0(1)=1/4$, $\ensuremath{\ell}_2(1)=3/2$, $\ensuremath{\ell}_3(1)=-1$, $\ensuremath{\ell}_4(1)=1/4$, so $p(1)=1/4\cos(0)+3/2\cos(2)-\cos(3)+1/4\cos(4)$.
+
+\textbf{END}
+
+\textbf{Problem 5} Compute the LU factorisation of the following transposed Vandermonde matrices:
+\[
+\begin{bmatrix}
+1 & 1 \\
+x & y
+\end{bmatrix},
+\begin{bmatrix}
+1 & 1 & 1 \\
+x & y & z \\
+x^2 & y^2 & z^2
+\end{bmatrix},
+\begin{bmatrix}
+1 & 1 & 1 & 1 \\
+x & y & z & t \\
+x^2 & y^2 & z^2 & t^2 \\
+x^3 & y^3 & z^3 & t^3
+\end{bmatrix}
+\]
+Can you spot a pattern? Test your conjecture with a $5 \ensuremath{\times} 5$ Vandermonde matrix.
+
+\textbf{SOLUTION} (1)
+\[
+\begin{bmatrix}
+1 & 1 \\
+x & y
+\end{bmatrix} =  \begin{bmatrix}
+1 &  \\
+x & 1
+\end{bmatrix} \begin{bmatrix}
+1 & 1 \\
+ & y-x
+\end{bmatrix}
+\]
+(2)
+\[
+V := \begin{bmatrix}
+1 & 1 & 1 \\
+x & y & z \\
+x^2 & y^2 & z^2
+\end{bmatrix} =  \begin{bmatrix}
+1 &  \\
+x & 1 \\
+x^2 && 1
+\end{bmatrix} \begin{bmatrix}
+1 & 1 & 1\\
+ & y-x & z-x \\
+ & y^2-x^2 & z^2 - x^2
+\end{bmatrix}
+\]
+We then have
+\[
+\begin{bmatrix}
+ y-x & z-x \\
+ y^2-x^2 & z^2 - x^2
+\end{bmatrix} = \begin{bmatrix}
+ 1 &  \\
+ y+x & 1
+\end{bmatrix} \begin{bmatrix}
+y-x & z-x \\
+& (z-y)(z-x)
+\end{bmatrix}
+\]
+since $z^2 - x^2 - (z-x) (y+x) = z^2 + xy  - zy = (z-y)(z-x)$. Thus we have
+\[
+V = \begin{bmatrix}
+1 &  \\
+x & 1 \\
+x^2 & x+y& 1
+\end{bmatrix}  \begin{bmatrix}
+1 & 1 & 1\\
+ & y-x & z-x \\
+ &  &  (z-y)(z-x)
+\end{bmatrix}
+\]
+(3)
+\[
+V := \begin{bmatrix}
+1 & 1 & 1 & 1 \\
+x & y & z & t \\
+x^2 & y^2 & z^2 & t^2 \\
+x^3 & y^3 & z^3 & t^3
+\end{bmatrix} =
+\begin{bmatrix}
+1 &  \\
+x & 1 \\
+x^2 && 1 \\
+x^3 &&& 1
+\end{bmatrix} \begin{bmatrix}
+1 & 1 & 1 & 1\\
+ & y-x & z-x & t-x \\
+ & y^2-x^2 & z^2 - x^2 & t^2 - x^2 \\
+ & y^3-x^3 & z^3 - x^3 & t^3 - x^3
+\end{bmatrix}
+\]
+We then have
+\meeq{
+\begin{bmatrix}
+y-x & z-x & t-x \\
+y^2-x^2 & z^2 - x^2 & t^2 - x^2 \\
+y^3-x^3 & z^3 - x^3 & t^3 - x^3
+\end{bmatrix} = \begin{bmatrix}
+1 &  &  \\
+y + x & 1 &  \\
+y^2 + xy + x^2 &  & 1
+\end{bmatrix} \\
+& \qquad \ensuremath{\times} \begin{bmatrix}
+y-x & z-x & t-x \\
+ & (z-y)(z-x) & (t-y)(t-x) \\
+ & (z-x)(z-y) (x+y+z) & (t-x)(t-y) (x+y+t)
+\end{bmatrix}
+}
+since
+\[
+z^3 - x^3 - (z-x) (y^2 + x y + x^2) = z^3 - z y^2 - x y z  - z x^2 + x y^2  + x^2 y
+= (x-z)(y-z) (x+y+z).
+\]
+Finally we have
+\begin{align*}
+&\begin{bmatrix}
+ (z-y)(z-x) & (t-y)(t-x) \\
+ (z-x)(z-y) (x+y+z) & (t-x)(t-y) (x+y+t)
+\end{bmatrix}\\
+&\qquad = \begin{bmatrix}
+ 1 & \\
+ x+y+z & 1
+\end{bmatrix}
+ \begin{bmatrix}
+ (z-y)(z-x) & (t-y)(t-x) \\
+  & (t-x)(t-y) (t-z)
+\end{bmatrix}
+\end{align*}
+since
+\[
+(t-x)(t-y) (x+y+t) - (x+y+z) (t-y)(t-x) = (t-y)(t-x)(t-z).
+\]
+Putting everything together we have
+\[
+V = \begin{bmatrix}
+1 &  \\
+x & 1 \\
+x^2 & x+y  & 1 \\
+x^3 &y^2 + xy + x^2  & x+ y + z & 1
+\end{bmatrix} \begin{bmatrix}
+1 & 1 & 1 & 1\\
+ & y-x & z-x & t-x \\
+ &  & (z-y)(z-x) & (t-y)(t-x) \\
+ &  &  & (t-y)(t-x)(t-z)
+\end{bmatrix}
+\]
+We conjecture that $L[k,j]$ for $k > j$ contains a sum of all monomials of degree $k$ of $x_1,\ensuremath{\ldots},x_j$, and
+\[
+U[k,j] = \ensuremath{\prod}_{s = 1}^{k-1} (x_j-x_s)
+\]
+for $1 < k \ensuremath{\leq} j$. We can confirm that
+\begin{align*}
+&\begin{bmatrix}
+1 & 1 & 1 & 1 & 1 \\
+x & y & z & t & s\\
+x^2 & y^2 & z^2 & t^2 & s^2 \\
+x^3 & y^3 & z^3 & t^3 & s^3 \\
+x^4 & y^4 & z^4 & t^4 & s^4
+\end{bmatrix} \\
+&\qquad =
+\begin{bmatrix}
+1 &  \\
+x & 1 \\
+x^2 & x+y  & 1 \\
+x^3 &y^2 + xy + x^2  & x+ y + z & 1 \\
+x^4 & x^3 + x^2 y + x y^2 + y^3 & x^2 + y^2 + z^2 + xy + xz + yz  & x + y + z + t & 1
+\end{bmatrix} \\
+&\qquad \ensuremath{\times}
+\begin{bmatrix}
+1 & 1 & 1 & 1 & 1\\
+ & y-x & z-x & t-x & s-x  \\
+ &  & (z-y)(z-x) & (t-y)(t-x) & (s-x) (s-y) \\
+ &  &  & (t-y)(t-x)(t-z) &   (s-y)(s-x)(s-z)  \\
+ &  &  &  &   (s-y)(s-x)(s-z)(s-t)
+\end{bmatrix}
+\end{align*}
+Multiplying it out we confirm that our conjecture is correct in this case.
+
+\textbf{END}
+
+
+
+\end{document}

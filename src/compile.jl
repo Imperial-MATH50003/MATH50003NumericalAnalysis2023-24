@@ -35,7 +35,7 @@ for k = 1:7
     compilesheet(k)
 end
 
-for k = 1:5
+for k = 1:6
     compilesheetsolution(k)
 end
 
