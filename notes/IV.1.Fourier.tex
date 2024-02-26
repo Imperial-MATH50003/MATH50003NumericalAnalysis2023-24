@@ -1,0 +1,232 @@
+
+\section{Fourier expansions}
+\begin{itemize}
+\item[1. ] Review of Fourier series
+
+
+\item[2. ] Trapezium rule and discrete orthogonality
+
+
+\item[3. ] Convergence of approximate Fourier expansions
+
+\end{itemize}
+\subsection{Review of Fourier series}
+The most fundamental basis is (complex) Fourier: we have ${\rm e}^{{\rm i} k \ensuremath{\theta}}$ are orthogonal with respect to the inner product
+\[
+\ensuremath{\langle}f, g \ensuremath{\rangle} := {1 \over 2\ensuremath{\pi}} \ensuremath{\int}_0^{2\ensuremath{\pi}} \bar f(\ensuremath{\theta}) g(\ensuremath{\theta}) {\rm d}\ensuremath{\theta},
+\]
+where we conjugate the first argument to be consistent with the vector inner product $\ensuremath{\bm{\x}}^\ensuremath{\star} \ensuremath{\bm{\y}}$. We will use the notation $\ensuremath{\bbT} := [0,2\ensuremath{\pi})$ (typically this has the topology of a circle attached but we do not need to worry about that here). We can (typically) expand functions in this basis:
+
+\begin{definition}[Fourier] A function $f$ has a Fourier expansion if
+\[
+f(\ensuremath{\theta}) = \ensuremath{\sum}_{k = -\ensuremath{\infty}}^\ensuremath{\infty} \hat f_k {\rm e}^{{\rm i} k \ensuremath{\theta}}
+\]
+where
+\[
+\hat f_k := \ensuremath{\langle}{\rm e}^{{\rm i} k \ensuremath{\theta}}, f\ensuremath{\rangle} = {1 \over 2\ensuremath{\pi}} \ensuremath{\int}_0^{2\ensuremath{\pi}}  {\rm e}^{-{\rm i} k \ensuremath{\theta}} f(\ensuremath{\theta}) {\rm d}\ensuremath{\theta}
+\]
+\end{definition}
+
+A basic observation is if a Fourier expansion has no negative terms it is equivalent to a Taylor series if we write $z = {\rm e}^{{\rm i} \ensuremath{\theta}}$:
+
+\begin{definition}[Fourier-Taylor] A function $f$ has a Fourier\ensuremath{\endash}Taylor expansion if
+\[
+f(\ensuremath{\theta}) = \ensuremath{\sum}_{k = 0}^\ensuremath{\infty} \hat f_k {\rm e}^{{\rm i} k \ensuremath{\theta}}
+\]
+where $\hat f_k := \ensuremath{\langle}{\rm e}^{{\rm i} k \ensuremath{\theta}}, f\ensuremath{\rangle}$. \end{definition}
+
+In numerical analysis we try to build on the analogy with linear algebra as much as possible. Therefore we  can write this this as:
+\[
+f(\ensuremath{\theta}) = \underbrace{[1 | {\rm e}^{{\rm i}\ensuremath{\theta}} | {\rm e}^{2{\rm i}\ensuremath{\theta}} | \ensuremath{\cdots}]}_{T(\ensuremath{\theta})}
+\underbrace{\begin{bmatrix} \hat f_0 \\ \hat f_1 \\ \hat f_2 \\ \ensuremath{\vdots} \end{bmatrix}}_{\vchatf}.
+\]
+Essentially, expansions in bases are viewed as a way of turning \emph{functions} into (infinite) \emph{vectors}. And (differential) \emph{operators} into \emph{matrices}.
+
+In analysis one typically works with continuous functions and relates results to continuity. In numerical analysis we inheritely have to work with \emph{vectors}, so it is more natural to  focus on the case where the \emph{Fourier coefficients} $\hat f_k$ are \emph{absolutely convergent}:
+
+\begin{definition}[absolute convergent] We write $\vchatf \ensuremath{\in} \ensuremath{\ell}^1$ if it is absolutely convergent, or in otherwords, the $1$-norm of $\vchatf$ is bounded:
+\[
+\|\vchatf\|_1 := \ensuremath{\sum}_{k=-\ensuremath{\infty}}^\ensuremath{\infty} |\hat f_k| < \ensuremath{\infty}
+\]
+\end{definition}
+
+We first state a  basic results (whose proof is beyond the scope of this module):
+
+\begin{theorem}[2-norm convergence] If $f, g : \ensuremath{\bbT} \ensuremath{\rightarrow} \ensuremath{\bbC}$ are continuous and $\hat f_k = \hat g_k$ for all $k \ensuremath{\in} \ensuremath{\bbZ}$ then $f = g$.
+
+\end{theorem}
+\textbf{Proof} See \href{https://www.cambridge.org/core/books/fourier-analysis/5FD8F0FD69DDB139019655D7F8440D2F}{Körner 2022 (Theorem 2.4)}. \ensuremath{\QED}
+
+This allows us to proof the following:
+
+\begin{theorem}[Absolute convergence] If $\vchatf \ensuremath{\in} \ensuremath{\ell}^1$ then
+\[
+f(\ensuremath{\theta}) = \ensuremath{\sum}_{k = -\ensuremath{\infty}}^\ensuremath{\infty} \hat f_k {\rm e}^{{\rm i} k \ensuremath{\theta}},
+\]
+which converges uniformly. \end{theorem}
+\textbf{Proof}
+
+Note that
+\[
+g_n(\ensuremath{\theta}) := \ensuremath{\sum}_{k = -n}^n \hat f_k {\rm e}^{{\rm i} k \ensuremath{\theta}}
+\]
+is absolutely convergent as $n \ensuremath{\rightarrow} \ensuremath{\infty}$, hence converges uniformly to a continuous function $g$. We have for $n > k$
+\[
+\hat f_k =
+\]
+\ensuremath{\QED}
+
+Continuity gives us sufficient (though not necessary) conditions for absolute convergence:
+
+\begin{lemma}[differentiability and absolutely convergence] If $f : \ensuremath{\bbR} \ensuremath{\rightarrow} \ensuremath{\bbC}$ and $f'$ are periodic  and $f''$ is uniformly bounded, then $\vchatf \ensuremath{\in} \ensuremath{\ell}^1$.
+
+\end{lemma}
+\textbf{Proof} Integrate by parts twice using the fact that $f(0) = f(2\ensuremath{\pi})$, $f'(0) = f'(2\ensuremath{\pi})$:
+\begin{align*}
+2\ensuremath{\pi}\hat f_k &= \ensuremath{\int}_0^{2\ensuremath{\pi}} f(\ensuremath{\theta}) {\rm e}^{-{\rm i} k \ensuremath{\theta}} {\rm d}\ensuremath{\theta} =
+[f(\ensuremath{\theta}) {\rm e}^{-{\rm i} k \ensuremath{\theta}}]_0^{2\ensuremath{\pi}} + {1 \over {\rm i} k} \ensuremath{\int}_0^{2\ensuremath{\pi}} f'(\ensuremath{\theta}) {\rm e}^{-{\rm i} k \ensuremath{\theta}} {\rm d}\ensuremath{\theta} \\
+&= {1 \over {\rm i} k} [f'(\ensuremath{\theta}) {\rm e}^{-{\rm i} k \ensuremath{\theta}}]_0^{2\ensuremath{\pi}} - {1 \over k^2} \ensuremath{\int}_0^{2\ensuremath{\pi}} f''(\ensuremath{\theta}) {\rm e}^{-{\rm i} k \ensuremath{\theta}} {\rm d}\ensuremath{\theta} \\
+&= - {1 \over k^2} \ensuremath{\int}_0^{2\ensuremath{\pi}} f''(\ensuremath{\theta}) {\rm e}^{-{\rm i} k \ensuremath{\theta}} {\rm d}\ensuremath{\theta}
+\end{align*}
+thus uniform boundedness of $f''$ guarantees $|\hat f_k| \ensuremath{\leq} M |k|^{-2}$ for some $M$, and we have
+\[
+\ensuremath{\sum}_{k = -\ensuremath{\infty}}^\ensuremath{\infty} |\hat f_k| \ensuremath{\leq} |\hat f_0|  + 2M \ensuremath{\sum}_{k = 1}^\ensuremath{\infty} |k|^{-2}  < \ensuremath{\infty}
+\]
+using the dominant convergence test.
+
+\ensuremath{\QED}
+
+This condition can be weakened to Lipschitz continuity but the proof is  beyond the scope of this module. Of more practical importance is the other direction: the more times differentiable a function the faster the coefficients decay, and thence the faster Fourier expansions converge. In fact, if a function is smooth and 2\ensuremath{\pi}-periodic its Fourier coefficients decay faster than algebraically: they decay like $O(k^{-\ensuremath{\lambda}})$ for any $\ensuremath{\lambda}$. This will be explored in the problem sheet.
+
+\textbf{Remark} Going further, if we let $z = {\rm e}^{{\rm i} \ensuremath{\theta}}$ then if $f(z)$ is \emph{analytic} in a neighbourhood of the unit circle the Fourier coefficients decay \emph{exponentially fast}. And if $f(z)$ is entire they decay even faster than exponentially.
+
+\subsection{Trapezium rule and discrete Fourier coefficients}
+\begin{definition}[Trapezium Rule] Let $\ensuremath{\theta}_j = 2\ensuremath{\pi}j/n$ for $j = 0,1,\ensuremath{\ldots},n$ denote $n+1$ evenly spaced points over $[0,2\ensuremath{\pi}]$. The \emph{Trapezium rule} over $[0,2\ensuremath{\pi}]$ is the approximation:
+\[
+\ensuremath{\int}_0^{2\ensuremath{\pi}} f(\ensuremath{\theta}) {\rm d}\ensuremath{\theta} \ensuremath{\approx} {2 \ensuremath{\pi} \over n} \left[{f(0) \over 2} + \ensuremath{\sum}_{j=1}^{n-1} f(\ensuremath{\theta}_j) + {f(2 \ensuremath{\pi}) \over 2} \right]
+\]
+But if $f$ is periodic we have $f(0) = f(2\ensuremath{\pi})$ we get the \emph{periodic Trapezium rule}:
+\[
+\ensuremath{\int}_0^{2\ensuremath{\pi}} f(\ensuremath{\theta}) {\rm d}\ensuremath{\theta} \ensuremath{\approx} 2 \ensuremath{\pi}\underbrace{{1 \over n} \ensuremath{\sum}_{j=0}^{n-1} f(\ensuremath{\theta}_j)}_{\ensuremath{\Sigma}_n[f]}
+\]
+\end{definition}
+
+We know that ${\rm e}^{{\rm i} k \ensuremath{\theta}}$ are orthogonal with respect to the continuous inner product. The following says that this property is maintained (up to \ensuremath{\ldq}aliasing") when we replace the continuous integral with a trapezium rule approximation:
+
+\begin{lemma}[Discrete orthogonality] We have:
+\[
+\ensuremath{\sum}_{j=0}^{n-1} {\rm e}^{{\rm i} k \ensuremath{\theta}_j} =
+\begin{cases} n & k = \ldots,-2n,-n,0,n,2n,\ldots  \cr
+              0 & \hbox{otherwise}
+\end{cases}
+\]
+In other words,
+\[
+\ensuremath{\Sigma}_n[{\rm e}^{{\rm i} (k-\ensuremath{\ell}) \ensuremath{\theta}}] =
+\begin{cases} 1 & k-\ensuremath{\ell} = \ldots,-2n,-n,0,n,2n,\ldots  \cr
+              0 & \hbox{otherwise}
+\end{cases}.
+\]
+\end{lemma}
+\textbf{Proof}
+
+Consider $\ensuremath{\omega} := {\rm e}^{{\rm i} \ensuremath{\theta}_1} = {\rm e}^{2 \ensuremath{\pi} {\rm i} \over n}$. This is an $n$ th root of unity: $\ensuremath{\omega}^n = 1$. Note that ${\rm e}^{{\rm i} \ensuremath{\theta}_j} ={\rm e}^{2 \ensuremath{\pi} {\rm i} j \over n}= \ensuremath{\omega}^j$.
+
+(Case 1: $k = pn$ for an integer $p$) We have
+\[
+\ensuremath{\sum}_{j=0}^{n-1} {\rm e}^{{\rm i} k \ensuremath{\theta}_j} = \ensuremath{\sum}_{j=0}^{n-1} \ensuremath{\omega}^{kj} = \ensuremath{\sum}_{j=0}^{n-1} ({\ensuremath{\omega}^{pn}})^j =   \ensuremath{\sum}_{j=0}^{n-1} 1 = n
+\]
+(Case 2 $k \ensuremath{\neq} pn$ for an integer $p$)  Recall that
+\[
+\ensuremath{\sum}_{j=0}^{n-1} z^j = {z^n-1 \over z-1}.
+\]
+Then we have
+\[
+\ensuremath{\sum}_{j=0}^{n-1} {\rm e}^{{\rm i} k \ensuremath{\theta}_j} = \ensuremath{\sum}_{j=0}^{n-1} (\ensuremath{\omega}^k)^j = {\ensuremath{\omega}^{kn} -1 \over \ensuremath{\omega}^k -1} = 0.
+\]
+where we use the fact that $k$ is not a multiple of $n$ to guarantee that $\ensuremath{\omega}^k \ensuremath{\neq} 1$.
+
+\ensuremath{\QED}
+
+\subsection{Convergence of Approximate Fourier expansions}
+We will now use the Trapezium rule to approximate Fourier coefficients and expansions:
+
+\begin{definition}[Discrete Fourier coefficients] Define the Trapezium rule approximation to the Fourier coefficients by:
+\[
+\hat f_k^n := \ensuremath{\Sigma}_n[{\rm e}^{-i k \ensuremath{\theta}} f(\ensuremath{\theta})]  = {1 \over n} \ensuremath{\sum}_{j=0}^{n-1} {\rm e}^{-i k \ensuremath{\theta}_j} f(\ensuremath{\theta}_j)
+\]
+\end{definition}
+
+A remarkable fact is that the discete Fourier coefficients can be expressed as a sum of the true Fourier coefficients:
+
+\begin{theorem}[discrete Fourier coefficients] If $\vchatf \ensuremath{\in} \ensuremath{\ell}^1$ (absolutely convergent Fourier coefficients) then
+\[
+\hat f_k^n = \ensuremath{\cdots} + \hat f_{k-2n} + \hat f_{k-n} + \hat f_k + \hat f_{k+n} + \hat f_{k+2n} + \ensuremath{\cdots}
+\]
+\end{theorem}
+\textbf{Proof}
+\begin{align*}
+\hat f_k^n &= \ensuremath{\Sigma}_n[f(\ensuremath{\theta}) {\rm e}^{-{\rm i} k \ensuremath{\theta}}] = \ensuremath{\sum}_{\ensuremath{\ell}=-\ensuremath{\infty}}^\ensuremath{\infty} \hat f_\ensuremath{\ell} \ensuremath{\Sigma}_n[{\rm e}^{{\rm i} (\ensuremath{\ell}-k) \ensuremath{\theta}}] \\
+&= \ensuremath{\sum}_{\ensuremath{\ell}=-\ensuremath{\infty}}^\ensuremath{\infty} \hat f_\ensuremath{\ell} \begin{cases} 1 & \ensuremath{\ell}-k = \ldots,-2n,-n,0,n,2n,\ldots  \cr
+0 & \hbox{otherwise}
+\end{cases}
+\end{align*}
+\ensuremath{\QED}
+
+Note that there is redundancy:
+
+\begin{corollary}[aliasing] For all $p \ensuremath{\in} \ensuremath{\bbZ}$, $\hat f_k^n = \hat f_{k+pn}^n$.
+
+\end{corollary}
+\textbf{Proof}
+
+\ensuremath{\QED}
+
+In other words if we know $\hat f_0^n, \ensuremath{\ldots}, \hat f_{n-1}^n$, we know $\hat f_k^n$ for all $k$ via a permutation, for example if $n = 2m+1$ we have
+\[
+\begin{bmatrix}
+\hat f_{-m}^n \\
+\ensuremath{\vdots}\\
+\hat f_m^n
+\end{bmatrix} = \underbrace{\begin{bmatrix} &&& 1 \\ &&&& \ensuremath{\ddots} \\ &&&&& 1 \\
+    1 \\ & \ensuremath{\ddots} \\ && 1 \end{bmatrix}}_{P_\ensuremath{\sigma}}
+\begin{bmatrix}
+\hat f_0^n \\
+\ensuremath{\vdots}\\
+\hat f_{n-1}^n
+\end{bmatrix}
+\]
+where $\ensuremath{\sigma}$ has Cauchy notation (\emph{Careful}: we are using 1-based indexing here):
+\[
+\begin{pmatrix}
+1 & 2 & \ensuremath{\cdots} & m & m+1 & m+2 & \ensuremath{\cdots} & n  \\
+m+2 & m+3 & \ensuremath{\cdots} & n & 1 & 2 & \ensuremath{\cdots} & m+1
+\end{pmatrix}.
+\]
+We first discuss the case when all negative coefficients are zero. That is, $\hat f_0^n, \ensuremath{\ldots}, \hat f_{n-1}^n$ are approximations of the Fourier\ensuremath{\endash}Taylor coefficients by evaluating on the boundary.
+
+We can  prove \emph{convergence} whenever of this approximation whenever $f$ has absolutely summable coefficients. We will prove the result here in the special case where the negative coefficients are zero.
+
+\begin{theorem}[Approximate Fourier-Taylor expansions converge] If $0 = \hat f_{-1} = \hat f_{-2} = \ensuremath{\cdots}$ and $\vchatf$ is absolutely convergent then
+\[
+f_n(\ensuremath{\theta}) = \ensuremath{\sum}_{k=0}^{n-1} \hat f_k^n {\rm e}^{{\rm i} k \ensuremath{\theta}}
+\]
+converges uniformly to $f(\ensuremath{\theta})$.
+
+\end{theorem}
+\textbf{Proof}
+\begin{align*}
+|f(\ensuremath{\theta}) - f_n(\ensuremath{\theta})| = |\ensuremath{\sum}_{k=0}^{n-1} (\hat f_k - \hat f_k^n) {\rm e}^{{\rm i} k \ensuremath{\theta}} + \ensuremath{\sum}_{k=n}^\ensuremath{\infty} \hat f_k {\rm e}^{{\rm i} k \ensuremath{\theta}}|
+= |\ensuremath{\sum}_{k=n}^\ensuremath{\infty} \hat f_k ({\rm e}^{{\rm i} k \ensuremath{\theta}} - {\rm e}^{{\rm i} {\rm mod}(k,n) \ensuremath{\theta}})|
+\ensuremath{\leq} 2 \ensuremath{\sum}_{k=n}^\ensuremath{\infty} |\hat f_k|
+\end{align*}
+which goes to zero as $n \ensuremath{\rightarrow} \ensuremath{\infty}$. \ensuremath{\QED}
+
+For the general case we need to choose a range of coefficients that includes roughly an equal number of negative and positive coefficients (preferring negative over positive in a tie as a convention):
+\[
+f_n(\ensuremath{\theta}) = \ensuremath{\sum}_{k=-\ensuremath{\lceil}n/2\ensuremath{\rceil}}^{\ensuremath{\lfloor}n/2\ensuremath{\rfloor}} \hat f_k {\rm e}^{{\rm i} k \ensuremath{\theta}}
+\]
+In the problem sheet we will prove this converges provided the coefficients are absolutely convergent.
+
+
+

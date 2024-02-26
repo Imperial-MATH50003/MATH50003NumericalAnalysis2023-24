@@ -1,0 +1,139 @@
+
+\section{Discrete Fourier Transform}
+In the last lecture we explored using the trapezium rule for approximating Fourier coefficients. This is a linear map from function values to coefficients and thus can be reinterpreted as a matrix-vector product, called the the Discrete Fourier Transform. It turns out the matrix is unitary which leads to important properties including interpolation. Finally, we discuss how a clever way of decomposing the DFT leads to a fast way of applying and inverting it, which is one of the most influencial algorithms of the 20th century: the Fast Fourier Transform.
+
+\begin{itemize}
+\item[1. ] The Discrete Fourier Transform (DFT): We discuss the map from values to approximate Fourier coefficients, and back.
+
+
+\item[2. ] Interpolation: We show that the approximate Fourier expansion \emph{exactly} interpolates the values at the sample grid.
+
+
+\item[3. ] The Fast Fourier Transform (FFT): We discuss how the DFT can be applied in $O(n \log n)$ operations.
+
+\end{itemize}
+\subsection{The Discrete Fourier transform}
+\begin{definition}[DFT] The \emph{Discrete Fourier Transform (DFT)} is defined as:
+\begin{align*}
+Q_n &:= {1 \over \sqrt{n}} \begin{bmatrix} 1 & 1 & 1&  \ensuremath{\cdots} & 1 \\
+                                    1 & {\rm e}^{-{\rm i} \ensuremath{\theta}_1} & {\rm e}^{-{\rm i} \ensuremath{\theta}_2} & \ensuremath{\cdots} & {\rm e}^{-{\rm i} \ensuremath{\theta}_{n-1}} \\
+                                    1 & {\rm e}^{-{\rm i} 2 \ensuremath{\theta}_1} & {\rm e}^{-{\rm i} 2 \ensuremath{\theta}_2} & \ensuremath{\cdots} & {\rm e}^{-{\rm i} 2\ensuremath{\theta}_{n-1}} \\
+                                    \ensuremath{\vdots} & \ensuremath{\vdots} & \ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
+                                    1 & {\rm e}^{-{\rm i} (n-1) \ensuremath{\theta}_1} & {\rm e}^{-{\rm i} (n-1) \ensuremath{\theta}_2} & \ensuremath{\cdots} & {\rm e}^{-{\rm i} (n-1) \ensuremath{\theta}_{n-1}}
+\end{bmatrix} \\
+&= {1 \over \sqrt{n}} \begin{bmatrix} 1 & 1 & 1&  \ensuremath{\cdots} & 1 \\
+                                    1 & \ensuremath{\omega}^{-1} & \ensuremath{\omega}^{-2} & \ensuremath{\cdots} & \ensuremath{\omega}^{-(n-1)}\\
+                                    1 & \ensuremath{\omega}^{-2} & \ensuremath{\omega}^{-4} & \ensuremath{\cdots} & \ensuremath{\omega}^{-2(n-1)}\\
+                                    \ensuremath{\vdots} & \ensuremath{\vdots} & \ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
+                                    1 & \ensuremath{\omega}^{-(n-1)} & \ensuremath{\omega}^{-2(n-1)} & \ensuremath{\cdots} & \ensuremath{\omega}^{-(n-1)^2}
+\end{bmatrix}
+\end{align*}
+for the $n$-th root of unity $\ensuremath{\omega} = {\rm e}^{2\ensuremath{\pi}{\rm i}/n}$. Note that
+\begin{align*}
+Q_n^\ensuremath{\star} &= {1 \over \sqrt{n}} \begin{bmatrix}
+1 & 1 & 1&  \ensuremath{\cdots} & 1 \\
+1 & {\rm e}^{{\rm i} \ensuremath{\theta}_1} & {\rm e}^{{\rm i} 2 \ensuremath{\theta}_1} & \ensuremath{\cdots} & {\rm e}^{{\rm i} (n-1) \ensuremath{\theta}_1} \\
+1 &  {\rm e}^{{\rm i} \ensuremath{\theta}_2}  & {\rm e}^{{\rm i} 2 \ensuremath{\theta}_2} & \ensuremath{\cdots} & {\rm e}^{{\rm i} (n-1)\ensuremath{\theta}_2} \\
+\ensuremath{\vdots} & \ensuremath{\vdots} & \ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
+1 & {\rm e}^{{\rm i} \ensuremath{\theta}_{n-1}} & {\rm e}^{{\rm i} 2 \ensuremath{\theta}_{n-1}} & \ensuremath{\cdots} & {\rm e}^{{\rm i} (n-1) \ensuremath{\theta}_{n-1}}
+\end{bmatrix} \\
+&= {1 \over \sqrt{n}} \begin{bmatrix}
+1 & 1 & 1&  \ensuremath{\cdots} & 1 \\
+1 & \ensuremath{\omega}^{1} & \ensuremath{\omega}^{2} & \ensuremath{\cdots} & \ensuremath{\omega}^{(n-1)}\\
+1 & \ensuremath{\omega}^{2} & \ensuremath{\omega}^{4} & \ensuremath{\cdots} & \ensuremath{\omega}^{2(n-1)}\\
+\ensuremath{\vdots} & \ensuremath{\vdots} & \ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
+1 & \ensuremath{\omega}^{(n-1)} & \ensuremath{\omega}^{2(n-1)} & \ensuremath{\cdots} & \ensuremath{\omega}^{(n-1)^2}
+\end{bmatrix}
+\end{align*}
+\end{definition}
+
+Note that
+\[
+\underbrace{\begin{bmatrix} \hat f_0^n \\ \ensuremath{\vdots} \\ \hat f_{n-1}^n \end{bmatrix}}_{\vchatf^n} =
+{1 \over \sqrt{n}} Q_n \underbrace{\begin{bmatrix} f(\ensuremath{\theta}_0) \\ \ensuremath{\vdots} \\ f(\ensuremath{\theta}_{n-1}) \end{bmatrix}}_{\ensuremath{\bm{\f}}^n}
+\]
+The choice of normalisation constant is motivated by the following:
+
+\textbf{Proposition 1 (DFT is Unitary)} $Q_n \ensuremath{\in} U(n)$, that is, $Q_n^\ensuremath{\star} Q_n = Q_n Q_n^\ensuremath{\star} = I$.
+
+\textbf{Proof}
+\[
+Q_n Q_n^\ensuremath{\star}  = \begin{bmatrix} \ensuremath{\Sigma}_n[1] & \ensuremath{\Sigma}_n[{\rm e}^{{\rm i} \ensuremath{\theta}}] & \ensuremath{\cdots} & \ensuremath{\Sigma}_n[{\rm e}^{{\rm i} (n-1) \ensuremath{\theta}}] \\
+                            \ensuremath{\Sigma}_n[{\rm e}^{-{\rm i} \ensuremath{\theta}}] & \ensuremath{\Sigma}_n[1] & \ensuremath{\cdots} & \ensuremath{\Sigma}_n[{\rm e}^{{\rm i} (n-2) \ensuremath{\theta}}] \\
+                            \ensuremath{\vdots} & \ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
+                            \ensuremath{\Sigma}_n[{\rm e}^{-{\rm i}(n-1) \ensuremath{\theta}}] & \ensuremath{\Sigma}_n[{\rm e}^{-{\rm i}(n-2) \ensuremath{\theta}}] & \ensuremath{\cdots} & \ensuremath{\Sigma}_n[1]
+                            \end{bmatrix} = I
+\]
+\ensuremath{\QED}
+
+In other words, $Q_n$ is easily inverted and we also have a map from discrete Fourier coefficients back to values:
+\[
+\sqrt{n} Q_n^\ensuremath{\star} \vchatf^n = \ensuremath{\bm{\f}}^n
+\]
+\subsection{Interpolation}
+We investigated briefly interpolation and least squares using polynomials at evenly spaced points, observing that there were issues with stability. We now show that the DFT actually gives coefficients that interpolate using Fourier expansions. As the DFT is a unitary matrix its (2-norm) condition number is 1, hence this is a stable process. Thus we arrive at the main result:
+
+\begin{corollary}[Interpolation]
+\[
+f_n(\ensuremath{\theta}) := \ensuremath{\sum}_{k=0}^{n-1} \hat f_k^n {\rm e}^{{\rm i} k \ensuremath{\theta}}
+\]
+interpolates $f$ at $\ensuremath{\theta}_j$:
+\[
+f_n(\ensuremath{\theta}_j) = f(\ensuremath{\theta}_j)
+\]
+\end{corollary}
+\textbf{Proof} We have
+\[
+f_n(\ensuremath{\theta}_j) = \ensuremath{\sum}_{k=0}^{n-1} \hat f_k^n {\rm e}^{{\rm i} k \ensuremath{\theta}_j} = \sqrt n \ensuremath{\bm{\e}}_j^\ensuremath{\top} Q_n^\ensuremath{\star} \vchatf^n = \ensuremath{\bm{\e}}_j^\ensuremath{\top} Q_n^\ensuremath{\star} Q_n \ensuremath{\bm{\f}}^n = f(\ensuremath{\theta}_j).
+\]
+\ensuremath{\QED}
+
+We will leave extending this result to the general non-Taylor case to the problem sheet. Note that regardless of choice of coefficients we interpolate provided we have $n$ consecutive coefficients, though some interpolations are better than others:
+
+We now demonstrate the relationship of Taylor and Fourier coefficients and their discrete approximations for some examples:
+
+\begin{example}[Taylor and Fourier] Consider the function
+\[
+f(\ensuremath{\theta}) = {2 \over 2 - {\rm e}^{{\rm i} \ensuremath{\theta}}}
+\]
+Under the change of variables $z = {\rm e}^{{\rm i} \ensuremath{\theta}}$ we know for $z$ on the unit circle this becomes (using the geometric series with $z/2$)
+\[
+{2 \over 2-z} = \ensuremath{\sum}_{k=0}^\ensuremath{\infty} {z^k \over 2^k}
+\]
+i.e., $\hat f_k = 1/2^k$ which is absolutely summable:
+\[
+\ensuremath{\sum}_{k=0}^\ensuremath{\infty} |\hat f_k| = f(0) = 2.
+\]
+If we use an $n$ point discretisation we get (using the geoemtric series with $2^{-n}$)
+\[
+\hat f_k^n = \hat f_k + \hat f_{k+n} + \hat f_{k+n} + \ensuremath{\cdots} = \ensuremath{\sum}_{p=0}^\ensuremath{\infty} {1 \over 2^{k+pn}} = {2^{n-k} \over 2^n - 1}
+\]
+\end{example}
+
+\begin{example}[Computing Sum] Define the following infinite sum (which has no name apparently, according to Mathematica):
+\[
+S_n(k) := \ensuremath{\sum}_{p=0}^\ensuremath{\infty} {1 \over (k+pn)!}
+\]
+We can use the DFT to compute $S_n(0), \ensuremath{\ldots}, S_n(n-1)$. Consider
+\[
+f(\ensuremath{\theta}) = \exp({\rm e}^{{\rm i} \ensuremath{\theta}}) = \ensuremath{\sum}_{k=0}^\ensuremath{\infty} {{\rm e}^{{\rm i} k \ensuremath{\theta}} \over k!}
+\]
+where we know the Fourier coefficients from the Taylor series of ${\rm e}^z$. The discrete Fourier coefficients satisfy for $0 \ensuremath{\leq} k \ensuremath{\leq} n-1$:
+\[
+\hat f_k^n = \hat f_k + \hat f_{k+n} + \hat f_{k+2n} + \ensuremath{\cdots} = S_n(k)
+\]
+Thus we have
+\[
+\begin{bmatrix}
+S_n(0) \\
+\ensuremath{\vdots} \\
+S_n(n-1)
+\end{bmatrix} = {1 \over \sqrt{n}} Q_n \begin{bmatrix} 1 \\
+                                \exp({\rm e}^{2{\rm i} \ensuremath{\pi}/n}) \\
+                                \ensuremath{\vdots} \\
+                                \exp({\rm e}^{2{\rm i} (n-1) \ensuremath{\pi}/n}) \end{bmatrix}
+\]
+\end{example}
+
+
+

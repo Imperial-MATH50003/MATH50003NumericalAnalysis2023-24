@@ -23,7 +23,7 @@ compilenotes("III.5.OrthogonalMatrices")
 compilenotes("III.6.QR")
 
 compilenotes("IV.1.Fourier")
-compilenotes("IV.2.DCT")
+compilenotes("IV.2.DFT")
 
 
 compilenotes("A.Asymptotics")

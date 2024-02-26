@@ -114,6 +114,7 @@
 \def\bbN{{\mathbb N}}
 \def\bbF{{\mathbb F}}
 \def\bbR{{\mathbb R}}
+\def\bbT{{\mathbb T}}
 \def\bbC{{\mathbb C}}
 \def\emdash{\hbox{---}}
 \def\endash{\hbox{--}}
@@ -132,6 +133,7 @@
 \def\y{{\vc y}}
 \def\z{{\vc z}}
 \def\k{{\vc k}}
+\def\vchatf{{\vc f}}
 \def\zero{{\vc 0}}
 \def\Lt{{\tilde L}}
 \def\Pt{{\tilde P}}
@@ -273,6 +275,28 @@ We discuss how to reduce this problem to solving a rectangular least squares pro
 \input{III.4.Regression}
 \input{III.5.OrthogonalMatrices}
 \input{III.6.QR}
+
+
+\chapter{Approximation Theory}
+
+So far, we have seen intuitive numerical methods for computing derivatives, integrals, and solving
+differential equations, primarily based on representing functions by their values at a grid of points.
+But by using more sophisticated mathematical tools, we can achieve much more accurate and reliable
+numerical methods. In particular, we can effectively use Fourier series for computing very accurately with periodic functions,
+and orthogonal polynomials for non-periodic functions that are smooth within an interval.
+Here we introduce these fundamental tools and explore applications to quadrature (computing integrals) where they
+produce incredibly accurate approximations, ones that converge exponentially (or faster) for analytic functions.
+
+\begin{enumerate}
+    \item IV.1 Fourier Expansions:
+    \item IV.2 Discrete Fourier Transform:
+    \item IV.3 Orthogonal Polynomials:
+    \item IV.4 Classical Orthogonal Polynomials:
+    \item IV.5 Gaussian Quadrature:
+    \end{enumerate}
+
+\input{IV.1.Fourier}
+\input{IV.2.DFT}
 
 
 \appendix
