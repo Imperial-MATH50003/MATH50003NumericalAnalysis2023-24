@@ -189,9 +189,9 @@ a_{kk} = \ensuremath{\bm{\e}}_k^\ensuremath{\top} A \ensuremath{\bm{\e}}_k > 0.
 \ensuremath{\QED}
 
 \begin{lemma}[subslice pos. def.] If $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is positive definite and $\ensuremath{\bm{\k}} = [k_1,\ensuremath{\ldots},k_m]^\ensuremath{\top} \ensuremath{\in} \{1,\ensuremath{\ldots},n\}^m$ is a vector of $m$ integers where any integer appears only once,  then $A[\ensuremath{\bm{\k}},\ensuremath{\bm{\k}}] \ensuremath{\in} \ensuremath{\bbR}^{m \ensuremath{\times} m}$ is also positive definite. \end{lemma}
-\textbf{Proof} For all $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^m, \ensuremath{\bm{\x}} \ensuremath{\neq} 0$, consider $\ensuremath{\bm{\y}} \ensuremath{\in} \ensuremath{\bbR}^n$ such that $y_j = x_{k_j}$ and zero otherwise. Then we have
+\textbf{Proof} For all $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbR}^m, \ensuremath{\bm{\x}} \ensuremath{\neq} 0$, consider $\ensuremath{\bm{\y}} \ensuremath{\in} \ensuremath{\bbR}^n$ such that $y_{k_j} = x_j$ and zero otherwise. Then we have
 \[
-\ensuremath{\bm{\x}}^\ensuremath{\top} A[\ensuremath{\bm{\k}},\ensuremath{\bm{\k}}] \ensuremath{\bm{\x}} = \ensuremath{\sum}_{\ensuremath{\ell}=1}^m \ensuremath{\sum}_{j=1}^m x_\ensuremath{\ell} x_j a_{k_\ensuremath{\ell},k_j}  = \ensuremath{\sum}_{\ensuremath{\ell}=1}^n \ensuremath{\sum}_{j=1}^n y_\ensuremath{\ell} y_j a_{\ensuremath{\ell},j} = \ensuremath{\bm{\y}}^\ensuremath{\top} A \ensuremath{\bm{\y}} > 0.
+\ensuremath{\bm{\x}}^\ensuremath{\top} A[\ensuremath{\bm{\k}},\ensuremath{\bm{\k}}] \ensuremath{\bm{\x}} = \ensuremath{\sum}_{\ensuremath{\ell}=1}^m \ensuremath{\sum}_{j=1}^m x_\ensuremath{\ell} x_j a_{k_\ensuremath{\ell},k_j} = \ensuremath{\sum}_{\ensuremath{\ell}=1}^m \ensuremath{\sum}_{j=1}^m y_{k_\ensuremath{\ell}} y_{k_j} a_{k_\ensuremath{\ell},k_j}  = \ensuremath{\sum}_{\ensuremath{\ell}=1}^n \ensuremath{\sum}_{j=1}^n y_\ensuremath{\ell} y_j a_{\ensuremath{\ell},j} = \ensuremath{\bm{\y}}^\ensuremath{\top} A \ensuremath{\bm{\y}} > 0.
 \]
 \ensuremath{\QED}
 

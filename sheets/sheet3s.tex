@@ -124,6 +124,8 @@
 \def\endash{–}
 \def\bbD{ {\mathbb D} }
 \def\bbZ{ {\mathbb Z} }
+\def\bbR{ {\mathbb R} }
+\def\bbC{ {\mathbb C} }
 
 \def\x{ {\vc x} }
 \def\a{ {\vc a} }
@@ -131,6 +133,9 @@
 \def\e{ {\vc e} }
 \def\f{ {\vc f} }
 \def\u{ {\vc u} }
+\def\v{ {\vc v} }
+\def\y{ {\vc y} }
+\def\z{ {\vc z} }
 
 \def\red#1{ {\color{red} #1} }
 \def\blue#1{ {\color{blue} #1} }
@@ -180,14 +185,16 @@ This the bits are: \texttt{11110110}. \textbf{END}
 \[
 127 \ensuremath{\oplus}_{256}^{\rm s} 200,\quad 2 \ensuremath{\otimes}_{256}^{\rm s} 127, \quad 2 \ensuremath{\otimes}_{256}^{\rm s} 128, \quad 0 \ensuremath{\ominus}_{256}^{\rm s} 1
 \]
-\textbf{SOLUTION}
+\textbf{SOLUTION} The first and 3rd part are somewhat trick questions since $200$ and $128$ aren't representable using 8-bit integers, but if we interpret the problem as modulo arithimetic we have:
 \[
-127 \ensuremath{\oplus}_{256}^{\rm s} 200 = 327\ ({\rm mod}^{\rm s} 256) = 71
+127 \ensuremath{\oplus}_{256}^{\rm s} 200 = 327\ ({\rm mod}^{\rm s} 256) = 71,
 \]
 \[
-2 \ensuremath{\otimes}_{256}^{\rm s} 127 = 254\ ({\rm mod}^{\rm s} 256) = -2
+2 \ensuremath{\otimes}_{256}^{\rm s} 127 = 254\ ({\rm mod}^{\rm s} 256) = -2,
 \]
-(The third part was a trick question: 128 cannot be represented as an 8-bit signed integer)
+\[
+2 \ensuremath{\otimes}_{256}^{\rm s} 128 = 256 \ ({\rm mod}^{\rm s} 256) = 0,
+\]
 \[
 0 \ensuremath{\ominus}_{256}^{\rm s} 1 = -1  \ ({\rm mod} 256)^{\rm s} = -1.
 \]

@@ -48,14 +48,19 @@ $$
 $$
 
 **SOLUTION**
+The first and 3rd part are somewhat trick questions since $200$ and $128$ aren't representable using
+8-bit integers, but if we interpret the problem as modulo arithimetic we have:
+
 $$
-127 ⊕_{256}^{\rm s} 200 = 327\ ({\rm mod}^{\rm s} 256) = 71
+127 ⊕_{256}^{\rm s} 200 = 327\ ({\rm mod}^{\rm s} 256) = 71,
 $$
 $$
-2 ⊗_{256}^{\rm s} 127 = 254\ ({\rm mod}^{\rm s} 256) = -2
+2 ⊗_{256}^{\rm s} 127 = 254\ ({\rm mod}^{\rm s} 256) = -2,
 $$
 
-(The third part was a trick question: 128 cannot be represented as an 8-bit signed integer)
+$$
+2 ⊗_{256}^{\rm s} 128 = 256 \ ({\rm mod}^{\rm s} 256) = 0,
+$$
 
 $$
 0 ⊖_{256}^{\rm s} 1 = -1  \ ({\rm mod} 256)^{\rm s} = -1.

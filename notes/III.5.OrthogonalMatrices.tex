@@ -15,7 +15,7 @@ Here the adjoint is the same as the conjugate-transpose: $Q^\ensuremath{\star} :
 Note that $O(n) \ensuremath{\subset} U(n)$ as for real matrices $Q^\ensuremath{\star} = Q^\ensuremath{\top}$. Because in either case $Q^{-1} = Q^\ensuremath{\star}$ we also have $Q Q^\ensuremath{\star} = I$ (which for real matrices is $Q Q^\ensuremath{\top} = I$). These matrices are particularly important for numerical linear algebra for a number of reasons (we'll explore these properties in the problem sheets):
 
 \begin{itemize}
-\item[1. ] They are norm-preserving: for any vector $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbC}^n$ we have $\|Q \ensuremath{\bm{\x}} \| = \| \ensuremath{\bm{\x}}\|$ where $\| \ensuremath{\bm{\x}} \|^2 := \ensuremath{\sum}_{k=1}^n x_k^2$ (i.e. the 2-norm).
+\item[1. ] They are norm-preserving: for any vector $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbC}^n$ and $Q \ensuremath{\in} U(n)$    we have $\|Q \ensuremath{\bm{\x}} \| = \| \ensuremath{\bm{\x}}\|$ where $\| \ensuremath{\bm{\x}} \|^2 := \ensuremath{\sum}_{k=1}^n x_k^2$ (i.e. the 2-norm).
 
 
 \item[2. ] All eigenvalues have absolute value equal to $1$.
@@ -33,10 +33,7 @@ Note that $O(n) \ensuremath{\subset} U(n)$ as for real matrices $Q^\ensuremath{\
 \item[6. ] They are \emph{normal matrices}: they commute with their adjoint ($Q Q^\ensuremath{\star} = Q Q^\ensuremath{\star}$). 
 
 
-\item[7. ] \[
-O(n)
-\]
-and $U(n)$ are groups, in particular, they are closed under multiplication.
+\item[7. ] Both $O(n)$ and $U(n)$ are groups, in particular, they are closed under multiplication.
 
 \end{itemize}
 On a computer there are multiple ways of representing orthogonal/unitary matrices, and it is almost never to store a dense matrix, that is, we do not want to store all the entries. In the appendices we have seen permutation matrices, which are a special type of orthogonal matrices where we can store only the order the entries are permuted as a vector. 
@@ -132,7 +129,7 @@ and $\det Q = 1$.
 
 \begin{example}[rotating a vector] Consider the vector
 \[
-\ensuremath{\bm{\x}} = \Vectt[-\sqrt{3},-1].
+\ensuremath{\bm{\x}} = \Vectt[-1,-\sqrt{3}].
 \]
 We can use the proposition above to deduce the rotation matrix that rotates this vector to the positive real axis is:
 \[

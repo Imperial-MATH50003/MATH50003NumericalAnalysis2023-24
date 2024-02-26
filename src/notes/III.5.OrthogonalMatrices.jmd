@@ -19,13 +19,13 @@ Note that $O(n) ⊂ U(n)$ as for real matrices $Q^⋆ = Q^⊤$. Because in eithe
 $Q Q^⋆ = I$ (which for real matrices is $Q Q^⊤ = I$). These matrices are particularly important for
 numerical linear algebra for a number of reasons (we'll explore these properties in the problem sheets):
 
-1. They are norm-preserving: for any vector $𝐱 ∈ ℂ^n$ we have $\|Q 𝐱 \| = \| 𝐱\|$ where $\| 𝐱 \|^2 := ∑_{k=1}^n x_k^2$ (i.e. the 2-norm).
+1. They are norm-preserving: for any vector $𝐱 ∈ ℂ^n$ and $Q ∈ U(n)$    we have $\|Q 𝐱 \| = \| 𝐱\|$ where $\| 𝐱 \|^2 := ∑_{k=1}^n x_k^2$ (i.e. the 2-norm).
 2. All eigenvalues have absolute value equal to $1$.
 3. For $Q ∈ O(n)$,  $\det Q = ±1$.
 2. They are trivially invertible (just take the adjoint).
 3. They are generally “stable": errors due to rounding when multiplying a vector by $Q$ are controlled.
 4. They are _normal matrices_: they commute with their adjoint ($Q Q^⋆ = Q Q^⋆$). 
-5. $O(n)$ and $U(n)$ are groups, in particular, they are closed under multiplication.
+5. Both $O(n)$ and $U(n)$ are groups, in particular, they are closed under multiplication.
 
 On a computer there are multiple ways of representing orthogonal/unitary matrices,
 and it is almost never to store a dense matrix, that is, we do not want to store all the entries.
@@ -137,7 +137,7 @@ and $\det Q = 1$.
 
 **Example (rotating a vector)** Consider the vector
 $$
-𝐱 = \Vectt[-\sqrt{3},-1].
+𝐱 = \Vectt[-1,-\sqrt{3}].
 $$
 We can use the proposition above to deduce the rotation matrix that rotates this
 vector to the positive real axis is:

@@ -223,9 +223,9 @@ and $𝐤 = [k_1,…,k_m]^⊤ ∈ \{1,…,n\}^m$ is a vector of $m$ integers whe
  then $A[𝐤,𝐤] ∈ ℝ^{m × m}$ is also
 positive definite.
 **Proof**
-For all $𝐱 ∈ ℝ^m, 𝐱 ≠ 0$, consider $𝐲 ∈ ℝ^n$ such that $y_j = x_{k_j}$ and zero otherwise. Then we have
+For all $𝐱 ∈ ℝ^m, 𝐱 ≠ 0$, consider $𝐲 ∈ ℝ^n$ such that $y_{k_j} = x_j$ and zero otherwise. Then we have
 $$
-𝐱^⊤ A[𝐤,𝐤] 𝐱 = ∑_{ℓ=1}^m ∑_{j=1}^m x_ℓ x_j a_{k_ℓ,k_j}  = ∑_{ℓ=1}^n ∑_{j=1}^n y_ℓ y_j a_{ℓ,j} = 𝐲^⊤ A 𝐲 > 0.
+𝐱^⊤ A[𝐤,𝐤] 𝐱 = ∑_{ℓ=1}^m ∑_{j=1}^m x_ℓ x_j a_{k_ℓ,k_j} = ∑_{ℓ=1}^m ∑_{j=1}^m y_{k_ℓ} y_{k_j} a_{k_ℓ,k_j}  = ∑_{ℓ=1}^n ∑_{j=1}^n y_ℓ y_j a_{ℓ,j} = 𝐲^⊤ A 𝐲 > 0.
 $$
 
 ∎

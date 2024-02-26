@@ -62,4 +62,4 @@ $$
 In the lab we investigate the convergence rate of these approximations (in particular, that 
 central differences is more accurate than standard divided differences) and observe that they too
 suffer from unexplained (for now) loss of accuracy as $h → 0$. In the problem sheet we prove the theoretical
-converge rate, which is never realised because of these errors.
+convergence rate, which is never realised because of these errors.
