@@ -52,6 +52,7 @@ compilelabsolution(2)
 compilelabsolution(3)
 compilelabsolution(4)
 compilelabsolution(5)
+compilelabsolution(6)
 
 
 
