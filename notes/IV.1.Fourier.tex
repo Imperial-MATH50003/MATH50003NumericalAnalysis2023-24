@@ -1,5 +1,5 @@
 
-\section{Fourier expansions}
+\section{Fourier Expansions}
 Fourier series are a powerful tool in wide areas of mathematics, including solving partial differential equations, signal processing, and elsewhere. They are also very useful in computational methods, particularly for problems that have periodicity. Periodicity arises naturally when solving problems in radial coordinates, or when approximating a problem on the real line by a periodic problem with a large problem. Fourier series are also related to orthogonal polynomials, which can be used for non-periodic problems.
 
 \subsection{Basics of Fourier series}
@@ -172,38 +172,6 @@ A remarkable fact is that the discete Fourier coefficients can be expressed as a
 \end{align*}
 \ensuremath{\QED}
 
-Note that there is redundancy:
-
-\begin{corollary}[aliasing] For all $p \ensuremath{\in} \ensuremath{\bbZ}$, $\hat f_k^n = \hat f_{k+pn}^n$.
-
-\end{corollary}
-\textbf{Proof} Follows immediately:
-\[
-\hat f_{k+pn}^n = \sum_{j=-\ensuremath{\infty}}^\ensuremath{\infty} \hat f_{k+(p+j)n}= \sum_{j=-\ensuremath{\infty}}^\ensuremath{\infty} \hat f_{k+j n} = \hat f_k^n.
-\]
-\ensuremath{\QED}
-
-In other words if we know $\hat f_0^n, \ensuremath{\ldots}, \hat f_{n-1}^n$, we know $\hat f_k^n$ for all $k$ via a permutation, for example if $n = 2m+1$ we have
-\[
-\begin{bmatrix}
-\hat f_{-m}^n \\
-\ensuremath{\vdots}\\
-\hat f_m^n
-\end{bmatrix} = \underbrace{\begin{bmatrix} &&& 1 \\ &&&& \ensuremath{\ddots} \\ &&&&& 1 \\
-    1 \\ & \ensuremath{\ddots} \\ && 1 \end{bmatrix}}_{P_\ensuremath{\sigma}}
-\begin{bmatrix}
-\hat f_0^n \\
-\ensuremath{\vdots}\\
-\hat f_{n-1}^n
-\end{bmatrix}
-\]
-where $\ensuremath{\sigma}$ has Cauchy notation (\emph{Careful}: we are using 1-based indexing here):
-\[
-\begin{pmatrix}
-1 & 2 & \ensuremath{\cdots} & m & m+1 & m+2 & \ensuremath{\cdots} & n  \\
-m+2 & m+3 & \ensuremath{\cdots} & n & 1 & 2 & \ensuremath{\cdots} & m+1
-\end{pmatrix}.
-\]
 \begin{example}[Taylor coefficients via Geometric series] Consider the function
 \[
 f(\ensuremath{\theta}) = {2 \over 2 - {\rm e}^{{\rm i} \ensuremath{\theta}}}
@@ -222,6 +190,44 @@ If we use an $n$ point discretisation we get (using the geoemtric series with $2
 \]
 Note that as $n \rightarrow \ensuremath{\infty}$, we have $\hat f_k^n \rightarrow \hat f_k$. \end{example}
 
+Note that there is redundancy:
+
+\begin{corollary}[aliasing] For all $p \ensuremath{\in} \ensuremath{\bbZ}$, $\hat f_k^n = \hat f_{k+pn}^n$.
+
+\end{corollary}
+\textbf{Proof} Follows immediately:
+\[
+\hat f_{k+pn}^n = \sum_{j=-\ensuremath{\infty}}^\ensuremath{\infty} \hat f_{k+(p+j)n}= \sum_{j=-\ensuremath{\infty}}^\ensuremath{\infty} \hat f_{k+j n} = \hat f_k^n.
+\]
+\ensuremath{\QED}
+
+In other words if we know $\hat f_0^n, \ensuremath{\ldots}, \hat f_{n-1}^n$, we know $\hat f_k^n$ for all $k$ via a permutation, for example if $n = 2m+1$ we have
+\[
+\begin{bmatrix}
+\hat f_{-m}^n \\
+\ensuremath{\vdots}\\
+\hat f_{-1}^n \\
+\hat f_0^n \\
+\ensuremath{\vdots}\\
+\hat f_m^n
+\end{bmatrix} = \underbrace{\begin{bmatrix} &&& 1 \\ &&&& \ensuremath{\ddots} \\ &&&&& 1 \\
+    1 \\ & \ensuremath{\ddots} \\ && 1 \end{bmatrix}}_{P_\ensuremath{\sigma}}
+\begin{bmatrix}
+\hat f_0^n \\
+\ensuremath{\vdots}\\
+\hat f_m^n\\
+\hat f_{m+1}^n \\
+\ensuremath{\vdots}\\
+\hat f_{n-1}^n
+\end{bmatrix}
+\]
+where $\ensuremath{\sigma}$ has Cauchy notation (\emph{Careful}: we are using 1-based indexing here):
+\[
+\begin{pmatrix}
+1 & 2 & \ensuremath{\cdots} & m & m+1 & m+2 & \ensuremath{\cdots} & n  \\
+m+2 & m+3 & \ensuremath{\cdots} & n & 1 & 2 & \ensuremath{\cdots} & m+1
+\end{pmatrix}.
+\]
 We can  prove \emph{convergence} whenever $f$ has absolutely summable coefficients. We will prove the result here in the special case where the negative coefficients are zero. That is, $\hat f_0^n, \ensuremath{\ldots}, \hat f_{n-1}^n$ are approximations of the Fourier\ensuremath{\endash}Taylor coefficients.
 
 \begin{theorem}[Approximate Fourier-Taylor expansions converge] If $0 = \hat f_{-1} = \hat f_{-2} = \ensuremath{\cdots}$ and $\vchatf$ is absolutely convergent then

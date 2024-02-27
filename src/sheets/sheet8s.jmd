@@ -300,5 +300,22 @@ C'C
 **Problem 5** What polynomial interpolates $\cos z$ at $1, \exp(2π\I/3)$ and $\exp(-2π\I/3)$?
 
 **SOLUTION**
-
+For $ω =  \exp(2π\I/3)$, we use the DCT:
+$$
+\Vectt[\hat f_0^3, \hat f_1^3, \hat f_2^3, \hat f_2^3] = 
+{1 \over 3} \begin{bmatrix}1 & 1 & 1  \\
+                            1 &\exp(-2π\I/3) & \exp(2π\I/3) \\
+                            1 & \exp(2π\I/3)  & \exp(-2π\I/3)
+                            \end{bmatrix}
+ \Vectt[\cos(1), \cos(\exp(2π\I/3)), \cos(\exp(-2π\I/3))] = {1 \over 3} \Vectt[\cos(1)+ \cos(\exp(2π\I/3))+ \cos(\exp(-2π\I/3)) ,
+ \cos(1)+ \exp(-2π\I/3) \cos(\exp(2π\I/3))+ \exp(2π\I/3) \cos(\exp(-2π\I/3)) ,
+ \cos(1)+ \exp(2π\I/3) \cos(\exp(2π\I/3))+ \exp(-2π\I/3) \cos(\exp(-2π\I/3)) 
+ ]
+$$
+That is, the polynomial is
+$$
+{\cos(1)+ \cos(\exp(2π\I/3))+ \cos(\exp(-2π\I/3)) \over 3} + 
+\cos(1)+ \exp(-2π\I/3) \cos(\exp(2π\I/3))+ \exp(2π\I/3) \cos(\exp(-2π\I/3))\over 3} z + 
+\cos(1)+ \exp(2π\I/3) \cos(\exp(2π\I/3))+ \exp(-2π\I/3) \cos(\exp(-2π\I/3)) \over 3} z^2.
+$$
 **END**

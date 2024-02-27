@@ -139,15 +139,37 @@ $$
 We can use Lagrange polynomials:
 $$
 \meeq{
-ℓ_1(z) ={ (z - \I)(z + 1)(z + \I) \over 2(1 - \I)(1 + \I)} = { (z^2 + 1)(z + 1) \over 4} \ccr
-ℓ_2(z) ={ (z - 1)(z + 1)(z + \I) \over (\I - 1) (\I + 1) 2\I} = -{ (z^2 - 1)(z + \I) \over 4\I} \ccr
-ℓ_3(z) ={ (z - 1)(z - \I)(z + \I) \over -2 (-1-\I)(-1+\I)} = {(z-1) (z^2 + 1) \over 4} \ccr
-ℓ_4(z) ={ (z - 1)(z - \I)(z+1) \over (-\I-1)(-2\I)(-\I+1)} = {(z^2-1) (z - \I) \over 4\I}
+ℓ_1(z) ={ (z - \I)(z + 1)(z + \I) \over 2(1 - \I)(1 + \I)} = { z^3 + z^2 + z + 1 \over 4} \ccr
+ℓ_2(z) ={ (z - 1)(z + 1)(z + \I) \over (\I - 1) (\I + 1) 2\I} = { \I z^3 - z^2 - \I z + 1 \over 4} \ccr
+ℓ_3(z) ={ (z - 1)(z - \I)(z + \I) \over -2 (-1-\I)(-1+\I)} = {-z^3 + z^2 - z + 1 \over 4} \ccr
+ℓ_4(z) ={ (z - 1)(z - \I)(z+1) \over (-\I-1)(-2\I)(-\I+1)} = {- \I z^3 -z^2 + \I z + 1 \over 4}
 }
 $$
 So we get the interpolant:
 $$
-\E ℓ_1(z) + \E^\I ℓ_2(z) + \E^{-1} ℓ_3(z) + \E^{-\I} ℓ_4(z)
+\begin{align*}
+\E & ℓ_1(z) + \E^\I ℓ_2(z) + \E^{-1} ℓ_3(z) + \E^{-\I} ℓ_4(z) \\
+ &= 
+{\E + \E^\I + \E^{-1} + \E^{-\I} \over 4} +
+{\E - \I \E^\I - \E^{-1} + \I \E^{-\I} \over 4} z +
+ {\E - \E^\I + \E^{-1} - \I \E^{-\I} \over 4} z^2 +
+ {\E + \I \E^\I - \E^{-1} - \I \E^{-\I} \over 4} z^3 
+\end{align*}
 $$
-Alternatively we can use the DCT. 
+
+Alternatively we could have deduced this directly from the DCT. In particular, we know the coefficients of the interpolating polynomial must be,
+for $ω = \I$,
+$$
+\Vectt[\hat f_0^4, \hat f_1^4, \hat f_2^4, \hat f_3^4] = 
+{1 \over 4} \begin{bmatrix}1 & 1 & 1 & 1 \\
+                            1 & -\I & -1 & \I \\
+                            1 & -1 & 1 & -1 \\
+                            1 & \I & -1 & -\I
+                            \end{bmatrix}
+ \Vectt[\E, \E^\I, \E^{-1}, \E^{-\I}] = {1 \over 4} \Vectt[\E + \E^\I + \E^{-1} + \E^{-\I} ,
+ \E -\I \E^\I - \E^{-1} + \I \E^{-\I} ,
+ \E - \E^\I + \E^{-1} - \E^{-\I} ,
+ \E + \I \E^\I - \E^{-1} = \I \E^{-\I}
+ ]
+$$
 ∎

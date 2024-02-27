@@ -233,42 +233,6 @@ $$
 $$
 ∎
 
-Note that there is redundancy:
-
-**Corollary (aliasing)**
-For all $p ∈ ℤ$, $\hat f_k^n = \hat f_{k+pn}^n$.
-
-**Proof**
-Follows immediately:
-$$
-\hat f_{k+pn}^n = \sum_{j=-∞}^∞ \hat f_{k+(p+j)n}= \sum_{j=-∞}^∞ \hat f_{k+j n} = \hat f_k^n.
-$$
-∎
-
-
-In other words if we know $\hat f_0^n, …, \hat f_{n-1}^n$, we know $\hat f_k^n$ for all $k$ via a permutation,
-for example if $n = 2m+1$ we have
-$$
-\begin{bmatrix}
-\hat f_{-m}^n \\
-⋮\\
-\hat f_m^n
-\end{bmatrix} = \underbrace{\begin{bmatrix} &&& 1 \\ &&&& ⋱ \\ &&&&& 1 \\
-    1 \\ & ⋱ \\ && 1 \end{bmatrix}}_{P_σ}
-\begin{bmatrix}
-\hat f_0^n \\
-⋮\\
-\hat f_{n-1}^n
-\end{bmatrix}
-$$
-where $σ$ has Cauchy notation (_Careful_: we are using 1-based indexing here):
-$$
-\begin{pmatrix}
-1 & 2 & ⋯ & m & m+1 & m+2 & ⋯ & n  \\
-m+2 & m+3 & ⋯ & n & 1 & 2 & ⋯ & m+1
-\end{pmatrix}.
-$$
-
 
 **Example (Taylor coefficients via Geometric series)** Consider the function
 $$
@@ -289,6 +253,51 @@ $$
 $$
 Note that as $n \rightarrow ∞$, we have $\hat f_k^n \rightarrow \hat f_k$.
 ∎
+
+
+
+
+Note that there is redundancy:
+
+**Corollary (aliasing)**
+For all $p ∈ ℤ$, $\hat f_k^n = \hat f_{k+pn}^n$.
+
+**Proof**
+Follows immediately:
+$$
+\hat f_{k+pn}^n = \sum_{j=-∞}^∞ \hat f_{k+(p+j)n}= \sum_{j=-∞}^∞ \hat f_{k+j n} = \hat f_k^n.
+$$
+∎
+
+
+In other words if we know $\hat f_0^n, …, \hat f_{n-1}^n$, we know $\hat f_k^n$ for all $k$ via a permutation,
+for example if $n = 2m+1$ we have
+$$
+\begin{bmatrix}
+\hat f_{-m}^n \\
+⋮\\
+\hat f_{-1}^n \\
+\hat f_0^n \\
+⋮\\
+\hat f_m^n
+\end{bmatrix} = \underbrace{\begin{bmatrix} &&& 1 \\ &&&& ⋱ \\ &&&&& 1 \\
+    1 \\ & ⋱ \\ && 1 \end{bmatrix}}_{P_σ}
+\begin{bmatrix}
+\hat f_0^n \\
+⋮\\
+\hat f_m^n\\
+\hat f_{m+1}^n \\
+⋮\\
+\hat f_{n-1}^n
+\end{bmatrix}
+$$
+where $σ$ has Cauchy notation (_Careful_: we are using 1-based indexing here):
+$$
+\begin{pmatrix}
+1 & 2 & ⋯ & m & m+1 & m+2 & ⋯ & n  \\
+m+2 & m+3 & ⋯ & n & 1 & 2 & ⋯ & m+1
+\end{pmatrix}.
+$$
 
 
 

@@ -6,10 +6,10 @@ In the last section we explored using the trapezium rule for approximating Fouri
 \begin{definition}[DFT] The \emph{Discrete Fourier Transform (DFT)} is defined as:
 \begin{align*}
 Q_n &:= {1 \over \sqrt{n}} \begin{bmatrix} 1 & 1 & 1&  \ensuremath{\cdots} & 1 \\
-                                    1 & {\rm e}^{-{\rm i} \ensuremath{\theta}_1} & {\rm e}^{-{\rm i} \ensuremath{\theta}_2} & \ensuremath{\cdots} & {\rm e}^{-{\rm i} \ensuremath{\theta}_{n-1}} \\
-                                    1 & {\rm e}^{-{\rm i} 2 \ensuremath{\theta}_1} & {\rm e}^{-{\rm i} 2 \ensuremath{\theta}_2} & \ensuremath{\cdots} & {\rm e}^{-{\rm i} 2\ensuremath{\theta}_{n-1}} \\
+                                    1 & {\rm e}^{-\I \ensuremath{\theta}_1} & {\rm e}^{-\I \ensuremath{\theta}_2} & \ensuremath{\cdots} & {\rm e}^{-\I \ensuremath{\theta}_{n-1}} \\
+                                    1 & {\rm e}^{-\I 2 \ensuremath{\theta}_1} & {\rm e}^{-\I 2 \ensuremath{\theta}_2} & \ensuremath{\cdots} & {\rm e}^{-\I 2\ensuremath{\theta}_{n-1}} \\
                                     \ensuremath{\vdots} & \ensuremath{\vdots} & \ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
-                                    1 & {\rm e}^{-{\rm i} (n-1) \ensuremath{\theta}_1} & {\rm e}^{-{\rm i} (n-1) \ensuremath{\theta}_2} & \ensuremath{\cdots} & {\rm e}^{-{\rm i} (n-1) \ensuremath{\theta}_{n-1}}
+                                    1 & {\rm e}^{-\I (n-1) \ensuremath{\theta}_1} & {\rm e}^{-\I (n-1) \ensuremath{\theta}_2} & \ensuremath{\cdots} & {\rm e}^{-\I (n-1) \ensuremath{\theta}_{n-1}}
 \end{bmatrix} \\
 &= {1 \over \sqrt{n}} \begin{bmatrix} 1 & 1 & 1&  \ensuremath{\cdots} & 1 \\
                                     1 & \ensuremath{\omega}^{-1} & \ensuremath{\omega}^{-2} & \ensuremath{\cdots} & \ensuremath{\omega}^{-(n-1)}\\
@@ -18,16 +18,16 @@ Q_n &:= {1 \over \sqrt{n}} \begin{bmatrix} 1 & 1 & 1&  \ensuremath{\cdots} & 1 \
                                     1 & \ensuremath{\omega}^{-(n-1)} & \ensuremath{\omega}^{-2(n-1)} & \ensuremath{\cdots} & \ensuremath{\omega}^{-(n-1)^2}
 \end{bmatrix}
 \end{align*}
-for the $n$-th root of unity $\ensuremath{\omega} = {\rm e}^{2\ensuremath{\pi}{\rm i}/n}$.  \end{definition}
+for the $n$-th root of unity $\ensuremath{\omega} = {\rm e}^{2\ensuremath{\pi}\I/n}$.  \end{definition}
 
 Note that
 \begin{align*}
 Q_n^\ensuremath{\star} &= {1 \over \sqrt{n}} \begin{bmatrix}
 1 & 1 & 1&  \ensuremath{\cdots} & 1 \\
-1 & {\rm e}^{{\rm i} \ensuremath{\theta}_1} & {\rm e}^{{\rm i} 2 \ensuremath{\theta}_1} & \ensuremath{\cdots} & {\rm e}^{{\rm i} (n-1) \ensuremath{\theta}_1} \\
-1 &  {\rm e}^{{\rm i} \ensuremath{\theta}_2}  & {\rm e}^{{\rm i} 2 \ensuremath{\theta}_2} & \ensuremath{\cdots} & {\rm e}^{{\rm i} (n-1)\ensuremath{\theta}_2} \\
+1 & {\rm e}^{\I \ensuremath{\theta}_1} & {\rm e}^{\I 2 \ensuremath{\theta}_1} & \ensuremath{\cdots} & {\rm e}^{\I (n-1) \ensuremath{\theta}_1} \\
+1 &  {\rm e}^{\I \ensuremath{\theta}_2}  & {\rm e}^{\I 2 \ensuremath{\theta}_2} & \ensuremath{\cdots} & {\rm e}^{\I (n-1)\ensuremath{\theta}_2} \\
 \ensuremath{\vdots} & \ensuremath{\vdots} & \ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
-1 & {\rm e}^{{\rm i} \ensuremath{\theta}_{n-1}} & {\rm e}^{{\rm i} 2 \ensuremath{\theta}_{n-1}} & \ensuremath{\cdots} & {\rm e}^{{\rm i} (n-1) \ensuremath{\theta}_{n-1}}
+1 & {\rm e}^{\I \ensuremath{\theta}_{n-1}} & {\rm e}^{\I 2 \ensuremath{\theta}_{n-1}} & \ensuremath{\cdots} & {\rm e}^{\I (n-1) \ensuremath{\theta}_{n-1}}
 \end{bmatrix} \\
 &= {1 \over \sqrt{n}} \begin{bmatrix}
 1 & 1 & 1&  \ensuremath{\cdots} & 1 \\
@@ -48,10 +48,10 @@ The choice of normalisation constant is motivated by the following:
 
 \textbf{Proof}
 \[
-Q_n Q_n^\ensuremath{\star}  = \begin{bmatrix} \ensuremath{\Sigma}_n[1] & \ensuremath{\Sigma}_n[{\rm e}^{{\rm i} \ensuremath{\theta}}] & \ensuremath{\cdots} & \ensuremath{\Sigma}_n[{\rm e}^{{\rm i} (n-1) \ensuremath{\theta}}] \\
-                            \ensuremath{\Sigma}_n[{\rm e}^{-{\rm i} \ensuremath{\theta}}] & \ensuremath{\Sigma}_n[1] & \ensuremath{\cdots} & \ensuremath{\Sigma}_n[{\rm e}^{{\rm i} (n-2) \ensuremath{\theta}}] \\
+Q_n Q_n^\ensuremath{\star}  = \begin{bmatrix} \ensuremath{\Sigma}_n[1] & \ensuremath{\Sigma}_n[{\rm e}^{\I \ensuremath{\theta}}] & \ensuremath{\cdots} & \ensuremath{\Sigma}_n[{\rm e}^{\I (n-1) \ensuremath{\theta}}] \\
+                            \ensuremath{\Sigma}_n[{\rm e}^{-\I \ensuremath{\theta}}] & \ensuremath{\Sigma}_n[1] & \ensuremath{\cdots} & \ensuremath{\Sigma}_n[{\rm e}^{\I (n-2) \ensuremath{\theta}}] \\
                             \ensuremath{\vdots} & \ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
-                            \ensuremath{\Sigma}_n[{\rm e}^{-{\rm i}(n-1) \ensuremath{\theta}}] & \ensuremath{\Sigma}_n[{\rm e}^{-{\rm i}(n-2) \ensuremath{\theta}}] & \ensuremath{\cdots} & \ensuremath{\Sigma}_n[1]
+                            \ensuremath{\Sigma}_n[{\rm e}^{-\I(n-1) \ensuremath{\theta}}] & \ensuremath{\Sigma}_n[{\rm e}^{-\I(n-2) \ensuremath{\theta}}] & \ensuremath{\cdots} & \ensuremath{\Sigma}_n[1]
                             \end{bmatrix} = I
 \]
 \ensuremath{\QED}
@@ -66,7 +66,7 @@ S_n(k) := \ensuremath{\sum}_{p=0}^\ensuremath{\infty} {1 \over (k+pn)!}
 \]
 We can use the DFT to compute $S_n(0), \ensuremath{\ldots}, S_n(n-1)$. Consider
 \[
-f(\ensuremath{\theta}) = \exp({\rm e}^{{\rm i} \ensuremath{\theta}}) = \ensuremath{\sum}_{k=0}^\ensuremath{\infty} {{\rm e}^{{\rm i} k \ensuremath{\theta}} \over k!}
+f(\ensuremath{\theta}) = \exp({\rm e}^{\I \ensuremath{\theta}}) = \ensuremath{\sum}_{k=0}^\ensuremath{\infty} {{\rm e}^{\I k \ensuremath{\theta}} \over k!}
 \]
 where we know the Fourier coefficients from the Taylor series of ${\rm e}^z$. The discrete Fourier coefficients satisfy for $0 \ensuremath{\leq} k \ensuremath{\leq} n-1$:
 \[
@@ -79,9 +79,9 @@ S_n(0) \\
 \ensuremath{\vdots} \\
 S_n(n-1)
 \end{bmatrix} = {1 \over \sqrt{n}} Q_n \begin{bmatrix} 1 \\
-                                \exp({\rm e}^{2{\rm i} \ensuremath{\pi}/n}) \\
+                                \exp({\rm e}^{2\I \ensuremath{\pi}/n}) \\
                                 \ensuremath{\vdots} \\
-                                \exp({\rm e}^{2{\rm i} (n-1) \ensuremath{\pi}/n}) \end{bmatrix}
+                                \exp({\rm e}^{2\I (n-1) \ensuremath{\pi}/n}) \end{bmatrix}
 \]
 \end{example}
 
@@ -92,7 +92,7 @@ The following guarantees that our approximate Fourier series actually interpolat
 
 \begin{corollary}[Interpolation]
 \[
-f_n(\ensuremath{\theta}) := \ensuremath{\sum}_{k=0}^{n-1} \hat f_k^n {\rm e}^{{\rm i} k \ensuremath{\theta}}
+f_n(\ensuremath{\theta}) := \ensuremath{\sum}_{k=0}^{n-1} \hat f_k^n {\rm e}^{\I k \ensuremath{\theta}}
 \]
 interpolates $f$ at $\ensuremath{\theta}_j$:
 \[
@@ -101,9 +101,41 @@ f_n(\ensuremath{\theta}_j) = f(\ensuremath{\theta}_j)
 \end{corollary}
 \textbf{Proof} We have
 \[
-f_n(\ensuremath{\theta}_j) = \ensuremath{\sum}_{k=0}^{n-1} \hat f_k^n {\rm e}^{{\rm i} k \ensuremath{\theta}_j} = \sqrt n \ensuremath{\bm{\e}}_j^\ensuremath{\top} Q_n^\ensuremath{\star} \vchatf^n = \ensuremath{\bm{\e}}_j^\ensuremath{\top} Q_n^\ensuremath{\star} Q_n \ensuremath{\bm{\f}}^n = f(\ensuremath{\theta}_j).
+f_n(\ensuremath{\theta}_j) = \ensuremath{\sum}_{k=0}^{n-1} \hat f_k^n {\rm e}^{\I k \ensuremath{\theta}_j} = \sqrt n \ensuremath{\bm{\e}}_j^\ensuremath{\top} Q_n^\ensuremath{\star} \vchatf^n = \ensuremath{\bm{\e}}_j^\ensuremath{\top} Q_n^\ensuremath{\star} Q_n \ensuremath{\bm{\f}}^n = f(\ensuremath{\theta}_j).
 \]
 \ensuremath{\QED}
+
+\begin{example}[DFT versus Lagrange] Consider interpolating $f(z) = \exp z$ by a polynomial at the points $1, \I, -1, -\I$. We can use Lagrange polynomials:
+\meeq{
+\ensuremath{\ell}_1(z) ={ (z - \I)(z + 1)(z + \I) \over 2(1 - \I)(1 + \I)} = { z^3 + z^2 + z + 1 \over 4} \ccr
+\ensuremath{\ell}_2(z) ={ (z - 1)(z + 1)(z + \I) \over (\I - 1) (\I + 1) 2\I} = { \I z^3 - z^2 - \I z + 1 \over 4} \ccr
+\ensuremath{\ell}_3(z) ={ (z - 1)(z - \I)(z + \I) \over -2 (-1-\I)(-1+\I)} = {-z^3 + z^2 - z + 1 \over 4} \ccr
+\ensuremath{\ell}_4(z) ={ (z - 1)(z - \I)(z+1) \over (-\I-1)(-2\I)(-\I+1)} = {- \I z^3 -z^2 + \I z + 1 \over 4}
+}
+So we get the interpolant:
+\begin{align*}
+\E & \ensuremath{\ell}_1(z) + \E^\I \ensuremath{\ell}_2(z) + \E^{-1} \ensuremath{\ell}_3(z) + \E^{-\I} \ensuremath{\ell}_4(z) \\
+ &= 
+{\E + \E^\I + \E^{-1} + \E^{-\I} \over 4} +
+{\E - \I \E^\I - \E^{-1} + \I \E^{-\I} \over 4} z +
+ {\E - \E^\I + \E^{-1} - \I \E^{-\I} \over 4} z^2 +
+ {\E + \I \E^\I - \E^{-1} - \I \E^{-\I} \over 4} z^3 
+\end{align*}
+Alternatively we could have deduced this directly from the DCT. In particular, we know the coefficients of the interpolating polynomial must be, for $\ensuremath{\omega} = \I$,
+\[
+\Vectt[\hat f_0^4, \hat f_1^4, \hat f_2^4, \hat f_3^4] = 
+{1 \over 4} \begin{bmatrix}1 & 1 & 1 & 1 \\
+                            1 & -\I & -1 & \I \\
+                            1 & -1 & 1 & -1 \\
+                            1 & \I & -1 & -\I
+                            \end{bmatrix}
+ \Vectt[\E, \E^\I, \E^{-1}, \E^{-\I}] = {1 \over 4} \Vectt[\E + \E^\I + \E^{-1} + \E^{-\I} ,
+ \E -\I \E^\I - \E^{-1} + \I \E^{-\I} ,
+ \E - \E^\I + \E^{-1} - \E^{-\I} ,
+ \E + \I \E^\I - \E^{-1} = \I \E^{-\I}
+ ]
+\]
+\end{example}
 
 
 
