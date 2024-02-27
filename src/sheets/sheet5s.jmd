@@ -86,16 +86,16 @@ where  $n ϵ_{\rm m} < 2$ and the matrix norm is $\|A \|_∞ := \max_k ∑_{j=1}
 We have for the $k$=th row
 $$
 ⨁_{j=1}^n A_{k,j} ⊗ x_j =  ⨁_{j=1}^n A_{k,j} x_j (1+δ_j) = 
-∑_{j=1}^n A_{k,j} x_k (1+δ_j) + σ_{k,n}
+∑_{j=1}^n A_{k,j} x_j (1+δ_j) + σ_{k,n}
 $$
 where we know $|σ_n| ≤ M_k E_{n-1,ϵ_{\rm m}/2}$, where
 $$
-M_k ≤ Σ_{j=1}^n |A_{k,j}| |x_k| (1+|δ_j|)  ≤ 2 \max |x_k| Σ_{j=1}^n |A_{k,j}|
+M_k ≤ Σ_{j=1}^n |A_{k,j}| |x_j| (1+|δ_j|)  ≤ 2 \max |x_j| Σ_{j=1}^n |A_{k,j}|
 ≤ 2 \|𝐱\|_∞ \|A \|_∞
 $$
 Similarly, we also have 
 $$
-|∑_{j=1}^n A_{k,j} x_k δ_j| ≤ \|𝐱\|_∞ \|A \|_∞ ϵ_{\rm m}/2
+|∑_{j=1}^n A_{k,j} x_j δ_j| ≤ \|𝐱\|_∞ \|A \|_∞ ϵ_{\rm m}/2
 $$
 and so the result follows from
 $$

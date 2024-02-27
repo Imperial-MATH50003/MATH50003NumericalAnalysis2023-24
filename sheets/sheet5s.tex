@@ -124,6 +124,8 @@
 \def\endash{–}
 \def\bbD{ {\mathbb D} }
 \def\bbZ{ {\mathbb Z} }
+\def\bbR{ {\mathbb R} }
+\def\bbC{ {\mathbb C} }
 
 \def\x{ {\vc x} }
 \def\a{ {\vc a} }
@@ -131,6 +133,9 @@
 \def\e{ {\vc e} }
 \def\f{ {\vc f} }
 \def\u{ {\vc u} }
+\def\v{ {\vc v} }
+\def\y{ {\vc y} }
+\def\z{ {\vc z} }
 
 \def\red#1{ {\color{red} #1} }
 \def\blue#1{ {\color{blue} #1} }
@@ -214,16 +219,16 @@ where  $n \ensuremath{\epsilon}_{\rm m} < 2$ and the matrix norm is $\|A \|_\ens
 \textbf{SOLUTION} We have for the $k$=th row
 \[
 \ensuremath{\bigoplus}_{j=1}^n A_{k,j} \ensuremath{\otimes} x_j =  \ensuremath{\bigoplus}_{j=1}^n A_{k,j} x_j (1+\ensuremath{\delta}_j) = 
-\ensuremath{\sum}_{j=1}^n A_{k,j} x_k (1+\ensuremath{\delta}_j) + \ensuremath{\sigma}_{k,n}
+\ensuremath{\sum}_{j=1}^n A_{k,j} x_j (1+\ensuremath{\delta}_j) + \ensuremath{\sigma}_{k,n}
 \]
 where we know $|\ensuremath{\sigma}_n| \ensuremath{\leq} M_k E_{n-1,\ensuremath{\epsilon}_{\rm m}/2}$, where
 \[
-M_k \ensuremath{\leq} \ensuremath{\Sigma}_{j=1}^n |A_{k,j}| |x_k| (1+|\ensuremath{\delta}_j|)  \ensuremath{\leq} 2 \max |x_k| \ensuremath{\Sigma}_{j=1}^n |A_{k,j}|
+M_k \ensuremath{\leq} \ensuremath{\Sigma}_{j=1}^n |A_{k,j}| |x_j| (1+|\ensuremath{\delta}_j|)  \ensuremath{\leq} 2 \max |x_j| \ensuremath{\Sigma}_{j=1}^n |A_{k,j}|
 \ensuremath{\leq} 2 \|\ensuremath{\bm{\x}}\|_\ensuremath{\infty} \|A \|_\ensuremath{\infty}
 \]
 Similarly, we also have 
 \[
-|\ensuremath{\sum}_{j=1}^n A_{k,j} x_k \ensuremath{\delta}_j| \ensuremath{\leq} \|\ensuremath{\bm{\x}}\|_\ensuremath{\infty} \|A \|_\ensuremath{\infty} \ensuremath{\epsilon}_{\rm m}/2
+|\ensuremath{\sum}_{j=1}^n A_{k,j} x_j \ensuremath{\delta}_j| \ensuremath{\leq} \|\ensuremath{\bm{\x}}\|_\ensuremath{\infty} \|A \|_\ensuremath{\infty} \ensuremath{\epsilon}_{\rm m}/2
 \]
 and so the result follows from
 \[
