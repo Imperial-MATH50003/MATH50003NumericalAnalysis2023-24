@@ -1,16 +1,8 @@
 
 \section{Fourier expansions}
-\begin{itemize}
-\item[1. ] Review of Fourier series
+Fourier series are a powerful tool in wide areas of mathematics, including solving partial differential equations, signal processing, and elsewhere. They are also very useful in computational methods, particularly for problems that have periodicity. Periodicity arises naturally when solving problems in radial coordinates, or when approximating a problem on the real line by a periodic problem with a large problem. Fourier series are also related to orthogonal polynomials, which can be used for non-periodic problems.
 
-
-\item[2. ] Trapezium rule and discrete orthogonality
-
-
-\item[3. ] Convergence of approximate Fourier expansions
-
-\end{itemize}
-\subsection{Review of Fourier series}
+\subsection{Basics of Fourier series}
 The most fundamental basis is (complex) Fourier: we have ${\rm e}^{{\rm i} k \ensuremath{\theta}}$ are orthogonal with respect to the inner product
 \[
 \ensuremath{\langle}f, g \ensuremath{\rangle} := {1 \over 2\ensuremath{\pi}} \ensuremath{\int}_0^{2\ensuremath{\pi}} \bar f(\ensuremath{\theta}) g(\ensuremath{\theta}) {\rm d}\ensuremath{\theta},
@@ -57,7 +49,7 @@ We first state a  basic results (whose proof is beyond the scope of this module)
 \end{theorem}
 \textbf{Proof} See \href{https://www.cambridge.org/core/books/fourier-analysis/5FD8F0FD69DDB139019655D7F8440D2F}{Körner 2022 (Theorem 2.4)}. \ensuremath{\QED}
 
-This allows us to proof the following:
+This allows us to prove the following:
 
 \begin{theorem}[Absolute convergence] If $\vchatf \ensuremath{\in} \ensuremath{\ell}^1$ then
 \[
@@ -70,13 +62,20 @@ Note that
 \[
 g_n(\ensuremath{\theta}) := \ensuremath{\sum}_{k = -n}^n \hat f_k {\rm e}^{{\rm i} k \ensuremath{\theta}}
 \]
-is absolutely convergent as $n \ensuremath{\rightarrow} \ensuremath{\infty}$, hence converges uniformly to a continuous function $g$. We have for $n > k$
+is uniformly-absolutely convergent as $n \ensuremath{\rightarrow} \ensuremath{\infty}$, that is,
 \[
-\hat f_k =
+\ensuremath{\sum}_{k = -n}^n |\hat f_k {\rm e}^{{\rm i} k \ensuremath{\theta}}| = \ensuremath{\sum}_{k = -n}^n |\hat f_k| \ensuremath{\rightarrow} \|\vchatf\|_1.
 \]
+This guarantees that $g_n(\ensuremath{\theta})$ converges uniformly to a continuous function $g(\ensuremath{\theta})$. We have for $n > k$, that the $k$-th Fourier coefficient of $g_n(\ensuremath{\theta})$ equals $\hat f_k$. Thus, by the properties of uniform convergence,
+\[
+\hat f_k = \lim_{n \ensuremath{\rightarrow} \ensuremath{\infty}} \hat f_k =  \lim_{n \ensuremath{\rightarrow} \ensuremath{\infty}} {1 \over 2\ensuremath{\pi}} \ensuremath{\int}_0^{2\ensuremath{\pi}}  {\rm e}^{-{\rm i} k \ensuremath{\theta}} g_n(\ensuremath{\theta}) {\rm d}\ensuremath{\theta} =
+ {1 \over 2\ensuremath{\pi}} \ensuremath{\int}_0^{2\ensuremath{\pi}}  {\rm e}^{-{\rm i} k \ensuremath{\theta}} \lim_{n \ensuremath{\rightarrow} \ensuremath{\infty}} g_n(\ensuremath{\theta}) {\rm d}\ensuremath{\theta} = \hat g_k.
+\]
+Since $f$ and $g$ are continuous and share the same Fourier coefficients, they are equal.
+
 \ensuremath{\QED}
 
-Continuity gives us sufficient (though not necessary) conditions for absolute convergence:
+When does a function have absolutely convergent Fourier coefficients? We can deduce it from periodic differentiability of the function:
 
 \begin{lemma}[differentiability and absolutely convergence] If $f : \ensuremath{\bbR} \ensuremath{\rightarrow} \ensuremath{\bbC}$ and $f'$ are periodic  and $f''$ is uniformly bounded, then $\vchatf \ensuremath{\in} \ensuremath{\ell}^1$.
 
@@ -88,7 +87,7 @@ Continuity gives us sufficient (though not necessary) conditions for absolute co
 &= {1 \over {\rm i} k} [f'(\ensuremath{\theta}) {\rm e}^{-{\rm i} k \ensuremath{\theta}}]_0^{2\ensuremath{\pi}} - {1 \over k^2} \ensuremath{\int}_0^{2\ensuremath{\pi}} f''(\ensuremath{\theta}) {\rm e}^{-{\rm i} k \ensuremath{\theta}} {\rm d}\ensuremath{\theta} \\
 &= - {1 \over k^2} \ensuremath{\int}_0^{2\ensuremath{\pi}} f''(\ensuremath{\theta}) {\rm e}^{-{\rm i} k \ensuremath{\theta}} {\rm d}\ensuremath{\theta}
 \end{align*}
-thus uniform boundedness of $f''$ guarantees $|\hat f_k| \ensuremath{\leq} M |k|^{-2}$ for some $M$, and we have
+thus uniform boundedness of $f''$ guarantees $|\hat f_k| \ensuremath{\leq} M |k|^{-2}$ for some $M$, and we have
 \[
 \ensuremath{\sum}_{k = -\ensuremath{\infty}}^\ensuremath{\infty} |\hat f_k| \ensuremath{\leq} |\hat f_0|  + 2M \ensuremath{\sum}_{k = 1}^\ensuremath{\infty} |k|^{-2}  < \ensuremath{\infty}
 \]
@@ -101,13 +100,13 @@ This condition can be weakened to Lipschitz continuity but the proof is  beyond 
 \textbf{Remark} Going further, if we let $z = {\rm e}^{{\rm i} \ensuremath{\theta}}$ then if $f(z)$ is \emph{analytic} in a neighbourhood of the unit circle the Fourier coefficients decay \emph{exponentially fast}. And if $f(z)$ is entire they decay even faster than exponentially.
 
 \subsection{Trapezium rule and discrete Fourier coefficients}
-\begin{definition}[Trapezium Rule] Let $\ensuremath{\theta}_j = 2\ensuremath{\pi}j/n$ for $j = 0,1,\ensuremath{\ldots},n$ denote $n+1$ evenly spaced points over $[0,2\ensuremath{\pi}]$. The \emph{Trapezium rule} over $[0,2\ensuremath{\pi}]$ is the approximation:
+\begin{definition}[Trapezium Rule] Let $\ensuremath{\theta}_j = 2\ensuremath{\pi}j/n$ for $j = 0,1,\ensuremath{\ldots},n$ denote $n+1$ evenly spaced points over $[0,2\ensuremath{\pi}]$. Recall that the \emph{Trapezium rule} over $[0,2\ensuremath{\pi}]$ is the approximation:
 \[
 \ensuremath{\int}_0^{2\ensuremath{\pi}} f(\ensuremath{\theta}) {\rm d}\ensuremath{\theta} \ensuremath{\approx} {2 \ensuremath{\pi} \over n} \left[{f(0) \over 2} + \ensuremath{\sum}_{j=1}^{n-1} f(\ensuremath{\theta}_j) + {f(2 \ensuremath{\pi}) \over 2} \right]
 \]
-But if $f$ is periodic we have $f(0) = f(2\ensuremath{\pi})$ we get the \emph{periodic Trapezium rule}:
+But if $f$ is periodic we have $f(0) = f(2\ensuremath{\pi})$ and we get the \emph{periodic Trapezium rule}:
 \[
-\ensuremath{\int}_0^{2\ensuremath{\pi}} f(\ensuremath{\theta}) {\rm d}\ensuremath{\theta} \ensuremath{\approx} 2 \ensuremath{\pi}\underbrace{{1 \over n} \ensuremath{\sum}_{j=0}^{n-1} f(\ensuremath{\theta}_j)}_{\ensuremath{\Sigma}_n[f]}
+{1 \over 2\ensuremath{\pi}} \ensuremath{\int}_0^{2\ensuremath{\pi}} f(\ensuremath{\theta}) {\rm d}\ensuremath{\theta} \ensuremath{\approx} \underbrace{{1 \over n} \ensuremath{\sum}_{j=0}^{n-1} f(\ensuremath{\theta}_j)}_{\ensuremath{\Sigma}_n[f]}
 \]
 \end{definition}
 
@@ -144,7 +143,7 @@ Then we have
 \[
 \ensuremath{\sum}_{j=0}^{n-1} {\rm e}^{{\rm i} k \ensuremath{\theta}_j} = \ensuremath{\sum}_{j=0}^{n-1} (\ensuremath{\omega}^k)^j = {\ensuremath{\omega}^{kn} -1 \over \ensuremath{\omega}^k -1} = 0.
 \]
-where we use the fact that $k$ is not a multiple of $n$ to guarantee that $\ensuremath{\omega}^k \ensuremath{\neq} 1$.
+where we use the fact that $k$ is not a multiple of $n$ to guarantee that $\ensuremath{\omega}^k \ensuremath{\neq} 1$.
 
 \ensuremath{\QED}
 
@@ -178,8 +177,10 @@ Note that there is redundancy:
 \begin{corollary}[aliasing] For all $p \ensuremath{\in} \ensuremath{\bbZ}$, $\hat f_k^n = \hat f_{k+pn}^n$.
 
 \end{corollary}
-\textbf{Proof}
-
+\textbf{Proof} Follows immediately:
+\[
+\hat f_{k+pn}^n = \sum_{j=-\ensuremath{\infty}}^\ensuremath{\infty} \hat f_{k+(p+j)n}= \sum_{j=-\ensuremath{\infty}}^\ensuremath{\infty} \hat f_{k+j n} = \hat f_k^n.
+\]
 \ensuremath{\QED}
 
 In other words if we know $\hat f_0^n, \ensuremath{\ldots}, \hat f_{n-1}^n$, we know $\hat f_k^n$ for all $k$ via a permutation, for example if $n = 2m+1$ we have
@@ -203,9 +204,25 @@ where $\ensuremath{\sigma}$ has Cauchy notation (\emph{Careful}: we are using 1-
 m+2 & m+3 & \ensuremath{\cdots} & n & 1 & 2 & \ensuremath{\cdots} & m+1
 \end{pmatrix}.
 \]
-We first discuss the case when all negative coefficients are zero. That is, $\hat f_0^n, \ensuremath{\ldots}, \hat f_{n-1}^n$ are approximations of the Fourier\ensuremath{\endash}Taylor coefficients by evaluating on the boundary.
+\begin{example}[Taylor coefficients via Geometric series] Consider the function
+\[
+f(\ensuremath{\theta}) = {2 \over 2 - {\rm e}^{{\rm i} \ensuremath{\theta}}}
+\]
+Under the change of variables $z = {\rm e}^{{\rm i} \ensuremath{\theta}}$ we know for $z$ on the unit circle this becomes (using the geometric series with $z/2$)
+\[
+{2 \over 2-z} = \ensuremath{\sum}_{k=0}^\ensuremath{\infty} {z^k \over 2^k}
+\]
+i.e., $\hat f_k = 1/2^k$ which is absolutely summable:
+\[
+\ensuremath{\sum}_{k=0}^\ensuremath{\infty} |\hat f_k| = f(0) = 2.
+\]
+If we use an $n$ point discretisation we get (using the geoemtric series with $2^{-n}$)
+\[
+\hat f_k^n = \hat f_k + \hat f_{k+n} + \hat f_{k+n} + \ensuremath{\cdots} = \ensuremath{\sum}_{p=0}^\ensuremath{\infty} {1 \over 2^{k+pn}} = {2^{n-k} \over 2^n - 1}
+\]
+Note that as $n \rightarrow \ensuremath{\infty}$, we have $\hat f_k^n \rightarrow \hat f_k$. \end{example}
 
-We can  prove \emph{convergence} whenever of this approximation whenever $f$ has absolutely summable coefficients. We will prove the result here in the special case where the negative coefficients are zero.
+We can  prove \emph{convergence} whenever $f$ has absolutely summable coefficients. We will prove the result here in the special case where the negative coefficients are zero. That is, $\hat f_0^n, \ensuremath{\ldots}, \hat f_{n-1}^n$ are approximations of the Fourier\ensuremath{\endash}Taylor coefficients.
 
 \begin{theorem}[Approximate Fourier-Taylor expansions converge] If $0 = \hat f_{-1} = \hat f_{-2} = \ensuremath{\cdots}$ and $\vchatf$ is absolutely convergent then
 \[

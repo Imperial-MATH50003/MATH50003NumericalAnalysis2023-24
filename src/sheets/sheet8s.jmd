@@ -6,7 +6,6 @@
 $$
 \cos θ, \cos 4θ, \sin^4θ, {3 \over 3 - {\rm e}^{\rm i θ}}, {1 \over 1 - 2{\rm e}^{\rm i θ}}
 $$
-Hint: You may wish to try the change of variables $z = {\rm e}^{-{\rm i}θ}$.
 
 **SOLUTION**
 
@@ -267,7 +266,6 @@ C_n := \begin{bmatrix}
 \end{bmatrix}
 $$
 for $θ_j = π(j-1/2)/n$. Prove that $C_n$ is orthogonal: $C_n^⊤ C_n = C_n C_n^⊤ = I$.
-Hint: $C_n C_n^⊤ = I$ might be easier to show than $C_n^⊤ C_n = I$ using the previous problem.
 
 **SOLUTION**
 
@@ -299,3 +297,8 @@ C'C
 
 
 
+**Problem 5** What polynomial interpolates $\cos z$ at $1, \exp(2π\I/3)$ and $\exp(-2π\I/3)$?
+
+**SOLUTION**
+
+**END**

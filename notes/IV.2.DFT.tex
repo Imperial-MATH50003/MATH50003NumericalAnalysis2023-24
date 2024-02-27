@@ -1,17 +1,7 @@
 
 \section{Discrete Fourier Transform}
-In the last lecture we explored using the trapezium rule for approximating Fourier coefficients. This is a linear map from function values to coefficients and thus can be reinterpreted as a matrix-vector product, called the the Discrete Fourier Transform. It turns out the matrix is unitary which leads to important properties including interpolation. Finally, we discuss how a clever way of decomposing the DFT leads to a fast way of applying and inverting it, which is one of the most influencial algorithms of the 20th century: the Fast Fourier Transform.
+In the last section we explored using the trapezium rule for approximating Fourier coefficients. This is a linear map from function values to coefficients and thus can be reinterpreted as a matrix-vector product, called the the Discrete Fourier Transform. It turns out the matrix is unitary which leads to important properties including interpolation. Finally, we discuss how a clever way of decomposing the DFT leads to a fast way of applying and inverting it, which is one of the most influencial algorithms of the 20th century: the Fast Fourier Transform.
 
-\begin{itemize}
-\item[1. ] The Discrete Fourier Transform (DFT): We discuss the map from values to approximate Fourier coefficients, and back.
-
-
-\item[2. ] Interpolation: We show that the approximate Fourier expansion \emph{exactly} interpolates the values at the sample grid.
-
-
-\item[3. ] The Fast Fourier Transform (FFT): We discuss how the DFT can be applied in $O(n \log n)$ operations.
-
-\end{itemize}
 \subsection{The Discrete Fourier transform}
 \begin{definition}[DFT] The \emph{Discrete Fourier Transform (DFT)} is defined as:
 \begin{align*}
@@ -28,7 +18,9 @@ Q_n &:= {1 \over \sqrt{n}} \begin{bmatrix} 1 & 1 & 1&  \ensuremath{\cdots} & 1 \
                                     1 & \ensuremath{\omega}^{-(n-1)} & \ensuremath{\omega}^{-2(n-1)} & \ensuremath{\cdots} & \ensuremath{\omega}^{-(n-1)^2}
 \end{bmatrix}
 \end{align*}
-for the $n$-th root of unity $\ensuremath{\omega} = {\rm e}^{2\ensuremath{\pi}{\rm i}/n}$. Note that
+for the $n$-th root of unity $\ensuremath{\omega} = {\rm e}^{2\ensuremath{\pi}{\rm i}/n}$.  \end{definition}
+
+Note that
 \begin{align*}
 Q_n^\ensuremath{\star} &= {1 \over \sqrt{n}} \begin{bmatrix}
 1 & 1 & 1&  \ensuremath{\cdots} & 1 \\
@@ -45,9 +37,7 @@ Q_n^\ensuremath{\star} &= {1 \over \sqrt{n}} \begin{bmatrix}
 1 & \ensuremath{\omega}^{(n-1)} & \ensuremath{\omega}^{2(n-1)} & \ensuremath{\cdots} & \ensuremath{\omega}^{(n-1)^2}
 \end{bmatrix}
 \end{align*}
-\end{definition}
-
-Note that
+Hence we have
 \[
 \underbrace{\begin{bmatrix} \hat f_0^n \\ \ensuremath{\vdots} \\ \hat f_{n-1}^n \end{bmatrix}}_{\vchatf^n} =
 {1 \over \sqrt{n}} Q_n \underbrace{\begin{bmatrix} f(\ensuremath{\theta}_0) \\ \ensuremath{\vdots} \\ f(\ensuremath{\theta}_{n-1}) \end{bmatrix}}_{\ensuremath{\bm{\f}}^n}
@@ -70,46 +60,6 @@ In other words, $Q_n$ is easily inverted and we also have a map from discrete Fo
 \[
 \sqrt{n} Q_n^\ensuremath{\star} \vchatf^n = \ensuremath{\bm{\f}}^n
 \]
-\subsection{Interpolation}
-We investigated briefly interpolation and least squares using polynomials at evenly spaced points, observing that there were issues with stability. We now show that the DFT actually gives coefficients that interpolate using Fourier expansions. As the DFT is a unitary matrix its (2-norm) condition number is 1, hence this is a stable process. Thus we arrive at the main result:
-
-\begin{corollary}[Interpolation]
-\[
-f_n(\ensuremath{\theta}) := \ensuremath{\sum}_{k=0}^{n-1} \hat f_k^n {\rm e}^{{\rm i} k \ensuremath{\theta}}
-\]
-interpolates $f$ at $\ensuremath{\theta}_j$:
-\[
-f_n(\ensuremath{\theta}_j) = f(\ensuremath{\theta}_j)
-\]
-\end{corollary}
-\textbf{Proof} We have
-\[
-f_n(\ensuremath{\theta}_j) = \ensuremath{\sum}_{k=0}^{n-1} \hat f_k^n {\rm e}^{{\rm i} k \ensuremath{\theta}_j} = \sqrt n \ensuremath{\bm{\e}}_j^\ensuremath{\top} Q_n^\ensuremath{\star} \vchatf^n = \ensuremath{\bm{\e}}_j^\ensuremath{\top} Q_n^\ensuremath{\star} Q_n \ensuremath{\bm{\f}}^n = f(\ensuremath{\theta}_j).
-\]
-\ensuremath{\QED}
-
-We will leave extending this result to the general non-Taylor case to the problem sheet. Note that regardless of choice of coefficients we interpolate provided we have $n$ consecutive coefficients, though some interpolations are better than others:
-
-We now demonstrate the relationship of Taylor and Fourier coefficients and their discrete approximations for some examples:
-
-\begin{example}[Taylor and Fourier] Consider the function
-\[
-f(\ensuremath{\theta}) = {2 \over 2 - {\rm e}^{{\rm i} \ensuremath{\theta}}}
-\]
-Under the change of variables $z = {\rm e}^{{\rm i} \ensuremath{\theta}}$ we know for $z$ on the unit circle this becomes (using the geometric series with $z/2$)
-\[
-{2 \over 2-z} = \ensuremath{\sum}_{k=0}^\ensuremath{\infty} {z^k \over 2^k}
-\]
-i.e., $\hat f_k = 1/2^k$ which is absolutely summable:
-\[
-\ensuremath{\sum}_{k=0}^\ensuremath{\infty} |\hat f_k| = f(0) = 2.
-\]
-If we use an $n$ point discretisation we get (using the geoemtric series with $2^{-n}$)
-\[
-\hat f_k^n = \hat f_k + \hat f_{k+n} + \hat f_{k+n} + \ensuremath{\cdots} = \ensuremath{\sum}_{p=0}^\ensuremath{\infty} {1 \over 2^{k+pn}} = {2^{n-k} \over 2^n - 1}
-\]
-\end{example}
-
 \begin{example}[Computing Sum] Define the following infinite sum (which has no name apparently, according to Mathematica):
 \[
 S_n(k) := \ensuremath{\sum}_{p=0}^\ensuremath{\infty} {1 \over (k+pn)!}
@@ -134,6 +84,26 @@ S_n(n-1)
                                 \exp({\rm e}^{2{\rm i} (n-1) \ensuremath{\pi}/n}) \end{bmatrix}
 \]
 \end{example}
+
+\subsection{Interpolation}
+We investigated  interpolation and least squares using polynomials at evenly spaced points, observing that there were issues with stability. We now show that the DFT actually gives coefficients that interpolate using Fourier expansions. As the DFT is a unitary matrix multiplication is \ensuremath{\ldq}stable", i.e. it preserves norms and hence we know it cannot cause the same huge blow-up we saw for polynomials. That is: whilst polynomials are bad for interpolation at evenly spaced points, trigonometric polynomials are great. 
+
+The following guarantees that our approximate Fourier series actually interpolates the data:
+
+\begin{corollary}[Interpolation]
+\[
+f_n(\ensuremath{\theta}) := \ensuremath{\sum}_{k=0}^{n-1} \hat f_k^n {\rm e}^{{\rm i} k \ensuremath{\theta}}
+\]
+interpolates $f$ at $\ensuremath{\theta}_j$:
+\[
+f_n(\ensuremath{\theta}_j) = f(\ensuremath{\theta}_j)
+\]
+\end{corollary}
+\textbf{Proof} We have
+\[
+f_n(\ensuremath{\theta}_j) = \ensuremath{\sum}_{k=0}^{n-1} \hat f_k^n {\rm e}^{{\rm i} k \ensuremath{\theta}_j} = \sqrt n \ensuremath{\bm{\e}}_j^\ensuremath{\top} Q_n^\ensuremath{\star} \vchatf^n = \ensuremath{\bm{\e}}_j^\ensuremath{\top} Q_n^\ensuremath{\star} Q_n \ensuremath{\bm{\f}}^n = f(\ensuremath{\theta}_j).
+\]
+\ensuremath{\QED}
 
 
 

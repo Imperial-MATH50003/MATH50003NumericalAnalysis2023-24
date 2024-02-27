@@ -1,17 +1,13 @@
 # Discrete Fourier Transform
 
 
-In the last lecture we explored using the trapezium rule for approximating Fourier coefficients.
+In the last section we explored using the trapezium rule for approximating Fourier coefficients.
 This is a linear map from function values to coefficients and thus can be reinterpreted as
 a matrix-vector product, called the the Discrete Fourier Transform. It turns out the matrix
 is unitary which leads to important properties including interpolation. Finally, we discuss how a clever
 way of decomposing the DFT leads to a fast way of applying and inverting it, which is one of the
 most influencial algorithms of the 20th century: the Fast Fourier Transform.
 
-
-1. The Discrete Fourier Transform (DFT): We discuss the map from values to approximate Fourier coefficients, and back.
-2. Interpolation: We show that the approximate Fourier expansion _exactly_ interpolates the values at the sample grid.
-3. The Fast Fourier Transform (FFT): We discuss how the DFT can be applied in $O(n \log n)$ operations.
 
 ## The Discrete Fourier transform
 
@@ -20,10 +16,10 @@ The _Discrete Fourier Transform (DFT)_ is defined as:
 $$
 \begin{align*}
 Q_n &:= {1 \over \sqrt{n}} \begin{bmatrix} 1 & 1 & 1&  ⋯ & 1 \\
-                                    1 & {\rm e}^{-{\rm i} θ_1} & {\rm e}^{-{\rm i} θ_2} & ⋯ & {\rm e}^{-{\rm i} θ_{n-1}} \\
-                                    1 & {\rm e}^{-{\rm i} 2 θ_1} & {\rm e}^{-{\rm i} 2 θ_2} & ⋯ & {\rm e}^{-{\rm i} 2θ_{n-1}} \\
+                                    1 & {\rm e}^{-\I θ_1} & {\rm e}^{-\I θ_2} & ⋯ & {\rm e}^{-\I θ_{n-1}} \\
+                                    1 & {\rm e}^{-\I 2 θ_1} & {\rm e}^{-\I 2 θ_2} & ⋯ & {\rm e}^{-\I 2θ_{n-1}} \\
                                     ⋮ & ⋮ & ⋮ & ⋱ & ⋮ \\
-                                    1 & {\rm e}^{-{\rm i} (n-1) θ_1} & {\rm e}^{-{\rm i} (n-1) θ_2} & ⋯ & {\rm e}^{-{\rm i} (n-1) θ_{n-1}}
+                                    1 & {\rm e}^{-\I (n-1) θ_1} & {\rm e}^{-\I (n-1) θ_2} & ⋯ & {\rm e}^{-\I (n-1) θ_{n-1}}
 \end{bmatrix} \\
 &= {1 \over \sqrt{n}} \begin{bmatrix} 1 & 1 & 1&  ⋯ & 1 \\
                                     1 & ω^{-1} & ω^{-2} & ⋯ & ω^{-(n-1)}\\
@@ -33,15 +29,18 @@ Q_n &:= {1 \over \sqrt{n}} \begin{bmatrix} 1 & 1 & 1&  ⋯ & 1 \\
 \end{bmatrix}
 \end{align*}
 $$
-for the $n$-th root of unity $ω = {\rm e}^{2π{\rm i}/n}$. Note that
+for the $n$-th root of unity $ω = {\rm e}^{2π\I/n}$. 
+∎
+
+Note that
 $$
 \begin{align*}
 Q_n^⋆ &= {1 \over \sqrt{n}} \begin{bmatrix}
 1 & 1 & 1&  ⋯ & 1 \\
-1 & {\rm e}^{{\rm i} θ_1} & {\rm e}^{{\rm i} 2 θ_1} & ⋯ & {\rm e}^{{\rm i} (n-1) θ_1} \\
-1 &  {\rm e}^{{\rm i} θ_2}  & {\rm e}^{{\rm i} 2 θ_2} & ⋯ & {\rm e}^{{\rm i} (n-1)θ_2} \\
+1 & {\rm e}^{\I θ_1} & {\rm e}^{\I 2 θ_1} & ⋯ & {\rm e}^{\I (n-1) θ_1} \\
+1 &  {\rm e}^{\I θ_2}  & {\rm e}^{\I 2 θ_2} & ⋯ & {\rm e}^{\I (n-1)θ_2} \\
 ⋮ & ⋮ & ⋮ & ⋱ & ⋮ \\
-1 & {\rm e}^{{\rm i} θ_{n-1}} & {\rm e}^{{\rm i} 2 θ_{n-1}} & ⋯ & {\rm e}^{{\rm i} (n-1) θ_{n-1}}
+1 & {\rm e}^{\I θ_{n-1}} & {\rm e}^{\I 2 θ_{n-1}} & ⋯ & {\rm e}^{\I (n-1) θ_{n-1}}
 \end{bmatrix} \\
 &= {1 \over \sqrt{n}} \begin{bmatrix}
 1 & 1 & 1&  ⋯ & 1 \\
@@ -52,9 +51,7 @@ Q_n^⋆ &= {1 \over \sqrt{n}} \begin{bmatrix}
 \end{bmatrix}
 \end{align*}
 $$
-∎
-
-Note that
+Hence we have
 $$
 \underbrace{\begin{bmatrix} \hat f_0^n \\ ⋮ \\ \hat f_{n-1}^n \end{bmatrix}}_{\vchatf^n} =
 {1 \over \sqrt{n}} Q_n \underbrace{\begin{bmatrix} f(θ_0) \\ ⋮ \\ f(θ_{n-1}) \end{bmatrix}}_{𝐟^n}
@@ -66,10 +63,10 @@ The choice of normalisation constant is motivated by the following:
 
 **Proof**
 $$
-Q_n Q_n^⋆  = \begin{bmatrix} Σ_n[1] & Σ_n[{\rm e}^{{\rm i} θ}] & ⋯ & Σ_n[{\rm e}^{{\rm i} (n-1) θ}] \\
-                            Σ_n[{\rm e}^{-{\rm i} θ}] & Σ_n[1] & ⋯ & Σ_n[{\rm e}^{{\rm i} (n-2) θ}] \\
+Q_n Q_n^⋆  = \begin{bmatrix} Σ_n[1] & Σ_n[{\rm e}^{\I θ}] & ⋯ & Σ_n[{\rm e}^{\I (n-1) θ}] \\
+                            Σ_n[{\rm e}^{-\I θ}] & Σ_n[1] & ⋯ & Σ_n[{\rm e}^{\I (n-2) θ}] \\
                             ⋮ & ⋮ & ⋱ & ⋮ \\
-                            Σ_n[{\rm e}^{-{\rm i}(n-1) θ}] & Σ_n[{\rm e}^{-{\rm i}(n-2) θ}] & ⋯ & Σ_n[1]
+                            Σ_n[{\rm e}^{-\I(n-1) θ}] & Σ_n[{\rm e}^{-\I(n-2) θ}] & ⋯ & Σ_n[1]
                             \end{bmatrix} = I
 $$
 ∎
@@ -79,56 +76,6 @@ $$
 \sqrt{n} Q_n^⋆ \vchatf^n = 𝐟^n
 $$
 
-## Interpolation
-
-We investigated briefly interpolation and least squares using polynomials at evenly spaced points, observing that
-there were issues with stability. We now show that the DFT actually gives coefficients that interpolate using Fourier
-expansions. As the DFT is a unitary matrix its (2-norm) condition number is 1, hence this is a stable process. Thus we arrive
-at the main result:
-
-**Corollary (Interpolation)**
-$$
-f_n(θ) := ∑_{k=0}^{n-1} \hat f_k^n {\rm e}^{{\rm i} k θ}
-$$
-interpolates $f$ at $θ_j$:
-$$
-f_n(θ_j) = f(θ_j)
-$$
-
-**Proof**
-We have
-$$
-f_n(θ_j) = ∑_{k=0}^{n-1} \hat f_k^n {\rm e}^{{\rm i} k θ_j} = \sqrt n 𝐞_j^⊤ Q_n^⋆ \vchatf^n = 𝐞_j^⊤ Q_n^⋆ Q_n 𝐟^n = f(θ_j).
-$$
-
-∎
-
-
-We will leave extending this result to the general non-Taylor case to the problem sheet. Note that regardless of choice of coefficients
-we interpolate provided we have $n$ consecutive coefficients, though some interpolations are better than others:
-
-We now demonstrate the relationship of Taylor and Fourier coefficients
-and their discrete approximations for some examples:
-
-**Example (Taylor and Fourier)** Consider the function
-$$
-f(θ) = {2 \over 2 - {\rm e}^{{\rm i} θ}}
-$$
-Under the change of variables $z = {\rm e}^{{\rm i} θ}$ we know for
-$z$ on the unit circle this becomes (using the geometric series with $z/2$)
-$$
-{2 \over 2-z} = ∑_{k=0}^∞ {z^k \over 2^k}
-$$
-i.e., $\hat f_k = 1/2^k$ which is absolutely summable:
-$$
-∑_{k=0}^∞ |\hat f_k| = f(0) = 2.
-$$
-If we use an $n$ point discretisation we get (using the geoemtric series with $2^{-n}$)
-$$
-\hat f_k^n = \hat f_k + \hat f_{k+n} + \hat f_{k+n} + ⋯ = ∑_{p=0}^∞ {1 \over 2^{k+pn}} = {2^{n-k} \over 2^n - 1}
-$$
-∎
-
 **Example (Computing Sum)** Define the following infinite sum (which has no name apparently,
 according to Mathematica):
 $$
@@ -137,7 +84,7 @@ $$
 We can use the DFT to compute $S_n(0), …, S_n(n-1)$.
 Consider
 $$
-f(θ) = \exp({\rm e}^{{\rm i} θ}) = ∑_{k=0}^∞ {{\rm e}^{{\rm i} k θ} \over k!}
+f(θ) = \exp({\rm e}^{\I θ}) = ∑_{k=0}^∞ {{\rm e}^{\I k θ} \over k!}
 $$
 where we know the Fourier coefficients from the Taylor series of ${\rm e}^z$.
 The discrete Fourier coefficients satisfy for $0 ≤ k ≤ n-1$:
@@ -151,11 +98,56 @@ S_n(0) \\
 ⋮ \\
 S_n(n-1)
 \end{bmatrix} = {1 \over \sqrt{n}} Q_n \begin{bmatrix} 1 \\
-                                \exp({\rm e}^{2{\rm i} π/n}) \\
+                                \exp({\rm e}^{2\I π/n}) \\
                                 ⋮ \\
-                                \exp({\rm e}^{2{\rm i} (n-1) π/n}) \end{bmatrix}
+                                \exp({\rm e}^{2\I (n-1) π/n}) \end{bmatrix}
 $$
 ∎
 
 
 
+## Interpolation
+
+We investigated  interpolation and least squares using polynomials at evenly spaced points, observing that
+there were issues with stability. We now show that the DFT actually gives coefficients that interpolate using Fourier
+expansions. As the DFT is a unitary matrix multiplication is “stable", i.e. it preserves norms and hence we know
+it cannot cause the same huge blow-up we saw for polynomials. That is: whilst polynomials are bad for interpolation at
+evenly spaced points, trigonometric polynomials are great. 
+
+The following guarantees that our approximate Fourier series actually interpolates the data:
+
+**Corollary (Interpolation)**
+$$
+f_n(θ) := ∑_{k=0}^{n-1} \hat f_k^n {\rm e}^{\I k θ}
+$$
+interpolates $f$ at $θ_j$:
+$$
+f_n(θ_j) = f(θ_j)
+$$
+
+**Proof**
+We have
+$$
+f_n(θ_j) = ∑_{k=0}^{n-1} \hat f_k^n {\rm e}^{\I k θ_j} = \sqrt n 𝐞_j^⊤ Q_n^⋆ \vchatf^n = 𝐞_j^⊤ Q_n^⋆ Q_n 𝐟^n = f(θ_j).
+$$
+
+∎
+
+
+
+**Example (DFT versus Lagrange)** Consider interpolating $f(z) = \exp z$ by a polynomial at the points $1, \I, -1, -\I$.
+We can use Lagrange polynomials:
+$$
+\meeq{
+ℓ_1(z) ={ (z - \I)(z + 1)(z + \I) \over 2(1 - \I)(1 + \I)} = { (z^2 + 1)(z + 1) \over 4} \ccr
+ℓ_2(z) ={ (z - 1)(z + 1)(z + \I) \over (\I - 1) (\I + 1) 2\I} = -{ (z^2 - 1)(z + \I) \over 4\I} \ccr
+ℓ_3(z) ={ (z - 1)(z - \I)(z + \I) \over -2 (-1-\I)(-1+\I)} = {(z-1) (z^2 + 1) \over 4} \ccr
+ℓ_4(z) ={ (z - 1)(z - \I)(z+1) \over (-\I-1)(-2\I)(-\I+1)} = {(z^2-1) (z - \I) \over 4\I}
+}
+$$
+So we get the interpolant:
+$$
+\E ℓ_1(z) + \E^\I ℓ_2(z) + \E^{-1} ℓ_3(z) + \E^{-\I} ℓ_4(z)
+$$
+Alternatively we can use the DCT. 
+∎

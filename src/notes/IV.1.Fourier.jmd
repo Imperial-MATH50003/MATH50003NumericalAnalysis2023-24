@@ -1,14 +1,14 @@
-# Fourier expansions
+# Fourier Expansions
+
+
+Fourier series are a powerful tool in wide areas of mathematics, including solving partial differential equations, signal processing, and elsewhere.
+They are also very useful in computational methods, particularly for problems that have periodicity. Periodicity arises naturally when solving
+problems in radial coordinates, or when approximating a problem on the real line by a periodic problem with a large problem.
+Fourier series are also related to orthogonal polynomials, which can be used for non-periodic problems.
 
 
 
-
-
-1. Review of Fourier series
-2. Trapezium rule and discrete orthogonality
-3. Convergence of approximate Fourier expansions
-
-## Review of Fourier series
+## Basics of Fourier series
 
 
 The most fundamental basis is (complex) Fourier: we have ${\rm e}^{{\rm i} k θ}$
@@ -76,7 +76,7 @@ If $f, g : 𝕋 → ℂ$ are continuous and $\hat f_k = \hat g_k$ for all $k ∈
 See [Körner 2022 (Theorem 2.4)](https://www.cambridge.org/core/books/fourier-analysis/5FD8F0FD69DDB139019655D7F8440D2F).
 ∎
 
-This allows us to proof the following:
+This allows us to prove the following:
 
 **Theorem (Absolute convergence)**
 If $\vchatf ∈ ℓ^1$ then
@@ -90,16 +90,25 @@ Note that
 $$
 g_n(θ) := ∑_{k = -n}^n \hat f_k {\rm e}^{{\rm i} k θ}
 $$
-is absolutely convergent as $n → ∞$, hence converges uniformly to a continuous function $g$. We have for $n > k$
+is uniformly-absolutely convergent as $n → ∞$, that is,
 $$
-\hat f_k =
+∑_{k = -n}^n |\hat f_k {\rm e}^{{\rm i} k θ}| = ∑_{k = -n}^n |\hat f_k| → \|\vchatf\|_1.
 $$
+This guarantees that $g_n(θ)$ converges uniformly to a continuous function $g(θ)$. We have for $n > k$,
+that the $k$-th Fourier coefficient of $g_n(θ)$ equals $\hat f_k$. Thus,
+by the properties of uniform convergence,
+$$
+\hat f_k = \lim_{n → ∞} \hat f_k =  \lim_{n → ∞} {1 \over 2π} ∫_0^{2π}  {\rm e}^{-{\rm i} k θ} g_n(θ) {\rm d}θ =
+ {1 \over 2π} ∫_0^{2π}  {\rm e}^{-{\rm i} k θ} \lim_{n → ∞} g_n(θ) {\rm d}θ = \hat g_k.
+$$
+Since $f$ and $g$ are continuous and share the same Fourier coefficients, they are equal.
 
 
 ∎
 
 
-Continuity gives us sufficient (though not necessary) conditions for absolute convergence:
+When does a function have absolutely convergent Fourier coefficients? We can deduce it from
+periodic differentiability of the function:
 
 **Lemma (differentiability and absolutely convergence)** If $f : ℝ → ℂ$ and $f'$ are periodic
  and $f''$ is uniformly bounded, then $\vchatf ∈ ℓ^1$.
@@ -114,7 +123,7 @@ $$
 &= - {1 \over k^2} ∫_0^{2π} f''(θ) {\rm e}^{-{\rm i} k θ} {\rm d}θ
 \end{align*}
 $$
-thus uniform boundedness of $f''$ guarantees $|\hat f_k| ≤ M |k|^{-2}$ for some $M$, and we have
+thus uniform boundedness of $f''$ guarantees $|\hat f_k| ≤ M |k|^{-2}$ for some $M$, and we have
 $$
 ∑_{k = -∞}^∞ |\hat f_k| ≤ |\hat f_0|  + 2M ∑_{k = 1}^∞ |k|^{-2}  < ∞
 $$
@@ -140,13 +149,13 @@ they decay even faster than exponentially.
 
 
 **Definition (Trapezium Rule)** Let $θ_j = 2πj/n$ for $j = 0,1,…,n$ denote $n+1$ evenly spaced points over $[0,2π]$.
-The _Trapezium rule_ over $[0,2π]$ is the approximation:
+Recall that the _Trapezium rule_ over $[0,2π]$ is the approximation:
 $$
 ∫_0^{2π} f(θ) {\rm d}θ ≈ {2 π \over n} \left[{f(0) \over 2} + ∑_{j=1}^{n-1} f(θ_j) + {f(2 π) \over 2} \right]
 $$
-But if $f$ is periodic we have $f(0) = f(2π)$ we get the _periodic Trapezium rule_:
+But if $f$ is periodic we have $f(0) = f(2π)$ and we get the _periodic Trapezium rule_:
 $$
-∫_0^{2π} f(θ) {\rm d}θ ≈ 2 π\underbrace{{1 \over n} ∑_{j=0}^{n-1} f(θ_j)}_{Σ_n[f]}
+{1 \over 2π} ∫_0^{2π} f(θ) {\rm d}θ ≈ \underbrace{{1 \over n} ∑_{j=0}^{n-1} f(θ_j)}_{Σ_n[f]}
 $$
 ∎
 
@@ -190,7 +199,7 @@ Then we have
 $$
 ∑_{j=0}^{n-1} {\rm e}^{{\rm i} k θ_j} = ∑_{j=0}^{n-1} (ω^k)^j = {ω^{kn} -1 \over ω^k -1} = 0.
 $$
-where we use the fact that $k$ is not a multiple of $n$ to guarantee that $ω^k ≠ 1$.
+where we use the fact that $k$ is not a multiple of $n$ to guarantee that $ω^k ≠ 1$.
 
 ∎
 
@@ -230,7 +239,10 @@ Note that there is redundancy:
 For all $p ∈ ℤ$, $\hat f_k^n = \hat f_{k+pn}^n$.
 
 **Proof**
-
+Follows immediately:
+$$
+\hat f_{k+pn}^n = \sum_{j=-∞}^∞ \hat f_{k+(p+j)n}= \sum_{j=-∞}^∞ \hat f_{k+j n} = \hat f_k^n.
+$$
 ∎
 
 
@@ -258,17 +270,32 @@ m+2 & m+3 & ⋯ & n & 1 & 2 & ⋯ & m+1
 $$
 
 
+**Example (Taylor coefficients via Geometric series)** Consider the function
+$$
+f(θ) = {2 \over 2 - {\rm e}^{{\rm i} θ}}
+$$
+Under the change of variables $z = {\rm e}^{{\rm i} θ}$ we know for
+$z$ on the unit circle this becomes (using the geometric series with $z/2$)
+$$
+{2 \over 2-z} = ∑_{k=0}^∞ {z^k \over 2^k}
+$$
+i.e., $\hat f_k = 1/2^k$ which is absolutely summable:
+$$
+∑_{k=0}^∞ |\hat f_k| = f(0) = 2.
+$$
+If we use an $n$ point discretisation we get (using the geoemtric series with $2^{-n}$)
+$$
+\hat f_k^n = \hat f_k + \hat f_{k+n} + \hat f_{k+n} + ⋯ = ∑_{p=0}^∞ {1 \over 2^{k+pn}} = {2^{n-k} \over 2^n - 1}
+$$
+Note that as $n \rightarrow ∞$, we have $\hat f_k^n \rightarrow \hat f_k$.
+∎
 
-We first discuss the case when all negative coefficients are zero.
-That is, $\hat f_0^n, …, \hat f_{n-1}^n$ are approximations of the Fourier–Taylor coefficients by evaluating
-on the boundary.
 
 
 
-We can  prove _convergence_ whenever of this
-approximation whenever $f$ has absolutely summable coefficients.
+We can  prove _convergence_ whenever $f$ has absolutely summable coefficients.
 We will prove the result here in the special case where the negative
-coefficients are zero.
+coefficients are zero. That is, $\hat f_0^n, …, \hat f_{n-1}^n$ are approximations of the Fourier–Taylor coefficients.
 
 
 **Theorem (Approximate Fourier-Taylor expansions converge)**

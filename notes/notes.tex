@@ -133,7 +133,7 @@
 \def\y{{\vc y}}
 \def\z{{\vc z}}
 \def\k{{\vc k}}
-\def\vchatf{\widehat{\vc f}}
+\def\vchatf{{\vc {\hat f}}}
 \def\zero{{\vc 0}}
 \def\Lt{{\tilde L}}
 \def\Pt{{\tilde P}}
@@ -288,11 +288,11 @@ Here we introduce these fundamental tools and explore applications to quadrature
 produce incredibly accurate approximations, ones that converge exponentially (or faster) for analytic functions.
 
 \begin{enumerate}
-    \item IV.1 Fourier Expansions:
-    \item IV.2 Discrete Fourier Transform:
-    \item IV.3 Orthogonal Polynomials:
-    \item IV.4 Classical Orthogonal Polynomials:
-    \item IV.5 Gaussian Quadrature:
+    \item IV.1 Fourier Expansions: we discuss Fourier series and their usage in approximating periodic functions, using the Trapezium rule to compute the Fourier coefficients.
+    \item IV.2 Discrete Fourier Transform: The Trapezium rule approximation can be recast as a unitary matrix, known as the Discrete Fourier Transform (DFT). This is used to prove interpolation properties.
+    \item IV.3 Orthogonal Polynomials: For non-periodic functions we consider using orthogonal polynomials, and discuss basic properties.
+    \item IV.4 Classical Orthogonal Polynomials: For certain weights, orthogonal polynomials are classical and have addition structure.
+    \item IV.5 Gaussian Quadrature: Finally, we revisit the  problem of computing integrals, and see that using orthogonal polynomials we can derive much more accurate methods.
     \end{enumerate}
 
 \input{IV.1.Fourier}
