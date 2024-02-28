@@ -161,11 +161,18 @@ sig = 2.0^(-52) * parse(Int, ret; base=2)
 # Use row-eliminations to recast the tridiagonal finite-difference discretisation as a symmetric tridiagonal
 # system, solved via the `SymTridiagonal` type, for $f(x) = \exp(x)$ and $L = 10$.
 
-## TODO:
-## SOLUTION
+function schrodingersolve(n, L, f)
+    x = range(-L,L;length=n+1) # discretisation grid
+    ## TODO:
+    ## SOLUTION
+    ## In the standard triangular discretisation, we can 
+    h = step(x)
+    A = SymTridiagonal(2/h^2 .+  x[2:end].^2, fill(-1/h^2, n-1))
+    A \ f.(x[2:end])
+    ## END
+end
 
 
-## END
 
 # **Problem 5(b)** The `eigvals` function computes eigenvalues of a matrix. Use this alongside the
 # symmetric diagonal discretisation to approximate $λ$ such that
@@ -176,7 +183,19 @@ sig = 2.0^(-52) * parse(Int, ret; base=2)
 # Can you conjecture their exact value if $L → ∞$? Hint: they are integers and the eigenvalues
 # closest to zero are most accurate.
 
+function shrodingereigvals(n, L)    
+    x = range(-L,L;length=n+1) # discretisation grid
+    ## TODO:
+    ## SOLUTION
+    h = step(x)
+    eigvals(SymTridiagonal(2/h^2 .+  x[2:end].^2, fill(-1/h^2, n-1)))
+    ## END
+end
 
+## TODO: add experiments and a comment where you conjecture the true eigenvalues.
+## SOLUTION
+
+## END
 
 # **Problem 6** Implement `reversecholesky(A)` that returns an upper-triangular matrix `U` such that `U*U' ≈ A`.
 # You may assume the input is symmetric positive definite and has `Float64` values. You must not use the inbuilt `cholesky`
@@ -224,13 +243,20 @@ function lagrangebasis(g::AbstractVector, k, x)
     n = length(g) # number of points
     ## TODO: compute ℓ_k(x) corresponding to the grid g
     ## SOLUTION
-        num = 1.0
-        for j = 1:n
-
+    ret = 1.0
+    for j = 1:n
+        if j ≠ k
+            ret *= (x-g[j])/(g[k]-g[j])
         end
+    end
+    ret
     ## END
 end
 
+g = 1:5
+@test lagrangebasis(g, 2, 2) == 1
+@test lagrangebasis(g, 2, 3) == lagrangebasis(g, 2, 4) ==  0
+@test lagrangebasis(g, 3, 0.1) ≈ 8.169525
 
 # **Problem 8(a)**  Construct a reverse Householder reflection, that gives an orthogonal matrix
 # $Q$ such that, for $𝐱 ∈ ℝ^n$,
