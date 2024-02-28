@@ -159,7 +159,7 @@ sig = 2.0^(-52) * parse(Int, ret; base=2)
 # u(-L) = u(L) = 0, -u'' + x^2 u = f(x)
 # $$
 # Use row-eliminations to recast the tridiagonal finite-difference discretisation as a symmetric tridiagonal
-# system, solved via the `SymTridiagonal` type, for $f(x) = \exp(x)$ and $L = 10$.
+# system, solved via the `SymTridiagonal` type,.
 
 function schrodingersolve(n, L, f)
     x = range(-L,L;length=n+1) # discretisation grid
@@ -167,12 +167,15 @@ function schrodingersolve(n, L, f)
     ## SOLUTION
     ## In the standard triangular discretisation, we can 
     h = step(x)
-    A = SymTridiagonal(2/h^2 .+  x[2:end].^2, fill(-1/h^2, n-1))
-    A \ f.(x[2:end])
+    A = SymTridiagonal(2/h^2 .+  x[2:end-1].^2, fill(-1/h^2, n-2))
+    [0; A \ f.(x[2:end-1]); 0]
     ## END
 end
 
-
+f = x-> -2exp(x) - 2exp(x)*(-10 + x) - 2exp(x)*(10 + x) - exp(x)*(-10 + x)*(10 + x) + exp(x)*(-10 + x)*(x^2)*(10 + x)
+n,L = 1000,10
+x = range(-L,L;length=n+1)
+schrodingersolve(1000, 10, f) - (L^2 .- x.^2) .* exp.(x)
 
 # **Problem 5(b)** The `eigvals` function computes eigenvalues of a matrix. Use this alongside the
 # symmetric diagonal discretisation to approximate $λ$ such that
