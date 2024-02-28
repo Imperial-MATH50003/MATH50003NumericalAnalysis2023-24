@@ -1,7 +1,7 @@
 # # MATH50003 (2023–24)
 # # Revision Lab
 
-using LinearAlgebra, Test
+using LinearAlgebra, SetRounding, Test
 
 
 # **Problem 1(a)** Simpson's rule on a single panel is given by
@@ -152,6 +152,12 @@ sig = 2.0^(-52) * parse(Int, ret; base=2)
 2.0^(156 - 1023) * sig
 
 ## END
+
+# **Problem 5** Implement the `sqrt` function with correctly rounded interval arithmetic.
+
+
+
+
 
 
 # **Problem 5(a)**  Consider the Schrödinger equation with quadratic oscillator:
