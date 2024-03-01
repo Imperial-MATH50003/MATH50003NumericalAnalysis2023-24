@@ -126,7 +126,7 @@ We can extend this to more general first-order linear differential equations wit
 $$
 \begin{align*}
 u(a) &= c \\
-u'(x) - ω(x) u(x) &= f(x)
+u'(x) + ω(x) u(x) &= f(x)
 \end{align*}
 $$
 The steps proceed very similar to before:

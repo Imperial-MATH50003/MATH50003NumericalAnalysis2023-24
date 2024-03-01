@@ -11,7 +11,7 @@ $$
 \end{bmatrix}, \begin{bmatrix} 3 & 2 & 1  \\
 2 & 4 & 2\\
 1 & 2 & 5
-\end{bmatrix}, 
+\end{bmatrix},
 \begin{bmatrix} 4 & 2 & 2 & 1  \\
 2 & 4 & 2 & 2\\
 2 & 2 & 4 & 2 \\
@@ -21,15 +21,14 @@ $$
 
 **SOLUTION**
 
-A matrix is symmetric positive definite (SPD) if and only if it has a Cholesky factorisation, so the task here is really just to compute Cholesky factorisations (by hand). Since our goal is to tell if the Cholesky factorisations exist, we do not have to compute $L_k$'s. We only need to see if the factorisation process can keep to the end.
+A matrix is symmetric positive definite (SPD) if and only if it has a Cholesky factorisation, so the task here is really just to compute Cholesky factorisations (by hand). Since our goal is to tell if the Cholesky factorisations exist, we do not have to compute $L_k$'s. We only need to see if the factorisation process can continue to the end.
 
 *Matrix 1*
 
 $$A_0=\begin{bmatrix} 1 & -1  \\
 -1 & 3
 \end{bmatrix}$$
-
-$A_1=3-\frac{(-1)×(-1)}{1}>0$, so Matrix 1 is SPD.
+and     $A_1=3-\frac{(-1)×(-1)}{1}>0$, so Matrix 1 is SPD.
 
 *Matrix 2*
 
@@ -38,17 +37,18 @@ $$A_0=\begin{bmatrix}
 2 & 1 & 2 \\
 2 & 2 & 1
 \end{bmatrix}$$
-
-$$A_1=\begin{bmatrix}
+Then
+$$
+A_1=\begin{bmatrix}
 1&2\\
 2&1
 \end{bmatrix}-\begin{bmatrix} 2 \\ 2 \end{bmatrix}\begin{bmatrix} 2 & 2 \end{bmatrix}=
 \begin{bmatrix}
 -3&-2\\
 -2&-3
-\end{bmatrix}$$
-
-$A_1[1,1] ≤ 0$, so Matrix 2 is not SPD.
+\end{bmatrix}
+$$
+and finally $A_1[1,1] ≤ 0$, so Matrix 2 is not SPD.
 
 *Matrix 3*
 
@@ -57,8 +57,9 @@ $$A_0=\begin{bmatrix}
 2 & 4 & 2 \\
 1 & 2 & 5
 \end{bmatrix}$$
-
-$$A_1=
+and then
+$$
+A_1=
 \begin{bmatrix}
 4&2\\
 2&5
@@ -66,20 +67,23 @@ $$A_1=
 \begin{bmatrix}
 8&4\\
 4&14
-\end{bmatrix}$$
-
-$3A_2=14-\frac{4× 4}{8} = 12 >0$, so Matrix 3 is SPD.
+\end{bmatrix}
+$$
+and finally $3A_2=14-\frac{4× 4}{8} = 12 >0$, so Matrix 3 is SPD.
 
 *Matrix 4*
 
-$$A_0=\begin{bmatrix}
+$$
+A_0=\begin{bmatrix}
 4 & 2 & 2 & 1 \\
 2 & 4 & 2 & 2 \\
 2 & 2 & 4 & 2 \\
 1 & 2 & 2 & 4
-\end{bmatrix}$$
-
-$$A_1=\begin{bmatrix}
+\end{bmatrix}
+$$
+and then
+$$
+A_1=\begin{bmatrix}
 4&2&2\\
 2&4&2\\
 2&2&4
@@ -88,34 +92,22 @@ $$A_1=\begin{bmatrix}
 12&4&6\\
 4&12&6\\
 6&6&15
-\end{bmatrix}$$
-
-$$4A_2=\begin{bmatrix}
+\end{bmatrix}
+$$
+Furthermore
+$$
+4A_2=\begin{bmatrix}
 12&6\\
 6&15
 \end{bmatrix}-\frac{1}{12}\begin{bmatrix} 4 \\ 6 \end{bmatrix}\begin{bmatrix} 4 & 6 \end{bmatrix}=\frac{4}{3}
 \begin{bmatrix}
 8&3\\
 3&9
-\end{bmatrix}$$
-$3A_3=9-\frac{3× 3}{8}>0$, so Matrix 4 is SPD.
+\end{bmatrix}
+$$
+and finally $3A_3=9-\frac{3× 3}{8}>0$, so Matrix 4 is SPD.
 
-We can check that we did this correctly by running the following in Julia:
 
-```julia
-cholesky([1 -1; -1 3])
-```
-```julia
-# this throws an error when run because the matrix is not SPD
-# @test_throws is a test that this error is thrown
-@test_throws PosDefException cholesky([1 2 2; 2 1 2; 2 2 1])
-```
-```julia
-cholesky([3 2 1; 2 4 2; 1 2 5])
-```
-```julia
-cholesky([4 2 2 1; 2 4 2 2; 2 2 4 2; 1 2 2 4])
-```
 **END**
 
 **Problem 2** Show that a matrix $A ∈ ℝ^{n × n}$ is symmetric positive definite if and only if it has a _reverse_ Cholesky
@@ -129,12 +121,12 @@ where $U$ is upper triangular with positive entries on the diagonal.
 
 Note $𝐱^⊤ U U^⊤ 𝐱 = \| U^⊤ 𝐱 \| > 0$ since $U$ is invertible.
 
-For the other directrion, we replicate the proof by induction for standard Cholesky,
+For the other direction, we replicate the proof by induction for standard Cholesky,
 beginning in the bottom right
-instead of the top left. Again the basis case is trivial. Thus we write:
+instead of the top left. Again the basis case is trivial. Since all diagonal entries are positive we can write
 $$
 A = \begin{bmatrix} K & 𝐯\\
-                    𝐯^⊤ & α \end{bmatrix} = 
+                    𝐯^⊤ & α \end{bmatrix} =
                     \underbrace{\begin{bmatrix} I & {𝐯 \over \sqrt{α}} \\
                                         & \sqrt{α}
                                         \end{bmatrix}}_{U_1}
@@ -144,7 +136,10 @@ A = \begin{bmatrix} K & 𝐯\\
                       {𝐯^⊤ \over \sqrt{α}} & \sqrt{α}
                                         \end{bmatrix}}_{U_1^⊤}
 $$
-By assumption $K - {𝐯 𝐯^⊤ \over α} = ŨŨ^⊤$. 
+By assumption $K - {𝐯 𝐯^⊤ \over α} = \Ut\Ut^⊤$ hence we have
+$$
+A = \underbrace{U_1 \begin{bmatrix} \Ut \\ & 1 \end{bmatrix}}_U  \underbrace{\begin{bmatrix} \Ut^\top \\ & 1 \end{bmatrix} U_1^\top}_{U^\top}
+$$
 
 
 **END**
@@ -161,7 +156,7 @@ $$
 &&& -1 & 2
 \end{bmatrix}
 $$
-Hint: consider a matrix $K_n^α$ that equals $Δ_n$ apart from the top left entry which is $α > 1$ and use a proof by induction.
+Hint: consider a matrix $K_n^{(α)}$ that equals $Δ_n$ apart from the top left entry which is $α > 1$ and use a proof by induction.
 
 
 **SOLUTION**
@@ -169,7 +164,7 @@ Hint: consider a matrix $K_n^α$ that equals $Δ_n$ apart from the top left entr
 Consider the first step of the Cholesky factorisation:
 $$
 Δ_n = \begin{bmatrix} 2 & -𝐞_1^⊤ \\
-                    -𝐞_1 & Δ_{n-1} \end{bmatrix} = 
+                    -𝐞_1 & Δ_{n-1} \end{bmatrix} =
                     \underbrace{\begin{bmatrix} \sqrt{2} \\
                                     {-𝐞_1 \over \sqrt{2}} & I
                                         \end{bmatrix}}_{L_1}
@@ -179,11 +174,11 @@ $$
                                         \end{bmatrix}}_{L_1^⊤}
 $$
 The bottom right is merely $Δ_{n-1}$ but with a different $(1,1)$ entry! This hints at a strategy
-of proving by induction. 
+of proving by induction.
 
 Assuming $α > 1$ write
 $$
-K_n^α := \begin{bmatrix}
+K_n^{(α)} := \begin{bmatrix}
 α & -1 \\
 -1 & 2 & -1 \\
 & -1 & 2 & ⋱ \\
@@ -193,18 +188,18 @@ K_n^α := \begin{bmatrix}
                     \begin{bmatrix} \sqrt{α} \\
                                     {-𝐞_1 \over \sqrt{α}} & I
                                         \end{bmatrix}
-                    \begin{bmatrix}1 \\ & K_{n-1}^{2 - 1/α} \end{bmatrix}
+                    \begin{bmatrix}1 \\ & K_{n-1}^{(2 - 1/α)} \end{bmatrix}
                     \begin{bmatrix} \sqrt{α} & {-𝐞_1^⊤ \over \sqrt{α}} \\
                                                             & I
                                         \end{bmatrix}
 $$
-Note if $n = 1$ this is trivially SPD. Hence assume $K_{n-1}^α$ is SPD for all $α > 1$.
-If $α > 1$ then $2 - 1/α > 1$. Hence by induction and the fact that $Δ_n = K_n^2$
+Note if $n = 1$ this is trivially SPD. Hence assume $K_{n-1}^{(α)}$ is SPD for all $α > 1$.
+If $α > 1$ then $2 - 1/α > 1$. Hence by induction and the fact that $Δ_n = K_n^{(2)}$
 we conclude that $Δ_n$ has a Cholesky factorisation and hence is symmetric positive definite.
 
 **END**
 
-**Problem 3(b)** 
+**Problem 3(b)**
 Deduce its Cholesky factorisations: $Δ_n = L_n L_n^⊤$ where
 $L_n$ is lower triangular.
 
@@ -220,19 +215,22 @@ $$
 $$
 The pattern is clear and one can show by induction that $α_k = (k+1)/k$. Thus we have the Cholesky factorisation
 $$
+\meeq{
 Δ _n = \underbrace{\begin{bmatrix}
 \sqrt{2} \\
 -1/\sqrt{2} & \sqrt{3/2} \\
 & -\sqrt{2/3} & \sqrt{4/3} \\
     && ⋱ & ⋱ \\
     &&& -\sqrt{(n-1)/n} & \sqrt{(n+1)/n}
-    \end{bmatrix}}_{L_n} \underbrace{\begin{bmatrix}
+    \end{bmatrix}}_{L_n}  \\
+    & \qquad ×     \underbrace{\begin{bmatrix}
 \sqrt{2} & -1/\sqrt{2} \\
  & \sqrt{3/2} & -\sqrt{2/3} \\
     && ⋱ & ⋱ \\
     &&& \sqrt{n/(n-1)} & -\sqrt{(n-1)/n} \\
     &&&& \sqrt{(n+1)/n}
-    \end{bmatrix}}_{L_n^⊤} 
+    \end{bmatrix}}_{L_n^⊤}
+}
 $$
 
 
@@ -242,29 +240,16 @@ $$
 
 **Problem 4** Use Lagrange interpolation to
 interpolate the function $\cos x$ by a polynomial at the points
-$[0,2,3,4]$ and evaluate at $x = 1$. 
+$[0,2,3,4]$ and evaluate at $x = 1$.
 
 **SOLUTION**
 
-- $ℓ_0(x)=\frac{(x-2)(x-3)(x-4)}{(0-2)(0-3)(0-4)}=-\frac{1}{24}(x-2)(x-3)(x-4)$
+- $ℓ_1(x)=\frac{(x-2)(x-3)(x-4)}{(0-2)(0-3)(0-4)}=-\frac{1}{24}(x-2)(x-3)(x-4)$
 - $ℓ_2(x)=\frac{(x-0)(x-3)(x-4)}{(2-0)(2-3)(2-4)}=\frac{1}{4}x(x-3)(x-4)$
 - $ℓ_3(x)=\frac{(x-0)(x-2)(x-4)}{(3-0)(3-2)(3-4)}=-\frac{1}{3}x(x-2)(x-4)$
 - $ℓ_4(x)=\frac{(x-0)(x-2)(x-3)}{(4-0)(4-2)(4-3)}=\frac{1}{8}x(x-2)(x-3)$
+So that $p(x)=\cos(0)ℓ_1(x)+\cos(2)ℓ_2(x)+\cos(3)ℓ_3(x)+\cos(4)ℓ_4(x)$. Note that $ℓ_0(1)=1/4$, $ℓ_2(1)=3/2$, $ℓ_3(1)=-1$, $ℓ_4(1)=1/4$, so $p(1)=1/4\cos(0)+3/2\cos(2)-\cos(3)+1/4\cos(4)$.
 
-$p(x)=\cos(0)ℓ_0(x)+\cos(2)ℓ_2(x)+\cos(3)ℓ_3(x)+\cos(4)ℓ_4(x)$
-
-$ℓ_0(1)=1/4$, $ℓ_2(1)=3/2$, $ℓ_3(1)=-1$, $ℓ_4(1)=1/4$, so $p(1)=1/4\cos(0)+3/2\cos(2)-\cos(3)+1/4\cos(4)$.
-
-```julia
-using Plots
-l0(x)=-1/24*(x-2)*(x-3)*(x-4)
-l2(x)=1/4*x*(x-3)*(x-4)
-l3(x)=-1/3*x*(x-2)*(x-4)
-l4(x)=1/8*x*(x-2)*(x-3)
-p(x)=cos(0)*l0(x)+cos(2)*l2(x)+cos(3)*l3(x)+cos(4)*l4(x)
-
-plot([p cos], xlims=(-1,5))
-```
 
 **END**
 
@@ -273,12 +258,12 @@ $$
 \begin{bmatrix}
 1 & 1 \\
 x & y
-\end{bmatrix}, 
+\end{bmatrix},
 \begin{bmatrix}
 1 & 1 & 1 \\
 x & y & z \\
 x^2 & y^2 & z^2
-\end{bmatrix}, 
+\end{bmatrix},
 \begin{bmatrix}
 1 & 1 & 1 & 1 \\
 x & y & z & t \\
@@ -286,7 +271,7 @@ x^2 & y^2 & z^2 & t^2 \\
 x^3 & y^3 & z^3 & t^3
 \end{bmatrix}
 $$
-Can you spot a pattern? Test your conjecture with a $5 × 5$ Vandermonde matrix. 
+Can you spot a pattern? Test your conjecture with a $5 × 5$ Vandermonde matrix.
 
 **SOLUTION**
 (1)
@@ -328,7 +313,7 @@ $$
  1 &  \\
  y+x & 1
 \end{bmatrix} \begin{bmatrix}
-y-x & z-x 
+y-x & z-x \\
 & (z-y)(z-x)
 \end{bmatrix}
 $$
@@ -352,7 +337,7 @@ V := \begin{bmatrix}
 x & y & z & t \\
 x^2 & y^2 & z^2 & t^2 \\
 x^3 & y^3 & z^3 & t^3
-\end{bmatrix} = 
+\end{bmatrix} =
 \begin{bmatrix}
 1 &  \\
 x & 1 \\
@@ -362,47 +347,53 @@ x^3 &&& 1
 1 & 1 & 1 & 1\\
  & y-x & z-x & t-x \\
  & y^2-x^2 & z^2 - x^2 & t^2 - x^2 \\
- & y^3-x^3 & z^3 - x^3 & t^3 - x^3 
+ & y^3-x^3 & z^3 - x^3 & t^3 - x^3
 \end{bmatrix}
 $$
 We then have
 $$
+\meeq{
 \begin{bmatrix}
 y-x & z-x & t-x \\
 y^2-x^2 & z^2 - x^2 & t^2 - x^2 \\
-y^3-x^3 & z^3 - x^3 & t^3 - x^3 
+y^3-x^3 & z^3 - x^3 & t^3 - x^3
 \end{bmatrix} = \begin{bmatrix}
 1 &  &  \\
 y + x & 1 &  \\
 y^2 + xy + x^2 &  & 1
-\end{bmatrix} 
-\begin{bmatrix}
+\end{bmatrix} \\
+& \qquad × \begin{bmatrix}
 y-x & z-x & t-x \\
- & (z-y)(z-x) & (t-y)(t-x)
+ & (z-y)(z-x) & (t-y)(t-x) \\
  & (z-x)(z-y) (x+y+z) & (t-x)(t-y) (x+y+t)
-\end{bmatrix} 
+\end{bmatrix}
+}
 $$
 since
 $$
-z^3 - x^3 - (z-x) (y^2 + x y + x^2) = z^3 - z y^2 - x y z  - z x^2 + x y^2  + x^2 y 
+z^3 - x^3 - (z-x) (y^2 + x y + x^2) = z^3 - z y^2 - x y z  - z x^2 + x y^2  + x^2 y
 = (x-z)(y-z) (x+y+z).
 $$
 Finally we have
 $$
-\begin{bmatrix}
- (z-y)(z-x) & (t-y)(t-x)
+\begin{align*}
+&\begin{bmatrix}
+ (z-y)(z-x) & (t-y)(t-x) \\
  (z-x)(z-y) (x+y+z) & (t-x)(t-y) (x+y+t)
-\end{bmatrix} = \begin{bmatrix}
- 1 & 
+\end{bmatrix}\\
+&\qquad = \begin{bmatrix}
+ 1 & \\
  x+y+z & 1
-\end{bmatrix}  \begin{bmatrix}
- (z-y)(z-x) & (t-y)(t-x)
+\end{bmatrix}
+ \begin{bmatrix}
+ (z-y)(z-x) & (t-y)(t-x) \\
   & (t-x)(t-y) (t-z)
-\end{bmatrix} 
+\end{bmatrix}
+\end{align*}
 $$
 since
 $$
-(t-x)(t-y) (x+y+t) - (x+y+z) (t-y)(t-x) = (t-y)(t-x)(t-z)
+(t-x)(t-y) (x+y+t) - (x+y+z) (t-y)(t-x) = (t-y)(t-x)(t-z).
 $$
 Putting everything together we have
 $$
@@ -423,23 +414,26 @@ $$
 We conjecture that $L[k,j]$ for $k > j$ contains a sum of all monomials of degree $k$ of $x_1,…,x_j$, and
 $$
 U[k,j] = ∏_{s = 1}^{k-1} (x_j-x_s)
-$$ 
+$$
 for $1 < k ≤ j$. We can confirm that
 $$
-\begin{bmatrix}
+\begin{align*}
+&\begin{bmatrix}
 1 & 1 & 1 & 1 & 1 \\
 x & y & z & t & s\\
 x^2 & y^2 & z^2 & t^2 & s^2 \\
 x^3 & y^3 & z^3 & t^3 & s^3 \\
-x^4 & y^4 & z^4 & t^4 & s^4 
-\end{bmatrix} =
+x^4 & y^4 & z^4 & t^4 & s^4
+\end{bmatrix} \\
+&\qquad =
 \begin{bmatrix}
 1 &  \\
 x & 1 \\
 x^2 & x+y  & 1 \\
 x^3 &y^2 + xy + x^2  & x+ y + z & 1 \\
-x^4 & x^3 + x^2 y + x y^2 + y^3 & x^2 + y^2 + z^2 + xy + xz + yz  & x + y + z + t & 1 
-\end{bmatrix}
+x^4 & x^3 + x^2 y + x y^2 + y^3 & x^2 + y^2 + z^2 + xy + xz + yz  & x + y + z + t & 1
+\end{bmatrix} \\
+&\qquad ×
 \begin{bmatrix}
 1 & 1 & 1 & 1 & 1\\
  & y-x & z-x & t-x & s-x  \\
@@ -447,6 +441,7 @@ x^4 & x^3 + x^2 y + x y^2 + y^3 & x^2 + y^2 + z^2 + xy + xz + yz  & x + y + z + 
  &  &  & (t-y)(t-x)(t-z) &   (s-y)(s-x)(s-z)  \\
  &  &  &  &   (s-y)(s-x)(s-z)(s-t)
 \end{bmatrix}
+\end{align*}
 $$
 Multiplying it out we confirm that our conjecture is correct in this case.
 
