@@ -21,9 +21,12 @@ x_1 ⊕ ⋯ ⊕ x_n = x_1 +  ⋯ + x_n + σ_n
 $$
 where
 $$
-|σ_n| ≤ \| 𝐱 \|_∞ E_{n-1,ϵ_{\rm m}/2},
+|σ_n| ≤ \| 𝐱 \|_1 E_{n-1,ϵ_{\rm m}/2},
 $$
-assuming $n ϵ_{\rm m} < 2$ and where $\|𝐱\|_∞ := \max_k |x_k|$.
+assuming $n ϵ_{\rm m} < 2$ and where
+$$
+\|𝐱\|_1 := ∑_{k=1}^n |x_k|.
+$$
 Hint: use the previous part to first write
 $$
 x_1 ⊕ ⋯ ⊕ x_n = x_1(1+θ_{n-1}) + ∑_{j=2}^n x_j (1 + θ_{n-j+1}).
