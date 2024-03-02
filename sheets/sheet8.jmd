@@ -37,13 +37,17 @@ $$
 f_{-m:m}(θ) := ∑_{k=-m}^m \hat f_k^n {\rm e}^{{\rm i} k θ}
 $$
 to $f(θ)$ as $n → ∞$.
-What is the rate of convergence if the first $λ-1$ derivatives $f(θ), f'(θ), …, f^{(λ-1)}(θ)$ 
+What is the rate of convergence if we know that the first $λ-1$ derivatives $f(θ), f'(θ), …, f^{(λ-1)}(θ)$ 
 are 2π-periodic and $f^{(λ)}$ is uniformly bounded?
 
 
 
+**Problem 3(c)** Show that $f_{-m:m}(θ)$ interpolates $f$ at $θ_j = 2πj/n$ for $n = 2m+1$.
 
-**Problem 4(a)** Show for $0 ≤ k,ℓ ≤ n-1$
+
+
+
+**Problem 4(a)** Show for $0 ≤ k,ℓ ≤ n-1$
 $$
 {1 \over n} \sum_{j=1}^n \cos k θ_j \cos ℓ θ_j = \begin{cases} 1 & k = ℓ = 0 \\
                                                   1/2 & k = ℓ \\

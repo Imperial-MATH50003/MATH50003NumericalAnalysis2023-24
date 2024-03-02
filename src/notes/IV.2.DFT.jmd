@@ -1,12 +1,14 @@
 # Discrete Fourier Transform
 
 
-In the last section we explored using the trapezium rule for approximating Fourier coefficients.
+In the previous section we explored using the trapezium rule for approximating Fourier coefficients.
 This is a linear map from function values to coefficients and thus can be reinterpreted as
 a matrix-vector product, called the the Discrete Fourier Transform. It turns out the matrix
-is unitary which leads to important properties including interpolation. Finally, we discuss how a clever
-way of decomposing the DFT leads to a fast way of applying and inverting it, which is one of the
-most influencial algorithms of the 20th century: the Fast Fourier Transform.
+is unitary which leads to important properties including interpolation. 
+
+
+**Remark** A clever way of decomposing the DFT leads to a fast way of applying and inverting it, which is one of the
+most influencial algorithms of the 20th century: the Fast Fourier Transform. But this is beyond the scope of this module.
 
 
 ## The Discrete Fourier transform
@@ -157,7 +159,7 @@ $$
 \end{align*}
 $$
 
-Alternatively we could have deduced this directly from the DCT. In particular, we know the coefficients of the interpolating polynomial must be,
+Alternatively we could have deduced this directly from the DFT. In particular, we know the coefficients of the interpolating polynomial must be,
 for $ω = \I$,
 $$
 \Vectt[\hat f_0^4, \hat f_1^4, \hat f_2^4, \hat f_3^4] = 
@@ -173,3 +175,9 @@ $$
  ]
 $$
 ∎
+
+The interpolation property also applies to the approximation
+$$
+f_n(θ) = ∑_{k=-⌈n/2⌉}^{⌊n/2⌋} \hat f_k {\rm e}^{{\rm i} k θ}
+$$
+for general Fourier series, which is investigated in the problem sheet.

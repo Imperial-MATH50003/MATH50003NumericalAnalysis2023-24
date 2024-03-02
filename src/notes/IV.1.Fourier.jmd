@@ -3,7 +3,7 @@
 
 Fourier series are a powerful tool in wide areas of mathematics, including solving partial differential equations, signal processing, and elsewhere.
 They are also very useful in computational methods, particularly for problems that have periodicity. Periodicity arises naturally when solving
-problems in radial coordinates, or when approximating a problem on the real line by a periodic problem with a large problem.
+problems in radial coordinates, or when approximating a problem on the real line by a periodic problem with a large period.
 Fourier series are also related to orthogonal polynomials, which can be used for non-periodic problems.
 
 
@@ -31,14 +31,13 @@ $$
 $$
 ∎
 
-A basic observation is if a Fourier expansion has no negative terms it is equivalent to a Taylor series
-if we write $z = {\rm e}^{{\rm i} θ}$:
+A basic observation is if a Fourier expansion has no negative terms it is equivalent to a Taylor series in disguise:
 
 **Definition (Fourier-Taylor)** A function $f$ has a Fourier–Taylor expansion if
 $$
-f(θ) = ∑_{k = 0}^∞ \hat f_k {\rm e}^{{\rm i} k θ}
+f(θ) = ∑_{k = 0}^∞ \hat f_k {\rm e}^{{\rm i} k θ} = ∑_{k = 0}^∞ \hat f_k z^k
 $$
-where $\hat f_k := ⟨{\rm e}^{{\rm i} k θ}, f⟩$.
+where $\hat f_k := ⟨{\rm e}^{{\rm i} k θ}, f⟩$, and $z = {\rm e}^{{\rm i} θ}$.
 ∎
 
 
@@ -63,13 +62,13 @@ to  focus on the case where the _Fourier coefficients_ $\hat f_k$ are _absolutel
 $\vchatf ∈ ℓ^1$ if it is absolutely convergent,
 or in otherwords, the $1$-norm of $\vchatf$ is bounded:
 $$
-\|\vchatf\|_1 := ∑_{k=-∞}^∞ |\hat f_k| < ∞
+\|\vchatf\|_1 := ∑_{k=-∞}^∞ |\hat f_k| < ∞.
 $$
 ∎
 
 We first state a  basic results (whose proof is beyond the scope of this module):
 
-**Theorem (2-norm convergence)**
+**Theorem (Fourier series equivalence)**
 If $f, g : 𝕋 → ℂ$ are continuous and $\hat f_k = \hat g_k$ for all $k ∈ ℤ$ then $f = g$.
 
 **Proof**
@@ -78,7 +77,7 @@ See [Körner 2022 (Theorem 2.4)](https://www.cambridge.org/core/books/fourier-an
 
 This allows us to prove the following:
 
-**Theorem (Absolute convergence)**
+**Theorem (Absolute converging Fourier series)**
 If $\vchatf ∈ ℓ^1$ then
 $$
 f(θ) = ∑_{k = -∞}^∞ \hat f_k {\rm e}^{{\rm i} k θ},
@@ -120,10 +119,10 @@ $$
 2π\hat f_k &= ∫_0^{2π} f(θ) {\rm e}^{-{\rm i} k θ} {\rm d}θ =
 [f(θ) {\rm e}^{-{\rm i} k θ}]_0^{2π} + {1 \over {\rm i} k} ∫_0^{2π} f'(θ) {\rm e}^{-{\rm i} k θ} {\rm d}θ \\
 &= {1 \over {\rm i} k} [f'(θ) {\rm e}^{-{\rm i} k θ}]_0^{2π} - {1 \over k^2} ∫_0^{2π} f''(θ) {\rm e}^{-{\rm i} k θ} {\rm d}θ \\
-&= - {1 \over k^2} ∫_0^{2π} f''(θ) {\rm e}^{-{\rm i} k θ} {\rm d}θ
+&= - {1 \over k^2} ∫_0^{2π} f''(θ) {\rm e}^{-{\rm i} k θ} {\rm d}θ.
 \end{align*}
 $$
-thus uniform boundedness of $f''$ guarantees $|\hat f_k| ≤ M |k|^{-2}$ for some $M$, and we have
+Thus uniform boundedness of $f''$ guarantees $|\hat f_k| ≤ M |k|^{-2}$ for some $M$, and we have
 $$
 ∑_{k = -∞}^∞ |\hat f_k| ≤ |\hat f_0|  + 2M ∑_{k = 1}^∞ |k|^{-2}  < ∞
 $$
@@ -139,9 +138,6 @@ In fact, if a function is smooth and 2π-periodic its Fourier coefficients decay
 faster than algebraically: they decay like $O(k^{-λ})$ for any $λ$. This will be explored in the
 problem sheet.
 
-**Remark** Going further, if we let $z = {\rm e}^{{\rm i} θ}$ then if $f(z)$ is _analytic_ in a
-neighbourhood of the unit circle the Fourier coefficients decay _exponentially fast_. And if $f(z)$ is entire
-they decay even faster than exponentially.
 
 
 ## Trapezium rule and discrete Fourier coefficients
@@ -183,7 +179,7 @@ $$
 
 **Proof**
 
-Consider $ω := {\rm e}^{{\rm i} θ_1} = {\rm e}^{2 π {\rm i} \over n}$. This is an $n$ th root of unity: $ω^n = 1$.
+Consider $ω := {\rm e}^{{\rm i} θ_1} = {\rm e}^{2 π {\rm i} \over n}$. This is an $n$-th root of unity: $ω^n = 1$.
 Note that ${\rm e}^{{\rm i} θ_j} ={\rm e}^{2 π {\rm i} j \over n}= ω^j$.
 
 (Case 1: $k = pn$ for an integer $p$)
@@ -191,7 +187,7 @@ We have
 $$
 ∑_{j=0}^{n-1} {\rm e}^{{\rm i} k θ_j} = ∑_{j=0}^{n-1} ω^{kj} = ∑_{j=0}^{n-1} ({ω^{pn}})^j =   ∑_{j=0}^{n-1} 1 = n
 $$
-(Case 2 $k ≠ pn$ for an integer $p$)  Recall that
+(Case 2: $k ≠ pn$ for an integer $p$)  Recall that (via a telescoping sum argument)
 $$
 ∑_{j=0}^{n-1} z^j = {z^n-1 \over z-1}.
 $$

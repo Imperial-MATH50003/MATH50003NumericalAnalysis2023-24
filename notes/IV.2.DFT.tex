@@ -1,6 +1,8 @@
 
 \section{Discrete Fourier Transform}
-In the last section we explored using the trapezium rule for approximating Fourier coefficients. This is a linear map from function values to coefficients and thus can be reinterpreted as a matrix-vector product, called the the Discrete Fourier Transform. It turns out the matrix is unitary which leads to important properties including interpolation. Finally, we discuss how a clever way of decomposing the DFT leads to a fast way of applying and inverting it, which is one of the most influencial algorithms of the 20th century: the Fast Fourier Transform.
+In the previous section we explored using the trapezium rule for approximating Fourier coefficients. This is a linear map from function values to coefficients and thus can be reinterpreted as a matrix-vector product, called the the Discrete Fourier Transform. It turns out the matrix is unitary which leads to important properties including interpolation. 
+
+\textbf{Remark} A clever way of decomposing the DFT leads to a fast way of applying and inverting it, which is one of the most influencial algorithms of the 20th century: the Fast Fourier Transform. But this is beyond the scope of this module.
 
 \subsection{The Discrete Fourier transform}
 \begin{definition}[DFT] The \emph{Discrete Fourier Transform (DFT)} is defined as:
@@ -121,7 +123,7 @@ So we get the interpolant:
  {\E - \E^\I + \E^{-1} - \I \E^{-\I} \over 4} z^2 +
  {\E + \I \E^\I - \E^{-1} - \I \E^{-\I} \over 4} z^3 
 \end{align*}
-Alternatively we could have deduced this directly from the DCT. In particular, we know the coefficients of the interpolating polynomial must be, for $\ensuremath{\omega} = \I$,
+Alternatively we could have deduced this directly from the DFT. In particular, we know the coefficients of the interpolating polynomial must be, for $\ensuremath{\omega} = \I$,
 \[
 \Vectt[\hat f_0^4, \hat f_1^4, \hat f_2^4, \hat f_3^4] = 
 {1 \over 4} \begin{bmatrix}1 & 1 & 1 & 1 \\
@@ -136,6 +138,12 @@ Alternatively we could have deduced this directly from the DCT. In particular, w
  ]
 \]
 \end{example}
+
+The interpolation property also applies to the approximation
+\[
+f_n(\ensuremath{\theta}) = \ensuremath{\sum}_{k=-\ensuremath{\lceil}n/2\ensuremath{\rceil}}^{\ensuremath{\lfloor}n/2\ensuremath{\rfloor}} \hat f_k {\rm e}^{{\rm i} k \ensuremath{\theta}}
+\]
+for general Fourier series, which is investigated in the problem sheet.
 
 
 

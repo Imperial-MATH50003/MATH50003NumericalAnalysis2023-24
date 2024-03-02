@@ -40,7 +40,8 @@ end
 
 # **Problem 3** Using the following simplified `Dual` implementation, consider a double-dual number
 # like `Dual(Dual(a,b), Dual(c,d))`. By choosing `a`, `b`, `c` and `d`, construct the function `secondderivative(f, x)`
-# that computes the second derivative of a function.
+# that computes the second derivative of a function. Hint: it might help to think of a double-dual number as 
+# $(a + b*ε) + δ*(c + d*ε)$ where $ε^2 = δ^2 = 0$.
 
 struct Dual
     a
@@ -71,7 +72,7 @@ f = x -> exp(x*exp(x))
 
 # **Problem 4** Implement the following function
 # `primedigits` that constructs a positive `Float64` of the form $2^q * (1.b_1…b_S)$
-# wheree the exponent is specified by `q` and has significand
+# where the exponent is specified by `q` and has significand
 # bits
 # $$
 # b_k = \begin{cases}
@@ -134,9 +135,8 @@ schrodingersolve(1000, 10, f) - (L^2 .- x.^2) .* exp.(x)
 # $$
 # u(-L) = u(L) = 0, -u'' + x^2 u = λ u
 # $$
-# has a non-zero solution (i.e., an eigenvalue of the differential equation)
-# Can you conjecture their exact value if $L → ∞$? Hint: they are integers and the eigenvalues
-# closest to zero are most accurate.
+# has a non-zero solution (i.e., an eigenvalue of the differential equation).
+# Can you conjecture their exact value if $L → ∞$? 
 
 function shrodingereigvals(n, L)    
     x = range(-L,L;length=n+1) # discretisation grid

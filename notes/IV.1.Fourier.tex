@@ -1,6 +1,6 @@
 
 \section{Fourier Expansions}
-Fourier series are a powerful tool in wide areas of mathematics, including solving partial differential equations, signal processing, and elsewhere. They are also very useful in computational methods, particularly for problems that have periodicity. Periodicity arises naturally when solving problems in radial coordinates, or when approximating a problem on the real line by a periodic problem with a large problem. Fourier series are also related to orthogonal polynomials, which can be used for non-periodic problems.
+Fourier series are a powerful tool in wide areas of mathematics, including solving partial differential equations, signal processing, and elsewhere. They are also very useful in computational methods, particularly for problems that have periodicity. Periodicity arises naturally when solving problems in radial coordinates, or when approximating a problem on the real line by a periodic problem with a large period. Fourier series are also related to orthogonal polynomials, which can be used for non-periodic problems.
 
 \subsection{Basics of Fourier series}
 The most fundamental basis is (complex) Fourier: we have ${\rm e}^{{\rm i} k \ensuremath{\theta}}$ are orthogonal with respect to the inner product
@@ -19,13 +19,13 @@ where
 \]
 \end{definition}
 
-A basic observation is if a Fourier expansion has no negative terms it is equivalent to a Taylor series if we write $z = {\rm e}^{{\rm i} \ensuremath{\theta}}$:
+A basic observation is if a Fourier expansion has no negative terms it is equivalent to a Taylor series in disguise:
 
 \begin{definition}[Fourier-Taylor] A function $f$ has a Fourier\ensuremath{\endash}Taylor expansion if
 \[
-f(\ensuremath{\theta}) = \ensuremath{\sum}_{k = 0}^\ensuremath{\infty} \hat f_k {\rm e}^{{\rm i} k \ensuremath{\theta}}
+f(\ensuremath{\theta}) = \ensuremath{\sum}_{k = 0}^\ensuremath{\infty} \hat f_k {\rm e}^{{\rm i} k \ensuremath{\theta}} = \ensuremath{\sum}_{k = 0}^\ensuremath{\infty} \hat f_k z^k
 \]
-where $\hat f_k := \ensuremath{\langle}{\rm e}^{{\rm i} k \ensuremath{\theta}}, f\ensuremath{\rangle}$. \end{definition}
+where $\hat f_k := \ensuremath{\langle}{\rm e}^{{\rm i} k \ensuremath{\theta}}, f\ensuremath{\rangle}$, and $z = {\rm e}^{{\rm i} \ensuremath{\theta}}$. \end{definition}
 
 In numerical analysis we try to build on the analogy with linear algebra as much as possible. Therefore we  can write this this as:
 \[
@@ -38,20 +38,20 @@ In analysis one typically works with continuous functions and relates results to
 
 \begin{definition}[absolute convergent] We write $\vchatf \ensuremath{\in} \ensuremath{\ell}^1$ if it is absolutely convergent, or in otherwords, the $1$-norm of $\vchatf$ is bounded:
 \[
-\|\vchatf\|_1 := \ensuremath{\sum}_{k=-\ensuremath{\infty}}^\ensuremath{\infty} |\hat f_k| < \ensuremath{\infty}
+\|\vchatf\|_1 := \ensuremath{\sum}_{k=-\ensuremath{\infty}}^\ensuremath{\infty} |\hat f_k| < \ensuremath{\infty}.
 \]
 \end{definition}
 
 We first state a  basic results (whose proof is beyond the scope of this module):
 
-\begin{theorem}[2-norm convergence] If $f, g : \ensuremath{\bbT} \ensuremath{\rightarrow} \ensuremath{\bbC}$ are continuous and $\hat f_k = \hat g_k$ for all $k \ensuremath{\in} \ensuremath{\bbZ}$ then $f = g$.
+\begin{theorem}[Fourier series equivalence] If $f, g : \ensuremath{\bbT} \ensuremath{\rightarrow} \ensuremath{\bbC}$ are continuous and $\hat f_k = \hat g_k$ for all $k \ensuremath{\in} \ensuremath{\bbZ}$ then $f = g$.
 
 \end{theorem}
 \textbf{Proof} See \href{https://www.cambridge.org/core/books/fourier-analysis/5FD8F0FD69DDB139019655D7F8440D2F}{Körner 2022 (Theorem 2.4)}. \ensuremath{\QED}
 
 This allows us to prove the following:
 
-\begin{theorem}[Absolute convergence] If $\vchatf \ensuremath{\in} \ensuremath{\ell}^1$ then
+\begin{theorem}[Absolute converging Fourier series] If $\vchatf \ensuremath{\in} \ensuremath{\ell}^1$ then
 \[
 f(\ensuremath{\theta}) = \ensuremath{\sum}_{k = -\ensuremath{\infty}}^\ensuremath{\infty} \hat f_k {\rm e}^{{\rm i} k \ensuremath{\theta}},
 \]
@@ -85,9 +85,9 @@ When does a function have absolutely convergent Fourier coefficients? We can ded
 2\ensuremath{\pi}\hat f_k &= \ensuremath{\int}_0^{2\ensuremath{\pi}} f(\ensuremath{\theta}) {\rm e}^{-{\rm i} k \ensuremath{\theta}} {\rm d}\ensuremath{\theta} =
 [f(\ensuremath{\theta}) {\rm e}^{-{\rm i} k \ensuremath{\theta}}]_0^{2\ensuremath{\pi}} + {1 \over {\rm i} k} \ensuremath{\int}_0^{2\ensuremath{\pi}} f'(\ensuremath{\theta}) {\rm e}^{-{\rm i} k \ensuremath{\theta}} {\rm d}\ensuremath{\theta} \\
 &= {1 \over {\rm i} k} [f'(\ensuremath{\theta}) {\rm e}^{-{\rm i} k \ensuremath{\theta}}]_0^{2\ensuremath{\pi}} - {1 \over k^2} \ensuremath{\int}_0^{2\ensuremath{\pi}} f''(\ensuremath{\theta}) {\rm e}^{-{\rm i} k \ensuremath{\theta}} {\rm d}\ensuremath{\theta} \\
-&= - {1 \over k^2} \ensuremath{\int}_0^{2\ensuremath{\pi}} f''(\ensuremath{\theta}) {\rm e}^{-{\rm i} k \ensuremath{\theta}} {\rm d}\ensuremath{\theta}
+&= - {1 \over k^2} \ensuremath{\int}_0^{2\ensuremath{\pi}} f''(\ensuremath{\theta}) {\rm e}^{-{\rm i} k \ensuremath{\theta}} {\rm d}\ensuremath{\theta}.
 \end{align*}
-thus uniform boundedness of $f''$ guarantees $|\hat f_k| \ensuremath{\leq} M |k|^{-2}$ for some $M$, and we have
+Thus uniform boundedness of $f''$ guarantees $|\hat f_k| \ensuremath{\leq} M |k|^{-2}$ for some $M$, and we have
 \[
 \ensuremath{\sum}_{k = -\ensuremath{\infty}}^\ensuremath{\infty} |\hat f_k| \ensuremath{\leq} |\hat f_0|  + 2M \ensuremath{\sum}_{k = 1}^\ensuremath{\infty} |k|^{-2}  < \ensuremath{\infty}
 \]
@@ -96,8 +96,6 @@ using the dominant convergence test.
 \ensuremath{\QED}
 
 This condition can be weakened to Lipschitz continuity but the proof is  beyond the scope of this module. Of more practical importance is the other direction: the more times differentiable a function the faster the coefficients decay, and thence the faster Fourier expansions converge. In fact, if a function is smooth and 2\ensuremath{\pi}-periodic its Fourier coefficients decay faster than algebraically: they decay like $O(k^{-\ensuremath{\lambda}})$ for any $\ensuremath{\lambda}$. This will be explored in the problem sheet.
-
-\textbf{Remark} Going further, if we let $z = {\rm e}^{{\rm i} \ensuremath{\theta}}$ then if $f(z)$ is \emph{analytic} in a neighbourhood of the unit circle the Fourier coefficients decay \emph{exponentially fast}. And if $f(z)$ is entire they decay even faster than exponentially.
 
 \subsection{Trapezium rule and discrete Fourier coefficients}
 \begin{definition}[Trapezium Rule] Let $\ensuremath{\theta}_j = 2\ensuremath{\pi}j/n$ for $j = 0,1,\ensuremath{\ldots},n$ denote $n+1$ evenly spaced points over $[0,2\ensuremath{\pi}]$. Recall that the \emph{Trapezium rule} over $[0,2\ensuremath{\pi}]$ is the approximation:
@@ -129,13 +127,13 @@ In other words,
 \end{lemma}
 \textbf{Proof}
 
-Consider $\ensuremath{\omega} := {\rm e}^{{\rm i} \ensuremath{\theta}_1} = {\rm e}^{2 \ensuremath{\pi} {\rm i} \over n}$. This is an $n$ th root of unity: $\ensuremath{\omega}^n = 1$. Note that ${\rm e}^{{\rm i} \ensuremath{\theta}_j} ={\rm e}^{2 \ensuremath{\pi} {\rm i} j \over n}= \ensuremath{\omega}^j$.
+Consider $\ensuremath{\omega} := {\rm e}^{{\rm i} \ensuremath{\theta}_1} = {\rm e}^{2 \ensuremath{\pi} {\rm i} \over n}$. This is an $n$-th root of unity: $\ensuremath{\omega}^n = 1$. Note that ${\rm e}^{{\rm i} \ensuremath{\theta}_j} ={\rm e}^{2 \ensuremath{\pi} {\rm i} j \over n}= \ensuremath{\omega}^j$.
 
 (Case 1: $k = pn$ for an integer $p$) We have
 \[
 \ensuremath{\sum}_{j=0}^{n-1} {\rm e}^{{\rm i} k \ensuremath{\theta}_j} = \ensuremath{\sum}_{j=0}^{n-1} \ensuremath{\omega}^{kj} = \ensuremath{\sum}_{j=0}^{n-1} ({\ensuremath{\omega}^{pn}})^j =   \ensuremath{\sum}_{j=0}^{n-1} 1 = n
 \]
-(Case 2 $k \ensuremath{\neq} pn$ for an integer $p$)  Recall that
+(Case 2: $k \ensuremath{\neq} pn$ for an integer $p$)  Recall that (via a telescoping sum argument)
 \[
 \ensuremath{\sum}_{j=0}^{n-1} z^j = {z^n-1 \over z-1}.
 \]
