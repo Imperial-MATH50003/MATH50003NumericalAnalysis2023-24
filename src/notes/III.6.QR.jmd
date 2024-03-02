@@ -285,7 +285,7 @@ We consider rectangular matrices with more rows than columns. Given $A ∈ ℂ^{
 least squares consists of finding a vector $𝐱 ∈ ℂ^n$ that minimises the 2-norm: $\| A 𝐱 - 𝐛 \|$.
 
 
-**Theorem (least squares via QR)** Suppose $A ∈ ℂ^{m × n}$ has full rank. Given a reduced QR factorisation $A = Q R$
+**Theorem (least squares via QR)** Suppose $A ∈ ℂ^{m × n}$ with $m ≥ n$ has full rank. Given a QR factorisation $A = Q R$
 then
 $$
 𝐱 = \hat R^{-1} \hat Q^⋆ 𝐛

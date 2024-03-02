@@ -238,7 +238,7 @@ Q := Q_1 \tilde Q_2 \tilde Q_3 =  \begin{bmatrix}
 \subsection{QR and least squares}
 We consider rectangular matrices with more rows than columns. Given $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ and $\ensuremath{\bm{\b}} \ensuremath{\in} \ensuremath{\bbC}^m$, least squares consists of finding a vector $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbC}^n$ that minimises the 2-norm: $\| A \ensuremath{\bm{\x}} - \ensuremath{\bm{\b}} \|$.
 
-\begin{theorem}[least squares via QR] Suppose $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ has full rank. Given a reduced QR factorisation $A = Q R$ then
+\begin{theorem}[least squares via QR] Suppose $A \ensuremath{\in} \ensuremath{\bbC}^{m \ensuremath{\times} n}$ with $m \ensuremath{\geq} n$ has full rank. Given a QR factorisation $A = Q R$ then
 \[
 \ensuremath{\bm{\x}} = \hat R^{-1} \hat Q^\ensuremath{\star} \ensuremath{\bm{\b}}
 \]

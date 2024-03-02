@@ -105,11 +105,12 @@ errs = zeros(n)
 for k = 1:n
     A[1,1] = 10.0 ^ (1-k)
     L,U = lu(A, NoPivot())
-    errs[k] = norm(A\b - L \ (U \ b))
+    errs[k] = norm(A\b - U \ (L \ b))
 end
 
-scatter(0:n-1, errs; yscale=:log10, yticks = 10.0 .^ (0:30), xticks = 1:15)
-## The error grows exponentially, like 10^(2k)
+nanabs(x) = x == 0 ? NaN : abs(x)
+scatter(0:n-1, nanabs.(errs); yscale=:log10, xticks = 0:15, yticks= 10.0 .^ (-16:0), legend=:bottomright)
+## The error grows exponentially, roughly like 10^k
 
 ## END
 

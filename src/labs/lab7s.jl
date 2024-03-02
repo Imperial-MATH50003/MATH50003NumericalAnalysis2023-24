@@ -595,7 +595,7 @@ Q,R̂ = qr(A)
 
 c = Q'b # invert Q
 c̃ = c[1:size(R̂,1)] # drop extra entries
-@test A \ b ≈ R\c̃
+@test A \ b ≈ R̂ \ c̃
 
 # **Problem 5** Complete the function `leastsquares(A, b)` that uses your
 # `householderqr` function to solve a least squares problem.
