@@ -52,9 +52,9 @@ Use this to show that  $Q ∈ U(n)$ is equal to $I$ if and only if all its eigen
 Note that $Q$ is normal and therefore by the spectral theorem for 
 normal matrices we have
 $$
-Q = Q̃ Λ Q̃^⋆ = Q̃ Q̃^⋆ = I
+Q = V Λ V^⋆ = V V^⋆ = I
 $$
-since $Q̃$ is unitary. 
+since $V$ is unitary. 
 
 **END**
 
@@ -203,12 +203,12 @@ provided that the diagonal of $R$ is positive.
 
 Assume there is a second factorisation also with positive diagonal
 $$
-A = QR = Q̃  R̃
+A = QR = \Qt  \Rt
 $$
 Then we know
 $$
-Q^⊤ Q̃  = R R̃^{-1}
+Q^⊤ \Qt  = R \Rt^{-1}
 $$
-Note $Q^⊤ Q̃ $ is orthogonal, and $R R̃^{-1}$ has positive eigenvalues (the diagonal), hence all $m$ eigenvalues of
-$Q^⊤ Q̃ $ are 1. This means that $Q^⊤ Q̃  = I$ and hence $Q̃ = Q$ and $R̃ = R$.
+Note $Q^⊤ \Qt $ is orthogonal, and $R \Rt^{-1}$ has positive eigenvalues (the diagonal), hence all $m$ eigenvalues of
+$Q^⊤ \Qt $ are 1. This means that $Q^⊤ \Qt  = I$ and hence $\Qt = Q$ and $\Rt = R$.
 **END**

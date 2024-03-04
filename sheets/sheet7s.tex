@@ -1,0 +1,330 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage[usenames,dvipsnames]{xcolor}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.2ex}
+
+
+
+
+\hypersetup
+       {   pdfauthor = {  },
+           pdftitle={  },
+           colorlinks=TRUE,
+           linkcolor=black,
+           citecolor=blue,
+           urlcolor=blue
+       }
+
+
+
+
+\usepackage{upquote}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    upquote=true,
+    breaklines=true,
+    breakindent=0pt,
+    keepspaces=true,
+    showspaces=false,
+    columns=fullflexible,
+    showtabs=false,
+    showstringspaces=false,
+    escapeinside={(*@}{@*)},
+    extendedchars=true,
+}
+\newcommand{\HLJLt}[1]{#1}
+\newcommand{\HLJLw}[1]{#1}
+\newcommand{\HLJLe}[1]{#1}
+\newcommand{\HLJLeB}[1]{#1}
+\newcommand{\HLJLo}[1]{#1}
+\newcommand{\HLJLk}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkc}[1]{\textcolor[RGB]{59,151,46}{\textit{#1}}}
+\newcommand{\HLJLkd}[1]{\textcolor[RGB]{214,102,97}{\textit{#1}}}
+\newcommand{\HLJLkn}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkp}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkr}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkt}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLn}[1]{#1}
+\newcommand{\HLJLna}[1]{#1}
+\newcommand{\HLJLnb}[1]{#1}
+\newcommand{\HLJLnbp}[1]{#1}
+\newcommand{\HLJLnc}[1]{#1}
+\newcommand{\HLJLncB}[1]{#1}
+\newcommand{\HLJLnd}[1]{\textcolor[RGB]{214,102,97}{#1}}
+\newcommand{\HLJLne}[1]{#1}
+\newcommand{\HLJLneB}[1]{#1}
+\newcommand{\HLJLnf}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnfm}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnp}[1]{#1}
+\newcommand{\HLJLnl}[1]{#1}
+\newcommand{\HLJLnn}[1]{#1}
+\newcommand{\HLJLno}[1]{#1}
+\newcommand{\HLJLnt}[1]{#1}
+\newcommand{\HLJLnv}[1]{#1}
+\newcommand{\HLJLnvc}[1]{#1}
+\newcommand{\HLJLnvg}[1]{#1}
+\newcommand{\HLJLnvi}[1]{#1}
+\newcommand{\HLJLnvm}[1]{#1}
+\newcommand{\HLJLl}[1]{#1}
+\newcommand{\HLJLld}[1]{\textcolor[RGB]{148,91,176}{\textit{#1}}}
+\newcommand{\HLJLs}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsa}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsb}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsc}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsd}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdC}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLse}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLsh}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsi}[1]{#1}
+\newcommand{\HLJLso}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsr}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLss}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLssB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLnB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnbB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnfB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnh}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLni}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnil}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnoB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLoB}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLow}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLp}[1]{#1}
+\newcommand{\HLJLc}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLch}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcm}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcp}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcpB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcs}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcsB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLg}[1]{#1}
+\newcommand{\HLJLgd}[1]{#1}
+\newcommand{\HLJLge}[1]{#1}
+\newcommand{\HLJLgeB}[1]{#1}
+\newcommand{\HLJLgh}[1]{#1}
+\newcommand{\HLJLgi}[1]{#1}
+\newcommand{\HLJLgo}[1]{#1}
+\newcommand{\HLJLgp}[1]{#1}
+\newcommand{\HLJLgs}[1]{#1}
+\newcommand{\HLJLgsB}[1]{#1}
+\newcommand{\HLJLgt}[1]{#1}
+
+
+\def\endash{–}
+\def\bbD{ {\mathbb D} }
+\def\bbZ{ {\mathbb Z} }
+\def\bbR{ {\mathbb R} }
+\def\bbC{ {\mathbb C} }
+
+\def\x{ {\vc x} }
+\def\a{ {\vc a} }
+\def\b{ {\vc b} }
+\def\e{ {\vc e} }
+\def\f{ {\vc f} }
+\def\u{ {\vc u} }
+\def\v{ {\vc v} }
+\def\y{ {\vc y} }
+\def\z{ {\vc z} }
+\def\w{ {\vc w} }
+
+\def\Ut{ {\tilde U} }
+\def\Qt{ {\tilde Q} }
+\def\Rt{ {\tilde R} }
+
+\def\red#1{ {\color{red} #1} }
+\def\blue#1{ {\color{blue} #1} }
+\def\green#1{ {\color{ForestGreen} #1} }
+\def\magenta#1{ {\color{magenta} #1} }
+
+\input{somacros}
+
+\begin{document}
+
+
+
+\textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Problem Sheet 7}
+
+\textbf{Problem 1(a)} Show for a unitary matrix $Q \ensuremath{\in} U(n)$ and a vector $\ensuremath{\bm{\x}} \ensuremath{\in} \ensuremath{\bbC}^n$ that multiplication by $Q$ preserve the 2-norm: $\|Q \ensuremath{\bm{\x}}\| = \|\ensuremath{\bm{\x}}\|.$
+
+\textbf{SOLUTION}
+\[
+\|Q \ensuremath{\bm{\x}}\|^2 = (Q \ensuremath{\bm{\x}})^\ensuremath{\star} Q \ensuremath{\bm{\x}} = \ensuremath{\bm{\x}}^\ensuremath{\star} Q^\ensuremath{\star} Q \ensuremath{\bm{\x}} = \ensuremath{\bm{\x}}^\ensuremath{\star}  \ensuremath{\bm{\x}} = \|\ensuremath{\bm{\x}}\|^2
+\]
+\textbf{END}
+
+\textbf{Problem 1(b)} Show that the eigenvalues $\ensuremath{\lambda}$ of a unitary matrix $Q$ are on the unit circle: $|\ensuremath{\lambda}| = 1$. Hint: recall for any eigenvalue $\ensuremath{\lambda}$ that there exists a unit eigenvector $\ensuremath{\bm{\v}} \ensuremath{\in} \ensuremath{\bbC}^n$ (satisfying $\| \ensuremath{\bm{\v}} \| = 1$). 
+
+\textbf{SOLUTION} Let $\ensuremath{\bm{\v}}$ be a unit eigenvector corresponding to $\ensuremath{\lambda}$: $Q \ensuremath{\bm{\v}} = \ensuremath{\lambda} \ensuremath{\bm{\v}}$ with $\|\ensuremath{\bm{\v}}\| = 1$. Then
+\[
+1 = \| \ensuremath{\bm{\v}} \| = \|Q \ensuremath{\bm{\v}} \| =  \| \ensuremath{\lambda} \ensuremath{\bm{\v}} \| = |\ensuremath{\lambda}|.
+\]
+\textbf{END}
+
+\textbf{Problem 1(c)} Show for an orthogonal matrix $Q \ensuremath{\in} O(n)$ that $\det Q = \ensuremath{\pm}1$. Give an example of $Q \ensuremath{\in} U(n)$ such that $\det Q \ensuremath{\neq} \ensuremath{\pm}1$. Hint: recall for any real matrices $A$ and $B$ that $\det A = \det A^\ensuremath{\top}$ and $\det(AB) = \det A \det B$.
+
+\textbf{SOLUTION}
+\[
+(\det Q)^2 = (\det Q^\ensuremath{\top})(\det Q) = \det Q^\ensuremath{\top}Q = \det I = 1.
+\]
+An example would be a 1 \ensuremath{\times} 1 complex-valued matrix $\exp({\rm i})$.
+
+\textbf{END}
+
+\textbf{Problem 1(d)} A normal matrix commutes with its adjoint. Show that $Q \ensuremath{\in} U(n)$ is normal.
+
+\textbf{SOLUTION}
+\[
+ QQ^\ensuremath{\star} = I = Q^\ensuremath{\star}Q
+\]
+\textbf{END}
+
+\textbf{Problem 1(e)}  The spectral theorem states that any normal matrix is unitarily diagonalisable: if $A$ is normal then $A = V \ensuremath{\Lambda} V^\ensuremath{\star}$ where $V \ensuremath{\in} U(n)$ and $\ensuremath{\Lambda}$ is diagonal. Use this to show that  $Q \ensuremath{\in} U(n)$ is equal to $I$ if and only if all its eigenvalues are 1.
+
+\textbf{SOLUTION}
+
+Note that $Q$ is normal and therefore by the spectral theorem for  normal matrices we have
+\[
+Q = V \ensuremath{\Lambda} V^\ensuremath{\star} = V V^\ensuremath{\star} = I
+\]
+since $V$ is unitary. 
+
+\textbf{END}
+
+\textbf{Problem 2} Consider the vectors
+\[
+\ensuremath{\bm{\a}} = \begin{bmatrix} 1 \\ 2 \\ 2 \end{bmatrix}\qquad\hbox{and}\qquad  \ensuremath{\bm{\b}} = \begin{bmatrix} 1 \\ 2{\rm i} \\ 2 \end{bmatrix}.
+\]
+Use reflections to determine the entries of orthogonal/unitary matrices $Q_1, Q_2, Q_3$ such that
+\[
+Q_1 \ensuremath{\bm{\a}} = \begin{bmatrix} 3 \\ 0 \\ 0 \end{bmatrix}, Q_2 \ensuremath{\bm{\a}} = \begin{bmatrix} -3 \\ 0 \\ 0 \end{bmatrix},
+Q_3 \ensuremath{\bm{\b}} = \begin{bmatrix} -3 \\ 0 \\ 0 \end{bmatrix}
+\]
+\textbf{SOLUTION}
+
+For $Q_1$: we have
+\begin{align*}
+\ensuremath{\bm{\y}} = \ensuremath{\bm{\a}} - \| \ensuremath{\bm{\a}}\| \ensuremath{\bm{\e}}_1 =  \begin{bmatrix} -2 \\ 2 \\ 2 \end{bmatrix} \\
+\ensuremath{\bm{\w}} = {\ensuremath{\bm{\y}} \over \|\ensuremath{\bm{\y}}\|} = {1 \over \sqrt{3}} \begin{bmatrix} -1 \\ 1 \\ 1 \end{bmatrix} \\
+Q_1 = Q_{\ensuremath{\bm{\w}}} = I - {2 \over 3} \begin{bmatrix} -1 \\ 1 \\ 1 \end{bmatrix}  [-1\ 1\ 1] = 
+I - {2 \over 3} \begin{bmatrix} 1 & -1 & -1 \\ -1 & 1 & 1 \\ -1 & 1 & 1 \end{bmatrix} \\
+&={1 \over 3} \begin{bmatrix} 1 & 2 & 2 \\ 2 & 1 & -2 \\ 2 & -2 & 1 \end{bmatrix} 
+\end{align*}
+For $Q_2$: we have
+\begin{align*}
+\ensuremath{\bm{\y}} = \ensuremath{\bm{\a}} + \| \ensuremath{\bm{\a}}\| \ensuremath{\bm{\e}}_1 =  \begin{bmatrix} 4 \\ 2 \\ 2 \end{bmatrix} \\
+\ensuremath{\bm{\w}} = {\ensuremath{\bm{\y}} \over \|\ensuremath{\bm{\y}}\|} = {1 \over \sqrt{6}} \begin{bmatrix} 2 \\ 1 \\ 1 \end{bmatrix} \\
+Q_1 = Q_{\ensuremath{\bm{\w}}} = I - {1 \over 3} \begin{bmatrix} 2 \\ 1 \\ 1 \end{bmatrix}  [2 1 1] = 
+I - {1 \over 3} \begin{bmatrix} 4 & 2 & 2 \\ 2 & 1  & 1 \\ 2&  1 & 1 \end{bmatrix} \\
+&={1 \over 3} \begin{bmatrix} -1 & -2 & -2 \\ -2& 2 &-1 \\ -2& -1& 2 \end{bmatrix} 
+\end{align*}
+For $Q_3$ we just need to be careful to conjugate:
+\begin{align*}
+\ensuremath{\bm{\y}} = \ensuremath{\bm{\b}} - \| \ensuremath{\bm{\b}}\| \ensuremath{\bm{\e}}_1 =  \begin{bmatrix} -2 \\ 2{\rm i} \\ 2 \end{bmatrix} \\
+\ensuremath{\bm{\w}} = {\ensuremath{\bm{\y}} \over \|\ensuremath{\bm{\y}}\|} = {1 \over \sqrt{3}} \begin{bmatrix} -1 \\ {\rm i} \\ 1 \end{bmatrix} \\
+Q_1 = Q_{\ensuremath{\bm{\w}}} = I - {2 \over 3} \begin{bmatrix} -1 \\ {\rm i} \\ 1 \end{bmatrix}  [-1\ -{\rm i}\ 1] = 
+I - {2 \over 3} \begin{bmatrix} 1 & {\rm i} & -1 \\ -{\rm i}& 1 & {\rm i} \\ -1 &-{\rm i} & 1 \end{bmatrix} \\
+&={1 \over 3} \begin{bmatrix} 1 & -2{\rm i} & 2 \\ 2{\rm i} & 1 & -2{\rm i} \\ 2& 2{\rm i} & 1 \end{bmatrix} 
+\end{align*}
+\textbf{END}
+
+\textbf{Problem 3(a)} What simple rotation matrices $Q_1,Q_2 \ensuremath{\in} SO(2)$ have the property that:
+\[
+Q_1 \begin{bmatrix} 1 \\ 2 \end{bmatrix} =\begin{bmatrix} \sqrt{5} \\ 0 \end{bmatrix},  Q_2 \begin{bmatrix} \sqrt{5} \\ 2 \end{bmatrix} =  \begin{bmatrix} 3 \\ 0 \end{bmatrix}
+\]
+\textbf{SOLUTION}
+
+The rotation that takes $[x,y]$ to the x-axis is
+\[
+{1 \over \sqrt{x^2+y^2}} \begin{bmatrix}
+x & y \\
+-y & x
+\end{bmatrix}.
+\]
+Hence we get
+\begin{align*}
+Q_1 &= {1 \over \sqrt{5}} \begin{bmatrix} 1 & 2 \\ -2 & 1 \end{bmatrix} \\
+Q_2 &= {1 \over 3} \begin{bmatrix} \sqrt{5} & 2 \\ -2 & \sqrt{5} \end{bmatrix}
+\end{align*}
+\textbf{END}
+
+\textbf{Problem 3(b)} Find an orthogonal matrix that is a product of two simple rotations but acting on two different subspaces:
+\[
+Q  = \underbrace{\begin{bmatrix} \cos \ensuremath{\theta}_2 & & -\sin \ensuremath{\theta}_2  \\ & 1 \\
+\sin \ensuremath{\theta}_2  & & \cos \ensuremath{\theta}_2  \end{bmatrix}}_{Q_2} \underbrace{\begin{bmatrix} \cos \ensuremath{\theta}_1 & -\sin \ensuremath{\theta}_1  \\ \sin \ensuremath{\theta}_1 & \cos \ensuremath{\theta}_1 \\ && 1 \end{bmatrix}}_{Q_1}
+\]
+so that, for $\ensuremath{\bm{\a}}$ defined above,
+\[
+Q \ensuremath{\bm{\a}}  = \begin{bmatrix} \|\ensuremath{\bm{\a}}\| \\ 0 \\ 0 \end{bmatrix}.
+\]
+Hint: you do not need to determine $\ensuremath{\theta}_1, \ensuremath{\theta}_2$, instead you can write the entries of  $Q_1, Q_2$  directly using just square-roots. 
+
+\textbf{SOLUTION}
+
+We use $Q_1$ to introduce a 0 in the second entry by rotating the vector $[1,2]$:
+\[
+Q_1 =  \begin{bmatrix} 1/\sqrt{5}  & 2/\sqrt{5} \\ -2/\sqrt{5} & 1/\sqrt{5} \\ && 1 \end{bmatrix}
+\]
+so that
+\[
+Q_1 \ensuremath{\bm{\a}} = \begin{bmatrix} \sqrt{5} \\ 0 \\ 2 \end{bmatrix}.
+\]
+Now we use the matrix that rotates the vector $[\sqrt{5},2]$ whose norm is $3$ to deduce the entries
+\[
+Q_2 = \begin{bmatrix} \sqrt{5}/3 & & 2/3  \\ & 1 \\
+-2/3  & & \sqrt{5}/3  \end{bmatrix}
+\]
+so that
+\[
+Q_2 Q_1 = \begin{bmatrix} 1/3 & 2/3 & 2/3 \\ 
+ -2/\sqrt{5} & 1/\sqrt{5} & \\ 
+ -2/(3\sqrt{5}) & -4/(3\sqrt{5}) & \sqrt{5}/3
+ \end{bmatrix}
+\]
+\textbf{END}
+
+\textbf{Problem 4(a)} Show that every matrix $A \ensuremath{\in} \ensuremath{\bbR}^{m \ensuremath{\times} n}$ has a  QR factorisation such that the diagonal of $R$ is non-negative. Make sure to include the case of more columns than rows (i.e. $m < n$). 
+
+\textbf{SOLUTION}
+
+We first show for $m < n$ that a QR decomposition exists. Writing
+\[
+A = [\ensuremath{\bm{\a}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\a}}_n]
+\]
+and taking the first $m$ columns (so that it is square) we can write $[\ensuremath{\bm{\a}}_1 | \ensuremath{\cdots} | \ensuremath{\bm{\a}}_m] = Q R_m$. It follows that $R := Q^\ensuremath{\star} A$ is right-triangular.
+
+We can write:
+\[
+D = \begin{bmatrix} \hbox{sign}(r_{11}) \\ & \ensuremath{\ddots}  \\ && \hbox{sign}(r_{pp}) \end{bmatrix}
+\]
+where $p = \min(m,n)$ and we define $\hbox{sign}(0) = 1$. Note that $D^\ensuremath{\top} D = I$. Thus we can write: $A = Q R = Q D D R$ where $(QD)$ is orthogonal and $DR$ is upper-triangular with positive entries.
+
+\textbf{END}
+
+\textbf{Problem 4(b)} Show that the QR factorisation of a square invertible matrix $A \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}$ is unique, provided that the diagonal of $R$ is positive.
+
+\textbf{SOLUTION}
+
+Assume there is a second factorisation also with positive diagonal
+\[
+A = QR = \Qt  \Rt
+\]
+Then we know
+\[
+Q^\ensuremath{\top} \Qt  = R \Rt^{-1}
+\]
+Note $Q^\ensuremath{\top} \Qt $ is orthogonal, and $R \Rt^{-1}$ has positive eigenvalues (the diagonal), hence all $m$ eigenvalues of $Q^\ensuremath{\top} \Qt $ are 1. This means that $Q^\ensuremath{\top} \Qt  = I$ and hence $\Qt = Q$ and $\Rt = R$. \textbf{END}
+
+
+
+\end{document}

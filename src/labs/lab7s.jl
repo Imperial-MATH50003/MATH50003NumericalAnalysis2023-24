@@ -360,7 +360,7 @@ import LinearAlgebra: adjoint
 function adjoint(Q::Reflections) # called when calling Q'
     ## TODO: return the adjoint as a Reflections
     ## SOLUTION
-        Reflections(Q.V[:,end:-1:1])
+    Reflections(Q.V[:,end:-1:1])
     ## END
 end
 
@@ -546,24 +546,33 @@ function bandedqr(A::Tridiagonal)
     ## TODO: Populate Q and R by looping through the columns of A.
 
     ## SOLUTION
+    ## In what follows we use both A and R simultaneously, where R
+    ## represents the upper-triangular part of the modified A, up to rows j.
+    ## At each stage we apply the rotation Q_j that introduces a zero
+    ## in the (j+1,j) entry of A. 
+
+    ## To begin with we haven't applied Q so R contains just the first row of A.
+
     R[1, 1:2] = A[1, 1:2]
         
     for j = 1:n-1
-        ## angle of rotation
-        Q.θ[j] = atan(A[j+1, j], R[j, j])
-        θ = -Q.θ[j] # rotate in opposite direction 
+        ## We determine the angle of rotation. Note R contains the updated entries
+        ## on or above the diagonal whilst A containss the unmodified entries below the diagonal.
+        x_1 = [R[j, j], A[j+1, j]]
+        Q.θ[j] = atan(x_1[2], x_1[1])
+        Q_1 = Rotation(-Q.θ[j]) # rotate in opposite direction 
+        ## Q satisfies Q*[ R[j,j],A[j+1,j]] = [sqrt(R[j,j]^2+A[j+1,j]^2), 0]
+        ## Or we can just write this as:
+        R[j, j] = (Q_1 * x_1)[1]
 
-        c, s = cos(θ), sin(θ)
-        ## [c -s; s c] represents the rotation that introduces a zero.
-        ## This is [c -s; s c] to j-th column, but ignore second row
-        ## which is zero
-        R[j, j] = c * R[j, j] - s * A[j+1, j]
-        ## This is [c -s; s c] to (j+1)-th column
-        R[j:j+1, j+1] = [c -s; s c] * [R[j, j+1]; A[j+1, j+1]]
+        ## We now apply this to the rest of the columns to update R.
+        x_2 = [R[j, j+1]; A[j+1, j+1]]
+        R[j:j+1, j+1] = Q_1 * x_2
 
-        if j < n - 1
-            ## This is [c -s; s c] to (j+2)-th column, where R is still zero
-            R[j:j+1, j+2] = [-s; c] * A[j+1, j+2]
+        if j < n - 1 # need to avoid going beyond the dimension
+            ## We use the fact that A is banded so there is a 0.
+            x_3 = [0, A[j+1, j+2]]
+            R[j:j+1, j+2] = Q_1 * x_3
         end
     end
     ## END
