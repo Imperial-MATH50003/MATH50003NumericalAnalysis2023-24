@@ -3,8 +3,8 @@
 
 
 
-**Problem 1** Construct  $π_0(x),π_1(x),π_2(x),π_3(x)$, monic OPs
-for the weights $\sqrt{1-x^2}$ and $1-x$ on $[-1,1]$.
+**Problem 1** Construct the monic and orthonormal polynomials up to degree $3$
+for the weights $\sqrt{1-x^2}$ and $1-x$ on $[-1,1]$. What are the corresponding Jacobi matrices?
 Hint: for the first weight, first compute $\int_{-1}^1 x^k \sqrt{1-x^2} {\rm d} x$ for $0 ≤ k ≤ 2$
 using a change-of-variables.
 
@@ -17,7 +17,9 @@ $$
 $$
 
 Meanwhile, 
-$$J_k=-\int_0^{π/2}\sin^{k-1}t{\rm d}(\cos t)=_{\text{integral by part}}(k-1)I_{k-2}.$$
+$$
+J_k=-\int_0^{π/2}\sin^{k-1}t{\rm d}(\cos t)=_{\text{integral by part}}(k-1)I_{k-2}.
+$$
 
 Putting the above 2 equations together, we have $I_k=(k-1)I_{k-2}-(k+1)I_k$, so $I_k=\frac{k-1}{k+2}I_{k-2}$. Since $I_0=π/4$, we have $I_k=\frac{(k-1)!!}{(k+2)!!}\frac{π}{2}$ for positive even $k$. (Note that the denominator multiplies to 4, not to 2.) Keep in mind that the integral we want is double this value when $k$ is even.
 
@@ -43,15 +45,14 @@ $$c_1=\frac{⟨ p_1,xp_2⟩}{\|p_1\|^2}=(2I_4-1/2I_2)/(π/8)=1/4$$
 $$a_2=\frac{⟨ p_2,xp_2⟩}{\|p_2\|^2}=0$$
 $$p_3(x)=xp_2(x)-c_1p_1(x)-a_2p_2(x)=x^3-1/2x$$
 
+
+
 **END**
 
-**Problem 2** 
 
 
--------
 
-
-**Problem 2(a)** Prove Theorem 13: a precisely degree $n$ polynomial
+**Problem 2** Prove Theorem 13: a precisely degree $n$ polynomial
 $$
 p(x) = k_n x^n + O(x^{n-1})
 $$
@@ -88,7 +89,7 @@ Thus $p - c π_n$ is zero, i.e., $p(x) = c π_n(x)$.
 **END**
 
 
-**Problem 2(c)** If $w(-x) = w(x)$ for a weight supported on $[-b,b]$ show that $a_n = 0$.
+**Problem 3** If $w(-x) = w(x)$ for a weight supported on $[-b,b]$ show that $a_n = 0$.
 Hint: first show that the (monic) polynomials $p_{2n}(x)$ are even and $p_{2n+1}(x)$ are odd.
 
 **SOLUTION**
@@ -132,39 +133,10 @@ is even.
 
 **END**
 
-----
-
-**Problem 3(a)** Recall  the Chebyshev polynomials $T_0(x) = 1$, $T_n(x)  = 2^{n-1} x^n + O(x^{n-1})$ which are orthogonal with
-respect to $1/\sqrt{1-x^2}$ and $U_n(x) = 2^n x^n +O(x^{n-1})$ which are orthogonal with respect to $\sqrt{1-x^2}$, both on $[-1,1]$. 
-Use the fact that orthogonal polynomials are uniquely determined by their leading order coefficient and orthogonality to lower 
-dimensional polynomials to show that:
-$$
-T_n'(x) = n U_{n-1}(x).
-$$
-Hint: use integration-by-parts.
-
-
-**SOLUTION**
-
-We need to verify that $T_n'(x)$
-1. graded polynomials
-2. orthogonal w.r.t. $\sqrt{1-x^2}$ on $[-1,1]$, and
-3. have the leading coefficient $n 2^n$.
-(1) and (3) are clear:
-$$
-T_n'(x) = n 2^{n-1} x^{n-1} + O(x^{n-2}).
-$$
-(2) For $f_m$ degree $m < n-1$ we have
-$$
-∫_{-1}^1 T_n'(x) f_m(x) \sqrt{1-x^2} {\rm d}x = 
--∫_{-1}^1 T_n(x) \underbrace{(f_m'(x)(1-x^2) -x f_m)}_{\hbox{degree $m+1 < n$}}  (1-x^2)^{-1/2} {\rm d}x = 0.
-$$
 
 
 
-**END**
-
-**Problem 3(b)** Prove that
+**Problem 4(a)** Prove that
 $$
 U_n(\cos θ) = {\sin(n+1) θ \over \sin θ}.
 $$
@@ -209,7 +181,7 @@ which also proves (3).
 
 **END**
 
-**Problem 3(c)** Show that
+**Problem 4(b)** Show that
 $$
 \begin{align*}
 x U_0(x) &= U_1(x)/2 \\
@@ -224,8 +196,35 @@ and this result is a reordering.
 
 **END**
 
+**Problem 5**  Use the fact that orthogonal polynomials are uniquely determined by their leading order coefficient and orthogonality to lower 
+dimensional polynomials to show that:
+$$
+T_n'(x) = n U_{n-1}(x).
+$$
 
-**Problem 4(a)** Consider Hermite polynomials orthogonal with respect to the weight $\exp(-x^2)$ on $ℝ$
+
+**SOLUTION**
+
+We need to verify that $T_n'(x)$
+1. graded polynomials
+2. orthogonal w.r.t. $\sqrt{1-x^2}$ on $[-1,1]$, and
+3. have the leading coefficient $n 2^n$.
+(1) and (3) are clear:
+$$
+T_n'(x) = n 2^{n-1} x^{n-1} + O(x^{n-2}).
+$$
+(2) For $f_m$ degree $m < n-1$ we have
+$$
+∫_{-1}^1 T_n'(x) f_m(x) \sqrt{1-x^2} {\rm d}x = 
+-∫_{-1}^1 T_n(x) \underbrace{(f_m'(x)(1-x^2) -x f_m)}_{\hbox{degree $m+1 < n$}}  (1-x^2)^{-1/2} {\rm d}x = 0.
+$$
+
+
+
+**END**
+
+
+**Problem 6(a)** Consider Hermite polynomials orthogonal with respect to the weight $\exp(-x^2)$ on $ℝ$
 with the normalisation
 $$
 H_n(x) = 2^n x^n + O(x^{n-1}).
@@ -267,7 +266,7 @@ Thus $p_n(x) = H_n(x)$ by uniqueness.
 
 **END**
 
-**Problem 4(b)** What are $k_n^{(1)}$ and $k_n^{(2)}$ such that
+**Problem 6(b)** What are $k_n^{(1)}$ and $k_n^{(2)}$ such that
 $$
 H_n(x) = 2^n x^n + k_n^{(1)} x^{n-1} + k_n^{(2)} x^{n-2} + O(x^{n-3})
 $$
@@ -286,7 +285,7 @@ Since $k_0^{(2)}=0$, we have $2^{-n}k_n^{(2)}=-\frac{1+⋯+(n-1)}{2}=-\frac{n(n-
 
 **END**
 
-**Problem 4(c)** Deduce the 3-term recurrence relationship for $H_n(x)$.
+**Problem 6(c)** Deduce the 3-term recurrence relationship for $H_n(x)$.
 
 **SOLUTION**
 
@@ -306,7 +305,7 @@ Thus we have $b_n=1/2$, $a_n=0$ and $c_{n-1}=n$.
 
 **END**
 
-**Problem 4(d)** Prove that $H_n'(x) = 2n H_{n-1}(x)$. Hint: show orthogonality of $H_n'$ to all lower degree polynomials,
+**Problem 6(d)** Prove that $H_n'(x) = 2n H_{n-1}(x)$. Hint: show orthogonality of $H_n'$ to all lower degree polynomials,
 and that the normalisation constants match.
 
 **SOLUTION**
