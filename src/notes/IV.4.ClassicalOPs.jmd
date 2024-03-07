@@ -1,12 +1,13 @@
 # Classical Orthogonal Polynomials
 
 Classical orthogonal polynomials are special families of orthogonal polynomials with a number
-of beautiful properties, for example
-1. Their derivatives are also OPs
-2. They are eigenfunctions of simple differential operators
-
+of beautiful properties, for example (1) their derivatives are also OPs and (2)
+they are eigenfunctions of simple differential operators.
 As stated above orthogonal polynomials are uniquely defined by the weight
-$w(x)$ and the constant $k_n$. The classical orthogonal polynomials are:
+$w(x)$ and the constant $k_n$ and hence we can define the classical OPs by specifying their weights
+and normalisation constants.
+
+The classical orthogonal polynomials are:
 
 1. Chebyshev polynomials (1st kind) $T_n(x)$: $w(x) = 1/\sqrt{1-x^2}$ on $[-1,1]$.
 2.  Chebyshev polynomials (2nd kind) $U_n(x)$: $\sqrt{1-x^2}$ on $[-1,1]$.
@@ -19,10 +20,11 @@ $w(x)$ and the constant $k_n$. The classical orthogonal polynomials are:
 In the notes we will discuss:
 
 1. Chebyshev polynomials: These are closely linked to Fourier series and are one of the most powerful tools in numerics.
-2. Legendre polynomials: These have no simple closed-form expression but can be defined in terms of a Rodriguez formula, a feature that
-applies to all other classical families.
+2. Legendre polynomials: These have no simple closed-form expression but can be defined in terms of a Rodriguez formula, a feature that applies to all other classical families.
 
 ## Chebyshev polynomials
+
+There are four families of Chebyshev polynomials but we will consider the first two:
 
 **Definition (Chebyshev polynomials, 1st kind)** $T_n(x)$ are orthogonal with respect to $1/\sqrt{1-x^2}$
 and satisfy:
@@ -39,6 +41,8 @@ $$
 U_n(x) = 2^n x^n + O(x^{n-1})
 $$
 ∎
+
+A beautiful fact is that Chebyshev polynomials are really trigonometric polynomials in disguise:
 
 
 **Theorem (Chebyshev T are cos)** For $-1 ≤ x ≤ 1$
@@ -68,7 +72,7 @@ if $n ≠ m$.
 
 To see that they are graded we use the fact that
 $$
-x p_n(x) = \cos θ \cos n θ = {\cos(n-1)θ + \cos(n+1)θ \over 2} = {p_{n-1}(x) + p_{n+1}(x) \over 2}
+x p_n(x) = \cos θ \cos n θ = {\cos(n-1)θ + \cos(n+1)θ \over 2} = {p_{n-1}(x) + p_{n+1}(x) \over 2}.
 $$
 In other words $p_{n+1}(x) = 2x p_n(x) - p_{n-1}(x)$.
 Since each time we multiply by $2x$ and $p_0(x) = 1$ we have
@@ -79,7 +83,8 @@ which completes the proof.
 
 ∎
 
-
+Recall that the 3-term recurrence is an important property of a family of orthogonal polynomials.
+We can deduce from the relationship with cosines the following:
 
 **Corollary (Chebyshev 3-term recurrence)**
 $$
@@ -89,7 +94,7 @@ x T_n(x) = {T_{n-1}(x) + T_{n+1}(x) \over 2}
 \end{align*}
 $$
 **Proof**
-This is rewriting the expression we used to show that $p_n(x0$ are graded.
+This is rewriting the expression we used to show that $p_n(x)$ are graded in the previous proof.
 ∎
 
 Chebyshev polynomials are particularly powerful as their expansions are cosine series in disguise: for
@@ -100,7 +105,7 @@ we have
 $$
 f(\cos θ) = ∑_{k=0}^∞ \check f_k \cos k θ.
 $$
-Thus the coefficients can be recovered fast using FFT-based techniques as discussed in the problem sheet.
+Thus the coefficients can be recovered fast using FFT-based techniques.
 
 We will also see the following:
 
@@ -154,9 +159,12 @@ We need to verify:
 (2) follows by integration by parts. Note that $(1-x^2)^n$ and its first $n-1$ derivatives vanish at $±1$.
 If $r_m$ is a degree $m < n$ polynomial we have:
 $$
+\meeq{
 ∫_{-1}^1 {{\rm d}^n \over {\rm d} x^n} (1-x^2)^n r_m(x) {\rm d}x
-= -∫_{-1}^1 {{\rm d}^{n-1} \over {\rm d} x^{n-1}} (1-x^2)^n r_m'(x) {\rm d}x =
+= -∫_{-1}^1 {{\rm d}^{n-1} \over {\rm d} x^{n-1}} (1-x^2)^n r_m'(x) {\rm d}x  
+\ccr =
 ⋯ = (-)^n ∫_{-1}^1 (1-x^2)^n r_m^{(n)}(x) {\rm d}x = 0.
+}
 $$
 (3) follows since:
 $$
@@ -165,7 +173,8 @@ $$
 (-)^n 2n {{\rm d}^{n-1} \over {\rm d} x^{n-1}} x^{2n-1}+ O(x^{2n-1})] \\
 &=
 (-)^n 2n (2n-1) {{\rm d}^{n-2} \over {\rm d} x^{n-2}} x^{2n-2}+ O(x^{2n-2})] = ⋯ \\
-&= (-)^n 2n (2n-1) ⋯ (n+1) x^n + O(x^{n-1}) =
+&= (-)^n 2n (2n-1) ⋯ (n+1) x^n + O(x^{n-1}) \ccr 
+=
 (-)^n {(2n)! \over n!} x^n + O(x^{n-1})
 \end{align*}
 $$
@@ -181,10 +190,10 @@ $$
 \begin{align*}
 P_0(x) &= 1 \\
 P_1(x) &= x \\
-P_n(x) &= \underbrace{{(2n)! \over 2^n (n!)^2}}_{k_n} x^n - \underbrace{(2n-2)! \over 2^n (n-2)! (n-1)!}_{k_n^{(2)}} x^{n-2} + O(x^{n-4})
+P_n(x) &= \underbrace{{(2n)! \over 2^n (n!)^2}}_{k_n} x^n - \underbrace{(2n-2)! \over 2^n (n-2)! (n-1)!}_{k_n^{(2)}} x^{n-2} + O(x^{n-4}).
 \end{align*}
 $$
-(Here the $O(x^{n-4})$ is as $x → ∞$, which implies that the term is a polynomial of degree $≤ n-4$. For $n = 2,3$ the $O(x^{n-4})$ term is therefore precisely zero.)
+Here the $O(x^{n-4})$ is as $x → ∞$, which implies that the term is a polynomial of degree $≤ n-4$. For $n = 2,3$ the $O(x^{n-4})$ term is therefore precisely zero.
 
 **Proof**
 
@@ -213,14 +222,20 @@ $$
 The $n = 0$ case is immediate (since $w(x) = w(-x)$ $a_n = 0$, from PS8).
 For the other cases we match terms:
 $$
-(2n+1)xP_n(x) - n P_{n-1}(x) - (n+1)P_{n+1}(x) = [(2n+1)k_n - (n+1) k_{n+1}] x^{n+1} + [(2n+1) k_n^{(2)} -n k_{n-1} - (n+1) k_{n+1}^{(2)}] x^{n-1} + O(x^{n-3})
+\begin{align*}
+(2n+1)xP_n(x) &- n P_{n-1}(x) - (n+1)P_{n+1}(x) \ccr
+ = [(2n+1)k_n - (n+1) k_{n+1}] x^{n+1} \cr
+ &\qquad  + [(2n+1) k_n^{(2)} -n k_{n-1} - (n+1) k_{n+1}^{(2)}] x^{n-1} + O(x^{n-3})
+\end{align*}
 $$
 Using the expressions for $k_n$ and $k_n^{(2)}$ above we have (leaving the manipulations as an exercise):
 $$
-\begin{align*}
-(2n+1)k_n - (n+1) k_{n+1} = {(2n+1)! \over 2^n (n!)^2} - (n+1) {(2n+2)! \over 2^{n+1} ((n+1)!)^2} = 0 \\
-(2n+1) k_n^{(2)} -n k_{n-1}  - (n+1) k_{n+1}^{(2)} =  -(2n+1) {(2n-2)! \over 2^n (n-2)! (n-1)!} - n {(2n-2)! \over 2^{n-1} ((n-1)!)^2} + (n+1){(2n)! \over 2^{n+1} (n-1)! n!} = 0
-\end{align*}
+\meeq{
+(2n+1)k_n - (n+1) k_{n+1} = {(2n+1)! \over 2^n (n!)^2} - (n+1) {(2n+2)! \over 2^{n+1} ((n+1)!)^2} = 0 \ccr
+(2n+1) k_n^{(2)} -n k_{n-1}  - (n+1) k_{n+1}^{(2)} =  -(2n+1) {(2n-2)! \over 2^n (n-2)! (n-1)!} - n {(2n-2)! \over 2^{n-1} ((n-1)!)^2} \cr
+&\qquad + (n+1){(2n)! \over 2^{n+1} (n-1)! n!} \ccr 
+= 0
+}
 $$
 Thus
 $$

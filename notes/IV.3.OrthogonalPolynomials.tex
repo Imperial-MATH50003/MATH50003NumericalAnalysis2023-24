@@ -1,20 +1,18 @@
 
 \section{Orthogonal Polynomials}
-Fourier series proved very powerful for approximating periodic functions. If periodicity is lost, however, uniform convergence is lost. In this chapter we introduce alternative bases, \emph{Orthogonal Polynomials (OPs)} built on polynomials that are applicable in the non-periodic setting. That is we consider expansions of the form
+Fourier series are very powerful for approximating periodic functions. If periodicity is lost, however, the Fourier coefficients are no longer in $\ensuremath{\ell}^1$ and uniform convergence is lost. In this chapter we introduce alternative bases, \emph{Orthogonal Polynomials (OPs)} built on polynomials that are applicable in the non-periodic setting. That is we consider expansions of the form
 \[
 f(x) = \sum_{k=0}^\ensuremath{\infty} c_k p_k(x)
 \]
-where $p_k(x)$ are special families of polynomials, $c_k$ are expansion coefficients. The computation of the coefficients $c_k \ensuremath{\approx} c_k^n$ will wait until the next section.
+where $p_k(x)$ are special families of polynomials and $c_k$ are expansion coefficients. The approximation of the coefficients $c_k \ensuremath{\approx} c_k^n$ using quadrature will be explored later.
 
-Why not use monomials as in Taylor series? Hidden in the previous lecture was that we could effectively compute Taylor coefficients by evaluating on the unit circle in the complex plane, \emph{only} if the radius of convergence was 1. Many functions are smooth on say $[-1,1]$ but have non-convergent Taylor series, e.g.:
+Why not use monomials as in Taylor series? Hidden in the previous sections was that we could effectively compute Taylor coefficients by evaluating on the unit circle in the complex plane, \emph{only} if the radius of convergence was 1. Many functions are smooth on say $[-1,1]$ but have non-convergent Taylor series, e.g.:
 \[
 {1 \over 25x^2 + 1}
 \]
-While orthogonal polynomials span the same space as monomials, and therefore we can in theory write an approximation in monomials, orthogonal polynomials are \emph{much} more stable.
+While orthogonal polynomials span the same space as monomials, and therefore we can in theory write an approximation in monomials, orthogonal polynomials are \emph{much} more stable. In particular, where we saw that interpolation by monomials at evenly spaced points performed horribly in practice (and also in theory), we can use orthogonal polynomials with specially chosen points to get reliable interpolation of functions. 
 
 In addition to numerics, OPs play a very important role in many mathematical areas including functional analysis, integrable systems, singular integral equations, complex analysis, and random matrix theory.
-
-\textbf{Remark} Going beyond what we discuss here are many other beautiful properties of orthogonal polynomials that are useful in computation, analysis, representation theory, quantum mechanics, etc. These include sparse recurrence relationships for derivatives, that they are eigenfunctions of differential equations, their asymptotics, generating functions, etc.
 
 \subsection{General properties}
 \begin{definition}[graded polynomial basis] A set of polynomials $\{p_0(x), p_1(x), \ensuremath{\ldots} \}$ is \emph{graded} if $p_n$ is precisely degree $n$: i.e.,
@@ -52,11 +50,13 @@ Multiplying any orthogonal polynomial by a nonzero constant necessarily is also 
 \begin{proposition}[existence] Given a weight $w(x)$, monic orthogonal polynomials exist.
 
 \end{proposition}
-\textbf{Proof}
-
-Existence follows immediately from the Gram\ensuremath{\endash}Schmidt procedure. That is, define $\ensuremath{\pi}_0(x) := 1$ and
+\textbf{Proof} Existence follows immediately from the Gram\ensuremath{\endash}Schmidt procedure. That is, define $\ensuremath{\pi}_0(x) := 1$ and
 \[
-\ensuremath{\pi}_n(x) := x^n - \ensuremath{\sum}_{k=0}^{n-1} {\ensuremath{\langle}x^n,\ensuremath{\pi}_k\ensuremath{\rangle} \over \|\ensuremath{\pi}_k\|^2} \ensuremath{\pi}_k(x)
+\ensuremath{\pi}_n(x) := x^n - \ensuremath{\sum}_{k=0}^{n-1} {\ensuremath{\langle}x^n,\ensuremath{\pi}_k\ensuremath{\rangle} \over \|\ensuremath{\pi}_k\|^2} \ensuremath{\pi}_k(x).
+\]
+Assume $\ensuremath{\pi}_m$ are monic OPs for all $m < n$. Then we have
+\[
+\ensuremath{\langle}\ensuremath{\pi}_m, \ensuremath{\pi}_n\ensuremath{\rangle} = \ensuremath{\langle}\ensuremath{\pi}_m, x^n \ensuremath{\rangle} - \ensuremath{\sum}_{k=0}^{n-1} {\ensuremath{\langle}x^n,\ensuremath{\pi}_k\ensuremath{\rangle} \over \|\ensuremath{\pi}_k\|^2} \underbrace{\ensuremath{\langle}\ensuremath{\pi}_m, \ensuremath{\pi}_k\ensuremath{\rangle}}_{= 0 \hbox{if $m \ensuremath{\neq} k$}}  = \ensuremath{\langle}\ensuremath{\pi}_m, x^n \ensuremath{\rangle} - \ensuremath{\langle}x^n,\ensuremath{\pi}_m\ensuremath{\rangle} = 0.
 \]
 \ensuremath{\QED}
 
@@ -123,12 +123,12 @@ A consequence of this is that orthonormal polynomials are always a constant mult
 \subsection{3-term recurrence}
 The most \emph{fundamental} property of orthogonal polynomials is their three-term recurrence.
 
-\begin{theorem}[3-term recurrence, 2nd form] If $\{p_n\}$ are OPs then there exist real constants $a_n, b_n \ensuremath{\neq}0,c_{n-1} \ensuremath{\neq}0$ such that
+\begin{theorem}[3-term recurrence, 2nd form] If $\{p_n\}$ are OPs then there exist real constants $a_n b_n, c_{n-1}$ such that
 \begin{align*}
 x p_0(x) &= a_0 p_0(x) + b_0 p_1(x)  \\
-x p_n(x) &= c_{n-1} p_{n-1}(x) + a_n p_n(x) + b_n p_{n+1}(x)
+x p_n(x) &= c_{n-1} p_{n-1}(x) + a_n p_n(x) + b_n p_{n+1}(x),
 \end{align*}
-\end{theorem}
+where $b_n \ensuremath{\neq}0$ and $c_{n-1} \ensuremath{\neq}0$. \end{theorem}
 \textbf{Proof} The $n=0$ case is immediate since $\{p_0,p_1\}$ are a basis of degree 1 polynomials. The $n >0$ case follows from
 \[
 \ensuremath{\langle}x p_n, p_k\ensuremath{\rangle} = \ensuremath{\langle} p_n, xp_k\ensuremath{\rangle} = 0
@@ -157,13 +157,13 @@ If $b_n = 1$ and $\ensuremath{\pi}_n(x) = x^n + O(x^{n-1})$ then the 3-term recu
 \]
 and $\ensuremath{\pi}_{n+1}(x)$ is also monic. Similarly, if $\ensuremath{\pi}_n(x)$ is monic and $b_n \ensuremath{\neq} 1$ then $\ensuremath{\pi}_{n+1}(x)$ is not monic, which would be a contradiction. \ensuremath{\QED}
 
-\begin{corollary}[Gram-Schmidt revisited] We can define $\ensuremath{\pi}_{n+1}(x)$ in terms of $\ensuremath{\pi}_{n-1}$ and $\ensuremath{\pi}_n$:
+Note this implies that we can define $\ensuremath{\pi}_{n+1}(x)$ in terms of $\ensuremath{\pi}_{n-1}$ and $\ensuremath{\pi}_n$:
 \[
 \ensuremath{\pi}_{n+1}(x) = x \ensuremath{\pi}_n(x) - a_n \ensuremath{\pi}_n(x) - c_{n-1} \ensuremath{\pi}_{n-1}(x)
 \]
 where
 \[
-a_n = {\ensuremath{\langle}x \ensuremath{\pi}_n, \ensuremath{\pi}_n\ensuremath{\rangle} \over \| \ensuremath{\pi}_n\|^2} \qquad \hbox{and} \qquad c_{n-1} = {\ensuremath{\langle}x \ensuremath{\pi}_n, \ensuremath{\pi}_{n-1}\ensuremath{\rangle} \over \| \ensuremath{\pi}_{n-1}\|^2}
+a_n = {\ensuremath{\langle}x \ensuremath{\pi}_n, \ensuremath{\pi}_n\ensuremath{\rangle} \over \| \ensuremath{\pi}_n\|^2} \qquad \hbox{and} \qquad c_{n-1} = {\ensuremath{\langle}x \ensuremath{\pi}_n, \ensuremath{\pi}_{n-1}\ensuremath{\rangle} \over \| \ensuremath{\pi}_{n-1}\|^2}.
 \]
 \begin{example}[constructing OPs] What are the  monic OPs $\ensuremath{\pi}_0(x),\ensuremath{\ldots},\ensuremath{\pi}_3(x)$ with respect to $w(x) = 1$ on $[0,1]$? We can construct these using Gram\ensuremath{\endash}Schmidt, but exploiting the 3-term recurrence to reduce the computational cost. We have $\ensuremath{\pi}_0(x) = 1$, which we see is orthogonal:
 \[
@@ -179,8 +179,8 @@ a_0 = {\ensuremath{\langle}\ensuremath{\pi}_0,x \ensuremath{\pi}_0\ensuremath{\r
 \]
 Thus
 \begin{align*}
-\ensuremath{\pi}_1(x) = x \ensuremath{\pi}_0(x) - a_0 \ensuremath{\pi}_0(x) = x-1/2 \\
-\|\ensuremath{\pi}_1\|^2 = \ensuremath{\int}_0^1 (x^2 - x + 1/4) {\rm d} x = 1/12
+\ensuremath{\pi}_1(x) = x \ensuremath{\pi}_0(x) - a_0 \ensuremath{\pi}_0(x) = x-1/2 \qquad  \ensuremath{\Rightarrow} \\
+\|\ensuremath{\pi}_1\|^2 = \ensuremath{\int}_0^1 (x^2 - x + 1/4) {\rm d} x = 1/12.    
 \end{align*}
 From
 \[
@@ -188,9 +188,9 @@ x \ensuremath{\pi}_1(x) = c_0 \ensuremath{\pi}_0(x) + a_1 \ensuremath{\pi}_1(x) 
 \]
 we have
 \begin{align*}
-c_0 &= {\ensuremath{\langle}\ensuremath{\pi}_0,x \ensuremath{\pi}_1\ensuremath{\rangle}  \over \|\ensuremath{\pi}_0\|^2} = \ensuremath{\int}_0^1 (x^2 - x/2) {\rm d} x = 1/12 \\
-a_1 &= {\ensuremath{\langle}\ensuremath{\pi}_1,x \ensuremath{\pi}_1\ensuremath{\rangle}  \over \|\ensuremath{\pi}_1\|^2} = 12 \ensuremath{\int}_0^1 (x^3 - x^2 + x/4) {\rm d} x = 1/2 \\
-\ensuremath{\pi}_2(x) &= x \ensuremath{\pi}_1(x) - c_0 - a_1 \ensuremath{\pi}_1(x) = x^2 - x + 1/6 \\
+c_0 &= {\ensuremath{\langle}\ensuremath{\pi}_0,x \ensuremath{\pi}_1\ensuremath{\rangle}  \over \|\ensuremath{\pi}_0\|^2} = \ensuremath{\int}_0^1 (x^2 - x/2) {\rm d} x = 1/12, \\
+a_1 &= {\ensuremath{\langle}\ensuremath{\pi}_1,x \ensuremath{\pi}_1\ensuremath{\rangle}  \over \|\ensuremath{\pi}_1\|^2} = 12 \ensuremath{\int}_0^1 (x^3 - x^2 + x/4) {\rm d} x = 1/2, \\
+\ensuremath{\pi}_2(x) &= x \ensuremath{\pi}_1(x) - c_0 - a_1 \ensuremath{\pi}_1(x) = x^2 - x + 1/6 \qquad \ensuremath{\Rightarrow} \\
 \|\ensuremath{\pi}_2\|^2 &= \int_0^1 (x^4 - 2x^3 + 4x^2/3 - x/3 + 1/36) {\rm d} x = {1 \over 180}
 \end{align*}
 Finally, from
@@ -199,17 +199,18 @@ x \ensuremath{\pi}_2(x) = c_1 \ensuremath{\pi}_1(x) + a_2 \ensuremath{\pi}_2(x) 
 \]
 we have
 \begin{align*}
-c_1 &= {\ensuremath{\langle}\ensuremath{\pi}_1,x \ensuremath{\pi}_2\ensuremath{\rangle}  \over \|\ensuremath{\pi}_1\|^2} = 12 \ensuremath{\int}_0^1 (x^4 - 3x^3/2 +2x^2/3 -x/12)  {\rm d} x = 1/15 \\
-a_2 &= {\ensuremath{\langle}\ensuremath{\pi}_2,x \ensuremath{\pi}_2\ensuremath{\rangle}  \over \|\ensuremath{\pi}_2\|^2} = 180 \ensuremath{\int}_0^1 (x^5 - 2x^4 +4x^3/3 - x^2/3 + x/36) {\rm d} x = 1/2 \\
-\ensuremath{\pi}_3(x) &= x \ensuremath{\pi}_2(x) - c_1 \ensuremath{\pi}_1(x)- a_2 \ensuremath{\pi}_2(x) = x^3 - x^2 + x/6 - x/15 + 1/30 -x^2/2 + x/2 - 1/12 \\
+c_1 &= {\ensuremath{\langle}\ensuremath{\pi}_1,x \ensuremath{\pi}_2\ensuremath{\rangle}  \over \|\ensuremath{\pi}_1\|^2} = 12 \ensuremath{\int}_0^1 (x^4 - 3x^3/2 +2x^2/3 -x/12)  {\rm d} x = 1/15, \\
+a_2 &= {\ensuremath{\langle}\ensuremath{\pi}_2,x \ensuremath{\pi}_2\ensuremath{\rangle}  \over \|\ensuremath{\pi}_2\|^2} = 180 \ensuremath{\int}_0^1 (x^5 - 2x^4 +4x^3/3 - x^2/3 + x/36) {\rm d} x = 1/2, \\
+\ensuremath{\pi}_3(x) &= x \ensuremath{\pi}_2(x) - c_1 \ensuremath{\pi}_1(x)- a_2 \ensuremath{\pi}_2(x) \ccr 
+= x^3 - x^2 + x/6 - x/15 + 1/30 -x^2/2 + x/2 - 1/12 \\
 &= x^3 - 3x^2/2 + 3x/5 -1/20
 \end{align*}
 \end{example}
 
 \subsection{Jacobi matrices}
-The three-term recurrence can also be interpreted as a matrix known as the Jacobi matrix:
+The three-term recurrence can also be interpreted as a matrix:
 
-\textbf{Corollary (Jacobi matrix)} For
+\begin{corollary}[multiplication matrix] For
 \[
 P(x) := [p_0(x) | p_1(x) | \ensuremath{\cdots}]
 \]
@@ -225,33 +226,33 @@ More generally, for any polynomial $a(x)$ we have
 \[
 a(x) P(x) = P(x) a(X).
 \]
-The Jacobi matrix is $J := X^\ensuremath{\top}$.
-
 \end{corollary}
 \textbf{Proof} The expression follows:
 \[
 x P(x) = [xp_0(x) | xp_1(x) | \ensuremath{\cdots}] =
-[a_0p_0(x) + b_0 p_1(x) | c_0 p_0(x) + a_1 p_1(x) + b_1 p_2(x) | \ensuremath{\cdots}] = P(X) X.
+[a_0p_0(x) + b_0 p_1(x) | c_0 p_0(x) + a_1 p_1(x) + b_1 p_2(x) | \ensuremath{\cdots}] = P(x) X.
 \]
 For polynomials, note that
 \[
-x^k P(x) = x^{k-1} P(x) X = \ensuremath{\cdots} = P(x) X^k
+x^k P(x) = x^{k-1} P(x) X = \ensuremath{\cdots} = P(x) X^k.
 \]
-Thus if $a(x) = \ensuremath{\sum}_{k=0}^n a_k x^k$ we have
+Thus if $a(x) = \ensuremath{\sum}_{k=0}^n a_k x^k$ we have by linearity
 \[
 a(x) P(x) = \ensuremath{\sum}_{k=0}^n a_k x^k P(x) = P(x) \ensuremath{\sum}_{k=0}^n a_k X^k = P(x) a(X).
 \]
 \ensuremath{\QED}
 
-For the special cases of orthonormal and monic polynomials we have extra structure:
+\textbf{Remark} If you are worried about multiplication of infinite matrices/vectors note it is well-defined by the standard definition because it is banded. It can also be defined in terms of functional analysis where one considers these as linear operators (functions of functions) between vector spaces.
 
-\begin{corollary}[orthonormal 3-term recurrence] The Jacobi matrix of a family of orthogonal polynomials $p_n(x)$ is symmetric:
+For the special cases of orthonormal and monic polynomials we have extra structure, in which case we refer to the matrix as a \emph{Jacobi matrix}:
+
+\begin{corollary}[Jacobi matrix] The multiplication matrix of a family of orthogonal polynomials $p_n(x)$ is symmetric,
 \[
-J = X = \begin{bmatrix} a_0 & b_0 \\
+X = X^\ensuremath{\top} = \begin{bmatrix} a_0 & b_0 \\
                                                         b_0 & a_1 & b_1\\
                                                         & b_1 & a_2 & \ensuremath{\ddots} \\
                                                         && \ensuremath{\ddots} & \ensuremath{\ddots}
-                                                        \end{bmatrix}
+                                                        \end{bmatrix},
 \]
 if and only if $p_n(x)$ is up-to-sign a fixed constant scaling of orthonormal: for $q_n(x) := \ensuremath{\pi}_n(x)/\|\ensuremath{\pi}_n\|$ we have for a fixed $\ensuremath{\alpha} \ensuremath{\in} \ensuremath{\bbR}$ and $s_n \ensuremath{\in} \{-1,1\}$
 \[
@@ -272,27 +273,26 @@ b_n = {\ensuremath{\langle}xp_n, p_{n+1}\ensuremath{\rangle} \over \|p_{n+1}\|^2
 \]
 Hence $\ensuremath{\alpha}_n^2 = \ensuremath{\alpha}_{n+1}^2$ which implies that $\ensuremath{\alpha}_{n+1} = \ensuremath{\pm} \ensuremath{\alpha}_n$. By induction the result follows, where $\ensuremath{\alpha} := \ensuremath{\alpha}_0$. \ensuremath{\QED}
 
-\textbf{Remark} If you are worried about multiplication of infinite matrices/vectors note it is well-defined by the standard definition because it is banded. It can also be defined in terms of functional analysis where one considers these as linear operators (functions of functions) between vector spaces.
+\textbf{Remark} Every compactly supported integrable weight generates a family of orthonormal polynomials, which in turn generates a symmetric Jacobi matrix. There is a \ensuremath{\ldq}Spectral Theorem for Jacobi matrices" that says one can go the other way: every tridiagonal symmetric matrix with bounded entries is a Jacobi matrix for some integrable weight with compact support. This is an example of what \href{https://en.wikipedia.org/wiki/Barry_Simon}{Barry Simon} calls a \ensuremath{\ldq}Gem of spectral theory", that is.
 
-\textbf{Remark} Every integrable weight generates a family of orthonormal polynomials, which in turn generates a symmetric Jacobi matrix. There is a "Spectral Theoremor Jacobi matrices" that says one can go the other way: every tridiagonal symmetric matrix with bounded entries is a Jacobi matrix for some integrable weight with compact support. This is an example of what \href{https://en.wikipedia.org/wiki/Barry_Simon}{Barry Simon} calls a "Gem of spectral theory", that is.
-
-\begin{example}[uniform weight Jacobi matrix] Consider the monic orthogonal polynomials $\ensuremath{\pi}_0(x),\ensuremath{\pi}_1(x),\ensuremath{\ldots},\ensuremath{\pi}_3(x)$ for $w(x) = 1$ on $[0,1]$ constructed above. We can write the 3-term recurrence coefficients we have computed above as the Jacobi matrix:
+\begin{example}[uniform weight Jacobi matrix] Consider the monic orthogonal polynomials $\ensuremath{\pi}_0(x),\ensuremath{\pi}_1(x),\ensuremath{\ldots},\ensuremath{\pi}_3(x)$ for $w(x) = 1$ on $[0,1]$ constructed above. We can write the 3-term recurrence coefficients we have computed above as:
 \[
 x [\ensuremath{\pi}_0(x)| \ensuremath{\pi}_1(x)| \ensuremath{\cdots}] = [\ensuremath{\pi}_0(x)| \ensuremath{\pi}_1(x)| \ensuremath{\cdots}] \underbrace{\begin{bmatrix} 1/2 & 1/12 \\
                                                             1 & 1/2 & 1/15 \\
                                                             & 1 & 1/2 & \ensuremath{\ddots} \\
-                                                            & & \ensuremath{\ddots} & \ensuremath{\ddots} \end{bmatrix}}_X
+                                                            & & 1 & \ensuremath{\ddots} & \ensuremath{\ddots} \\
+                                                            &&& \ensuremath{\ddots} \end{bmatrix}}_X
 \]
 We can compute the orthonormal polynomials, using
 \[
 \|\ensuremath{\pi}_3\|^2 = \int_0^1 (x^6 - 3x^5 + 69x^4/20 -19x^3/10 + 51x^2/100 - 3x/50 + 1/400) {\rm d}x = {1 \over 2800}
 \]
-as:
+since
 \begin{align*}
-q_0(x) &= \ensuremath{\pi}_0(x) \\
-q_1(x) &= \sqrt{12} \ensuremath{\pi}_1(x)= \sqrt{3} (2  x - 1) \\
-q_2(x) &= \sqrt{180} \ensuremath{\pi}_2(x) = \sqrt{5} (6x^2 - 6x + 1) \\
-q_3(x) &= \sqrt{2800} \ensuremath{\pi}_3(x) = \sqrt{7} (20x^3-30x^2 + 12x - 1)
+q_0(x) &= \ensuremath{\pi}_0(x), \\
+q_1(x) &= \sqrt{12} \ensuremath{\pi}_1(x)= \sqrt{3} (2  x - 1), \\
+q_2(x) &= \sqrt{180} \ensuremath{\pi}_2(x) = \sqrt{5} (6x^2 - 6x + 1), \\
+q_3(x) &= \sqrt{2800} \ensuremath{\pi}_3(x) = \sqrt{7} (20x^3-30x^2 + 12x - 1),
 \end{align*}
 which have the Jacobi matrix
 \begin{align*}
@@ -300,30 +300,40 @@ x [q_0(x)| q_1(x)| \ensuremath{\cdots}] &= x [\ensuremath{\pi}_0(x)| \ensuremath
 &&&& \ensuremath{\ddots}
 \end{bmatrix}}_D \\
 &= [q_0(x)| q_1(x)| \ensuremath{\cdots}] D^{-1} X D =
-     \begin{bmatrix} 1/2 & 1/\sqrt{12} \\
-                    1/\sqrt{12} & 1/2 &  1/\sqrt{15} \\
+     \begin{bmatrix} 1/2 & 1/(2\sqrt{3}) \\
+                    1/(2\sqrt{3}) & 1/2 &  1/\sqrt{15} \\
                     & 1/\sqrt{15} & 1/2 & \ensuremath{\ddots} \\
-                    & \ensuremath{\ddots} & \ensuremath{\ddots} \end{bmatrix}
+                    && 3/(2 \sqrt{35}) &  \ensuremath{\ddots} \\
+                    &&& & \ensuremath{\ddots} \end{bmatrix}
 \end{align*}
-which is indeed symmetric. The problem sheet explores a more elegant way of doing this. \end{example}
+which is indeed symmetric.  \end{example}
 
-\begin{example}[expansion] Consider expanding a low degree polynomial like $f(x) = x^2$ in $\ensuremath{\pi}_n(x)$. We have
-\begin{align*}
-\ensuremath{\langle}\ensuremath{\pi}_0, f\ensuremath{\rangle} &= \ensuremath{\int}_0^1 x^2 {\rm d} x = 1/3 \\
-\ensuremath{\langle}\ensuremath{\pi}_1, f\ensuremath{\rangle} &= \ensuremath{\int}_0^1 x^2 (x - 1/2) {\rm d} x = 1/12 \\
-\ensuremath{\langle}\ensuremath{\pi}_2, f\ensuremath{\rangle} &= \ensuremath{\int}_0^1 x^2 (x^2 - x + 1/6) {\rm d} x = 1/180
-\end{align*}
-Thus we have:
+\begin{example}[Jacobi matrix] What are the expansion coefficients of $x^3 - x + 1$ in $\{q_n\}$? We could deduce integrals though its actually simpler to use the multiplication matrix. In particular if we write
 \[
-f(x) = {\ensuremath{\pi}_0(x) \over 3} + \ensuremath{\pi}_1(x) + \ensuremath{\pi}_2(x) = [\ensuremath{\pi}_0(x) | \ensuremath{\pi}_1(x) | \ensuremath{\pi}_2(x) | \ensuremath{\cdots}] \begin{bmatrix} 1/3 \\ 1 \\ 1 \\ 0 \\ \ensuremath{\vdots} \end{bmatrix}
+Q(x) := [q_0(x) | q_1(x) | q_2(x) | \ensuremath{\cdots}]
 \]
-We multiply (using that $b_2 = 1$ for monic OPs) to deduce:
-\begin{align*}
-x f(x) &= x[\ensuremath{\pi}_0(x) | \ensuremath{\pi}_1(x) | \ensuremath{\pi}_2(x) | \ensuremath{\cdots}] \begin{bmatrix} 1/3 \\ 1 \\ 1 \\ 0 \\ \ensuremath{\vdots} \end{bmatrix} \\
-&= [\ensuremath{\pi}_0(x) | \ensuremath{\pi}_1(x) | \ensuremath{\pi}_2(x) | \ensuremath{\cdots}] X \begin{bmatrix} 1/3 \\ 1 \\ 1 \\ 0 \\ \ensuremath{\vdots} \end{bmatrix}
-= [\ensuremath{\pi}_0(x) | \ensuremath{\pi}_1(x) | \ensuremath{\pi}_2(x) | \ensuremath{\cdots}]  \begin{bmatrix} 1/4 \\ 9/10 \\ 3/2 \\ 1 \\ 0 \\ \ensuremath{\vdots} \end{bmatrix} \\
-&= {\ensuremath{\pi}_0(x) \over 4} + {9 \ensuremath{\pi}_1(x) \over 10} + {3 \ensuremath{\pi}_2(x) \over 2} + \ensuremath{\pi}_3(x)
-\end{align*}
+Then we have (note: $q_0(x) \ensuremath{\equiv} 1$ only because the weight integrates to 1)
+\[
+1 = Q(x) \ensuremath{\bm{\e}}_1
+\]
+Hence we have:
+\[
+x = x Q(x) \ensuremath{\bm{\e}}_1 = Q(x) X \ensuremath{\bm{\e}}_1 = Q(x) \Vectt[1/2, 1/(2\sqrt{3}), 0, \ensuremath{\vdots}].
+\]
+Continuing we have
+\[
+x^2 = Q(x)  X \Vectt[1/2, 1/(2\sqrt{3}), 0, \ensuremath{\vdots}] = Q(x) \Vectt[1/3, 1/(2 \sqrt{3}),  1/(6\sqrt{5}),0,\ensuremath{\vdots} ]
+\]
+Finally we have
+\[
+x^3 = Q(x) X  \Vectt[1/3, 1/(2 \sqrt{3}),  1/(6\sqrt{5}),0,\ensuremath{\vdots} ] =
+ Q(x) \Vectt[1/4,{3 \sqrt{3} \over 20}, {1 \over 4 \sqrt{5}}, {1 \over 20 \sqrt{7}}, 0, \ensuremath{\vdots}]
+\]
+Thus by linearity we find that
+\meeq{
+x^3 - x + 1 = Q(x) \Vectt[3/4, -1/(20\sqrt{3}), {1 \over 4 \sqrt{5}}, {1 \over 20 \sqrt{7}}, 0, \ensuremath{\vdots}] \ccr
+= {3 \over 4} q_0(x) - {1 \over 20\sqrt{3}} q_1(x) + {1 \over 4 \sqrt{5}} q_2(x) + {1 \over 20 \sqrt{7}} q_3(x).
+}
 \end{example}
 
 
