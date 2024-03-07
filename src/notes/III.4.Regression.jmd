@@ -91,7 +91,7 @@ $$
 ∎
 
 **Example (interpolating an exponential)** We can interpolate $\exp(x)$ at the points $0,1,2$.
-That is, our data is $𝐟 = \vectt[{\rm e}, {\rm e},{\rm e}^2]$ and the interpolatory polynomial is
+That is, our data is $𝐟 = \vectt[1, {\rm e},{\rm e}^2]$ and the interpolatory polynomial is
 $$
 \begin{align*}
 p(x) &= ℓ_1(x) + {\rm e} ℓ_2(x) + {\rm e}^2 ℓ_3(x) =
