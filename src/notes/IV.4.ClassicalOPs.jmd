@@ -36,7 +36,8 @@ T_n(x) &= 2^{n-1} x^n + O(x^{n-1})
 $$
 ∎
 
-**Definition (Chebyshev polynomials, 2nd kind)** $U_n(x)$ are orthogonal with respect to $\sqrt{1-x^2}$.
+**Definition (Chebyshev polynomials, 2nd kind)** $U_n(x)$ are orthogonal with respect to $\sqrt{1-x^2}$
+and satisfy:
 $$
 U_n(x) = 2^n x^n + O(x^{n-1})
 $$
@@ -219,7 +220,7 @@ xP_0(x) &= P_1(x) \\
 $$
 
 **Proof**
-The $n = 0$ case is immediate (since $w(x) = w(-x)$ $a_n = 0$, from PS8).
+The $n = 0$ case is immediate (since $w(x) = w(-x)$ $a_n = 0$, from the problem sheet).
 For the other cases we match terms:
 $$
 \begin{align*}

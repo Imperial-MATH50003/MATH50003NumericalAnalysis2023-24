@@ -3,23 +3,23 @@
 Fourier series are very powerful for approximating periodic functions.
 If periodicity is lost, however, the Fourier coefficients are no longer in $ℓ^1$ and uniform convergence is lost.
 In this chapter
-we introduce alternative bases, _Orthogonal Polynomials (OPs)_ built on polynomials that are applicable in
-the non-periodic setting. That is we consider expansions of the form
+we introduce _Orthogonal Polynomials (OPs)_ are more effective for computing with
+non-periodic (but still continuous/differentiable) functions. That is we consider expansions of the form
 $$
 f(x) = \sum_{k=0}^∞ c_k p_k(x)
 $$
 where $p_k(x)$ are special families of polynomials and $c_k$ are expansion coefficients.
 The approximation of the coefficients $c_k ≈ c_k^n$ using quadrature will be explored later.
 
-Why not use monomials as in Taylor series? Hidden in the previous sections was that we could effectively
+Why not use monomials as in Taylor series? Hidden in the discussion on Fourier series was that we could effectively
 compute Taylor coefficients by evaluating on the unit circle in the complex plane, _only_ if the radius of convergence
 was 1. Many functions are smooth on say $[-1,1]$ but have non-convergent Taylor series, e.g.:
 $$
 {1 \over 25x^2 + 1}
 $$
-While orthogonal polynomials span the same space as monomials, and therefore we can in theory write an
-approximation in monomials, orthogonal polynomials are _much_ more stable. In particular, where we saw that interpolation
-by monomials at evenly spaced points performed horribly in practice (and also in theory), we can use orthogonal polynomials
+While orthogonal polynomials span the same space as monomials, orthogonal polynomials are _much_ more stable and can effectively and accurately
+approximate such functions. In particular, where we saw that interpolation
+by monomials at evenly spaced points performed horribly in practice we can use orthogonal polynomials
 with specially chosen points to get reliable interpolation of functions. 
 
 
@@ -93,7 +93,7 @@ $$
 $$
 Assume $π_m$ are monic OPs for all $m < n$. Then we have
 $$
-⟨π_m, π_n⟩ = ⟨π_m, x^n ⟩ - ∑_{k=0}^{n-1} {⟨x^n,π_k⟩ \over \|π_k\|^2} \underbrace{⟨π_m, π_k⟩}_{= 0 \hbox{if $m ≠ k$}}  = ⟨π_m, x^n ⟩ - ⟨x^n,π_m⟩ = 0.
+⟨π_m, π_n⟩ = ⟨π_m, x^n ⟩ - ∑_{k=0}^{n-1} {⟨x^n,π_k⟩ \over \|π_k\|^2} \underbrace{⟨π_m, π_k⟩}_{= 0 \hbox{ if $m ≠ k$}}  = ⟨π_m, x^n ⟩ - ⟨x^n,π_m⟩ = 0.
 $$
 
 ∎
@@ -105,7 +105,7 @@ approximating functions. First we observe the following:
 **Proposition (expansion)**
 If $r(x)$ is a degree $n$ polynomial and $\{p_n\}$ are orthogonal then
 $$
-r(x) = ∑_{k=0}^n {⟨p_k,r⟩ \over \|p_k\|^2} p_k(x)
+r(x) = ∑_{k=0}^n {⟨p_k,r⟩ \over \|p_k\|^2} p_k(x).
 $$
 Note for $\{q_n\}$ orthonormal we have
 $$
@@ -123,6 +123,7 @@ By linearity we have
 $$
 ⟨p_m,r⟩ = ∑_{k=0}^n r_k ⟨p_m,p_k⟩= r_m ⟨p_m,p_m⟩
 $$
+which implies that $r_m = ⟨p_m,r⟩/⟨p_m,p_m⟩$.
 ∎
 
 **Corollary (zero inner product)**
@@ -176,12 +177,9 @@ We leave this proof to the problem sheets.
 ∎
 
 
-A consequence of this is that orthonormal polynomials are always a
-constant multiple of orthogonal polynomials.
 
 
-
-## 3-term recurrence
+## Three-term recurrence
 
 The most _fundamental_ property of orthogonal polynomials is their three-term
 recurrence.
@@ -249,7 +247,7 @@ $$
 
 **Example (constructing OPs)** What are the  monic OPs $π_0(x),…,π_3(x)$ with respect to $w(x) = 1$ on $[0,1]$?
 We can construct these using Gram–Schmidt, but exploiting the 3-term recurrence to reduce the computational cost.
-We have $π_0(x) = 1$, which we see is orthogonal:
+We have $π_0(x) = 1$, which we see is already normalised:
 $$
 \|π_0\|^2 = ⟨π_0,π_0⟩ = ∫_0^1 {\rm d} x = 1.
 $$
@@ -342,7 +340,7 @@ It can also be defined in terms of functional analysis where one considers these
 as linear operators (functions of functions) between vector spaces.
 
 
-For the special cases of orthonormal and monic polynomials we have extra structure,
+For the special cases of orthonormal polynomials we have extra structure,
 in which case we refer to the matrix as a _Jacobi matrix_:
 
 **Corollary (Jacobi matrix)**
@@ -361,20 +359,24 @@ p_n(x) = α s_n q_n(x).
 $$
 
 **Proof**
-Noting that $\|q_n\|^2 = 1$ and thence $\|p_n\|^2 = α^2$,
+First, assume $p_n(x)$ has the specified form. Noting that $\|q_n\|^2 = 1$ and thence $\|p_n\|^2 = α^2$,
 if $p_n(x) = α s_n q_n(x)$ we have
 $$
 b_n = {⟨xp_n, p_{n+1}⟩ \over \|p_{n+1}\|^2} = s_n s_{n+1} ⟨x q_n, q_{n+1}⟩ =
-s_n s_{n+1} ⟨q_n, x q_{n+1}⟩ = {⟨p_n, xp_{n+1}⟩ \over \|p_n\|^2} = c_{n-1}.
+s_n s_{n+1} ⟨q_n, x q_{n+1}⟩ = {⟨p_n, xp_{n+1}⟩ \over \|p_n\|^2} = c_{n-1}
 $$
+and therefore $X$ is symmetric.
 
 Conversely, suppose $X = X^⊤$, i.e., $b_n = c_{n-1}$ and write the corresponding
 orthogonal polynomials as $p_n(x) = α_n q_n(x)$. We have
 $$
+\meeq{
 b_n = {⟨xp_n, p_{n+1}⟩ \over \|p_{n+1}\|^2} =
 {α_n \over α_{n+1}} ⟨xq_n, q_{n+1}⟩ =
 {α_n \over α_{n+1}} ⟨q_n, x q_{n+1}⟩ = {α_n^2 \over α_{n+1}^2} {⟨p_n, xp_{n+1}⟩ \over \|p_n\|^2}
+\ccr
 = {α_n^2 \over α_{n+1}^2} c_{n-1} = {α_n^2 \over α_{n+1}^2} b_n.
+}
 $$
 Hence $α_n^2 = α_{n+1}^2$ which implies that $α_{n+1} = ± α_n$. By induction the result follows,
 where $α := α_0$.
@@ -382,17 +384,19 @@ where $α := α_0$.
 
 
 **Remark** Every compactly supported integrable weight generates a family of
-orthonormal polynomials, which in turn generates a symmetric Jacobi matrix.
+orthonormal polynomials, which in turn generates a Jacobi matrix.
 There is a “Spectral Theorem for Jacobi matrices" that says one can go the
 other way: every tridiagonal symmetric matrix with bounded entries is a Jacobi
 matrix for some integrable weight with compact support. This is an example of what
-[Barry Simon](https://en.wikipedia.org/wiki/Barry_Simon) calls a “Gem of spectral theory",
-that is.
+[Barry Simon](https://en.wikipedia.org/wiki/Barry_Simon) calls a “Gem of spectral theory".
 
 
-**Example (uniform weight Jacobi matrix)** Consider the
-monic orthogonal polynomials $π_0(x),π_1(x),…,π_3(x)$ for $w(x) = 1$ on $[0,1]$ constructed above.
-We can write the 3-term recurrence coefficients we have computed above as:
+**Example (uniform weight orthonormal polynomials)** Consider computing orthonormal polynomials 
+with respect to $w(x) = 1$ on $[0,1]$. Above we constructed the monic OPs $π_0(x),…,π_3(x)$ so we
+can deduce the orthonormal polynomials by dividing by their norm, but there is another way: writing 
+$q_n(x) = k_n π_n(x)$, find the
+normalisation $k_n$ that turns the 3-term recurrence into a symmetric matrix. 
+We can write the 3-term recurrence coefficients for monic OPs as a multiplication matrix:
 $$
 x [π_0(x)| π_1(x)| ⋯] = [π_0(x)| π_1(x)| ⋯] \underbrace{\begin{bmatrix} 1/2 & 1/12 \\
                                                             1 & 1/2 & 1/15 \\
@@ -400,58 +404,78 @@ x [π_0(x)| π_1(x)| ⋯] = [π_0(x)| π_1(x)| ⋯] \underbrace{\begin{bmatrix} 
                                                             & & 1 & ⋱ & ⋱ \\
                                                             &&& ⋱ \end{bmatrix}}_X
 $$
-We can compute the orthonormal polynomials, using
+The previous theorem says that if we rescale the polynomials so that the resulting Jacobi matrix is
+symmetric than they are by necessity the orthonormal polynomials. In particular, consider writing:
 $$
-\|π_3\|^2 = \int_0^1 (x^6 - 3x^5 + 69x^4/20 -19x^3/10 + 51x^2/100 - 3x/50 + 1/400) {\rm d}x = {1 \over 2800}
+[q_0(x) | q_1(x) | ⋯] = [π_0(x)| π_1(x)| ⋯] \underbrace{\begin{bmatrix}  k_0 \\ & k_1 \\ && k_2 \\ &&& ⋱ \end{bmatrix}}_K
 $$
-since
+where we want to find the normalisation constants. Since $\|π_0\| = 1$ we know $k_0 = 1$. We have
+$$
+x [q_0(x) | q_1(x) | ⋯] = [π_0(x)| π_1(x)| ⋯] X K = [q_0(x) | q_1(x) | ⋯] \underbrace{K^{-1} X K}_{\tilde X}
+$$
+where
+$$
+\tilde X = \begin{bmatrix} a_0 & c_0 k_1 \\
+                         k_1^{-1} & a_1 & c_1 k_2/k_1 \\
+                         & k_1/k_2 & a_2 & c_2 k_3/k_2 \\
+                         &&⋱ & ⋱ & ⋱ \end{bmatrix}.
+$$
+Thus for this to be symmetric we need
+$$
+c_0 k_1 = k_1^{-1}, c_1 k_2/k_1 = k_2^{-1}, c_2 k_3/k_2 = k_3^{-1}, …
+$$
+Note that
+$$
+c_2 = {⟨π_2,x π_3⟩  \over \|π_2\|^2} = 180 ∫_0^1 (x^6 -5x^5/2 + 34x^4/15 - 9x^3/10 + 3x^2/20 - x/120){\rm d} x = 9/140.
+$$
+Thus we have (noting that the $k_n$ are all positive which simplifies the square-roots):
+$$
+\meeq{
+k_1 = 1/\sqrt{c_0} = 2\sqrt{3}, \ccr
+k_2 = k_1/\sqrt{c_1} = 6\sqrt{5}, \ccr
+k_3 =  k_2/\sqrt{c_2} = 20 \sqrt{7}.
+}
+$$
+Thus we have
 $$
 \begin{align*}
-q_0(x) &= π_0(x), \\
-q_1(x) &= \sqrt{12} π_1(x)= \sqrt{3} (2  x - 1), \\
-q_2(x) &= \sqrt{180} π_2(x) = \sqrt{5} (6x^2 - 6x + 1), \\
-q_3(x) &= \sqrt{2800} π_3(x) = \sqrt{7} (20x^3-30x^2 + 12x - 1),
+q_0(x) &= π_0(x) = 1, \\
+q_1(x) &= 2\sqrt{3} π_1(x)= \sqrt{3} (2  x - 1), \\
+q_2(x) &= 6\sqrt{5} π_2(x) = \sqrt{5} (6x^2 - 6x + 1), \\
+q_3(x) &= 20 \sqrt{7} π_3(x) = \sqrt{7} (20x^3-30x^2 + 12x - 1),
 \end{align*}
 $$
 which have the Jacobi matrix
 $$
 \begin{align*}
-x [q_0(x)| q_1(x)| ⋯] &= x [π_0(x)| π_1(x)| ⋯] \underbrace{\begin{bmatrix} 1 \\ & 2\sqrt{3} \\ && 6 \sqrt{5} \\ &&& 20 \sqrt{7} \\
-&&&& ⋱
-\end{bmatrix}}_D \\
-&= [q_0(x)| q_1(x)| ⋯] D^{-1} X D =
+\tilde X =
      \begin{bmatrix} 1/2 & 1/(2\sqrt{3}) \\
                     1/(2\sqrt{3}) & 1/2 &  1/\sqrt{15} \\
-                    & 1/\sqrt{15} & 1/2 & ⋱ \\
-                    && 3/(2 \sqrt{35}) &  ⋱ \\
-                    &&& & ⋱ \end{bmatrix}
+                    & 1/\sqrt{15} & 1/2 & 3/(2 \sqrt{35}) \\
+                    && 3/(2 \sqrt{35}) &  1/2 & ⋱ \\
+                    &&& & ⋱ & ⋱ \end{bmatrix}.
 \end{align*}
 $$
-which is indeed symmetric. 
 ∎
 
 
-**Example (Jacobi matrix)** What are the expansion coefficients of $x^3 - x + 1$ in $\{q_n\}$? We could
-deduce integrals though its actually simpler to use the multiplication matrix. In particular if we write
+**Example (expansion via Jacobi matrix)** What are the expansion coefficients of $x^3 - x + 1$ in $\{q_n\}$? We could
+deduce this by computing the inner products though its actually simpler to use the multiplication matrix. In particular if we write
 $$
 Q(x) := [q_0(x) | q_1(x) | q_2(x) | ⋯]
 $$
-Then we have (note: $q_0(x) ≡ 1$ only because the weight integrates to 1)
-$$
-1 = Q(x) 𝐞_1
-$$
-Hence we have:
+Then we have (note: $q_0(x) ≡ 1$ only because the weight integrates to 1) $1 = Q(x) 𝐞_1$.
+This tells us that:
 $$
 x = x Q(x) 𝐞_1 = Q(x) X 𝐞_1 = Q(x) \Vectt[1/2, 1/(2\sqrt{3}), 0, ⋮].
 $$
 Continuing we have
 $$
-x^2 = Q(x)  X \Vectt[1/2, 1/(2\sqrt{3}), 0, ⋮] = Q(x) \Vectt[1/3, 1/(2 \sqrt{3}),  1/(6\sqrt{5}),0,⋮ ]
-$$
-Finally we have
-$$
+\meeq{
+x^2 = Q(x)  X \Vectt[1/2, 1/(2\sqrt{3}), 0, ⋮] = Q(x) \Vectt[1/3, 1/(2 \sqrt{3}),  1/(6\sqrt{5}),0,⋮ ] \ccr
 x^3 = Q(x) X  \Vectt[1/3, 1/(2 \sqrt{3}),  1/(6\sqrt{5}),0,⋮ ] =
  Q(x) \Vectt[1/4,{3 \sqrt{3} \over 20}, {1 \over 4 \sqrt{5}}, {1 \over 20 \sqrt{7}}, 0, ⋮]
+}
 $$
 Thus by linearity we find that
 $$

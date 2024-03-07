@@ -45,7 +45,7 @@ T_n(x) &= 2^{n-1} x^n + O(x^{n-1})
 \end{align*}
 \end{definition}
 
-\begin{definition}[Chebyshev polynomials, 2nd kind] $U_n(x)$ are orthogonal with respect to $\sqrt{1-x^2}$.
+\begin{definition}[Chebyshev polynomials, 2nd kind] $U_n(x)$ are orthogonal with respect to $\sqrt{1-x^2}$ and satisfy:
 \[
 U_n(x) = 2^n x^n + O(x^{n-1})
 \]
@@ -208,7 +208,7 @@ xP_0(x) &= P_1(x) \\
 (2n+1) xP_n(x) &= nP_{n-1}(x) + (n+1)P_{n+1}(x)
 \end{align*}
 \end{theorem}
-\textbf{Proof} The $n = 0$ case is immediate (since $w(x) = w(-x)$ $a_n = 0$, from PS8). For the other cases we match terms:
+\textbf{Proof} The $n = 0$ case is immediate (since $w(x) = w(-x)$ $a_n = 0$, from the problem sheet). For the other cases we match terms:
 \begin{align*}
 (2n+1)xP_n(x) &- n P_{n-1}(x) - (n+1)P_{n+1}(x) \ccr
  = [(2n+1)k_n - (n+1) k_{n+1}] x^{n+1} \cr
