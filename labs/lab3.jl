@@ -156,7 +156,7 @@ reinterpret(Int8, 0b11111111) # Create an Int8 with the bits 11111111
 # This is different from conversion via `Int8(0b11111111)` (which throws an error):
 # `0b11111111` represents the (unsigned) integer $2^8-1 = 255$ and hence
 # `Int8(0b11111111)` is equivalent to `Int8(UInt8(255))`. Since `255` is larger than
-# the largest `Int8` (which is $2^7-1 = 127$) it would through an error.
+# the largest `Int8` (which is $2^7-1 = 127$) it would throw an error.
 
 
 # -----

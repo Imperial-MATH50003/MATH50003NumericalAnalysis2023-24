@@ -125,10 +125,10 @@ function schrodingersolve(n, L, f)
     
 end
 
-f = x-> -2exp(x) - 2exp(x)*(-10 + x) - 2exp(x)*(10 + x) - exp(x)*(-10 + x)*(10 + x) + exp(x)*(-10 + x)*(x^2)*(10 + x)
-n,L = 1000,10
+f = x-> 2exp(-x^2) - 3exp(-x^2)*x^2
+n,L = 10000,10
 x = range(-L,L;length=n+1)
-schrodingersolve(1000, 10, f) - (L^2 .- x.^2) .* exp.(x)
+@test schrodingersolve(n, L, f) ≈ exp.(-x.^2) atol=1E-4
 
 # **Problem 6(b)** The `eigvals` function computes eigenvalues of a matrix. Use this alongside the
 # symmetric diagonal discretisation to approximate $λ$ such that

@@ -135,7 +135,7 @@ foo(x::ComplexF64) = im
 # \exp z ≈ ∑_{k=0}^n {z^k \over k!}
 # $$
 # Complete the function `exp_t(z, n)` that computes this and returns a
-# `Complex{Float64}` if the input is complex and a `Float64`.
+# `Complex{Float64}` if the input is complex and a `Float64` if the input is real.
 # Do not use the inbuilt `factorial` function.
 # Hint: It might help to think inductively: for $s_k = z^k/k!$ we have
 # $$

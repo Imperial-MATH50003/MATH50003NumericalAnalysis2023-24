@@ -40,7 +40,7 @@ for k = 1:9
     compilesheet(k)
 end
 
-for k = 1:6
+for k = 1:7
     compilesheetsolution(k)
 end
 
@@ -58,6 +58,8 @@ compilelabsolution(3)
 compilelabsolution(4)
 compilelabsolution(5)
 compilelabsolution(6)
+compilelabsolution(7)
+compilelabsolution(8)
 
 
 

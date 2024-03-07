@@ -55,8 +55,11 @@
 \def\v{ {\vc v} }
 \def\y{ {\vc y} }
 \def\z{ {\vc z} }
+\def\w{ {\vc w} }
 
 \def\Ut{ {\tilde U} }
+\def\Qt{ {\tilde Q} }
+\def\Rt{ {\tilde R} }
 
 \def\red#1{ {\color{red} #1} }
 \def\blue#1{ {\color{blue} #1} }
