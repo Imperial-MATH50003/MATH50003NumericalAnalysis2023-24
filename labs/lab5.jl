@@ -77,7 +77,7 @@ for k = 1:3, j = 1:4
 end
 A
 
-# **Remark** Julia uses 0-based indexing where the first index of a vector/matrix
+# **Remark** Julia uses 1-based indexing where the first index of a vector/matrix
 # is 1. This is standard in all mathematical programming languages (Fortran, Maple, Matlab, Mathematica)
 # whereas those designed for computer science use 0-based indexing (C, Python, Rust).
 
