@@ -69,3 +69,22 @@ using Weave
 
 nkwds = (out_path="notes/", jupyter_path="$(homedir())/.julia/conda/3/x86_64/bin/jupyter", nbconvert_options="--allow-errors")
 notebook("src/notes/A.Julia.jmd"; nkwds...)
+
+
+###
+# exams
+###
+
+import Literate
+
+function compileexam(str)
+    write("exams/$str.jl", replace(replace(read("src/exams/$(str)s.jl", String), r"## SOLUTION(.*?)## END"s => "")))
+    Literate.notebook("exams/$str.jl", "exams/"; execute=false)
+end
+
+function compileexamsolution(str)
+    Literate.notebook("src/exams/$(str)s.jl", "exams/")
+end
+
+compileexam("mockexam")
+compileexamsolution("mockexam")
