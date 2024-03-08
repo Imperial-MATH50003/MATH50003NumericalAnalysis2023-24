@@ -142,7 +142,7 @@ function helmholtz(n, k)
                     [0; fill(1/h^2, n-1)])
 end
 
-lu(helmholtz(20, 2), NoPivot()) # L is lower bidiagonal and U is lower bidiagonal, regardless of n or k
+lu(helmholtz(20, 2), NoPivot()) # L is lower bidiagonal and U is upper bidiagonal, regardless of n or k
 ## END
 
 # -----
