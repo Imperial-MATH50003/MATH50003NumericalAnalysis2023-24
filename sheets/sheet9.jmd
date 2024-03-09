@@ -1,0 +1,93 @@
+**Numerical Analysis MATH50003 (2023–24) Problem Sheet 9**
+
+
+
+
+**Problem 1** Construct the monic and orthonormal polynomials up to degree $3$
+for the weights $\sqrt{1-x^2}$ and $1-x$ on $[-1,1]$. What are the corresponding Jacobi matrices?
+Hint: for the first weight, first compute $\int_{-1}^1 x^k \sqrt{1-x^2} {\rm d} x$ for $0 ≤ k ≤ 2$
+using a change-of-variables.
+
+
+
+
+
+
+**Problem 2** Prove Theorem 13: a precisely degree $n$ polynomial
+$$
+p(x) = k_n x^n + O(x^{n-1})
+$$
+satisfies
+$$
+⟨p,f_m⟩ = 0
+$$
+for all  polynomials $f_m$ of degree $m < n$ of degree less than $n$ if and only if $p(x) = c π_n$ for some constant
+$c$, where $π_n$ are monic orthogonal polynomials.
+
+
+
+
+
+**Problem 3** If $w(-x) = w(x)$ for a weight supported on $[-b,b]$ show that $a_n = 0$.
+Hint: first show that the (monic) polynomials $p_{2n}(x)$ are even and $p_{2n+1}(x)$ are odd.
+
+
+
+
+
+
+**Problem 4(a)** Prove that
+$$
+U_n(\cos θ) = {\sin(n+1) θ \over \sin θ}.
+$$
+
+
+
+
+**Problem 4(b)** Show that
+$$
+\begin{align*}
+x U_0(x) &= U_1(x)/2 \\
+x U_n(x) &= {U_{n-1}(x) \over 2} + {U_{n+1}(x) \over 2}.
+\end{align*}
+$$
+
+
+
+**Problem 5**  Use the fact that orthogonal polynomials are uniquely determined by their leading order coefficient and orthogonality to lower 
+dimensional polynomials to show that:
+$$
+T_n'(x) = n U_{n-1}(x).
+$$
+
+
+
+
+
+**Problem 6(a)** Consider Hermite polynomials orthogonal with respect to the weight $\exp(-x^2)$ on $ℝ$
+with the normalisation
+$$
+H_n(x) = 2^n x^n + O(x^{n-1}).
+$$
+Prove the Rodrigues formula
+$$
+H_n(x) = (-1)^n \exp(x^2) {{\rm d}^n \over {\rm d}x^n} \exp(-x^2).
+$$
+Hint: use integration-by-parts.
+
+
+
+**Problem 6(b)** What are $k_n^{(1)}$ and $k_n^{(2)}$ such that
+$$
+H_n(x) = 2^n x^n + k_n^{(1)} x^{n-1} + k_n^{(2)} x^{n-2} + O(x^{n-3})
+$$
+
+
+
+**Problem 6(c)** Deduce the 3-term recurrence relationship for $H_n(x)$.
+
+
+
+**Problem 6(d)** Prove that $H_n'(x) = 2n H_{n-1}(x)$. Hint: show orthogonality of $H_n'$ to all lower degree polynomials,
+and that the normalisation constants match.
+

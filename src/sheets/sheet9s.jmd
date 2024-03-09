@@ -1,0 +1,323 @@
+**Numerical Analysis MATH50003 (2023–24) Problem Sheet 9**
+
+
+
+
+**Problem 1** Construct the monic and orthonormal polynomials up to degree $3$
+for the weights $\sqrt{1-x^2}$ and $1-x$ on $[-1,1]$. What are the corresponding Jacobi matrices?
+Hint: for the first weight, first compute $\int_{-1}^1 x^k \sqrt{1-x^2} {\rm d} x$ for $0 ≤ k ≤ 2$
+using a change-of-variables.
+
+**SOLUTION**
+
+Following the hint, we first calculate $\int_{-1}^1 x^k\sqrt{1-x^2}{\rm d}x$. By symmetry, it's zero when $k$ is odd and double the integral on $[0,1]$ when $k$ is even. 
+
+$$
+\underbrace{\int_0^1 x^k\sqrt{1-x^2}{\rm d}x}_{I_k} = _{x=\sin t}\underbrace{\int_0^{π/2}\sin^k(t)\cos^2(t){\rm d}t}_{I_k}=\underbrace{\int_0^{π/2}\sin^k t{\rm d}t}_{J_k}-\underbrace{\int_0^{π/2}\sin^{k+2}t{\rm d}t}_{J_{k+2}}.
+$$
+
+Meanwhile, 
+$$
+J_k=-\int_0^{π/2}\sin^{k-1}t{\rm d}(\cos t)=_{\text{integral by part}}(k-1)I_{k-2}.
+$$
+
+Putting the above 2 equations together, we have $I_k=(k-1)I_{k-2}-(k+1)I_k$, so $I_k=\frac{k-1}{k+2}I_{k-2}$. Since $I_0=π/4$, we have $I_k=\frac{(k-1)!!}{(k+2)!!}\frac{π}{2}$ for positive even $k$. (Note that the denominator multiplies to 4, not to 2.) Keep in mind that the integral we want is double this value when $k$ is even.
+
+【Remark】Check the [beta function](https://en.wikipedia.org/wiki/Beta_function).
+
+Let $p_0(x)=1$, then $\|p_0\|^2=2I_0=π/2$. We know from the 3-term recurrence that
+$$xp_0(x)=a_0p_0(x)+p_1(x)$$
+where
+$$
+a_0=\frac{⟨ p_0,xp_0⟩}{\|p_0\|^2}=0.$$
+Thus $p_1(x)=x$ and $\|p_1\|^2=2I_2=π/8$.
+From
+$$xp_1(x)=c_0p_0(x)+a_1p_1(x)+p_2(x)$$
+we have
+$$c_0=\frac{⟨ p_0,xp_1⟩}{\|p_0\|^2}=2I_2/2I_0=1/4$$
+$$a_1=\frac{⟨ p_1,xp_1⟩}{\|p_1\|^2}=0$$
+$$p_2(x)=xp_1(x)-c_0-a_1p_1(x)=x^2-1/4$$
+$$\|p_2\|^2=2I_4-I_2+1/8I_0=π/32$$
+Finally, from
+$$xp_2(x)=c_1p_1(x)+a_2p_2(x)+p_3(x)$$
+we have
+$$c_1=\frac{⟨ p_1,xp_2⟩}{\|p_1\|^2}=(2I_4-1/2I_2)/(π/8)=1/4$$
+$$a_2=\frac{⟨ p_2,xp_2⟩}{\|p_2\|^2}=0$$
+$$p_3(x)=xp_2(x)-c_1p_1(x)-a_2p_2(x)=x^3-1/2x$$
+
+
+
+**END**
+
+
+
+
+**Problem 2** Prove Theorem 13: a precisely degree $n$ polynomial
+$$
+p(x) = k_n x^n + O(x^{n-1})
+$$
+satisfies
+$$
+⟨p,f_m⟩ = 0
+$$
+for all  polynomials $f_m$ of degree $m < n$ of degree less than $n$ if and only if $p(x) = c π_n$ for some constant
+$c$, where $π_n$ are monic orthogonal polynomials.
+
+
+**SOLUTION**
+As $\{π_0,…,π_n\}$ are a basis of all polynomials of degree $n$,
+we can write
+$$
+r(x) = ∑_{k=0}^m a_k π_k(x)
+$$
+Thus if $p(x) = c π_n(x)$, by linearity of inner products we have
+$$
+⟨p,r⟩ = ⟨cπ_n,∑_{k=0}^m a_k π_k⟩ = ∑_{k=0}^m ca_k ⟨π_n, π_k⟩ = 0.
+$$
+
+Now suppose
+$$
+p(x) = c x^n + O(x^{n-1})
+$$
+and consider $p(x) - c π_n(x)$ which is of degree $n-1$. It satisfies
+for $k ≤ n-1$
+$$
+⟨π_k, p - c π_n⟩ = ⟨π_k, p⟩ - c ⟨π_k, π_n⟩ = 0.
+$$
+Thus $p - c π_n$ is zero, i.e., $p(x) = c π_n(x)$.
+
+**END**
+
+
+**Problem 3** If $w(-x) = w(x)$ for a weight supported on $[-b,b]$ show that $a_n = 0$.
+Hint: first show that the (monic) polynomials $p_{2n}(x)$ are even and $p_{2n+1}(x)$ are odd.
+
+**SOLUTION**
+
+An integral is zero if its integrand is odd. 
+Moreover an even function times an odd function is odd and
+an odd function times an odd fuction is even.
+Note that $p_0(x)$ and $w(x)$ are even and $x$ is odd. 
+
+We see that $a_0$ is zero:
+$$
+⟨p_0,x p_0(x)⟩ = \int_{-b}^b x w(x) {\rm d} x = 0
+$$
+since $xw(x)$ is odd,
+which shows that
+$$
+p_1(x) = xp_0(x)
+$$
+is odd. We now proceed by induction. Assume that $p_{2n}$ is even and $p_{2n-1}$ is odd.
+We have:
+$$
+⟨p_{2n},x p_{2n}(x)⟩ = \int_{-b}^b x w(x) p_{2n}(x)^2 {\rm d} x = 0
+$$
+since $x w(x) p_{2n}(x)^2$ is odd, therefore $a_{2n} = 0$.
+Thus from
+$$
+p_{2n+1}(x) = (x p_{2n}(x)- c_{2n-1} p_{2n-1}(x)) / b_{2n} 
+$$
+we see that $p_{2n+1}$ is odd. Then
+$$
+⟨p_{2n+1},x p_{2n+1}(x)⟩ = \int_{-b}^b x w(x) p_{2n+1}(x)^2 {\rm d} x = 0
+$$
+since $x w(x) p_{2n+1}(x)^2$ is odd, therefore $a_{2n+1} = 0$.
+and hence
+$$
+p_{2n+2}(x) = (x p_{2n+1}(x)- c_{2n} p_{2n}(x)) / b_{2n+1} 
+$$
+is even.
+
+
+
+**END**
+
+
+
+
+**Problem 4(a)** Prove that
+$$
+U_n(\cos θ) = {\sin(n+1) θ \over \sin θ}.
+$$
+
+
+**SOLUTION**
+
+We need to verify
+$$
+p_n(x) := {\sin(n+1) θ \over \sin θ}
+$$
+are
+1. graded polynomials
+2. orthogonal w.r.t. $\sqrt{1-x^2}$ on $[-1,1]$, and
+3. have the leading coefficient $2^n$.
+Then uniqueness will guarantee that $p_n(x) = U_n(x)$.
+
+(2) follows under a change of variables
+$$
+\begin{align*}
+\int_{-1}^1 p_n(x)p_m(x)\sqrt{1-x^2}{\rm d}x &= \int_0^{π}p_n(\cos θ)p_m(\cos θ)\sin^2 θ{\rm d} θ \\
+&= \int_0^{π}\sin(n+1) θ\sin(m+1) θ{\rm d} θ=\frac{π}{2}δ_{mn}
+\end{align*}
+$$
+where the last step can be shown by substituting $\sin kθ = (\exp(ikθ)-\exp(-ikθ)/(2i)$.
+
+To see that they are graded, first note that
+$$
+p_0(x) = {\sin θ /\sin θ} = 1, p_1(x) =  {\sin 2 θ \over \sin θ} = {2 \sin θ \cos θ \over \sin θ} = 2x.
+$$
+Now for $n = 1,2,…$  use the fact that
+$$
+xp_n(x)=\frac{\cos θ\sin(n+1) θ}{\sin θ}=\frac{\sin (n+2) θ+\sin n θ}{2\sin θ}
+$$
+In other words $2xp_n(x)=p_{n+1}(x)+p_{n-1}(x)$, i.e. $p_{n+1}(x) = 2x p_n(x) + p_{n-1}(x).
+By induction it follows that
+$$
+p_n(x) = 2^n x^n + O(x^{n-1})
+$$
+which also proves (3).
+
+
+**END**
+
+**Problem 4(b)** Show that
+$$
+\begin{align*}
+x U_0(x) &= U_1(x)/2 \\
+x U_n(x) &= {U_{n-1}(x) \over 2} + {U_{n+1}(x) \over 2}.
+\end{align*}
+$$
+
+**SOLUTION**
+
+The first result is trivial. For the other parts, from the solution to 4.2 we know $2xU_n(x)=U_{n+1}(x)+U_{n-1}(x)$
+and this result is a reordering.
+
+**END**
+
+**Problem 5**  Use the fact that orthogonal polynomials are uniquely determined by their leading order coefficient and orthogonality to lower 
+dimensional polynomials to show that:
+$$
+T_n'(x) = n U_{n-1}(x).
+$$
+
+
+**SOLUTION**
+
+We need to verify that $T_n'(x)$
+1. graded polynomials
+2. orthogonal w.r.t. $\sqrt{1-x^2}$ on $[-1,1]$, and
+3. have the leading coefficient $n 2^n$.
+(1) and (3) are clear:
+$$
+T_n'(x) = n 2^{n-1} x^{n-1} + O(x^{n-2}).
+$$
+(2) For $f_m$ degree $m < n-1$ we have
+$$
+∫_{-1}^1 T_n'(x) f_m(x) \sqrt{1-x^2} {\rm d}x = 
+-∫_{-1}^1 T_n(x) \underbrace{(f_m'(x)(1-x^2) -x f_m)}_{\hbox{degree $m+1 < n$}}  (1-x^2)^{-1/2} {\rm d}x = 0.
+$$
+
+
+
+**END**
+
+
+**Problem 6(a)** Consider Hermite polynomials orthogonal with respect to the weight $\exp(-x^2)$ on $ℝ$
+with the normalisation
+$$
+H_n(x) = 2^n x^n + O(x^{n-1}).
+$$
+Prove the Rodrigues formula
+$$
+H_n(x) = (-1)^n \exp(x^2) {{\rm d}^n \over {\rm d}x^n} \exp(-x^2).
+$$
+Hint: use integration-by-parts.
+
+**SOLUTION**
+Define
+$$
+p_n(x) := (-1)^n \exp(x^2) {{\rm d}^n \over {\rm d}x^n} \exp(-x^2)
+$$
+
+We need to verify that $p_n$
+1. are graded polynomials
+2. are orthogonal to all lower degree polynomials on $\mathbb{R}$, and
+3. have the right leading coefficient $2^n$.
+
+Comparing the Rodrigues formula for $n$ and $n-1$, we find that 
+$$
+(-1)^n\exp(-x^2)p_n(x)={{\rm d} \over {\rm d}x}\left((-1)^{n-1}\exp(-x^2)p_{n-1}(x)\right)
+$$
+which reduces to
+$$p_n(x)=2xp_{n-1}(x)-p_{n-1}'(x).$$
+
+(1) and (3) then follows from induction since $p_0(x)=1$.
+
+(2) follows by integration by parts. If $r_m$ is any degree $m<n$ polynomial we have:
+$$
+\begin{align*}
+\int_{-∞}^∞ p_n(x)r_m(x)\exp(-x^2){\rm d}x&=\int_{-∞}^∞{{\rm d}^n \over {\rm d}x^n} \exp(-x^2)r(x){\rm d}x = -\int_{-∞}^∞{{\rm d}^{n-1} \over {\rm d}x^{n-1}} \exp(-x^2)r'(x){\rm d}x\\
+&=⋯\text{integration by parts $n$ times}…=(-1)^n\int_{-∞}^∞ \exp(-x^2)r_m^{(n)}(x)=0
+\end{align*}
+$$
+Thus $p_n(x) = H_n(x)$ by uniqueness.
+
+**END**
+
+**Problem 6(b)** What are $k_n^{(1)}$ and $k_n^{(2)}$ such that
+$$
+H_n(x) = 2^n x^n + k_n^{(1)} x^{n-1} + k_n^{(2)} x^{n-2} + O(x^{n-3})
+$$
+
+**SOLUTION**
+
+From the previous part:
+$$H_n(x)=2xH_{n-1}(x)-H_{n-1}'(x).$$
+Thus we have
+$$k_n^{(1)}=2k_{n-1}^{(1)}$$
+$$k_n^{(2)}=2k_{n-1}^{(2)}-(n-1)2^{n-1}$$
+
+Since $k_0^{(1)}=0$, we have $k_n^{(1)}=0$. For the second recurrence, divide both sides by $2^n$:
+$$2^{-n}k_n^{(2)}=2^{-(n-1)}k_{n-1}^{(2)}-\frac{n-1}{2}$$
+Since $k_0^{(2)}=0$, we have $2^{-n}k_n^{(2)}=-\frac{1+⋯+(n-1)}{2}=-\frac{n(n-1)}{4}$, so $k_n^{(2)}=-n(n-1)2^{n-2}$.
+
+**END**
+
+**Problem 6(c)** Deduce the 3-term recurrence relationship for $H_n(x)$.
+
+**SOLUTION**
+
+Our goal is to find $a_n$, $b_n$ and $c_n$ such that
+$$xH_n(x)=c_{n-1}H_{n-1}(x)+a_nH_n(x)+b_nH_{n+1}(x).$$
+Compare the 3 leading coefficients on both sides and use the results from Problem 4(a) and Problem 4(c):
+$$
+2^n=0+0+b_n2^{n+1}
+$$
+$$
+0=0+a_n2^n+0
+$$
+$$
+n(n-1)2^{n-2}=c_{n-1}2^{n-1}+0+b_n(n+1)n2^{n-1}
+$$
+Thus we have $b_n=1/2$, $a_n=0$ and $c_{n-1}=n$.
+
+**END**
+
+**Problem 6(d)** Prove that $H_n'(x) = 2n H_{n-1}(x)$. Hint: show orthogonality of $H_n'$ to all lower degree polynomials,
+and that the normalisation constants match.
+
+**SOLUTION**
+
+We have for $f_m$ degree $m < n-1$, using integration by parts
+$$
+⟨H_n', f_m⟩ = ∫_{-∞}^∞ H_n'(x) f_m(x) {\rm e}^{-x^2} {\rm d} x =  ∫_{-∞}^∞ H_n(x) \undebrace{(f_m'(x) -2x f_m)}_{degree $m+1 < n$}  {\rm e}^{-x^2} {\rm d} x = 0.
+$$
+Further,
+$$
+H_n'(x) = n 2^n x^{n-1} + O(x^{n-1}) = 2n (2^{n-1} x^{n-1} + O(x^{n-1}))
+$$
+hence the normalisation constants match.
+
+**END**

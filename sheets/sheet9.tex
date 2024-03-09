@@ -153,61 +153,52 @@
 
 
 
-\textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Problem Sheet 8}
+\textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Problem Sheet 9}
 
-\textbf{Problem 1} Give explicit formulae for $\hat f_k$ and $\hat f_k^n$ for the following functions:
-\[
-\cos \ensuremath{\theta}, \cos 4\ensuremath{\theta}, \sin^4\ensuremath{\theta}, {3 \over 3 - {\rm e}^{\rm i \ensuremath{\theta}}}, {1 \over 1 - 2{\rm e}^{\rm i \ensuremath{\theta}}}
-\]
-\textbf{Problem 2} Prove that if the first $\ensuremath{\lambda}-1$ derivatives $f(\ensuremath{\theta}), f'(\ensuremath{\theta}), \ensuremath{\ldots}, f^{(\ensuremath{\lambda}-1)}(\ensuremath{\theta})$  are 2\ensuremath{\pi}-periodic and $f^{(\ensuremath{\lambda})}$ is uniformly bounded  that
-\[
-|\hat f_k| = O(|k|^{-\ensuremath{\lambda}})\qquad \hbox{as $|k| \ensuremath{\rightarrow} \ensuremath{\infty}$}
-\]
-Use this to show for the Taylor case ($0 = \hat f_{-1} = \hat f_{-2} = \ensuremath{\cdots}$) that
-\[
-|f(\ensuremath{\theta}) - \ensuremath{\sum}_{k=0}^{n-1} \hat f_k {\rm e}^{{\rm i}k\ensuremath{\theta}}| = O(n^{1-\ensuremath{\lambda}})\qquad \hbox{as $n \ensuremath{\rightarrow} \ensuremath{\infty}$}
-\]
-\textbf{Problem 3(a)} If $f$ is a trigonometric polynomial  ($\hat f_k = 0$ for $|k| > m$) show for $n \ensuremath{\geq} 2m+1$ that we can exactly recover $f$:
-\[
-f(\ensuremath{\theta}) = \sum_{k=-m}^m \hat f_k^n {\rm e}^{{\rm i} k \ensuremath{\theta}}
-\]
-\textbf{Problem 3(b)} For the general (non-Taylor) case and $n = 2m+1$, prove convergence for
-\[
-f_{-m:m}(\ensuremath{\theta}) := \ensuremath{\sum}_{k=-m}^m \hat f_k^n {\rm e}^{{\rm i} k \ensuremath{\theta}}
-\]
-to $f(\ensuremath{\theta})$ as $n \ensuremath{\rightarrow} \ensuremath{\infty}$. What is the rate of convergence if we know that the first $\ensuremath{\lambda}-1$ derivatives $f(\ensuremath{\theta}), f'(\ensuremath{\theta}), \ensuremath{\ldots}, f^{(\ensuremath{\lambda}-1)}(\ensuremath{\theta})$  are 2\ensuremath{\pi}-periodic and $f^{(\ensuremath{\lambda})}$ is uniformly bounded?
+\textbf{Problem 1} Construct the monic and orthonormal polynomials up to degree $3$ for the weights $\sqrt{1-x^2}$ and $1-x$ on $[-1,1]$. What are the corresponding Jacobi matrices? Hint: for the first weight, first compute $\int_{-1}^1 x^k \sqrt{1-x^2} {\rm d} x$ for $0 \ensuremath{\leq} k \ensuremath{\leq} 2$ using a change-of-variables.
 
-\textbf{Problem 3(c)} Show that $f_{-m:m}(\ensuremath{\theta})$ interpolates $f$ at $\ensuremath{\theta}_j = 2\ensuremath{\pi}j/n$ for $n = 2m+1$.
+\textbf{Problem 2} Prove Theorem 13: a precisely degree $n$ polynomial
+\[
+p(x) = k_n x^n + O(x^{n-1})
+\]
+satisfies
+\[
+\ensuremath{\langle}p,f_m\ensuremath{\rangle} = 0
+\]
+for all  polynomials $f_m$ of degree $m < n$ of degree less than $n$ if and only if $p(x) = c \ensuremath{\pi}_n$ for some constant $c$, where $\ensuremath{\pi}_n$ are monic orthogonal polynomials.
 
-\textbf{Problem 4(a)} Show for $0 \ensuremath{\leq} k,\ensuremath{\ell} \ensuremath{\leq} n-1$
-\[
-{1 \over n} \sum_{j=1}^n \cos k \ensuremath{\theta}_j \cos \ensuremath{\ell} \ensuremath{\theta}_j = \begin{cases} 1 & k = \ensuremath{\ell} = 0 \\
-                                                  1/2 & k = \ensuremath{\ell} \\
-                                                  0 & \hbox{otherwise}
-                                                  \end{cases}
-\]
-for $\ensuremath{\theta}_j = \ensuremath{\pi}(j-1/2)/n$. Hint: Be careful as the $\ensuremath{\theta}_j$ differ from before,  and only cover half the period, $[0,\ensuremath{\pi}]$. Using symmetry may help. You may also consider replacing $\cos$ with  complex exponentials:
-\[
-\cos \ensuremath{\theta} = {{\rm e}^{{\rm i}\ensuremath{\theta}} + {\rm e}^{-{\rm i}\ensuremath{\theta}} \over 2}.
-\]
-\textbf{Problem 4(b)} Consider the Discrete Cosine Transform (DCT)
-\[
-C_n := \begin{bmatrix}
-\sqrt{1/n} \\
- & \sqrt{2/n} \\ 
- && \ensuremath{\ddots} \\
- &&& \sqrt{2/n}
- \end{bmatrix}
-\begin{bmatrix}
-    1 & \ensuremath{\cdots} & 1\\
-    \cos \ensuremath{\theta}_1 & \ensuremath{\cdots} & \cos \ensuremath{\theta}_n \\
-    \ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
-    \cos (n-1)\ensuremath{\theta}_1 & \ensuremath{\cdots} & \cos (n-1)\ensuremath{\theta}_n
-\end{bmatrix}
-\]
-for $\ensuremath{\theta}_j = \ensuremath{\pi}(j-1/2)/n$. Prove that $C_n$ is orthogonal: $C_n^\ensuremath{\top} C_n = C_n C_n^\ensuremath{\top} = I$.
+\textbf{Problem 3} If $w(-x) = w(x)$ for a weight supported on $[-b,b]$ show that $a_n = 0$. Hint: first show that the (monic) polynomials $p_{2n}(x)$ are even and $p_{2n+1}(x)$ are odd.
 
-\textbf{Problem 5} What polynomial interpolates $\cos z$ at $1, \exp(2\ensuremath{\pi}\I/3)$ and $\exp(-2\ensuremath{\pi}\I/3)$?
+\textbf{Problem 4(a)} Prove that
+\[
+U_n(\cos \ensuremath{\theta}) = {\sin(n+1) \ensuremath{\theta} \over \sin \ensuremath{\theta}}.
+\]
+\textbf{Problem 4(b)} Show that
+\begin{align*}
+x U_0(x) &= U_1(x)/2 \\
+x U_n(x) &= {U_{n-1}(x) \over 2} + {U_{n+1}(x) \over 2}.
+\end{align*}
+\textbf{Problem 5}  Use the fact that orthogonal polynomials are uniquely determined by their leading order coefficient and orthogonality to lower  dimensional polynomials to show that:
+\[
+T_n'(x) = n U_{n-1}(x).
+\]
+\textbf{Problem 6(a)} Consider Hermite polynomials orthogonal with respect to the weight $\exp(-x^2)$ on $\ensuremath{\bbR}$ with the normalisation
+\[
+H_n(x) = 2^n x^n + O(x^{n-1}).
+\]
+Prove the Rodrigues formula
+\[
+H_n(x) = (-1)^n \exp(x^2) {{\rm d}^n \over {\rm d}x^n} \exp(-x^2).
+\]
+Hint: use integration-by-parts.
+
+\textbf{Problem 6(b)} What are $k_n^{(1)}$ and $k_n^{(2)}$ such that
+\[
+H_n(x) = 2^n x^n + k_n^{(1)} x^{n-1} + k_n^{(2)} x^{n-2} + O(x^{n-3})
+\]
+\textbf{Problem 6(c)} Deduce the 3-term recurrence relationship for $H_n(x)$.
+
+\textbf{Problem 6(d)} Prove that $H_n'(x) = 2n H_{n-1}(x)$. Hint: show orthogonality of $H_n'$ to all lower degree polynomials, and that the normalisation constants match.
 
 
 

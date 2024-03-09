@@ -24,6 +24,8 @@ compilenotes("III.6.QR")
 
 compilenotes("IV.1.Fourier")
 compilenotes("IV.2.DFT")
+compilenotes("IV.3.OrthogonalPolynomials")
+compilenotes("IV.4.ClassicalOPs")
 
 
 compilenotes("A.Asymptotics")
@@ -34,7 +36,7 @@ compilenotes("A.Permutations")
 # Sheets
 ####
 
-for k = 1:8
+for k = 1:9
     compilesheet(k)
 end
 
