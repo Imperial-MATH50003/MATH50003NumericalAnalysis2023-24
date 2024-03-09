@@ -1,27 +1,24 @@
-# III.6 Gaussian quadrature
+# Gaussian Quadrature
 
 
-In this chapter we see that a special quadrature rule can be constructed by using the roots of orthogonal
+Quadrature is another name for numerical integration.
+In this section we see that a special quadrature rule can be constructed by using the roots of orthogonal
 polynomials, leading to a method that is exact for polynomials of twice the expected degree.
 Importantly, we can use quadrature to compute expansions in orthogonal polynomials that
 interpolate,  mirroring the link between the Trapezium rule, Fourier series, and interpolation but
 now for orthogonal polynomials.
 
-1. Truncated Jacobi matrices: we see that truncated Jacobi matrices are diagonalisable
-in terms of orthogonal polynomials and their zeros. 
-2. Gaussian quadrature: Using roots of orthogonal polynomials and truncated Jacobi matrices 
-leads naturally to an efficiently
-computable interpolatory quadrature rule. The _miracle_ is its exact for twice as many polynomials as
-expected.
 
+## Interpolatory quadrature rules
 
-## 2. Interpolatory quadrature rules
-
-By integrating an interpolant exactly we get a simple approach to approximating
-integrals. Using the Lagrange basis we can rewrite this procedure as a simple
+We begin by introducing a type of quadrature rule where one integrates an interpolatory
+polynomial exactly. This can be viewed as an extension of one-panel rectangle rules
+(which are degree 0 interpolants at a single point) and Trapezium rules (which are degree 1 interpolants
+at two points). 
+Using the Lagrange basis for interpolation we can write general interpolatory quadrature rules as a simple
 weighted sum:
 
-**Definition 4 (interpolatory quadrature rule)** Given a set of points $𝐱 = [x_1,…,x_n]$
+**Definition (interpolatory quadrature rule)** Given a set of points $𝐱 = [x_1,…,x_n]$
 the interpolatory quadrature rule is:
 $$
 Σ_n^{w,𝐱}[f] := ∑_{j=1}^n w_j f(x_j)
@@ -30,23 +27,27 @@ where
 $$
 w_j := ∫_a^b ℓ_j(x) w(x) {\rm d} x
 $$
+∎
 
-
-**Proposition 3 (interpolatory quadrature is exact for polynomials)** 
+**Proposition (interpolatory quadrature is exact for polynomials)** 
 Interpolatory quadrature is exact for all degree $n-1$ polynomials $p$:
 $$
 ∫_a^b p(x) w(x) {\rm d}x = Σ_n^{w,𝐱}[p]
 $$
 
 **Proof**
-The result follows since, by uniqueness of interpolatory polynomial:
+The result follows since, by uniqueness of interpolatory polynomial, if $p$ is a polynomial then
 $$
 p(x) = ∑_{j=1}^n p(x_j) ℓ_j(x)
+$$
+Hence
+$$
+∫_a^b p(x) w(x) {\rm d}x = ∑_{j=1}^n p(x_j) \int_a^b ℓ_j(x) w(x) {\rm d}x = Σ_n^{w,𝐱}[p].
 $$
 
 ∎
 
-**Example 2 (arbitrary points)** Find the interpolatory quadrature rule for $w(x) = 1$ on $[0,1]$ with  points $[x_1,x_2,x_3] = [0,1/4,1]$?
+**Example (3-point interpolatory quadrature)** We find the interpolatory quadrature rule for $w(x) = 1$ on $[0,1]$ with  points $[x_1,x_2,x_3] = [0,1/4,1]$.
 We have:
 $$
 \begin{align*}
@@ -63,8 +64,9 @@ This is indeed exact for polynomials up to degree $2$ (and no more):
 $$
 Σ_n^{w,𝐱}[1] = 1, Σ_n^{w,𝐱}[x] = 1/2, Σ_n^{w,𝐱}[x^2] = 1/3, Σ_n^{w,𝐱}[x^3] = 7/24 ≠ 1/4.
 $$
+∎
 
-**Example 3 (Chebyshev roots)** Find the interpolatory quadrature rule for $w(x) = 1/\sqrt{1-x^2}$ on $[-1,1]$ with points equal to the
+**Example (Chebyshev roots)** We now find the interpolatory quadrature rule for $w(x) = 1/\sqrt{1-x^2}$ on $[-1,1]$ with points equal to the
 roots of $T_3(x)$. This is a special case of Gaussian quadrature which we will approach in another way below. We use:
 $$
 \int_{-1}^1 w(x) {\rm d}x = π, \int_{-1}^1 xw(x) {\rm d}x = 0, \int_{-1}^1 x^2 w(x) {\rm d}x = {π/2}
@@ -91,17 +93,17 @@ $$
 \end{align*}
 $$
 We shall explain this miracle in the next chapter.
+∎
 
 
 
-
-## 1. Roots of orthogonal polynomials and truncated Jacobi matrices
+## Roots of orthogonal polynomials and truncated Jacobi matrices
 
 We now consider roots (zeros) of orthogonal polynomials $p_n(x)$. This is important as we shall
 see they are useful for interpolation and quadrature. For interpolation to be well-defined we
 first need to guarantee that the roots are distinct.
 
-**Lemma 1** An orthogonal polynomial $p_n(x)$ has exactly $n$ distinct roots.
+**Lemma (OP roots)** An orthogonal polynomial $p_n(x)$ has exactly $n$ distinct roots.
 
 **Proof**
 
@@ -124,8 +126,10 @@ polynomials.
 
 ∎
 
-**Definition 1 (truncated Jacobi matrix)** Given a symmetric Jacobi matrix $X$
-(associated with a family of orthonormal polynomials),
+We will now relate these roots to truncations of Jacobi matrices.
+
+**Definition (truncated Jacobi matrix)** Given a Jacobi matrix $X$
+associated with a family of orthonormal polynomials,
  the _truncated Jacobi matrix_ is
 $$
 J_n := \begin{bmatrix} a_0 & b_0 \\
@@ -133,10 +137,10 @@ J_n := \begin{bmatrix} a_0 & b_0 \\
                          & ⋱ & a_{n-2} & b_{n-2} \\
                          && b_{n-2} & a_{n-1} \end{bmatrix} ∈ ℝ^{n × n}
 $$
+∎
 
 
-
-**Lemma 2 (zeros)** The zeros $x_1, …,x_n$ of an orthonormal polynomial $q_n(x)$
+**Lemma (OP roots and Jacobi matrices)** The zeros $x_1, …,x_n$ of an orthonormal polynomial $q_n(x)$
 are the eigenvalues of the truncated Jacobi matrix $J_n$.
 More precisely,
 $$
@@ -173,7 +177,7 @@ the eigenvector matrix is orthogonal.
 
 ∎
 
-**Example 1 (Chebyshev roots)** Consider $T_n(x) = \cos n {\rm acos}\, x$. The roots 
+**Example (Chebyshev roots)** Consider $T_n(x) = \cos n {\rm acos}\, x$. The roots 
 are $x_j = \cos θ_j$ where $θ_j = (j-1/2)π/n$ for $j = 1,…,n$ are the roots of $\cos n θ$
 that are inside $[0,π]$. 
 
@@ -220,17 +224,20 @@ $$
     \end{bmatrix} =\begin{bmatrix} 0 \\ 0 \\ 0
     \end{bmatrix}
 $$
+∎
 
-## 2. Gaussian quadrature
+## Gaussian quadrature
 
-Gaussian quadrature is the interpolatory quadrature rule corresponding
-to the grid $x_j$ defined as the roots of the orthonormal polynomial $q_n(x)$.
-We shall see that it is exact for polynomials up to degree $2n-1$, i.e., double
+We now introduce Gaussian quadrature, which
+we shall see is exact for polynomials up to degree $2n-1$, i.e., double
 the degree of other interpolatory quadrature rules from other grids.
+We will also prove that it is in fact an interpolatory quadrature rule corresponding
+to the grid $x_j$ defined as the roots of the orthonormal polynomial $q_n(x)$.
 
 
 
-**Definition 2 (Gauss quadrature)** Given a weight $w(x)$, the Gauss quadrature rule is:
+
+**Definition (Gaussian quadrature)** Given a weight $w(x)$, the Gauss quadrature rule is:
 $$
 ∫_a^b f(x)w(x) {\rm d}x ≈ \underbrace{∑_{j=1}^n w_j f(x_j)}_{Σ_n^w[f]}
 $$
@@ -243,11 +250,12 @@ $$
 w_j = ∫_a^b w(x) {\rm d}x Q_n[1,j]^2.
 $$
 (Note we have $∫_a^b w(x) {\rm d} x q_0(x)^2 = 1$.)
+∎
 
 In analogy to how Fourier series are orthogonal with respect to the Trapezium rule,
 Orthogonal polynomials are orthogonal with respect to Gaussian quadrature:
 
-**Lemma 3 (Discrete orthogonality)**
+**Lemma (Discrete orthogonality)**
 For $0 ≤ ℓ,m ≤ n-1$, the orthonormal polynomials $q_n(x)$ satisfy
 $$
 Σ_n^w[q_ℓ q_m] = δ_{ℓm}
@@ -268,7 +276,7 @@ $$
 Just as approximating Fourier coefficients using Trapezium rule gives a way of
 interpolating at the grid, so does Gaussian quadrature:
 
-**Theorem 1 (interpolation via quadrature)**
+**Theorem (interpolation via quadrature)**
 For the orthonormal polynomials $q_n(x)$,
 $$
 f_n(x) := ∑_{k=0}^{n-1} c_k^n q_k(x)\hbox{ for } c_k^n := Σ_n^w[f q_k]
@@ -315,7 +323,7 @@ $$
 ∎
 
 
-**Example 2 (Chebyshev expansions)** 
+**Example (Chebyshev expansions)** 
 Consider the construction of Gaussian quadrature associated with the Chebyshev weight for $n = 3$. 
 To determine the weights we need:
 $$
@@ -366,11 +374,11 @@ $$
 x^2 = {\sqrt π \over 2} q_0(x) + {\sqrt π \over 2\sqrt 2} q_2(x) = {1 \over 2} T_0(x) + {1 \over 2} T_2(x)
 $$
 which can be easily confirmed.
+∎
 
 
 
-
-**Corollary 1** Gaussian quadrature is an interpolatory quadrature rule
+**Corollary (Gaussian quadrature is interpolatory)** Gaussian quadrature is an interpolatory quadrature rule
 with the interpolation points equal to the roots of $q_n$:
 $$
 Σ_n^w[f] = ∫_a^b f_n(x) w(x) {\rm d}x 
@@ -383,7 +391,7 @@ $$
 $$
 ∎
 
-**Example 3 (Chebyshev quadrature via Lagrange polynomials)** The connection with interpolatory quadrature
+**Example (Chebyshev quadrature via Lagrange polynomials)** The connection with interpolatory quadrature
 means theres another way to compute the quadrature: integrate the Lagrange polynomials associated with
 the zeros. For example, with $n = 3$ recall that the roots of $T_3(x)$ are $±\sqrt{3}/2$ and $0$. Thus we have
 $$
@@ -397,7 +405,7 @@ A quick check confirms that
 $$
 w_j = ∫_{-1}^1 {ℓ_j(x) \over \sqrt{1-x^2}} {\rm d}x = {π \over 3}.
 $$
-
+∎
 
 
 
@@ -408,7 +416,7 @@ as many!
 
 
 
-**Theorem 2 (Exactness of Gauss quadrature)** If $p(x)$ is a degree $2n-1$ polynomial then
+**Theorem (Exactness of Gauss quadrature)** If $p(x)$ is a degree $2n-1$ polynomial then
 Gauss quadrature is exact:
 $$
 ∫_a^b p(x)w(x) {\rm d}x = Σ_n^w[p].
@@ -430,7 +438,7 @@ $$
 ∎
 
 
-**Example 4 (Double exactness)**
+**Example (Double exactness)**
 We are exact for all polynomials of degree $2n-1$, so for our $n = 3$ rule consider integrating
 $x^5$. We correctly get:
 $$
@@ -445,4 +453,4 @@ $$
 Σ_n^w[x^6] = {9 π \over 64} ≠ {5 π \over 16}
 $$
 hence it is incorrect for larger degree polynomials.
-
+∎
