@@ -80,7 +80,7 @@ L,U = lu(A, NoPivot()) # Succeeds but suddenly U is on order of 2E14!
 norm(A \ b - U\(L\b)) # Very large error! A \ b uses pivoting now.
 
 # **WARNING** The parantheses are important: algebra is left-associative so had we written `U\L\b` this would have been interpreted as
-# `(L\U) \ b` which would have meant `inv(inv(L)*U)*b == U \ (L*b)`.
+# `(U\L) \ b` which would have meant `inv(inv(U)*L)*b == L \ (U*b)`.
 
 # -----
 

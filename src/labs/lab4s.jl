@@ -393,7 +393,7 @@ function exp_t(x, n)
     ret
 end
 
-exp_t(X, 100) # Taylor series with interval arithemtic
+exp_t(X, 100) # Taylor series with interval arithmetic
 
 
 # In the notes we derived a bound assuming $0 ≤ x ≤ 1$
@@ -404,7 +404,7 @@ function exp_bound(X::Interval, n)
     a,b = promote(X.a, X.b)
     T = typeof(a)
     
-    if !(0 < a ≤ b)
+    if !(0 ≤ a ≤ b ≤ 1)
         error("Interval must be a subset of [0, 1]")
     end
     ret = exp_t(X, n) # the code for Taylor series should work on Interval unmodified
@@ -451,7 +451,7 @@ function exp_bound(X::Interval, n)
     a,b = promote(X.a, X.b)
     T = typeof(a)
     
-    if !(abs(a) ≤ 2 && abs(b) ≤ 2)
+    if !(-2 ≤ a ≤ b ≤ 2)
         ## check our assumptions are met. This is optional: in the exam, proper error checking is
         ## not expected unless explicitly asked for.
         error("Interval must be a subset of [-2, 2]")
