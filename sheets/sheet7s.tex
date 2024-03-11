@@ -214,27 +214,31 @@ Q_3 \ensuremath{\bm{\b}} = \begin{bmatrix} -3 \\ 0 \\ 0 \end{bmatrix}
 
 For $Q_1$: we have
 \begin{align*}
-\ensuremath{\bm{\y}} = \ensuremath{\bm{\a}} - \| \ensuremath{\bm{\a}}\| \ensuremath{\bm{\e}}_1 =  \begin{bmatrix} -2 \\ 2 \\ 2 \end{bmatrix} \\
-\ensuremath{\bm{\w}} = {\ensuremath{\bm{\y}} \over \|\ensuremath{\bm{\y}}\|} = {1 \over \sqrt{3}} \begin{bmatrix} -1 \\ 1 \\ 1 \end{bmatrix} \\
-Q_1 = Q_{\ensuremath{\bm{\w}}} = I - {2 \over 3} \begin{bmatrix} -1 \\ 1 \\ 1 \end{bmatrix}  [-1\ 1\ 1] = 
+\ensuremath{\bm{\y}} &= \ensuremath{\bm{\a}} - \| \ensuremath{\bm{\a}}\| \ensuremath{\bm{\e}}_1 =  \begin{bmatrix} -2 \\ 2 \\ 2 \end{bmatrix} \\
+\ensuremath{\bm{\w}} &= {\ensuremath{\bm{\y}} \over \|\ensuremath{\bm{\y}}\|} = {1 \over \sqrt{3}} \begin{bmatrix} -1 \\ 1 \\ 1 \end{bmatrix} \\
+Q_1 &= Q_{\ensuremath{\bm{\w}}} = I - {2 \over 3} \begin{bmatrix} -1 \\ 1 \\ 1 \end{bmatrix}  [-1\ 1\ 1] = 
 I - {2 \over 3} \begin{bmatrix} 1 & -1 & -1 \\ -1 & 1 & 1 \\ -1 & 1 & 1 \end{bmatrix} \\
 &={1 \over 3} \begin{bmatrix} 1 & 2 & 2 \\ 2 & 1 & -2 \\ 2 & -2 & 1 \end{bmatrix} 
 \end{align*}
 For $Q_2$: we have
 \begin{align*}
-\ensuremath{\bm{\y}} = \ensuremath{\bm{\a}} + \| \ensuremath{\bm{\a}}\| \ensuremath{\bm{\e}}_1 =  \begin{bmatrix} 4 \\ 2 \\ 2 \end{bmatrix} \\
-\ensuremath{\bm{\w}} = {\ensuremath{\bm{\y}} \over \|\ensuremath{\bm{\y}}\|} = {1 \over \sqrt{6}} \begin{bmatrix} 2 \\ 1 \\ 1 \end{bmatrix} \\
-Q_1 = Q_{\ensuremath{\bm{\w}}} = I - {1 \over 3} \begin{bmatrix} 2 \\ 1 \\ 1 \end{bmatrix}  [2 1 1] = 
+\ensuremath{\bm{\y}} &= \ensuremath{\bm{\a}} + \| \ensuremath{\bm{\a}}\| \ensuremath{\bm{\e}}_1 =  \begin{bmatrix} 4 \\ 2 \\ 2 \end{bmatrix} \\
+\ensuremath{\bm{\w}} &= {\ensuremath{\bm{\y}} \over \|\ensuremath{\bm{\y}}\|} = {1 \over \sqrt{6}} \begin{bmatrix} 2 \\ 1 \\ 1 \end{bmatrix} \\
+Q_1 &= Q_{\ensuremath{\bm{\w}}} = I - {1 \over 3} \begin{bmatrix} 2 \\ 1 \\ 1 \end{bmatrix}  [2\ 1\ 1] = 
 I - {1 \over 3} \begin{bmatrix} 4 & 2 & 2 \\ 2 & 1  & 1 \\ 2&  1 & 1 \end{bmatrix} \\
 &={1 \over 3} \begin{bmatrix} -1 & -2 & -2 \\ -2& 2 &-1 \\ -2& -1& 2 \end{bmatrix} 
 \end{align*}
 For $Q_3$ we just need to be careful to conjugate:
 \begin{align*}
-\ensuremath{\bm{\y}} = \ensuremath{\bm{\b}} - \| \ensuremath{\bm{\b}}\| \ensuremath{\bm{\e}}_1 =  \begin{bmatrix} -2 \\ 2{\rm i} \\ 2 \end{bmatrix} \\
-\ensuremath{\bm{\w}} = {\ensuremath{\bm{\y}} \over \|\ensuremath{\bm{\y}}\|} = {1 \over \sqrt{3}} \begin{bmatrix} -1 \\ {\rm i} \\ 1 \end{bmatrix} \\
-Q_1 = Q_{\ensuremath{\bm{\w}}} = I - {2 \over 3} \begin{bmatrix} -1 \\ {\rm i} \\ 1 \end{bmatrix}  [-1\ -{\rm i}\ 1] = 
-I - {2 \over 3} \begin{bmatrix} 1 & {\rm i} & -1 \\ -{\rm i}& 1 & {\rm i} \\ -1 &-{\rm i} & 1 \end{bmatrix} \\
-&={1 \over 3} \begin{bmatrix} 1 & -2{\rm i} & 2 \\ 2{\rm i} & 1 & -2{\rm i} \\ 2& 2{\rm i} & 1 \end{bmatrix} 
+\ensuremath{\bm{\y}} &= \ensuremath{\bm{\b}} + \| \ensuremath{\bm{\b}}\| \ensuremath{\bm{\e}}_1 =  \begin{bmatrix} 4 \\ 2{\rm i} \\ 2 \end{bmatrix} \\
+\ensuremath{\bm{\w}} &= {\ensuremath{\bm{\y}} \over \|\ensuremath{\bm{\y}}\|} = {1 \over \sqrt{6}} \begin{bmatrix}2 \\ {\rm i} \\ 1 \end{bmatrix} \\
+Q_3 &= Q_{\ensuremath{\bm{\w}}} = I - {1 \over 3} \begin{bmatrix} 2 \\ {\rm i} \\ 1 \end{bmatrix}  [2\ -{\rm i}\ 1] = 
+I - {1 \over 3} \begin{bmatrix} 4 & -2{\rm i} & 2 \\ 
+                                2{\rm i}& 1 & {\rm i} \\ 
+                                2 &-{\rm i} & 1 \end{bmatrix} \\
+&={1 \over 3} \begin{bmatrix} -1 & 2{\rm i} & -2 \\ 
+                            -2{\rm i} & 2 & -{\rm i} \\ 
+                            -2& {\rm i} & 2 \end{bmatrix} 
 \end{align*}
 \textbf{END}
 
