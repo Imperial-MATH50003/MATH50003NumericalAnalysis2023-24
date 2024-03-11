@@ -166,12 +166,12 @@ so that $x_- ≤ x ≤ x_+$. We consider two cases separately.
 (**Round Down**) First consider the case where $x$ is such that we round down: ${\rm fl}(x) = x_-$.
 Since $2^{\green{q}-σ} ≤ x_- ≤ x ≤ x_{\rm h}$ we have
 $$
-|δ_x| = {x - x_- \over x} ≤ {x_{\rm h} - x_- \over x_-} = {2^{\green{q}-σ-S-1} \over 2^{\green{q}-σ}} = 2^{-S-1} = {ϵ_{\rm m} \over 2}.
+|δ_x| = {x - x_- \over x} ≤ {x_{\rm h} - x_- \over x_-} ≤ {2^{\green{q}-σ-S-1} \over 2^{\green{q}-σ}} = 2^{-S-1} = {ϵ_{\rm m} \over 2}.
 $$
 
 (**Round Up**) If ${\rm fl}(x) = x_+$ then $2^{\green{q}-σ} ≤ x_- < x_{\rm h} ≤ x ≤ x_+$ and hence
 $$
-|δ_x| = {x_+ - x \over x} ≤ {x_+ - x_{\rm h} \over x_-} = {2^{\green{q}-σ-S-1} \over 2^{\green{q}-σ}} = 2^{-S-1} = {ϵ_{\rm m} \over 2}.
+|δ_x| = {x_+ - x \over x} ≤ {x_+ - x_{\rm h} \over x_-} ≤ {2^{\green{q}-σ-S-1} \over 2^{\green{q}-σ}} = 2^{-S-1} = {ϵ_{\rm m} \over 2}.
 $$
 
 ∎

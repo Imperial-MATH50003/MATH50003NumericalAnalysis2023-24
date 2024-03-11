@@ -86,7 +86,7 @@ $$
 **Proof**
 Note that
 $$
-p(x_j) = ∑_{j=1}^n f_j ℓ_k(x_j) = f_j.
+p(x_j) = ∑_{k=1}^n f_k ℓ_k(x_j) = f_j.
 $$
 ∎
 
