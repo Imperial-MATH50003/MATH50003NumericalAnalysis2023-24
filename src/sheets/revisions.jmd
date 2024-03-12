@@ -45,3 +45,53 @@ $$
 The bandwidths are $(ℓ,u) = (2,0)$ (lower tridiagonal).
 
 **END**
+
+
+**Problem 4(c)** Solve Problem 4.2 from PS8 using **Lemma III.6.3 (discrete orthogonality)** with
+$w(x) = 1/\sqrt{1-x^2}$ on $[-1,1]$. That is, use the connection of $T_n(x)$ with $\cos n θ$ to
+show that the Discrete Cosine Transform
+$$
+C_n := \begin{bmatrix}
+\sqrt{1/n} \\
+ & \sqrt{2/n} \\ 
+ && ⋱ \\
+ &&& \sqrt{2/n}
+ \end{bmatrix}
+\begin{bmatrix}
+    1 & ⋯ & 1\\
+    \cos θ_1 & ⋯ & \cos θ_n \\
+    ⋮ & ⋱ & ⋮ \\
+    \cos (n-1)θ_1 & ⋯ & \cos (n-1)θ_n
+\end{bmatrix}
+$$
+for $θ_j = π(j-1/2)/n$ is an orthogonal matrix.
+
+**SOLUTION**
+
+
+By the Lemma 3 (Discrete Orthogonality), we have,
+\begin{align*}
+	Σ_{n}^w[q_lq_m] = \frac{π}{n}\sum_{j=1}^n q_l(x_j)q_m(x_j) = δ_{lm}, \\
+	\sum_{j=1}^n q_l(x_j)q_m(x_j) = \frac{n}{π}δ_{lm},
+\end{align*}
+By the previous question, for the weight $w(x) = \frac{1}{\sqrt{1-x^2}}$ we have $q_0(x_j) = \frac{1}{\sqrt{π}}$, $q_k(x_j) = \sqrt{\frac{2}{π}}\cos(k θ_j).$
+For $l = m = 0$ then we have,
+\begin{align*}
+	\frac{1}{π}\sum_{j=1}^n \cos(l θ_j)\cos(m θ_j) =\sum_{j=1}^nq_l(x_j)q_m(x_j) =  \frac{n}{π}δ_{lm} = \frac{n}{π} \\
+	\Rightarrow \frac{1}{n}\sum_{j=1}^n \cos(l θ_j)\cos(m θ_j) = 1\
+\end{align*}
+Now, for $l = m ≠ 0$, we have,
+\begin{align*}
+	\frac{2}{π}\sum_{j=1}^n \cos(l θ_j)\cos(m θ_j) =\sum_{j=1}^nq_l(x_j)q_m(x_j) =  \frac{n}{π}δ_{lm} = \frac{n}{π} \\
+	\Rightarrow \frac{1}{n}\sum_{j=1}^n \cos(l θ_j)\cos(m θ_j) = \frac{1}{2}\
+\end{align*}
+Finally, for $l ≠ m$, we have,
+$$
+C_{lm}\sum_{j=1}^n\cos(l θ_j)\cos(m θ_j) = \sum_{j=1}^nq_l(x_j )q_m(x_j) = \frac{n}{π}δ_{lm} = 0,
+$$
+for some constant $C_{lm} ≠ 0$ which is $\frac{1}{π}$ if $l = 0$ or $m = 0$ and $\frac{2}{π}$ otherwise (it doesn't matter what it is so long as it is not 0). Therefore, for $l ≠ m$ we have,
+$$
+\frac{1}{n}\sum_{j=1}^n \cos(l θ_j)\cos(m θ_j) = 0
+$$
+
+**END**

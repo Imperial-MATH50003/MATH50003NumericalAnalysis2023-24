@@ -2,7 +2,7 @@
 
 
 
-**Problem 2(a)** What are the upper $3 × 3$ sub-block of the Jacobi matrix for the 
+**Problem 1** What are the upper $3 × 3$ sub-block of the Jacobi matrix for the 
 monic and orthonormal polynomials with respect to the following weights on
 $[-1,1]$:
 $$
@@ -210,7 +210,7 @@ $$
 **END**
 
 
-**Problem 2(b)** Compute the roots of the Legendre polynomial $P_3(x)$, orthogonal with respect
+**Problem 2** Compute the roots of the Legendre polynomial $P_3(x)$, orthogonal with respect
 to $w(x) = 1$ on $[-1,1]$, by computing the eigenvalues of a $3 × 3$ truncation
 of the Jacobi matrix.
 
@@ -272,10 +272,9 @@ which has solutions $\lambda = 0, ± \sqrt{\frac{3}{5}}$
 
 **END**
 
------
 
 
-**Problem 3(a)** Compute the interpolatory quadrature rule for
+**Problem 3** Compute the interpolatory quadrature rule for
 $w(x) = \sqrt{1-x^2}$ with the points $[-1,1/2,1]$.
 
 **SOLUTION**
@@ -315,7 +314,7 @@ $$
 
 **END**
 
-**Problem 3(b)** Compute the 2-point 
+**Problem 4** Compute the 2-point 
 interpolatory quadrature rule associated with roots of orthogonal polynomials for the weights $\sqrt{1-x^2}$, $1$, 
 and $1-x$ on $[-1,1]$ by integrating the Lagrange bases.
 
@@ -381,7 +380,7 @@ $$
 
 
 
-**Problem 3(b)** Compute the 2-point and 3-point Gaussian quadrature rules associated with $w(x) = 1$ on $[-1,1]$. 
+**Problem 5** Compute the 2-point and 3-point Gaussian quadrature rules associated with $w(x) = 1$ on $[-1,1]$. 
 
 **SOLUTION**
 
@@ -431,126 +430,121 @@ $$
 
 **END**
 
------
 
 
-**Problem 4(a)** Give an explicit diagonalisation of
+**Problem 6(a)** For the matrix
 $$
-X_n = \begin{bmatrix} 0 & 1/2 \\ 
-                1/2 & 0 & ⋱  \\
-                & ⋱ & ⋱ & 1/2 \\
-                && 1/2 & 0
+J_n = \begin{bmatrix} 0 & 1/\sqrt{2} \\ 
+                1/\sqrt{2} & 0 & 1/2 \\
+				& 1/2 & 0 & ⋱  \\
+                && ⋱ & ⋱ & 1/2 \\
+                &&& 1/2 & 0
                 \end{bmatrix} ∈ ℝ^{n × n}
 $$
-for all $n$ by relating it to the Jacobi matrix for $U_n(x)$.
-
-**SOLUTION**
-
-Recall the three term recurrence for the Chebyshev Polynomials $U_n$,
+use the relationship with the Jacobi matrix associated with $T_n(x)$ to prove that, for $x_j = \cos θ_j$, and $θ_j = (n-j+1/2)π/n$,
 $$
-\begin{align*}
-	xU_0(x) &= \frac{1}{2} U_1(x), \\
-	xU_n(x) &= \frac{U_{n-1}(x)}{2} + \frac{U_{n+1}(x)}{2},
-\end{align*}
-$$
-and hence, we can see that,
-$$
-X_n = \left[\begin{matrix}
-	0 & 1/2 \\
-	1/2 & 0 & \ddots \\
-	&\ddots & \ddots & 1/2 \\ 
-	&&1/2 & 0
-\end{matrix} \right],
-$$
-is the $n \times n$ truncation of the Jacobi matrix. If $x_1,\dots, x_n$ are the zeros of $U_n(x)$, by Lemma (zeros) we have that,
-$$
-X_nQ_n = Q_n \left[\begin{matrix}
-x_1 \\
-&x_2 \\
-&&\ddots \\
-&&&x_n	
-\end{matrix}
- \right],
-$$
-for,
-$$
-Q_n = \left[\begin{matrix}
-	U_0(x_1) & \cdots & U_0(x_n) \\
-	\vdots & \ddots & \vdots \\
-	U_{n-1}(x_1) & \cdots & U_{n-1}(x_n)
-\end{matrix} \right] D̃ = Q̃_n D̃
+J_n = Q_n \begin{bmatrix} x_1 \\ & ⋱ \\ && x_n \end{bmatrix} Q_n^⊤
 $$
 where
 $$
-D̃ = \begin{bmatrix} 1/\sqrt{U_0(x_1) + ⋯ + U_{n-1}(x_1)} \\ &⋱ \\ 1/\sqrt{U_0(x_n) + ⋯ + U_{n-1}(x_n)}
-\end{bmatrix}
+\meeq{
+𝐞_1^⊤ Q_n 𝐞_j = {1 \over \sqrt{n}}, \qquad
+𝐞_k^⊤ Q_n 𝐞_j = \sqrt{2 \over n} \cos (k-1) θ_j.
+}
 $$
-guarantess that $Q_n$ is orthogonal.
-Recall that if $x = \cos θ$ then $U_n(x) = \frac{\sin(n+1)θ}{\sin θ}$, 
-so in particular the roots of $U_n(x)$ are 
-$x_k = \cos\left(\frac{kπ}{n+1} \right)$ for $k = 1,\dots,n$, 
-(where $\sin \left(\frac{kπ}{n+1}\right) ≠ 0$). Hence, we have,
+You may use without proof the sums-of-squares formula
+$$
+1 + 2 ∑_{k=1}^{n-1} \cos^2 k θ_j = n.
+$$
+
+**SOLUTION**
+
+Recall the three term recurrence for the Chebyshev Polynomials $T_n$,
 $$
 \begin{align*}
-	X_n &= Q_n\left[\begin{matrix}
-x_1 \\
-&x_2 \\
-&&\ddots \\
-&&&x_n	
-\end{matrix}
- \right]Q_n^⊤ \\
- &= Q̃_n D̃ \left[\begin{matrix}
-x_1 \\
-&x_2 \\
-&&\ddots \\
-&&&x_n	
-\end{matrix}
- \right] D̃^{-1}Q̃_n^{-1} \\
- &= Q̃_n\left[\begin{matrix}
-x_1 \\
-&x_2 \\
-&&\ddots \\
-&&&x_n	
-\end{matrix}
- \right] D̃ D̃^{-1}Q̃_n^{-1} \\
- &=Q̃_n\left[\begin{matrix}
-\cos\left(\frac{π}{n+1}\right) \\
-&\cos\left(\frac{2π}{n+1}\right) \\
-&&\ddots \\
-&&&\cos\left(\frac{nπ}{n+1}\right)
-\end{matrix}
- \right]Q̃_n^{-1} \\
- &= Q̃_nΛ_nQ̃_n^{-1},
-\end{align*} 
+	xT_0(x) &= T_1(x), \\
+	xT_n(x) &= \frac{T_{n-1}(x)}{2} + \frac{T_{n+1}(x)}{2},
+\end{align*}
 $$
-where, 
+and hence it has the multiplication matrix
 $$
-Q̃_n = \left[\begin{matrix}
-	1 & \cdots & 1\\
-	\frac{\sin\left(2\cdot \frac{2π}{n+1} \right)}{\sin\left(\frac{2π}{n+1}\right)} & \cdots & \frac{\sin\left(2\cdot \frac{nπ}{n+1} \right)}{\sin\left(\frac{nπ}{n+1}\right)} \\
-	\vdots & & \vdots \\
-	\frac{\sin\left(n\cdot \frac{2π}{n+1} \right)}{\sin\left(\frac{2π}{n+1}\right)} & \cdots & \frac{\sin\left( n\cdot \frac{nπ}{n+1} \right)}{\sin\left(\frac{nπ}{n+1}\right)}
-\end{matrix} \right],
+x [T_0 | T_1 | ⋯] = [T_0 | T_1 | ⋯] \underbrace{\begin{bmatrix} 0 & 1/2 \\
+													1 & 0 & 1/2 \\
+														& 1/2 & 0 & ⋱ \\
+														&&⋱ & ⋱
+														\end{bmatrix}}_X
 $$
-and,
+To find the Jacobi matrix we need to symmetrise this, that is, we write
 $$
-Λ_n = \left[\begin{matrix}
-\cos\left(\frac{π}{n+1}\right) \\
-&\cos\left(\frac{2π}{n+1}\right) \\
-&&\ddots \\
-&&&\cos\left(\frac{nπ}{n+1}\right)
-\end{matrix}
- \right]
+[q_0(x) | q_1(x) | ⋯ ] = [T_0(x) | T_1(x)| ⋯] \underbrace{\begin{bmatrix}  α_0 \\ & α_1 \\ && α_2 \\ &&& ⋱ \end{bmatrix}}_K
 $$
+so that
+$$
+x [q_0(x) | q_1(x) | ⋯ ] = [q_0(x) | q_1(x) | ⋯ ] \underbrace{K^{-1} X K}_{J}
+$$
+where
+$$
+ K^{-1} X K = \begin{bmatrix} 0 & α_1/(2α_0) \\
+													α_0/α_1 & 0 & α_2/(2α_1) \\
+														& α_1/(2α_2) & 0 & ⋱ \\
+														&&⋱ & ⋱
+														\end{bmatrix}
+$$
+First recall that the change-of-variables $x = \cos θ$ tells us
+$$
+∫_{-1}^1 {{\rm d}x \over \sqrt{1-x^2}} = π
+$$
+hence $q_0(x) = α_0 =  1/\sqrt{π}$.
+From this we find that
+$$
+{α_0 \over α_1} = {α_1 \over 2α_0} ⇒ α_1 = \sqrt{2/π}.
+$$
+Other equations give us:
+$$
+{α_n \over 2 α_{n+1}} = {α_{n+1} \over 2α_n} ⇒ α_{n+1} = α_n = \sqrt{2/π}.
+$$
+Hence since $α_1/(2α_0) = 1/\sqrt{2}$ and $α_{n+1}/(2α_n) = 1/2$ we have
+$$
+J = \begin{bmatrix} 0 & 1/\sqrt{2} \\
+					1/\sqrt{2} & 0 & 1/2 \\
+					& 1/2 & 0 & 1/2 \\
+					&& ⋱ & ⋱ & ⋱
+					\end{bmatrix}
+$$
+The roots of $q_n(x)$ are the roots of $T_n(x) = \cos n \acos x$, i.e., 
+ $x_j = \cos θ_j$ for $θ_j = (n-j+1/2)π/n$. Thus we know that we can diagonalise $J_n$ as
+$$
+J_n  = Q_n \begin{bmatrix} x_1 \\ & ⋱ \\ && x_n \end{bmatrix} Q_n^⊤
+$$
+where 
+$$
+Q_n = \begin{bmatrix}
+q_0(x_1) & ⋯ & q_0(x_n) \\
+⋮  & ⋯ & ⋮  \\
+q_{n-1}(x_1) & ⋯ & q_{n-1}(x_n)
+\end{bmatrix} \begin{bmatrix} α_1^{-1} \\ & ⋱ \\ && α_n^{-1} \end{bmatrix}
+$$
+where
+$$
+α_j = \sqrt{q_0(x_j)^2 + ⋯ + q_{n-1}(x_j)^2} = {1 \over \sqrt{π}} \sqrt{1 +  2∑_{k=1}^{n-1} \cos k θ_j} = \sqrt{n \over π}.
+$$
+Thus we have
+$$
+\meeq{
+𝐞_1^⊤ Q_n 𝐞_j = {q_0(x_j) \over  α_j} = {1 \over \sqrt{n}} \ccr 
+𝐞_k^⊤ Q_n 𝐞_j = {q_{k-1}(x_j) \over  α_j} = \sqrt{2 \over n} \cos (k-1) θ_j.
+}
+$$
+
 
 **END**
 
 
-**Problem 4(b)** Show for $w(x) = 1/\sqrt{1-x^2}$ that the Gaussian quadrature rule is
+**Problem 6(b)** Show for $w(x) = 1/\sqrt{1-x^2}$ that the Gaussian quadrature rule is
 $$
 Q_n^w[f] = {π \over n} \sum_{j=1}^n f(x_j)
 $$
-where $x_j = \cos(θ_j)$ for $θ_j = (j-1/2)π/n$.
+where $x_j = \cos θ_j$ for $θ_j = (j-1/2)π/n$.
 
 **SOLUTION**
 
@@ -581,53 +575,6 @@ Using a geometric sum (in essentially the same way as the solution of Problem 1.
 
 **END**
 
+**Problem 6(c)** Give an explicit formula for the polynomial that interpolates $\exp x$ at the points $x_1,…,x_n$ as defined above.
 
-**Problem 4(c)** Solve Problem 4.2 from PS8 using **Lemma III.6.3 (discrete orthogonality)** with
-$w(x) = 1/\sqrt{1-x^2}$ on $[-1,1]$. That is, use the connection of $T_n(x)$ with $\cos n θ$ to
-show that the Discrete Cosine Transform
-$$
-C_n := \begin{bmatrix}
-\sqrt{1/n} \\
- & \sqrt{2/n} \\ 
- && ⋱ \\
- &&& \sqrt{2/n}
- \end{bmatrix}
-\begin{bmatrix}
-    1 & ⋯ & 1\\
-    \cos θ_1 & ⋯ & \cos θ_n \\
-    ⋮ & ⋱ & ⋮ \\
-    \cos (n-1)θ_1 & ⋯ & \cos (n-1)θ_n
-\end{bmatrix}
-$$
-for $θ_j = π(j-1/2)/n$ is an orthogonal matrix.
-
-**SOLUTION**
-
-
-By the Lemma 3 (Discrete Orthogonality), we have,
-\begin{align*}
-	Σ_{n}^w[q_lq_m] = \frac{π}{n}\sum_{j=1}^n q_l(x_j)q_m(x_j) = δ_{lm}, \\
-	\sum_{j=1}^n q_l(x_j)q_m(x_j) = \frac{n}{π}δ_{lm},
-\end{align*}
-By the previous question, for the weight $w(x) = \frac{1}{\sqrt{1-x^2}}$ we have $q_0(x_j) = \frac{1}{\sqrt{π}}$, $q_k(x_j) = \sqrt{\frac{2}{π}}\cos(k θ_j).$
-For $l = m = 0$ then we have,
-\begin{align*}
-	\frac{1}{π}\sum_{j=1}^n \cos(l θ_j)\cos(m θ_j) =\sum_{j=1}^nq_l(x_j)q_m(x_j) =  \frac{n}{π}δ_{lm} = \frac{n}{π} \\
-	\Rightarrow \frac{1}{n}\sum_{j=1}^n \cos(l θ_j)\cos(m θ_j) = 1\
-\end{align*}
-Now, for $l = m ≠ 0$, we have,
-\begin{align*}
-	\frac{2}{π}\sum_{j=1}^n \cos(l θ_j)\cos(m θ_j) =\sum_{j=1}^nq_l(x_j)q_m(x_j) =  \frac{n}{π}δ_{lm} = \frac{n}{π} \\
-	\Rightarrow \frac{1}{n}\sum_{j=1}^n \cos(l θ_j)\cos(m θ_j) = \frac{1}{2}\
-\end{align*}
-Finally, for $l ≠ m$, we have,
-$$
-C_{lm}\sum_{j=1}^n\cos(l θ_j)\cos(m θ_j) = \sum_{j=1}^nq_l(x_j )q_m(x_j) = \frac{n}{π}δ_{lm} = 0,
-$$
-for some constant $C_{lm} ≠ 0$ which is $\frac{1}{π}$ if $l = 0$ or $m = 0$ and $\frac{2}{π}$ otherwise (it doesn't matter what it is so long as it is not 0). Therefore, for $l ≠ m$ we have,
-$$
-\frac{1}{n}\sum_{j=1}^n \cos(l θ_j)\cos(m θ_j) = 0
-$$
-
-**END**
 

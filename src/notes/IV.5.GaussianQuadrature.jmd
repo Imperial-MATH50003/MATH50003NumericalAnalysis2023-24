@@ -89,7 +89,7 @@ $$
 \begin{align*}
 Σ_n^{w,𝐱}[1] &= π, Σ_n^{w,𝐱}[x] = 0, Σ_n^{w,𝐱}[x^2] = {π \over 2}, \\
 Σ_n^{w,𝐱}[x^3] &= 0, Σ_n^{w,𝐱}[x^4] &= {3 π \over 8}, Σ_n^{w,𝐱}[x^5] = 0 \\
-Σ_n^{w,𝐱}[x^6] &= {9 π \over 32} ≠ {5 π \over 16}
+Σ_n^{w,𝐱}[x^6] &= {9 π \over 32} ≠ {5 π \over 16}
 \end{align*}
 $$
 We shall explain this miracle in the rest of this section.
@@ -129,7 +129,7 @@ it follows each root must be first order and hence distinct.
 
 We will now relate these roots to truncations of Jacobi matrices.
 
-**Definition (truncated Jacobi matrix)** Given a Jacobi matrix $X$
+**Definition (truncated Jacobi matrix)** Given a Jacobi matrix $J$
 associated with a family of orthonormal polynomials,
  the _truncated Jacobi matrix_ is
 $$
@@ -269,7 +269,7 @@ In analogy to how Fourier series are orthogonal with respect to the Trapezium ru
 Orthogonal polynomials are orthogonal with respect to Gaussian quadrature:
 
 **Lemma (Discrete orthogonality)**
-For $0 ≤ ℓ,m ≤ n-1$, the orthonormal polynomials $q_n(x)$ satisfy
+For $0 ≤ ℓ,m ≤ n-1$, the orthonormal polynomials $q_n(x)$ satisfy
 $$
 Σ_n^w[q_ℓ q_m] = δ_{ℓm}
 $$

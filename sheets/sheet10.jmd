@@ -2,7 +2,7 @@
 
 
 
-**Problem 2(a)** What are the upper $3 × 3$ sub-block of the Jacobi matrix for the 
+**Problem 1** What are the upper $3 × 3$ sub-block of the Jacobi matrix for the 
 monic and orthonormal polynomials with respect to the following weights on
 $[-1,1]$:
 $$
@@ -12,21 +12,20 @@ $$
 
 
 
-**Problem 2(b)** Compute the roots of the Legendre polynomial $P_3(x)$, orthogonal with respect
+**Problem 2** Compute the roots of the Legendre polynomial $P_3(x)$, orthogonal with respect
 to $w(x) = 1$ on $[-1,1]$, by computing the eigenvalues of a $3 × 3$ truncation
 of the Jacobi matrix.
 
 
 
------
 
 
-**Problem 3(a)** Compute the interpolatory quadrature rule for
+**Problem 3** Compute the interpolatory quadrature rule for
 $w(x) = \sqrt{1-x^2}$ with the points $[-1,1/2,1]$.
 
 
 
-**Problem 3(b)** Compute the 2-point 
+**Problem 4** Compute the 2-point 
 interpolatory quadrature rule associated with roots of orthogonal polynomials for the weights $\sqrt{1-x^2}$, $1$, 
 and $1-x$ on $[-1,1]$ by integrating the Lagrange bases.
 
@@ -34,53 +33,49 @@ and $1-x$ on $[-1,1]$ by integrating the Lagrange bases.
 
 
 
-**Problem 3(b)** Compute the 2-point and 3-point Gaussian quadrature rules associated with $w(x) = 1$ on $[-1,1]$. 
+**Problem 5** Compute the 2-point and 3-point Gaussian quadrature rules associated with $w(x) = 1$ on $[-1,1]$. 
 
 
 
------
 
 
-**Problem 4(a)** Give an explicit diagonalisation of
+**Problem 6(a)** For the matrix
 $$
-X_n = \begin{bmatrix} 0 & 1/2 \\ 
-                1/2 & 0 & ⋱  \\
-                & ⋱ & ⋱ & 1/2 \\
-                && 1/2 & 0
+J_n = \begin{bmatrix} 0 & 1/\sqrt{2} \\ 
+                1/\sqrt{2} & 0 & 1/2 \\
+				& 1/2 & 0 & ⋱  \\
+                && ⋱ & ⋱ & 1/2 \\
+                &&& 1/2 & 0
                 \end{bmatrix} ∈ ℝ^{n × n}
 $$
-for all $n$ by relating it to the Jacobi matrix for $U_n(x)$.
+use the relationship with the Jacobi matrix associated with $T_n(x)$ to prove that
+$$
+J_n = Q_n \begin{bmatrix} x_1 \\ & ⋱ \\ && x_n \end{bmatrix} Q_n^⊤
+$$
+where
+$$
+\meeq{
+𝐞_1^⊤ Q_n 𝐞_j = {1 \over \sqrt{n}}, \qquad
+𝐞_k^⊤ Q_n 𝐞_j = \sqrt{2 \over n} \cos (k-1) θ_j,
+}
+$$
+for $x_j = \cos θ_j$, and $θ_j = (n-j+1/2)π/n$ for $j = 1,…,n$.
+You may use without proof the sums-of-squares formula
+$$
+1 + 2 ∑_{k=1}^{n-1} \cos^2 k θ_j = n.
+$$
 
 
 
 
-**Problem 4(b)** Show for $w(x) = 1/\sqrt{1-x^2}$ that the Gaussian quadrature rule is
+**Problem 6(b)** Show for $w(x) = 1/\sqrt{1-x^2}$ that the Gaussian quadrature rule is
 $$
 Q_n^w[f] = {π \over n} \sum_{j=1}^n f(x_j)
 $$
-where $x_j = \cos(θ_j)$ for $θ_j = (j-1/2)π/n$.
+where $x_j = \cos θ_j$ for $θ_j = (j-1/2)π/n$.
 
 
 
-
-**Problem 4(c)** Solve Problem 4.2 from PS8 using **Lemma III.6.3 (discrete orthogonality)** with
-$w(x) = 1/\sqrt{1-x^2}$ on $[-1,1]$. That is, use the connection of $T_n(x)$ with $\cos n θ$ to
-show that the Discrete Cosine Transform
-$$
-C_n := \begin{bmatrix}
-\sqrt{1/n} \\
- & \sqrt{2/n} \\ 
- && ⋱ \\
- &&& \sqrt{2/n}
- \end{bmatrix}
-\begin{bmatrix}
-    1 & ⋯ & 1\\
-    \cos θ_1 & ⋯ & \cos θ_n \\
-    ⋮ & ⋱ & ⋮ \\
-    \cos (n-1)θ_1 & ⋯ & \cos (n-1)θ_n
-\end{bmatrix}
-$$
-for $θ_j = π(j-1/2)/n$ is an orthogonal matrix.
-
+**Problem 6(c)** Give an explicit formula for the polynomial that interpolates $\exp x$ at the points $x_1,…,x_n$ as defined above.
 
 
