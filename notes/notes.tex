@@ -305,6 +305,47 @@ and many other applications.
 \input{IV.5.GaussianQuadrature}
 
 
+\chapter{Future Directions}
+
+In these notes we explored some basic numerical algorithms for integration, differentiation, root-finding, solving differential equations, and
+polynomial regression.
+We further saw that rigorous computations and analysis could be deduced by understanding floating point arithmetic, and its usage in
+constructing interval arithmetic.
+We also saw the relationship between these problems and numerical linear algebra, exploring some fundamental algorithms for solving linear
+systems and least squares problems.  We concluded by introducing computational techniques for Fourier series and orthogonal polynomials. 
+Gaussian quadrature was a final example where more sophisticated mathematics can lead to more powerful numerical algorithms,
+achieving exponential convergence for smooth functions.
+
+This sets the ground work for many areas of computational, applied and even pure mathematics:
+
+\begin{enumerate}
+\item Machine Learning (ML): Dual numbers (forward-mode automatic differentiation), Newton's method, and polynomial regression
+ are baby versions of how ML trains neural networks.  As an example, consider a neural network trained to recognise whether a picture
+ is a cat or dog. On a basic level the neural network is a function with many parameters that maps from the set of images to ``cat" or ``dog". 
+ The process of training is essentially regression: find the right parameters so that our function equals (or approximately equals) the
+ training data at the given ``samples". Since this problem is nonlinear its not as simple as least squares, instead, it relies on more sophisticated
+ optimisation techniques, that require automatic differentiation to compute gradients for the parameters.
+\item \href{https://sciml.ai}{Scientific Machine Learning (SciML)}: A particular exciting field is the combination of ML and traditional numerical algorithms for differential equations.
+For example, if one is doing climate modelling it is possible to combine differential equations that capture physics with a neural network  trained to 
+fit real-world data. This is an area where Julia has excelled as it allows high-level, differentiable, code that is compiled and hence efficient.
+ \item Computer-assisted proofs: By combining interval arithmetic with methods for solving differential equations important theorems in dynamical
+ systems and elsewhere have been proven. The synthesis of numerical analysis and pure mathematics is really just at the beginning and will likely
+ become increasingly important as we run into the limits of what theorems humans can prove without computer assistance.
+\item Finite Element Methods (FEM): going beyond finite differences, finite elements are powerful techniques for solving partial differential
+equations using specially designed bases built from piecewise polynomials. Gaussian quadrature is a basic tool used to set up the
+sparse linear systems that result from this approach. \href{https://www.firedrakeproject.org}{Firedrake} is a software package for
+PDEs based on FEM that is developed at Imperial.
+\item Spectral methods: orthogonal polynomials in higher dimensions and spherical harmonics (which can be viewed as Fourier series on the sphere)
+underly spectral methods, which are powerful high-accuracy techniques for solving PDEs, used a lot in fluid simulations which
+need more accuracy than conventional FEM allows. \href{https://dedalus-project.org}{Dedalus} is a software package for
+solving fluids problems using spectral methods. At a more basic level \href{https://www.chebfun.org}{Chebfun} and my package 
+\href{https://juliaapproximation.github.io/ApproxFun.jl/latest/}{ApproxFun} give a user friendly way of computing with functions built
+on orthogonal polynomials.
+\end{enumerate}
+
+
+
+
 \appendix
 
 \chapter{Asymptotics and Computational Cost}

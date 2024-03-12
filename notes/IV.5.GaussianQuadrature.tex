@@ -1,9 +1,9 @@
 
 \section{Gaussian Quadrature}
-Quadrature is another name for numerical integration. In this section we see that a special quadrature rule can be constructed by using the roots of orthogonal polynomials, leading to a method that is exact for polynomials of twice the expected degree. Importantly, we can use quadrature to compute expansions in orthogonal polynomials that interpolate,  mirroring the link between the Trapezium rule, Fourier series, and interpolation but now for orthogonal polynomials.
+Quadrature is another name for numerical integration, and we have already seen examples such as the Rectangular and Trapezium Rules. In this section we see that a special quadrature rule can be constructed by using the roots of orthogonal polynomials, leading to a method that is exact for polynomials of twice the expected degree. Importantly, we can use quadrature to compute expansions in orthogonal polynomials that interpolate,  mirroring the link between the Trapezium rule, Fourier series, and interpolation but now for orthogonal polynomials.
 
 \subsection{Interpolatory quadrature rules}
-We begin by introducing a type of quadrature rule where one integrates an interpolatory polynomial exactly. This can be viewed as an extension of one-panel rectangle rules (which are degree 0 interpolants at a single point) and Trapezium rules (which are degree 1 interpolants at two points).  Using the Lagrange basis for interpolation we can write general interpolatory quadrature rules as a simple weighted sum:
+We begin by introducing a general type of quadrature rule where one integrates an interpolatory polynomial exactly. This can be viewed as an extension of one-panel Rectangular Rules (which are degree 0 interpolants at a single point) and Trapezium Rules (which are degree 1 interpolants at two points).  Using the Lagrange basis for interpolation we can write general interpolatory quadrature rules as a simple weighted sum:
 
 \begin{definition}[interpolatory quadrature rule] Given a set of points $\ensuremath{\bm{\x}} = [x_1,\ensuremath{\ldots},x_n]$ the interpolatory quadrature rule is:
 \[
@@ -11,7 +11,7 @@ We begin by introducing a type of quadrature rule where one integrates an interp
 \]
 where
 \[
-w_j := \ensuremath{\int}_a^b \ensuremath{\ell}_j(x) w(x) {\rm d} x
+w_j := \ensuremath{\int}_a^b \ensuremath{\ell}_j(x) w(x) {\rm d} x.
 \]
 \end{definition}
 
@@ -38,7 +38,7 @@ w_3 = \int_0^1 w(x) \ensuremath{\ell}_3(x) {\rm d}x  = \int_0^1 {x(x-1/4) \over 
 \end{align*}
 That is we have
 \[
-\ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[f]  = -{f(0) \over 6} + {8f(1/4) \over 9} + {5 f(1) \over 18}
+\ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[f]  = -{f(0) \over 6} + {8f(1/4) \over 9} + {5 f(1) \over 18}.
 \]
 This is indeed exact for polynomials up to degree $2$ (and no more):
 \[
@@ -48,7 +48,7 @@ This is indeed exact for polynomials up to degree $2$ (and no more):
 
 \begin{example}[Chebyshev roots] We now find the interpolatory quadrature rule for $w(x) = 1/\sqrt{1-x^2}$ on $[-1,1]$ with points equal to the roots of $T_3(x)$. This is a special case of Gaussian quadrature which we will approach in another way below. We use:
 \[
-\int_{-1}^1 w(x) {\rm d}x = \ensuremath{\pi}, \int_{-1}^1 xw(x) {\rm d}x = 0, \int_{-1}^1 x^2 w(x) {\rm d}x = {\ensuremath{\pi}/2}
+\int_{-1}^1 w(x) {\rm d}x = \ensuremath{\pi}, \int_{-1}^1 xw(x) {\rm d}x = 0, \int_{-1}^1 x^2 w(x) {\rm d}x = {\ensuremath{\pi} \over 2}.
 \]
 Recall from before that $x_1,x_2,x_3 = \sqrt{3}/2,0,-\sqrt{3}/2$. Thus we have:
 \begin{align*}
@@ -58,7 +58,7 @@ w_3 = \int_{-1}^1 w(x) \ensuremath{\ell}_3(x) {\rm d}x = \int_{-1}^1 {(x-\sqrt{3
 \end{align*}
 (It's not a coincidence that they are all the same but this will differ for roots of other OPs.)  That is we have
 \[
-\ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[f]  = {\ensuremath{\pi} \over 3}(f(\sqrt{3}/2) + f(0) + f(-\sqrt{3}/2)
+\ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[f]  = {\ensuremath{\pi} \over 3}\br[ f(\sqrt{3}/2) + f(0) + f(-\sqrt{3}/2) ].
 \]
 This is indeed exact for polynomials up to degree $n-1=2$, but it goes all the way up to $2n-1 = 5$:
 \begin{align*}
@@ -66,17 +66,17 @@ This is indeed exact for polynomials up to degree $n-1=2$, but it goes all the w
 \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x^3] &= 0, \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x^4] &= {3 \ensuremath{\pi} \over 8}, \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x^5] = 0 \\
 \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x^6] &= {9 \ensuremath{\pi} \over 32} \ensuremath{\neq} {5 \ensuremath{\pi} \over 16}
 \end{align*}
-We shall explain this miracle in the next chapter. \end{example}
+We shall explain this miracle in the rest of this section. \end{example}
 
 \subsection{Roots of orthogonal polynomials and truncated Jacobi matrices}
-We now consider roots (zeros) of orthogonal polynomials $p_n(x)$. This is important as we shall see they are useful for interpolation and quadrature. For interpolation to be well-defined we first need to guarantee that the roots are distinct.
+We now consider roots (zeros) of orthogonal polynomials $p_n(x)$ which will be essential to constructing Gaussian quadrature, via interpolation at these points. For interpolation to be well-defined we first need to guarantee that the roots are distinct.
 
 \begin{lemma}[OP roots] An orthogonal polynomial $p_n(x)$ has exactly $n$ distinct roots.
 
 \end{lemma}
 \textbf{Proof}
 
-Suppose $x_1, \ensuremath{\ldots},x_j$ are the roots where $q_n(x)$ changes sign, that is,
+Suppose $x_1, \ensuremath{\ldots},x_j$ are the roots where $q_n(x)$ changes sign, i.e., the order of the root must be odd and hence
 \[
 p_n(x) = c_k (x-x_k)^{2p+1} + O((x-x_k)^{2p+2})
 \]
@@ -88,7 +88,7 @@ does not change signs: it behaves like $c_k (x-x_k)^{2p+2} + O(x-x_k)^{2p+3}$ as
 \[
 \ensuremath{\langle}p_n,(x-x_1) \ensuremath{\cdots}(x-x_j) \ensuremath{\rangle} = \int_a^b p_n(x) (x-x_1) \ensuremath{\cdots}(x-x_j) w(x) {\rm d} x \ensuremath{\neq} 0.
 \]
-where $w(x)$ is the weight of orthogonality. This is only possible if $j = n$ as $p_n(x)$ is orthogonal w.r.t. all lower degree polynomials.
+where $w(x)$ is the weight of orthogonality. This is only possible if $j = n$ as $p_n(x)$ is orthogonal w.r.t. all lower degree polynomials and hence otherwise this integral would be zero. Since $p_n(x)$ is exactly degree $n$ it follows each root must be first order and hence distinct.
 
 \ensuremath{\QED}
 
@@ -134,27 +134,37 @@ b_{n-2} q_{n-2}(x_j) + a_{n-1} q_{n-1}(x_j) + b_{n-1} q_n(x_j)
 q_{n-1}(x_j)
 \end{bmatrix}
 \]
-The result follows from normalising the eigenvectors. Since $J_n$ is symmetric the eigenvector matrix is orthogonal.
-
+The sepctral theorem guarantees that all symmetric matrices have an orthogonal eigenvector matrix.  That is, by scaling the columns of the eigenvectors we know there must exist $\ensuremath{\alpha}_j$ so that 
+\[
+Q_n = \underbrace{\begin{bmatrix}
+q_0(x_1) & \ensuremath{\cdots} & q_0(x_n) \\
+\ensuremath{\vdots}  & \ensuremath{\cdots} & \ensuremath{\vdots}  \\
+q_{n-1}(x_1) & \ensuremath{\cdots} & q_{n-1}(x_n)
+\end{bmatrix}}_{V_n^\ensuremath{\top}} \begin{bmatrix} \ensuremath{\alpha}_1^{-1} \\ & \ensuremath{\ddots} \\ && \ensuremath{\alpha}_n^{-1} \end{bmatrix}
+\]
+is orthogonal. We choose $\ensuremath{\alpha}_j$ so that
+\[
+\ensuremath{\bm{\e}}_j^\ensuremath{\top} Q_n^\ensuremath{\top} Q_n \ensuremath{\bm{\e}}_j = {\ensuremath{\sum}_{k=0}^{n-1} q_k(x_j)^2 \over \ensuremath{\alpha}_j^2} = 1.
+\]
 \ensuremath{\QED}
 
 \begin{example}[Chebyshev roots] Consider $T_n(x) = \cos n {\rm acos}\, x$. The roots  are $x_j = \cos \ensuremath{\theta}_j$ where $\ensuremath{\theta}_j = (j-1/2)\ensuremath{\pi}/n$ for $j = 1,\ensuremath{\ldots},n$ are the roots of $\cos n \ensuremath{\theta}$ that are inside $[0,\ensuremath{\pi}]$. 
 
 Consider the $n = 3$ case where we have
 \[
-x_1,x_2,x_3 = \cos(\ensuremath{\pi}/6),\cos(\ensuremath{\pi}/2),\cos(5\ensuremath{\pi}/6) = \sqrt{3}/2,0,-\sqrt{3/2}
+x_1,x_2,x_3 = \cos(\ensuremath{\pi}/6),\cos(\ensuremath{\pi}/2),\cos(5\ensuremath{\pi}/6) = \sqrt{3}/2,0,-\sqrt{3}/2
 \]
 We also have from the 3-term recurrence:
-\begin{align*}
-T_0(x) = 1 \\
-T_1(x) = x \\
-T_2(x) = 2x T_1(x) - T_0(x) = 2x^2-1 \\
-T_3(x) = 2x T_2(x) - T_1(x) = 4x^3-3x
-\end{align*}
+\meeq{
+T_0(x) = 1, \ccr
+T_1(x) = x, \ccr
+T_2(x) = 2x T_1(x) - T_0(x) = 2x^2-1, \ccr
+T_3(x) = 2x T_2(x) - T_1(x) = 4x^3-3x.
+}
 We orthonormalise by rescaling
 \begin{align*}
-q_0(x) &= 1/\sqrt{\ensuremath{\pi}} \\
-q_k(x) &= T_k(x) \sqrt{2}/\sqrt{\ensuremath{\pi}}
+q_0(x) &= 1/\sqrt{\ensuremath{\pi}}, \\
+q_k(x) &= T_k(x) \sqrt{2}/\sqrt{\ensuremath{\pi}}.
 \end{align*}
 so that the Jacobi matrix is symmetric:
 \[
@@ -176,7 +186,7 @@ We can then confirm that we have constructed an eigenvector/eigenvalue of the $3
 1/\sqrt{2} & 0 & 1/2 \\
     & 1/2 & 0\end{bmatrix} \begin{bmatrix} 1 \\ 0 \\ -{\sqrt{2}}
     \end{bmatrix} =\begin{bmatrix} 0 \\ 0 \\ 0
-    \end{bmatrix}
+    \end{bmatrix}.
 \]
 \end{example}
 
@@ -191,11 +201,11 @@ where $x_1,\ensuremath{\ldots},x_n$ are the roots of the orthonormal polynomials
 \[
 w_j := {1 \over \ensuremath{\alpha}_j^2} = {1 \over q_0(x_j)^2 + \ensuremath{\cdots} + q_{n-1}(x_j)^2}.
 \]
-Equivalentally, $x_1,\ensuremath{\ldots},x_n$ are the eigenvalues of $J_n$ and
+Equivalentally, $x_1,\ensuremath{\ldots},x_n$ are the eigenvalues of $J_n$ and $w_j$ can be written in terms of the eigenvectors and the integral of the weight:
 \[
-w_j = \ensuremath{\int}_a^b w(x) {\rm d}x Q_n[1,j]^2.
+w_j = \ensuremath{\int}_a^b w(x) {\rm d}x \underbrace{q_0(x_j)^2/\ensuremath{\alpha}_j^2}_{Q_n[1,j]^2}.
 \]
-(Note we have $\ensuremath{\int}_a^b w(x) {\rm d} x q_0(x)^2 = 1$.) \end{definition}
+\end{definition}
 
 In analogy to how Fourier series are orthogonal with respect to the Trapezium rule, Orthogonal polynomials are orthogonal with respect to Gaussian quadrature:
 
@@ -207,7 +217,7 @@ In analogy to how Fourier series are orthogonal with respect to the Trapezium ru
 \textbf{Proof}
 \[
 \ensuremath{\Sigma}_n^w[q_\ensuremath{\ell} q_m] = \ensuremath{\sum}_{j=1}^n {q_\ensuremath{\ell}(x_j) q_m(x_j) \over \ensuremath{\alpha}_j^2}
-= \left[q_\ensuremath{\ell}(x_1)/ \ensuremath{\alpha}_1 | \ensuremath{\cdots} | {q_\ensuremath{\ell}(x_n)/ \ensuremath{\alpha}_n}\right] 
+= \left[{q_\ensuremath{\ell}(x_1)\over \ensuremath{\alpha}_1} | \ensuremath{\cdots} | {q_\ensuremath{\ell}(x_n) \over \ensuremath{\alpha}_n}\right] 
 \begin{bmatrix}
 q_m(x_1)/\ensuremath{\alpha}_1 \\
 \ensuremath{\vdots} \\
@@ -224,9 +234,7 @@ f_n(x) := \ensuremath{\sum}_{k=0}^{n-1} c_k^n q_k(x)\hbox{ for } c_k^n := \ensur
 interpolates $f(x)$ at the Gaussian quadrature points $x_1,\ensuremath{\ldots},x_n$.
 
 \end{theorem}
-\textbf{Proof}
-
-Consider the Vandermonde-like matrix from above:
+\textbf{Proof} Consider the Vandermonde-like matrix from above:
 \[
 V_n := \begin{bmatrix} q_0(x_1) & \ensuremath{\cdots} & q_{n-1}(x_1) \\
                 \ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
@@ -258,11 +266,15 @@ But we see that (similar to the Fourier case)
 Q_n^w V_n = \begin{bmatrix} \ensuremath{\Sigma}_n^w[q_0 q_0] & \ensuremath{\cdots} & \ensuremath{\Sigma}_n^w[q_0 q_{n-1}]\\
                 \ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
                 \ensuremath{\Sigma}_n^w[q_{n-1} q_0] & \ensuremath{\cdots} & \ensuremath{\Sigma}_n^w[q_{n-1} q_{n-1}]
-                \end{bmatrix} = I_n
+                \end{bmatrix} = I
+\]
+and hence $V_n^{-1} = Q_n^w$ and we have
+\[
+f_n(x_j) = [q_0(x_j) | \ensuremath{\cdots} | q_{n-1}(x_j)] Q_n^w \Vectt[f(x_1),\ensuremath{\vdots},f(x_n)] = \ensuremath{\bm{\e}}_j^\ensuremath{\top} V_n  Q_n^w \Vectt[f(x_1),\ensuremath{\vdots},f(x_n)] = f(x_j).
 \]
 \ensuremath{\QED}
 
-\begin{example}[Chebyshev expansions]  Consider the construction of Gaussian quadrature associated with the Chebyshev weight for $n = 3$.  To determine the weights we need:
+\begin{example}[Chebyshev expansions]  Consider the construction of Gaussian quadrature associated with the Chebyshev weight for $n = 3$.  To determine the weights we need we compute
 \[
 w_j^{-1} = \ensuremath{\alpha}_j^2 = q_0(x_j)^2 + q_1(x_j)^2 + q_2(x_j)^2 = 
 {1 \over \ensuremath{\pi}} + {2 \over \ensuremath{\pi}} x_j^2 + {2 \over \ensuremath{\pi}} (2x_j^2-1)^2
@@ -310,7 +322,7 @@ which can be easily confirmed. \end{example}
 
 \begin{corollary}[Gaussian quadrature is interpolatory] Gaussian quadrature is an interpolatory quadrature rule with the interpolation points equal to the roots of $q_n$:
 \[
-\ensuremath{\Sigma}_n^w[f] = \ensuremath{\int}_a^b f_n(x) w(x) {\rm d}x 
+\ensuremath{\Sigma}_n^w[f] = \ensuremath{\int}_a^b f_n(x) w(x) {\rm d}x.
 \]
 \end{corollary}
 \textbf{Proof} We want to show that its the same as integrating the interpolatory polynomial:
@@ -364,6 +376,8 @@ However,
 \ensuremath{\Sigma}_n^w[x^6] = {9 \ensuremath{\pi} \over 64} \ensuremath{\neq} {5 \ensuremath{\pi} \over 16}
 \]
 hence it is incorrect for larger degree polynomials. \end{example}
+
+Going beyond polynomials,  Gaussian quadrature achieves faster than algebraic convergence for any smooth function.  If the function is analytic in a neighbourhood of the support of the interval this is in fact exponential convergence, far exceeding the convergence rate observed for rectangular and Trapezium rules.  This is a beautiful example of more sophisticated mathematics leading to powerful numerical methods.
 
 
 
