@@ -68,7 +68,7 @@ p(x) = f_1 \ensuremath{\ell}_1(x) + \ensuremath{\cdots} + f_n \ensuremath{\ell}_
 \end{theorem}
 \textbf{Proof} Note that
 \[
-p(x_j) = \ensuremath{\sum}_{j=1}^n f_j \ensuremath{\ell}_k(x_j) = f_j.
+p(x_j) = \ensuremath{\sum}_{k=1}^n f_k \ensuremath{\ell}_k(x_j) = f_j.
 \]
 \ensuremath{\QED}
 
@@ -81,7 +81,7 @@ p(x) &= \ensuremath{\ell}_1(x) + {\rm e} \ensuremath{\ell}_2(x) + {\rm e}^2 \ens
 \end{align*}
 \end{example}
 
-\textbf{Remark} Interpolating at evenly spaced points is a really \emph{bad} idea: interpolation is inheritely ill-conditioned. The labs will explore this issue experimentally. Another serious issue is that monomials are a horrible basis for interpolation. This is intuitive: when $n$ is large $x^n$ is basically zero near the origin and hence $x_j^n$ numerically lose linear independence, that is, on a computer they appear to be linearly dependent (up to rounding errors). We will discuss alternative bases in Part IV.
+\textbf{Remark} Interpolating at evenly spaced points is a really \emph{bad} idea: interpolation is inherently ill-conditioned. The labs will explore this issue experimentally. Another serious issue is that monomials are a horrible basis for interpolation. This is intuitive: when $n$ is large $x^n$ is basically zero near the origin and hence $x_j^n$ numerically lose linear independence, that is, on a computer they appear to be linearly dependent (up to rounding errors). We will discuss alternative bases in Part IV.
 
 \subsection{Polynomial regression}
 In many settings interpolation is not an accurate or appropriate tool. Data is often on an evenly spaced grid in which case (as seen in the labs) interpolation breaks down catastrophically. Or the data is noisy and one ends up over resolving: approximating the noise rather than the signal. A simple solution is \emph{polynomial regression} use more sample points than than the degrees of freedom in the polynomial. The special case of an affine polynomial is called \emph{linear regression}.

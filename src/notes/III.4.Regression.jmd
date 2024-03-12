@@ -86,7 +86,7 @@ $$
 **Proof**
 Note that
 $$
-p(x_j) = ∑_{j=1}^n f_j ℓ_k(x_j) = f_j.
+p(x_j) = ∑_{k=1}^n f_k ℓ_k(x_j) = f_j.
 $$
 ∎
 
@@ -104,7 +104,7 @@ $$
 
 
 **Remark** Interpolating at evenly spaced points is a really _bad_ idea:
-interpolation is inheritely ill-conditioned.
+interpolation is inherently ill-conditioned.
 The labs will explore this issue experimentally. Another
 serious issue is that monomials are a horrible basis for interpolation. This is intuitive: when $n$ is large $x^n$ is basically zero near the origin and hence $x_j^n$ numerically lose linear independence, that is, on a computer they appear to be linearly dependent (up to rounding errors). We will discuss alternative bases in Part IV.
 
