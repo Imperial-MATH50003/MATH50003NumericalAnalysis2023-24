@@ -260,17 +260,17 @@ p_n(x) = \ensuremath{\alpha} s_n q_n(x).
 \textbf{Proof} First, assume $p_n(x)$ has the specified form. Noting that $\|q_n\|^2 = 1$ and thence $\|p_n\|^2 = \ensuremath{\alpha}^2$, if $p_n(x) = \ensuremath{\alpha} s_n q_n(x)$ we have
 \[
 b_n = {\ensuremath{\langle}xp_n, p_{n+1}\ensuremath{\rangle} \over \|p_{n+1}\|^2} = s_n s_{n+1} \ensuremath{\langle}x q_n, q_{n+1}\ensuremath{\rangle} =
-s_n s_{n+1} \ensuremath{\langle}q_n, x q_{n+1}\ensuremath{\rangle} = {\ensuremath{\langle}p_n, xp_{n+1}\ensuremath{\rangle} \over \|p_n\|^2} = c_{n-1}
+s_n s_{n+1} \ensuremath{\langle}q_n, x q_{n+1}\ensuremath{\rangle} = {\ensuremath{\langle}p_n, xp_{n+1}\ensuremath{\rangle} \over \|p_n\|^2} = c_{n}
 \]
 and therefore $X$ is symmetric.
 
-Conversely, suppose $X = X^\ensuremath{\top}$, i.e., $b_n = c_{n-1}$ and write the corresponding orthogonal polynomials as $p_n(x) = \ensuremath{\alpha}_n q_n(x)$. We have
+Conversely, suppose $X = X^\ensuremath{\top}$, i.e., $b_n = c_{n}$ and write the corresponding orthogonal polynomials as $p_n(x) = \ensuremath{\alpha}_n q_n(x)$. We have
 \meeq{
 b_n = {\ensuremath{\langle}xp_n, p_{n+1}\ensuremath{\rangle} \over \|p_{n+1}\|^2} =
 {\ensuremath{\alpha}_n \over \ensuremath{\alpha}_{n+1}} \ensuremath{\langle}xq_n, q_{n+1}\ensuremath{\rangle} =
 {\ensuremath{\alpha}_n \over \ensuremath{\alpha}_{n+1}} \ensuremath{\langle}q_n, x q_{n+1}\ensuremath{\rangle} = {\ensuremath{\alpha}_n^2 \over \ensuremath{\alpha}_{n+1}^2} {\ensuremath{\langle}p_n, xp_{n+1}\ensuremath{\rangle} \over \|p_n\|^2}
 \ccr
-= {\ensuremath{\alpha}_n^2 \over \ensuremath{\alpha}_{n+1}^2} c_{n-1} = {\ensuremath{\alpha}_n^2 \over \ensuremath{\alpha}_{n+1}^2} b_n.
+= {\ensuremath{\alpha}_n^2 \over \ensuremath{\alpha}_{n+1}^2} c_{n} = {\ensuremath{\alpha}_n^2 \over \ensuremath{\alpha}_{n+1}^2} b_n.
 }
 Hence $\ensuremath{\alpha}_n^2 = \ensuremath{\alpha}_{n+1}^2$ which implies that $\ensuremath{\alpha}_{n+1} = \ensuremath{\pm} \ensuremath{\alpha}_n$. By induction the result follows, where $\ensuremath{\alpha} := \ensuremath{\alpha}_0$. \ensuremath{\QED}
 
