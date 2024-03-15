@@ -838,7 +838,7 @@ uf = A\[c; f.(x[2:end])]
 # **Problem 5(b)** Implement indefinite-integration
 # where we impose the equation on the midpoints $x̃_1,…,x̃_n$ defined as
 # $$
-# x̃_j = {x_{j+1} + x_j \over 2} = a + (j+1/2)h
+# x̃_j = {x_{j+1} + x_j \over 2} = a + (j-1/2)h
 # $$
 # using the central difference formula
 # $$
@@ -862,7 +862,7 @@ A = Bidiagonal([1; fill(1/h, n)], fill(-1/h, n), :L)
 c = 0 # u(0) = 0
 f = x -> cos(x)
 
-x̃ = (x[2:end] + x[1:end-1])/2
+x̃ = (x[2:end] + x[1:end-1])/2 # could also be made with a comprehension
 𝐟 = f.(x̃) # evaluate f at all but last points
 𝐮 = A \ [c; 𝐟]
 

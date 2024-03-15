@@ -665,7 +665,7 @@ plot!(ns, ns .^ (-1); label="1/n", linestyle=:dash)
 # **Problem 5(b)** Implement indefinite-integration
 # where we impose the equation on the midpoints $x̃_1,…,x̃_n$ defined as
 # $$
-# x̃_j = {x_{j+1} + x_j \over 2} = a + (j+1/2)h
+# x̃_j = {x_{j+1} + x_j \over 2} = a + (j-1/2)h
 # $$
 # using the central difference formula
 # $$
