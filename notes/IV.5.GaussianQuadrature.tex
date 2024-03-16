@@ -1,0 +1,383 @@
+
+\section{Gaussian Quadrature}
+Quadrature is another name for numerical integration, and we have already seen examples such as the Rectangular and Trapezium Rules. In this section we see that a special quadrature rule can be constructed by using the roots of orthogonal polynomials, leading to a method that is exact for polynomials of twice the expected degree. Importantly, we can use quadrature to compute expansions in orthogonal polynomials that interpolate,  mirroring the link between the Trapezium rule, Fourier series, and interpolation but now for orthogonal polynomials.
+
+\subsection{Interpolatory quadrature rules}
+We begin by introducing a general type of quadrature rule where one integrates an interpolatory polynomial exactly. This can be viewed as an extension of one-panel Rectangular Rules (which are degree 0 interpolants at a single point) and Trapezium Rules (which are degree 1 interpolants at two points).  Using the Lagrange basis for interpolation we can write general interpolatory quadrature rules as a simple weighted sum:
+
+\begin{definition}[interpolatory quadrature rule] Given a set of points $\ensuremath{\bm{\x}} = [x_1,\ensuremath{\ldots},x_n]$ the interpolatory quadrature rule is:
+\[
+\ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[f] := \ensuremath{\sum}_{j=1}^n w_j f(x_j)
+\]
+where
+\[
+w_j := \ensuremath{\int}_a^b \ensuremath{\ell}_j(x) w(x) {\rm d} x.
+\]
+\end{definition}
+
+\begin{proposition}[interpolatory quadrature is exact for polynomials]  Interpolatory quadrature is exact for all degree $n-1$ polynomials $p$:
+\[
+\ensuremath{\int}_a^b p(x) w(x) {\rm d}x = \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[p]
+\]
+\end{proposition}
+\textbf{Proof} The result follows since, by uniqueness of interpolatory polynomial, if $p$ is a polynomial then
+\[
+p(x) = \ensuremath{\sum}_{j=1}^n p(x_j) \ensuremath{\ell}_j(x)
+\]
+Hence
+\[
+\ensuremath{\int}_a^b p(x) w(x) {\rm d}x = \ensuremath{\sum}_{j=1}^n p(x_j) \int_a^b \ensuremath{\ell}_j(x) w(x) {\rm d}x = \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[p].
+\]
+\ensuremath{\QED}
+
+\begin{example}[3-point interpolatory quadrature] We find the interpolatory quadrature rule for $w(x) = 1$ on $[0,1]$ with  points $[x_1,x_2,x_3] = [0,1/4,1]$. We have:
+\begin{align*}
+w_1 = \int_0^1 w(x) \ensuremath{\ell}_1(x) {\rm d}x  = \int_0^1 {(x-1/4)(x-1) \over (-1/4)(-1)}{\rm d}x = -1/6 \\
+w_2 = \int_0^1 w(x) \ensuremath{\ell}_2(x) {\rm d}x  = \int_0^1 {x(x-1) \over (1/4)(-3/4)}{\rm d}x = 8/9 \\
+w_3 = \int_0^1 w(x) \ensuremath{\ell}_3(x) {\rm d}x  = \int_0^1 {x(x-1/4) \over 3/4}{\rm d}x = 5/18
+\end{align*}
+That is we have
+\[
+\ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[f]  = -{f(0) \over 6} + {8f(1/4) \over 9} + {5 f(1) \over 18}.
+\]
+This is indeed exact for polynomials up to degree $2$ (and no more):
+\[
+\ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[1] = 1, \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x] = 1/2, \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x^2] = 1/3, \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x^3] = 7/24 \ensuremath{\neq} 1/4.
+\]
+\end{example}
+
+\begin{example}[Chebyshev roots] We now find the interpolatory quadrature rule for $w(x) = 1/\sqrt{1-x^2}$ on $[-1,1]$ with points equal to the roots of $T_3(x)$. This is a special case of Gaussian quadrature which we will approach in another way below. We use:
+\[
+\int_{-1}^1 w(x) {\rm d}x = \ensuremath{\pi}, \int_{-1}^1 xw(x) {\rm d}x = 0, \int_{-1}^1 x^2 w(x) {\rm d}x = {\ensuremath{\pi} \over 2}.
+\]
+Recall from before that $x_1,x_2,x_3 = \sqrt{3}/2,0,-\sqrt{3}/2$. Thus we have:
+\begin{align*}
+w_1 = \int_{-1}^1 w(x) \ensuremath{\ell}_1(x) {\rm d}x = \int_{-1}^1 {x(x+\sqrt{3}/2) \over (\sqrt{3}/2) \sqrt{3} \sqrt{1-x^2}}{\rm d}x = {\ensuremath{\pi} \over 3} \\
+w_2 = \int_{-1}^1 w(x) \ensuremath{\ell}_2(x) {\rm d}x = \int_{-1}^1 {(x-\sqrt{3}/2)(x+\sqrt{3}/2) \over (-3/4)\sqrt{1-x^2}}{\rm d}x = {\ensuremath{\pi} \over 3} \\
+w_3 = \int_{-1}^1 w(x) \ensuremath{\ell}_3(x) {\rm d}x = \int_{-1}^1 {(x-\sqrt{3}/2) x \over (-\sqrt{3})(-\sqrt{3}/2) \sqrt{1-x^2}}{\rm d}x = {\ensuremath{\pi} \over 3}
+\end{align*}
+(It's not a coincidence that they are all the same but this will differ for roots of other OPs.)  That is we have
+\[
+\ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[f]  = {\ensuremath{\pi} \over 3}\br[ f(\sqrt{3}/2) + f(0) + f(-\sqrt{3}/2) ].
+\]
+This is indeed exact for polynomials up to degree $n-1=2$, but it goes all the way up to $2n-1 = 5$:
+\begin{align*}
+\ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[1] &= \ensuremath{\pi}, \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x] = 0, \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x^2] = {\ensuremath{\pi} \over 2}, \\
+\ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x^3] &= 0, \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x^4] &= {3 \ensuremath{\pi} \over 8}, \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x^5] = 0 \\
+\ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x^6] &= {9 \ensuremath{\pi} \over 32} \ensuremath{\neq} {5 \ensuremath{\pi} \over 16}
+\end{align*}
+We shall explain this miracle in the rest of this section. \end{example}
+
+\subsection{Roots of orthogonal polynomials and truncated Jacobi matrices}
+We now consider roots (zeros) of orthogonal polynomials $p_n(x)$ which will be essential to constructing Gaussian quadrature, via interpolation at these points. For interpolation to be well-defined we first need to guarantee that the roots are distinct.
+
+\begin{lemma}[OP roots] An orthogonal polynomial $p_n(x)$ has exactly $n$ distinct roots.
+
+\end{lemma}
+\textbf{Proof}
+
+Suppose $x_1, \ensuremath{\ldots},x_j$ are the roots where $q_n(x)$ changes sign, i.e., the order of the root must be odd and hence
+\[
+p_n(x) = c_k (x-x_k)^{2p+1} + O((x-x_k)^{2p+2})
+\]
+for $c_k \ensuremath{\neq} 0$ and $k = 1,\ensuremath{\ldots},j$ and $p \ensuremath{\in} \ensuremath{\bbZ}$, as $x \ensuremath{\rightarrow} x_k$. Then
+\[
+p_n(x) (x-x_1) \ensuremath{\cdots}(x-x_j)
+\]
+does not change signs: it behaves like $c_k (x-x_k)^{2p+2} + O(x-x_k)^{2p+3}$ as $x \ensuremath{\rightarrow} x_k$. In other words:
+\[
+\ensuremath{\langle}p_n,(x-x_1) \ensuremath{\cdots}(x-x_j) \ensuremath{\rangle} = \int_a^b p_n(x) (x-x_1) \ensuremath{\cdots}(x-x_j) w(x) {\rm d} x \ensuremath{\neq} 0.
+\]
+where $w(x)$ is the weight of orthogonality. This is only possible if $j = n$ as $p_n(x)$ is orthogonal w.r.t. all lower degree polynomials and hence otherwise this integral would be zero. Since $p_n(x)$ is exactly degree $n$ it follows each root must be first order and hence distinct.
+
+\ensuremath{\QED}
+
+We will now relate these roots to truncations of Jacobi matrices.
+
+\begin{definition}[truncated Jacobi matrix] Given a Jacobi matrix $X$ associated with a family of orthonormal polynomials,  the \emph{truncated Jacobi matrix} is
+\[
+J_n := \begin{bmatrix} a_0 & b_0 \\
+                         b_0 & \ensuremath{\ddots} & \ensuremath{\ddots} \\
+                         & \ensuremath{\ddots} & a_{n-2} & b_{n-2} \\
+                         && b_{n-2} & a_{n-1} \end{bmatrix} \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}
+\]
+\end{definition}
+
+\begin{lemma}[OP roots and Jacobi matrices] The zeros $x_1, \ensuremath{\ldots},x_n$ of an orthonormal polynomial $q_n(x)$ are the eigenvalues of the truncated Jacobi matrix $J_n$. More precisely,
+\[
+J_n Q_n = Q_n \begin{bmatrix} x_1 \\ & \ensuremath{\ddots} \\ && x_n \end{bmatrix}
+\]
+for the orthogonal matrix
+\[
+Q_n = \underbrace{\begin{bmatrix}
+q_0(x_1) & \ensuremath{\cdots} & q_0(x_n) \\
+\ensuremath{\vdots}  & \ensuremath{\cdots} & \ensuremath{\vdots}  \\
+q_{n-1}(x_1) & \ensuremath{\cdots} & q_{n-1}(x_n)
+\end{bmatrix}}_{V_n^\ensuremath{\top}} \begin{bmatrix} \ensuremath{\alpha}_1^{-1} \\ & \ensuremath{\ddots} \\ && \ensuremath{\alpha}_n^{-1} \end{bmatrix}
+\]
+where $\ensuremath{\alpha}_j = \sqrt{q_0(x_j)^2 + \ensuremath{\cdots} + q_{n-1}(x_j)^2}$.
+
+\end{lemma}
+\textbf{Proof}
+
+We construct the eigenvector (noting $b_{n-1} q_n(x_j) = 0$):
+\[
+J_n \begin{bmatrix} q_0(x_j) \\ \ensuremath{\vdots} \\ q_{n-1}(x_j) \end{bmatrix} =
+\begin{bmatrix} a_0 q_0(x_j) + b_0 q_1(x_j) \\
+ b_0 q_0(x_j) + a_1 q_1(x_j) + b_1 q_2(x_j) \\
+\ensuremath{\vdots} \\
+b_{n-3} q_{n-3}(x_j) + a_{n-2} q_{n-2}(x_j) + b_{n-2} q_{n-1}(x_j) \\
+b_{n-2} q_{n-2}(x_j) + a_{n-1} q_{n-1}(x_j) + b_{n-1} q_n(x_j)
+\end{bmatrix} = x_j \begin{bmatrix} q_0(x_j) \\
+ q_1(x_j) \\
+\ensuremath{\vdots} \\
+q_{n-1}(x_j)
+\end{bmatrix}
+\]
+The sepctral theorem guarantees that all symmetric matrices have an orthogonal eigenvector matrix.  That is, by scaling the columns of the eigenvectors we know there must exist $\ensuremath{\alpha}_j$ so that 
+\[
+Q_n = \underbrace{\begin{bmatrix}
+q_0(x_1) & \ensuremath{\cdots} & q_0(x_n) \\
+\ensuremath{\vdots}  & \ensuremath{\cdots} & \ensuremath{\vdots}  \\
+q_{n-1}(x_1) & \ensuremath{\cdots} & q_{n-1}(x_n)
+\end{bmatrix}}_{V_n^\ensuremath{\top}} \begin{bmatrix} \ensuremath{\alpha}_1^{-1} \\ & \ensuremath{\ddots} \\ && \ensuremath{\alpha}_n^{-1} \end{bmatrix}
+\]
+is orthogonal. We choose $\ensuremath{\alpha}_j$ so that
+\[
+\ensuremath{\bm{\e}}_j^\ensuremath{\top} Q_n^\ensuremath{\top} Q_n \ensuremath{\bm{\e}}_j = {\ensuremath{\sum}_{k=0}^{n-1} q_k(x_j)^2 \over \ensuremath{\alpha}_j^2} = 1.
+\]
+\ensuremath{\QED}
+
+\begin{example}[Chebyshev roots] Consider $T_n(x) = \cos n {\rm acos}\, x$. The roots  are $x_j = \cos \ensuremath{\theta}_j$ where $\ensuremath{\theta}_j = (j-1/2)\ensuremath{\pi}/n$ for $j = 1,\ensuremath{\ldots},n$ are the roots of $\cos n \ensuremath{\theta}$ that are inside $[0,\ensuremath{\pi}]$. 
+
+Consider the $n = 3$ case where we have
+\[
+x_1,x_2,x_3 = \cos(\ensuremath{\pi}/6),\cos(\ensuremath{\pi}/2),\cos(5\ensuremath{\pi}/6) = \sqrt{3}/2,0,-\sqrt{3}/2
+\]
+We also have from the 3-term recurrence:
+\meeq{
+T_0(x) = 1, \ccr
+T_1(x) = x, \ccr
+T_2(x) = 2x T_1(x) - T_0(x) = 2x^2-1, \ccr
+T_3(x) = 2x T_2(x) - T_1(x) = 4x^3-3x.
+}
+We orthonormalise by rescaling
+\begin{align*}
+q_0(x) &= 1/\sqrt{\ensuremath{\pi}}, \\
+q_k(x) &= T_k(x) \sqrt{2}/\sqrt{\ensuremath{\pi}}.
+\end{align*}
+so that the Jacobi matrix is symmetric:
+\[
+x [q_0(x)|q_1(x)|\ensuremath{\cdots}] = [q_0(x)|q_1(x)|\ensuremath{\cdots}] \underbrace{\begin{bmatrix} 0 & 1/\sqrt{2} \\
+                            1/\sqrt{2} & 0 & 1/2 \\
+                            &1/2 & 0 & 1/2 \\
+                             &   & 1/2 & 0 & \ensuremath{\ddots} \\
+                              &  && \ensuremath{\ddots} & \ensuremath{\ddots}
+\end{bmatrix}}_X
+\]
+We can then confirm that we have constructed an eigenvector/eigenvalue of the $3 \ensuremath{\times} 3$ truncation of the Jacobi matrix, e.g. at $x_2 = 0$:
+\[
+\begin{bmatrix} 
+0 & 1/\sqrt{2} \\
+1/\sqrt{2} & 0 & 1/2 \\
+    & 1/2 & 0\end{bmatrix} \begin{bmatrix} q_0(0) \\ q_1(0) \\ q_2(0) 
+    \end{bmatrix} = {1 \over \sqrt \ensuremath{\pi}} \begin{bmatrix} 
+0 & 1/\sqrt{2} \\
+1/\sqrt{2} & 0 & 1/2 \\
+    & 1/2 & 0\end{bmatrix} \begin{bmatrix} 1 \\ 0 \\ -{\sqrt{2}}
+    \end{bmatrix} =\begin{bmatrix} 0 \\ 0 \\ 0
+    \end{bmatrix}.
+\]
+\end{example}
+
+\subsection{Gaussian quadrature}
+We now introduce Gaussian quadrature, which we shall see is exact for polynomials up to degree $2n-1$, i.e., double the degree of other interpolatory quadrature rules from other grids. We will also prove that it is in fact an interpolatory quadrature rule corresponding to the grid $x_j$ defined as the roots of the orthonormal polynomial $q_n(x)$.
+
+\begin{definition}[Gaussian quadrature] Given a weight $w(x)$, the Gauss quadrature rule is:
+\[
+\ensuremath{\int}_a^b f(x)w(x) {\rm d}x \ensuremath{\approx} \underbrace{\ensuremath{\sum}_{j=1}^n w_j f(x_j)}_{\ensuremath{\Sigma}_n^w[f]}
+\]
+where $x_1,\ensuremath{\ldots},x_n$ are the roots of the orthonormal polynomials $q_n(x)$ and 
+\[
+w_j := {1 \over \ensuremath{\alpha}_j^2} = {1 \over q_0(x_j)^2 + \ensuremath{\cdots} + q_{n-1}(x_j)^2}.
+\]
+Equivalentally, $x_1,\ensuremath{\ldots},x_n$ are the eigenvalues of $J_n$ and $w_j$ can be written in terms of the eigenvectors and the integral of the weight:
+\[
+w_j = \ensuremath{\int}_a^b w(x) {\rm d}x \underbrace{q_0(x_j)^2/\ensuremath{\alpha}_j^2}_{Q_n[1,j]^2}.
+\]
+\end{definition}
+
+In analogy to how Fourier series are orthogonal with respect to the Trapezium rule, Orthogonal polynomials are orthogonal with respect to Gaussian quadrature:
+
+\begin{lemma}[Discrete orthogonality] For $0 \ensuremath{\leq} \ensuremath{\ell},m \ensuremath{\leq} n-1$, the orthonormal polynomials $q_n(x)$ satisfy
+\[
+\ensuremath{\Sigma}_n^w[q_\ensuremath{\ell} q_m] = \ensuremath{\delta}_{\ensuremath{\ell}m}
+\]
+\end{lemma}
+\textbf{Proof}
+\[
+\ensuremath{\Sigma}_n^w[q_\ensuremath{\ell} q_m] = \ensuremath{\sum}_{j=1}^n {q_\ensuremath{\ell}(x_j) q_m(x_j) \over \ensuremath{\alpha}_j^2}
+= \left[{q_\ensuremath{\ell}(x_1)\over \ensuremath{\alpha}_1} | \ensuremath{\cdots} | {q_\ensuremath{\ell}(x_n) \over \ensuremath{\alpha}_n}\right] 
+\begin{bmatrix}
+q_m(x_1)/\ensuremath{\alpha}_1 \\
+\ensuremath{\vdots} \\
+q_m(x_n)/\ensuremath{\alpha}_n \end{bmatrix} = \ensuremath{\bm{\e}}_\ensuremath{\ell} Q_n Q_n^\ensuremath{\top} \ensuremath{\bm{\e}}_m = \ensuremath{\delta}_{\ensuremath{\ell}m}
+\]
+\ensuremath{\QED}
+
+Just as approximating Fourier coefficients using Trapezium rule gives a way of interpolating at the grid, so does Gaussian quadrature:
+
+\begin{theorem}[interpolation via quadrature] For the orthonormal polynomials $q_n(x)$,
+\[
+f_n(x) := \ensuremath{\sum}_{k=0}^{n-1} c_k^n q_k(x)\hbox{ for } c_k^n := \ensuremath{\Sigma}_n^w[f q_k]
+\]
+interpolates $f(x)$ at the Gaussian quadrature points $x_1,\ensuremath{\ldots},x_n$.
+
+\end{theorem}
+\textbf{Proof} Consider the Vandermonde-like matrix from above:
+\[
+V_n := \begin{bmatrix} q_0(x_1) & \ensuremath{\cdots} & q_{n-1}(x_1) \\
+                \ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
+                q_0(x_n) & \ensuremath{\cdots} & q_{n-1}(x_n) \end{bmatrix}
+\]
+and define
+\[
+Q_n^w := V_n^\ensuremath{\top} \begin{bmatrix} w_1 \\ &\ensuremath{\ddots} \\&& w_n \end{bmatrix} = \begin{bmatrix} q_0(x_1)w_1 & \ensuremath{\cdots} &  q_0(x_n) w_n \\
+                \ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
+                q_{n-1}(x_1) w_1 & \ensuremath{\cdots} & q_{n-1}(x_n)w_n \end{bmatrix}
+\]
+so that
+\[
+\begin{bmatrix}
+c_0^n \\
+\ensuremath{\vdots} \\
+c_{n-1}^n \end{bmatrix} = Q_n^w \begin{bmatrix} f(x_1) \\ \ensuremath{\vdots} \\ f(x_n) \end{bmatrix}.
+\]
+Note that if $p(x) = [q_0(x) | \ensuremath{\cdots} | q_{n-1}(x)] \ensuremath{\bm{\c}}$ then
+\[
+\begin{bmatrix}
+p(x_1) \\
+\ensuremath{\vdots} \\
+p(x_n)
+\end{bmatrix} = V_n \ensuremath{\bm{\c}}
+\]
+But we see that (similar to the Fourier case)
+\[
+Q_n^w V_n = \begin{bmatrix} \ensuremath{\Sigma}_n^w[q_0 q_0] & \ensuremath{\cdots} & \ensuremath{\Sigma}_n^w[q_0 q_{n-1}]\\
+                \ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
+                \ensuremath{\Sigma}_n^w[q_{n-1} q_0] & \ensuremath{\cdots} & \ensuremath{\Sigma}_n^w[q_{n-1} q_{n-1}]
+                \end{bmatrix} = I
+\]
+and hence $V_n^{-1} = Q_n^w$ and we have
+\[
+f_n(x_j) = [q_0(x_j) | \ensuremath{\cdots} | q_{n-1}(x_j)] Q_n^w \Vectt[f(x_1),\ensuremath{\vdots},f(x_n)] = \ensuremath{\bm{\e}}_j^\ensuremath{\top} V_n  Q_n^w \Vectt[f(x_1),\ensuremath{\vdots},f(x_n)] = f(x_j).
+\]
+\ensuremath{\QED}
+
+\begin{example}[Chebyshev expansions]  Consider the construction of Gaussian quadrature associated with the Chebyshev weight for $n = 3$.  To determine the weights we need we compute
+\[
+w_j^{-1} = \ensuremath{\alpha}_j^2 = q_0(x_j)^2 + q_1(x_j)^2 + q_2(x_j)^2 = 
+{1 \over \ensuremath{\pi}} + {2 \over \ensuremath{\pi}} x_j^2 + {2 \over \ensuremath{\pi}} (2x_j^2-1)^2
+\]
+We can check each case and deduce that $w_j = \ensuremath{\pi}/3$. Thus we recover the interpolatory quadrature rule. Further, we can construct the transform
+\begin{align*}
+Q_3^w &= \begin{bmatrix}
+w_1 q_0(x_1) & w_2 q_0(x_2) & w_3 q_0(x_3) \\
+w_1 q_1(x_1) & w_2 q_1(x_2) & w_3 q_1(x_3) \\
+w_1 q_3(x_1) & w_2 q_3(x_2) & w_3 q_3(x_3) 
+\end{bmatrix}\\
+&= {\ensuremath{\pi} \over 3} \begin{bmatrix} 1/\sqrt{\ensuremath{\pi}} & 1/\sqrt{\ensuremath{\pi}} & 1/\sqrt{\ensuremath{\pi}} \\
+                                x_1\sqrt{2/\ensuremath{\pi}} & x_2\sqrt{2/\ensuremath{\pi}} & x_3\sqrt{2/\ensuremath{\pi}} \\
+                                (2x_1^2-1)\sqrt{2/\ensuremath{\pi}} &(2x_2^2-1)\sqrt{2/\ensuremath{\pi}} & (2x_3^2-1)\sqrt{2/\ensuremath{\pi}}
+                                \end{bmatrix} \\
+                                &= 
+                                {\sqrt{\ensuremath{\pi}} \over 3} \begin{bmatrix} 1 & 1 & 1 \\
+                                \sqrt{6}/2 & 0 & -\sqrt{6}/2 \\
+                                1/\sqrt{2} &-\sqrt{2} & 1/\sqrt{2}
+                                \end{bmatrix}
+\end{align*}
+We can use this to expand a polynomial, e.g. $x^2$:
+\[
+Q_3^w \begin{bmatrix}
+x_1^2 \\
+x_2^2 \\
+x_3^2 
+\end{bmatrix} = {\sqrt{\ensuremath{\pi}} \over 3} 
+\begin{bmatrix} 1 & 1 & 1 \\
+\sqrt{6}/2 & 0 & -\sqrt{6}/2 \\
+1/\sqrt{2} &-\sqrt{2} & 1/\sqrt{2}
+\end{bmatrix} 
+\begin{bmatrix} 3/4 \\ 0 \\ 3/4 \end{bmatrix} =
+\begin{bmatrix}
+{\sqrt{\ensuremath{\pi}} / 2} \\
+0 \\
+{\sqrt{\ensuremath{\pi}} / (2\sqrt{2})}
+\end{bmatrix}
+\]
+In other words:
+\[
+x^2 = {\sqrt \ensuremath{\pi} \over 2} q_0(x) + {\sqrt \ensuremath{\pi} \over 2\sqrt 2} q_2(x) = {1 \over 2} T_0(x) + {1 \over 2} T_2(x)
+\]
+which can be easily confirmed. \end{example}
+
+\begin{corollary}[Gaussian quadrature is interpolatory] Gaussian quadrature is an interpolatory quadrature rule with the interpolation points equal to the roots of $q_n$:
+\[
+\ensuremath{\Sigma}_n^w[f] = \ensuremath{\int}_a^b f_n(x) w(x) {\rm d}x.
+\]
+\end{corollary}
+\textbf{Proof} We want to show that its the same as integrating the interpolatory polynomial:
+\[
+\int_a^b f_n(x) w(x) {\rm d}x = {1 \over q_0(x)} \sum_{k=0}^{n-1} c_k^n \int_a^b q_k(x) q_0(x) w(x) {\rm d}x
+= {c_0^n \over q_0} = \ensuremath{\Sigma}_n^w[f].
+\]
+\ensuremath{\QED}
+
+\begin{example}[Chebyshev quadrature via Lagrange polynomials] The connection with interpolatory quadrature means theres another way to compute the quadrature: integrate the Lagrange polynomials associated with the zeros. For example, with $n = 3$ recall that the roots of $T_3(x)$ are $\ensuremath{\pm}\sqrt{3}/2$ and $0$. Thus we have
+\begin{align*}
+\ensuremath{\ell}_1(x) &= x (x +\sqrt{3}/2) / (3/2) = {(2x^2+\sqrt{3}x) \over 3} \\
+\ensuremath{\ell}_2(x) &= (x - \sqrt{3}/2) (x +\sqrt{3}/2) / (-3/4) = -{4 \over 3} x^2 + 1 \\
+\ensuremath{\ell}_3(x) &=(x -\sqrt{3}/2) x / (3/2) = {(2x^2-\sqrt{3}x) \over 3}
+\end{align*}
+A quick check confirms that
+\[
+w_j = \ensuremath{\int}_{-1}^1 {\ensuremath{\ell}_j(x) \over \sqrt{1-x^2}} {\rm d}x = {\ensuremath{\pi} \over 3}.
+\]
+\end{example}
+
+A consequence of being an interpolatory quadrature rule is that it is exact for all polynomials of degree $n-1$. The \emph{miracle} of Gaussian quadrature is it is exact for twice as many!
+
+\begin{theorem}[Exactness of Gauss quadrature] If $p(x)$ is a degree $2n-1$ polynomial then Gauss quadrature is exact:
+\[
+\ensuremath{\int}_a^b p(x)w(x) {\rm d}x = \ensuremath{\Sigma}_n^w[p].
+\]
+\end{theorem}
+\textbf{Proof} Using polynomial division algorithm (e.g. by matching terms) we can write
+\[
+p(x) = q_n(x) s(x) + r(x)
+\]
+where $s$ and $r$ are degree $n-1$ and $q_n(x)$ is the degree $n$ orthonormal polynomial. Then we have:
+\begin{align*}
+\ensuremath{\Sigma}_n^w[p] &= \underbrace{\ensuremath{\Sigma}_n^w[q_n s]}_{\hbox{$0$ since evaluating $q_n$ at zeros}} + \ensuremath{\Sigma}_n^w[r] = \ensuremath{\int}_a^b r(x) w(x) {\rm d}x\\
+&= \underbrace{\ensuremath{\int}_a^b q_n(x)s(x) w(x) {\rm d}x}_{\hbox{$0$ since $s$ is degree $<n$}}  + \ensuremath{\int}_a^b r(x) w(x) {\rm d}x \\
+&= \ensuremath{\int}_a^b p(x)w(x) {\rm d}x.
+\end{align*}
+\ensuremath{\QED}
+
+\begin{example}[Double exactness] We are exact for all polynomials of degree $2n-1$, so for our $n = 3$ rule consider integrating $x^5$. We correctly get:
+\[
+\ensuremath{\Sigma}_n^w[x^5] = {\ensuremath{\pi} \over 3} \left( {9 \sqrt{3} \over 32}  - {9 \sqrt{3} \over 2} \right) = 0.
+\]
+We are also correct for $x^4$:
+\[
+\ensuremath{\Sigma}_n^w[x^4] = {\ensuremath{\pi} \over 3} \left( {9 \over 16} + {9 \over 16} \right) = {3 \ensuremath{\pi} \over 8}.
+\]
+However,
+\[
+\ensuremath{\Sigma}_n^w[x^6] = {9 \ensuremath{\pi} \over 64} \ensuremath{\neq} {5 \ensuremath{\pi} \over 16}
+\]
+hence it is incorrect for larger degree polynomials. \end{example}
+
+Going beyond polynomials,  Gaussian quadrature achieves faster than algebraic convergence for any smooth function.  If the function is analytic in a neighbourhood of the support of the interval this is in fact exponential convergence, far exceeding the convergence rate observed for rectangular and Trapezium rules.  This is a beautiful example of more sophisticated mathematics leading to powerful numerical methods.
+
+
+

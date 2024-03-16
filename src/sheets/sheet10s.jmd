@@ -1,0 +1,542 @@
+**Numerical Analysis MATH50003 (2023–24) Problem Sheet 10**
+
+
+
+**Problem 1** What are the upper $3 × 3$ sub-block of the multiplication matrix $X$ / Jacobi matrix $J$ for the
+monic and orthonormal polynomials with respect to the following weights on
+$[-1,1]$:
+$$
+1-x, \sqrt{1-x^2}, 1-x^2
+$$
+
+**SOLUTION**
+
+#### Monic
+
+We know that for monic ($b_n=1$) orthogonal polynomials we can write the upper 3x3 block in the form
+
+$$
+X_3 = \begin{bmatrix} a_0 & c_0 & 0 \\ 1 & a_1 & c_1 \\ 0 & 1 & a_2 \end{bmatrix}
+$$
+
+
+1. $w(x) = 1-x$
+
+Take $π_0(x) = 1$ (monic) and note
+$$
+\| π_0 \|^2 = \int_{-1}^1 (1-x) {\rm d}x = 2
+$$
+From
+$$
+xπ_0(x) = a_0π_0(x) + π_1(x)
+$$
+we deduce
+$$
+a_0 = ⟨x π_0, π_0⟩/\|π_0\|^2 =  {\int_{-1}^1 (1-x) x {\rm d}x \over 2} =  -{1 \over 3}
+$$
+i.e.
+$$
+π_1(x) = (x-a_0) π_0(x) = x + 1/3.
+$$
+and note that
+$$
+\|π_1\|^2 = \int_{-1}^1 (1-x) (x+1/3)^2 {\rm d} x = 4/9.
+$$
+From
+$$
+xπ_1(x) = c_0 π_0(x) + a_1 π_1(x) + π_2(x)
+$$
+we deduce
+$$
+c_0 = ⟨x π_1, π_0⟩/\|π_0\|^2 =  {\int_{-1}^1 (1-x) x (x+1/3) {\rm d}x \over 2} =  {2 \over 9}
+$$
+and
+$$
+a_1 = ⟨x π_1, π_1⟩/\|π_1\|^2 =  {9 \over 4} {\int_{-1}^1 (1-x) x (x+1/3)^2 {\rm d}x} =  -{1 \over 15}
+$$
+Thus
+$$
+π_2(x) = (x - a_1) π_1(x) - c_0 π_0(x) = (x+1/15) (x+1/3) - 2/9 = x^2 + 2x/5 -1/5.
+$$
+And once again as before:
+$$
+c_1=\frac{⟨ π_1, xπ_2⟩}{\|π_1\|^2}= \frac{\int_{-1}^1 (x+\frac{1}{3})(x^2+\frac{2}{5}x- \frac{1}{5}) x(1-x) dx}{\int_{-1}^1 (x+\frac{1}{3})^2 (1-x) dx}= \frac{6}{25}
+$$
+and
+$$
+a_2 = \frac{⟨ π_2, xπ_2⟩}{\|π_2\|^2} = \frac{\int_{-1}^1 (x^2+\frac{2}{5}x- \frac{1}{5})^2 x(1-x) dx}{\int_{-1}^1 (x^2+\frac{2}{5}x- \frac{1}{5})^2 (1-x) dx}= -\frac{1}{35}
+$$
+Thus we have
+$$
+X_3 = \begin{bmatrix}
+-1/3 & 2/9 \\
+1 & -1/15 & 6/25 \\
+& 1 & -1/35
+\end{bmatrix}
+$$
+
+2. $w(x)=\sqrt{1-x^2}$
+
+Take $π_0(x) = k_0 = 1$ (monic) so that
+$$
+\|π_0\|^2 = \int_{-1}^1 \sqrt{1-x^2} = {π \over 2}.
+$$
+From PS9 we know that $a_k = 0$. Thus
+from the recurrence we have
+$$
+xπ_0(x) =  π_1(x)
+$$
+and hence
+$$
+π_1(x) = x π_0(x) = x.
+$$
+Likewise for
+$$
+xπ_1(x)= c_0π_0(x)+π_2(x)
+$$
+we have
+$$
+c_0=\frac{⟨ π_0, xπ_1⟩}{\|π_0\|^2} \frac{\int_{-1}^1 x^2\sqrt{1-x^2} dx}{π/2}=\frac{π/8}{π/2}= \frac{1}{4}
+$$
+i.e.
+$$
+π_2(x) = xπ_1(x) - c_0 = x^2 - {1 \over 4}.
+$$
+Finally:
+$$
+xπ_2(x)= c_1π_1(x)π_3(x)
+$$
+and thus
+$$
+c_1=\frac{⟨ π_1, xπ_2⟩}{\|π_1\|^2}= \frac{\int_{-1}^1 (x^2- \frac{1}{4}) x^2\sqrt{1-x^2} dx}{\int_{-1}^1 x^2 \sqrt{1-x^2} dx}= \frac{π/32}{π/8}=\frac{1}{4}
+$$
+
+Thus we have
+$$
+X_3 = \begin{bmatrix}
+0 & 1/4 \\
+1 & 0 & 1/4 \\
+& 1 & 0
+\end{bmatrix}
+$$
+
+3. $w(x)=1-x^2$
+
+Take $π_0(x) = k_0 = 1$ (monic). Again due to $w(x) = w(-x)$
+from recurrence we have
+$$
+xπ_0(x) = π_1(x)
+$$
+Then from
+$$
+xπ_1(x)= c_0π_0(x)+π_2(x)
+$$
+we find
+$$
+c_0=\frac{⟨ π_0, xπ_1⟩}{\|π_0\|^2} \frac{\int_{-1}^1 x^2(1-x^2) dx}{4/15}=\frac{4/15}{4/3}= \frac{1}{5}
+$$
+Finally,
+$$
+xπ_2(x)= c_1π_1(x)+π_3(x)
+$$
+and thus
+$$
+c_1=\frac{⟨ π_1, xπ_2⟩}{\|π_1\|^2}= \frac{\int_{-1}^1 (x^2- \frac{1}{5}) x^2(1-x^2) dx}{\int_{-1}^1 x^2 (1-x^2) dx}= \frac{32/525}{4/15}=\frac{8}{35}
+$$
+Thus we have
+$$
+X_3 = \begin{bmatrix}
+0 & 1/5 \\
+1 & 0 & 8/35 \\
+& 1 & 0
+\end{bmatrix}
+$$
+
+#### Orthonormal
+
+The hard way to solve this problem is to compute $\|π_n\|$ for each case.
+Instead, we use a trick for computing the orthonormal  variants: III.3 Corollary 6 tells us that if we find constants $α_n$ and define
+$$
+q_n(x) := α_n π_n(x)
+$$
+so that $\|q_0\| = 1$ and the resulting Jacobi matrix is symmetric then $q_n$ must be orthonormal.
+Note that the three-term recurrence for $q_n$ satisfies
+$$
+\begin{align*}
+x q_0 = x α_0 π_0 = α_0 a_0 π_0 + α_0 π_1 = a_0 q_0 + {α_0 \over α_1} q_1 \\
+x q_m = x α_n π_n = α_n c_{n-1} π_{n-1} +  a_n α_n π_n + α_n π_{n+1} = {α_n c_{n-1} \over α_{n-1}}  q_{n-1} + a_n q_n + {α_n \over α_{n+1}} q_{n+1}
+\end{align*}
+$$
+This is easier to see using linear algebra:
+$$
+\begin{align*}
+x [q_0 | q_1 | … ] &= x[π_0 | π_1 | …] \begin{bmatrix} α_0 \\ & α_1 \\ && ⋱ \end{bmatrix} = [π_0 | π_1 | …] X \begin{bmatrix} α_0 \\ & α_1 \\ && ⋱ \end{bmatrix}   \\
+&=[q_0 | q_1 | …] \begin{bmatrix} α_0^{-1} \\ & α_1^{-1} \\ && ⋱ \end{bmatrix}  X \begin{bmatrix} α_0 \\ & α_1 \\ && ⋱ \end{bmatrix} \\
+&=[q_0 | q_1 | …] \underbrace{\begin{bmatrix}  a_0 & c_0 α_1/α_0 \\
+									α_0/α_1 & a_1 & c_1 α_2/α_1 \\
+									& α_1/α_2 & a_2 & ⋱ \\
+									&& ⋱ & ⋱
+									\end{bmatrix}}_{\Xt}
+\end{align*}
+$$
+Thus to make this symmetric we need $\ct_n := c_n α_{n+1}/α_n = α_n/α_{n+1} =: \bt_n$, i.e., $α_{n+1} = α_n/\sqrt{c_n}$,
+in other words,
+$$
+α_n = {α_0 \over ∏_{k=0}^{n-1} \sqrt{c_k}}.
+$$
+Moreover, we see with this choice that $\ct_n = \sqrt{b_n} = \sqrt{c_n}$.
+
+1. $w(x) = 1-x$. We know $q_0(x) = α_0 = 1/\|π_0\| = 1/\sqrt{2}$. Then $α_1 = 1/\sqrt{2c_0} =3/2$ (hence $q_1(x) = α_1 π_1(x) = 3x/2+ 1/2$),
+which tells us
+$$
+\ct_0 = c_0 α_1/α_0 = \sqrt{2}/3 = \bt_0 (= \sqrt{c_0}.)
+$$
+Then $α_2 = α_1/\sqrt{c_1} = 15/(2\sqrt{6})$ which tells us $\ct_1 = c_1 α_2/α_1 = \sqrt{6}/5 = \bt_1 (= \sqrt{c_1})$. In other words we have,
+$$
+\Xt_3 = \begin{bmatrix}
+-1/3 & \sqrt{2}/3 \\
+ \sqrt{2}/3 & -1/15 & \sqrt{6}/5 \\
+& \sqrt{6}/5 & -1/35
+\end{bmatrix}
+$$
+
+2. $w(x) = \sqrt{1-x^2}$ We can just jump ahead since we know the answer is just with $\sqrt{c_n}$ in place of $b_n$ and $c_n$:
+$$
+\Xt_3 = \begin{bmatrix}
+0 & 1/2 \\
+1/2 & 0 & 1/2 \\
+& 1/2 & 0
+\end{bmatrix}
+$$
+
+3. $w(x) = 1-x^2$:
+$$
+\Xt_3 = \begin{bmatrix}
+0 & 1/\sqrt{5} \\
+1/\sqrt{5} & 0 & \sqrt{8/35} \\
+& \sqrt{8/35} & 0
+\end{bmatrix}
+$$
+
+**END**
+
+
+**Problem 2** Compute the roots of the Legendre polynomial $P_3(x)$, orthogonal with respect
+to $w(x) = 1$ on $[-1,1]$, by computing the eigenvalues of a $3 × 3$ truncation
+of the Jacobi matrix.
+
+**SOLUTION**
+
+We have, $P_0(x) = 1$. Though recall that in order to use Lemma (zeros), the Jacobi matrix must be symmetric and hence the polynomials orthonormal. So Take $Q_0(x) = 1/||P_0(x)|| = \frac{1}{\sqrt{2}}$. Then we have, by the three term recurrence relationship,
+$$
+xQ_0(x) = a_0Q_0(x) + b_0Q_1(x),
+$$
+and taking the inner product of both sides with $Q_0(x)$ we get,
+$$
+a_0 = ⟨ xQ_0(x), Q_0(x) ⟩ = \int_{-1}^1 x/2 dx = 0.
+$$
+Next recall that $P_1(x) =  x$ and so $Q_1(x) = x/||P_1(x)||=\sqrt{\frac{3}{2}} x$. We then have, taking the innner product of the first equation above with $Q_ 1(x)$,
+$$
+b_0 = ⟨ xQ_0(x), Q_1(x)⟩ = \int_{-1}^1 \frac{\sqrt{3}}{2}x^2 dx = \frac{1}{\sqrt{3}},
+$$
+and also $b_0 = c_0$ by the Corollary (orthonormal 3-term recurrence). We have,
+$$
+a_1 = ⟨ xQ_1(x), Q_1(x)⟩ = \int_{-1}^1 \frac{3}{2}x^3 dx = 0.
+$$
+Recall that $P_2(x) = \frac{1}{2}(3x^2 - 1)$, so that $Q_2(x) = P_2(x)/||P_2(x)|| = \sqrt{\frac{5}{8}}(3x^2 - 1)$, and that,
+$$
+xQ_1(x) = c_0Q_0(x) + a_1Q_1(x) + b_1Q_2(x).
+$$
+Taking inner the inner product of both sides with $Q_2(x)$, we see that,
+$$
+c_1 = b_1 = ⟨ xQ_1(x), Q_2(x)⟩ = \int_{-1}^1 \sqrt{\frac{5}{8}} \cdot \sqrt{\frac{3}{2}}(3x^2 - 1)\cdot x \cdot xdx =\frac{2}{\sqrt{15}}.
+$$
+Finally,
+$$
+a_2 = ⟨ Q_2(x), xQ_2(x) ⟩ = \frac{5}{8}\int_{-1}^1 (3x^2 - 1)^2 x dx = 0.
+$$
+This gives us the truncated Jacobi matrix,
+$$
+X_3 = \left[\begin{matrix}
+a_0 & b_0	& 0 \\
+b_0 & a_1 & b_1 \\
+0&b_1 & a_2
+\end{matrix}
+ \right] = \left[\begin{matrix}
+0 & \frac{1}{\sqrt{3}}	& 0 \\
+\frac{1}{\sqrt{3}} & 0 & \frac{2}{\sqrt{15}} \\
+0& \frac{2}{\sqrt{15}} & 0
+\end{matrix}
+ \right],
+$$
+whose eigenvalues are the zeros of $Q_3(x)$, and hence the zeros of $P_3(x)$ since they are the same up to a constant. To work out the eigenvalues, we have,
+$$
+\begin{align*}
+	|X_3 - \lambda I| = \left| \begin{matrix}
+		-\lambda & \frac{1}{\sqrt{3}} & 0\\
+		\frac{1}{\sqrt{3}} & -\lambda & \frac{2}{\sqrt{15}}\\
+		0 & \frac{2}{\sqrt{15}} & -\lambda
+	\end{matrix}\right| &= 0 \\
+	\Leftrightarrow -\lambda(\lambda^2 - \frac{4}{15}) - \frac{1}{\sqrt{3}}\cdot \frac{-\lambda}{\sqrt{3}} &=0 \\
+	\Leftrightarrow -\lambda^3 + \frac{3}{5}\lambda &= 0,
+\end{align*}
+$$
+which has solutions $\lambda = 0, ± \sqrt{\frac{3}{5}}$
+
+**END**
+
+
+
+**Problem 3** Compute the interpolatory quadrature rule for
+$w(x) = \sqrt{1-x^2}$ with the points $[-1,1/2,1]$.
+
+**SOLUTION**
+
+For the points $𝐱 = \{-1, 1/2, 1\}$ we have the Lagrange polynomials:
+$$
+ℓ_1(x) = \left(\frac{x - 1/2}{-1 - 1/2}\right)\cdot\left(\frac{x - 1}{-1 - 1}\right) = \frac{1}{3}\left(x^2 - \frac{3}{2}x + \frac{1}{2}\right),
+$$
+and
+$$
+ℓ_2(x) = -\frac{4}{3}x^2 + \frac{4}{3}, ℓ_3(x) =x^2 + \frac{1}{2}x - \frac{1}{2},
+$$
+similarly. We can then compute the weights,
+$$
+w_j = \int_{-1}^1 ℓ_j(x)w(x)dx,
+$$
+using,
+$$
+\int_{-1}^1 x^k \sqrt{1-x^2}dx = \begin{cases}
+ \frac{π}{2} &	k=0 \\
+ 0 & k=1 \\
+\frac{π}{8} & k=2
+ \end{cases}
+$$
+to find,
+$$
+w_j = \begin{cases}
+ 	\frac{π}{8} & j = 1 \\
+ 	\frac{π}{2} & j = 2 \\
+ 	-\frac{π}{8} & j = 3,
+ \end{cases}
+$$
+so that the interpolatory quadrature rule is:
+$$
+Σ_3^{w,𝐱}(f) = \frac{π}{2}\left(\frac{1}{4}f(-1) + f(1/2) -\frac{1}{4}f(1) \right)
+$$
+
+**END**
+
+**Problem 4** Compute the 2-point
+interpolatory quadrature rule associated with roots of orthogonal polynomials for the weights $\sqrt{1-x^2}$, $1$,
+and $1-x$ on $[-1,1]$ by integrating the Lagrange bases.
+
+**SOLUTION**
+For $w(x) = \sqrt{1-x}^2$ the orthogonal polynomial of degree 2 is $U_2(x) = 4x^2 -1$, with roots $𝐱 = \{x = ± \frac{1}{2}\}$. The Lagrange polynomials corresponding to these roots are,
+$$
+\begin{align*}
+ℓ_1(x) &= \frac{x - 1/2}{-1/2 - 1/2} = \frac{1}{2} - x, \\
+ℓ_2(x) &= \frac{x + 1/2}{1/2 + 1/2} = x + \frac{1}{2}
+\end{align*}
+$$
+We again work out the weights
+$$
+w_j = \int_{-1}^1 ℓ_j(x)w(x)dx,
+$$
+to find,
+$$
+w_1 = w_2 = {π \over 4},
+$$
+and thus the interpolatory quadrature rule is,
+$$
+Σ_2^{w,𝐱}(f) = \frac{π}{4}(f(-1/2) + f(1/2)).
+$$
+
+For $w(x) = 1$, the orthogonal polynomial of degree 2 is, using Legendre Rodriguez formula:
+$$
+P_2(x) = \frac{1}{(-2)^22!} \frac{d^2}{dx^2}\left(1 - x^2\right)^2 = -\frac{1}{2} + \frac{3}{2}x^2.
+$$
+This has roots $𝐱 = \left\{± \frac{1}{\sqrt{3}}\right\}$. We then have,
+$$
+\begin{align*}
+	ℓ_1(x) &= -\frac{\sqrt{3}}{2}x + \frac{1}{2} \\
+	ℓ_2(x) &= \frac{3}{2}x + \frac{1}{2},
+\end{align*}
+$$
+from which we can compute the weights,
+$$
+w_1 = w_2 = 1,
+$$
+which give the quadrature rule:
+$$
+Σ_2^{w,𝐱}(f) = \left[f\left(-\frac{1}{\sqrt{3}}\right) + f\left(\frac{1}{\sqrt{3}}\right)\right]
+$$
+
+Finally, with $w(x) = 1 - x$ we use the solution to PS9, which states that
+$$
+p_2(x) = x^2 + 2x/5 - 1/5
+$$
+which has roots, $𝐱 = \left\{-\frac{1}{5} ± \frac{\sqrt{6}}{5} \right\}$. The Lagrange polynomials are then,
+$$
+\begin{align*}
+	ℓ_1(x) &= \frac{x - (-\frac{1}{5} + \frac{\sqrt{6}}{5} )}{-\frac{1}{5} - \frac{\sqrt{6}}{5} - (-\frac{1}{5} + \frac{\sqrt{6}}{5}) } \\
+	&= \frac{x - (-\frac{1}{5} + \frac{\sqrt{6}}{5} )}{-\frac{2\sqrt{6}}{5}} \\
+	&=-\frac{5}{2\sqrt{6}}x - \frac{1}{2\sqrt{6}} + \frac{1}{2} \\
+	ℓ_2(x) &= \frac{x - (-\frac{1}{5} - \frac{\sqrt{6}}{5} )}{\frac{2\sqrt{6}}{5}} \\
+	&= \frac{5}{2\sqrt{6}}x + \frac{1}{2\sqrt{6}} + \frac{1}{2}
+\end{align*}
+$$
+From which we can compute the weights,
+$$
+\begin{align*}
+	w_1 &= 1 + \frac{\sqrt{6}}{9}, \\
+	w_2 &= 1 - \frac{\sqrt{6}}{9},
+\end{align*}
+$$
+giving the quadrature rule,
+$$
+Σ_2^{w,𝐱}(f) = \left[\left(1 + \frac{\sqrt{6}}{9} \right)f\left(-\frac{1}{5} - \frac{\sqrt{6}}{5} \right) + \left(1 - \frac{\sqrt{6}}{9} \right)f\left(-\frac{1}{5} + \frac{\sqrt{6}}{5} \right) \right]
+$$
+**END**
+
+
+
+**Problem 5(a)** For the matrix
+$$
+J_n = \begin{bmatrix} 0 & 1/\sqrt{2} \\
+                1/\sqrt{2} & 0 & 1/2 \\
+				& 1/2 & 0 & ⋱  \\
+                && ⋱ & ⋱ & 1/2 \\
+                &&& 1/2 & 0
+                \end{bmatrix} ∈ ℝ^{n × n}
+$$
+use the relationship with the Jacobi matrix associated with $T_n(x)$ to prove that, for $x_j = \cos θ_j$, and $θ_j = (n-j+1/2)π/n$,
+$$
+J_n = Q_n \begin{bmatrix} x_1 \\ & ⋱ \\ && x_n \end{bmatrix} Q_n^⊤
+$$
+where
+$$
+\meeq{
+𝐞_1^⊤ Q_n 𝐞_j = {1 \over \sqrt{n}}, \qquad
+𝐞_k^⊤ Q_n 𝐞_j = \sqrt{2 \over n} \cos (k-1) θ_j.
+}
+$$
+You may use without proof the sums-of-squares formula
+$$
+1 + 2 ∑_{k=1}^{n-1} \cos^2 k θ_j = n.
+$$
+
+**SOLUTION**
+
+Recall the three term recurrence for the Chebyshev Polynomials $T_n$,
+$$
+\begin{align*}
+	xT_0(x) &= T_1(x), \\
+	xT_n(x) &= \frac{T_{n-1}(x)}{2} + \frac{T_{n+1}(x)}{2},
+\end{align*}
+$$
+and hence it has the multiplication matrix
+$$
+x [T_0 | T_1 | ⋯] = [T_0 | T_1 | ⋯] \underbrace{\begin{bmatrix} 0 & 1/2 \\
+													1 & 0 & 1/2 \\
+														& 1/2 & 0 & ⋱ \\
+														&&⋱ & ⋱
+														\end{bmatrix}}_X
+$$
+To find the Jacobi matrix we need to symmetrise this, that is, we write
+$$
+[q_0(x) | q_1(x) | ⋯ ] = [T_0(x) | T_1(x)| ⋯] \underbrace{\begin{bmatrix}  β_0 \\ & β_1 \\ && β_2 \\ &&& ⋱ \end{bmatrix}}_K
+$$
+so that
+$$
+x [q_0(x) | q_1(x) | ⋯ ] = [q_0(x) | q_1(x) | ⋯ ] \underbrace{K^{-1} X K}_{J}
+$$
+where
+$$
+ K^{-1} X K = \begin{bmatrix} 0 & β_1/(2β_0) \\
+													β_0/β_1 & 0 & β_2/(2β_1) \\
+														& β_1/(2β_2) & 0 & ⋱ \\
+														&&⋱ & ⋱
+														\end{bmatrix}
+$$
+First recall that the change-of-variables $x = \cos θ$ tells us
+$$
+∫_{-1}^1 {{\rm d}x \over \sqrt{1-x^2}} = π
+$$
+hence $q_0(x) = β_0 =  1/\sqrt{π}$.
+From this we find that
+$$
+{β_0 \over β_1} = {β_1 \over 2β_0} ⇒ β_1 = \sqrt{2/π}.
+$$
+Other equations give us:
+$$
+{β_n \over 2 β_{n+1}} = {β_{n+1} \over 2β_n} ⇒ β_{n+1} = β_n = \sqrt{2/π}.
+$$
+
+Hence since $β_1/(2β_0) = 1/\sqrt{2}$ and $β_{n+1}/(2β_n) = 1/2$ we have
+$$
+J = \begin{bmatrix} 0 & 1/\sqrt{2} \\
+					1/\sqrt{2} & 0 & 1/2 \\
+					& 1/2 & 0 & 1/2 \\
+					&& ⋱ & ⋱ & ⋱
+					\end{bmatrix}
+$$
+The roots of $q_n(x)$ are the roots of $T_n(x) = \cos n \acos x$, i.e.,
+ $x_j = \cos θ_j$ for $θ_j = (n-j+1/2)π/n$. Thus we know that we can diagonalise $J_n$ as
+$$
+J_n  = Q_n \begin{bmatrix} x_1 \\ & ⋱ \\ && x_n \end{bmatrix} Q_n^⊤
+$$
+where
+$$
+Q_n = \begin{bmatrix}
+q_0(x_1) & ⋯ & q_0(x_n) \\
+⋮  & ⋯ & ⋮  \\
+q_{n-1}(x_1) & ⋯ & q_{n-1}(x_n)
+\end{bmatrix} \begin{bmatrix} α_1^{-1} \\ & ⋱ \\ && α_n^{-1} \end{bmatrix}
+$$
+where
+$$
+α_j = \sqrt{q_0(x_j)^2 + ⋯ + q_{n-1}(x_j)^2} = {1 \over \sqrt{π}} \sqrt{1 +  2∑_{k=1}^{n-1} \cos k θ_j} = \sqrt{n \over π}.
+$$
+Thus we have
+$$
+\meeq{
+𝐞_1^⊤ Q_n 𝐞_j = {q_0(x_j) \over  α_j} = {1 \over \sqrt{n}} \ccr
+𝐞_k^⊤ Q_n 𝐞_j = {q_{k-1}(x_j) \over  α_j} = \sqrt{2 \over n} \cos (k-1) θ_j.
+}
+$$
+
+
+**END**
+
+
+**Problem 5(b)** Show for $w(x) = 1/\sqrt{1-x^2}$ that the Gaussian quadrature rule is
+$$
+Q_n^w[f] = {π \over n} \sum_{j=1}^n f(x_j)
+$$
+where $x_j = \cos θ_j$ for $θ_j = (j-1/2)π/n$.
+
+**SOLUTION**
+This follows immediately from the previous parts as $x_j$ are the eigenvalues of $J_n$ and the weights in Gauss quadrature have the form
+$$
+{1 \over α_j^2} = {π \over n}.
+$$
+
+**END**
+
+**Problem 5(c)** Give an explicit formula for the polynomial that interpolates $\exp x$ at the points $x_1,…,x_n$ as defined above, in terms of Chebyshev polynomials
+with the coefficients defined in terms of a sum involving only exponentials, cosines and $θ_j = (n-j+1/2)π/n$.
+
+**SOLUTION**
+
+From Theorem 18 we know the interpolatory polynomial is 
+$$
+f_n(x) = ∑_{k=0}^{n-1} c_k^n q_k(x)
+$$
+where $q_0(x) = 1/\sqrt{π}$ and $q_n(x) = \sqrt{2/π} T_n(x)$ and
+$$
+c_k^n = Σ_n^w[\exp(x) q_k] = {π \over n} ∑_{j=0}^n \exp( \cos θ_j) \cos(k θ_j)
+$$
+for $θ_j = (n-j+1/2)π/n$.
+
+**END**

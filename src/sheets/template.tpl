@@ -57,9 +57,13 @@
 \def\z{ {\vc z} }
 \def\w{ {\vc w} }
 
+\def\bt{ {\tilde b} }
+\def\ct{ {\tilde c} }
 \def\Ut{ {\tilde U} }
 \def\Qt{ {\tilde Q} }
 \def\Rt{ {\tilde R} }
+\def\Xt{ {\tilde X} }
+\def\acos{ {\rm acos}\, }
 
 \def\red#1{ {\color{red} #1} }
 \def\blue#1{ {\color{blue} #1} }
