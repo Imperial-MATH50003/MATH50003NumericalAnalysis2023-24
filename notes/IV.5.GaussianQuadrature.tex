@@ -64,7 +64,7 @@ This is indeed exact for polynomials up to degree $n-1=2$, but it goes all the w
 \begin{align*}
 \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[1] &= \ensuremath{\pi}, \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x] = 0, \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x^2] = {\ensuremath{\pi} \over 2}, \\
 \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x^3] &= 0, \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x^4] &= {3 \ensuremath{\pi} \over 8}, \ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x^5] = 0 \\
-\ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x^6] &= {9 \ensuremath{\pi} \over 32} \ensuremath{\neq} {5 \ensuremath{\pi} \over 16}
+\ensuremath{\Sigma}_n^{w,\ensuremath{\bm{\x}}}[x^6] &= {9 \ensuremath{\pi} \over 32} \ensuremath{\neq} {5 \ensuremath{\pi} \over 16}
 \end{align*}
 We shall explain this miracle in the rest of this section. \end{example}
 
@@ -94,7 +94,7 @@ where $w(x)$ is the weight of orthogonality. This is only possible if $j = n$ as
 
 We will now relate these roots to truncations of Jacobi matrices.
 
-\begin{definition}[truncated Jacobi matrix] Given a Jacobi matrix $X$ associated with a family of orthonormal polynomials,  the \emph{truncated Jacobi matrix} is
+\begin{definition}[truncated Jacobi matrix] Given a Jacobi matrix $J$ associated with a family of orthonormal polynomials,  the \emph{truncated Jacobi matrix} is
 \[
 J_n := \begin{bmatrix} a_0 & b_0 \\
                          b_0 & \ensuremath{\ddots} & \ensuremath{\ddots} \\
@@ -209,7 +209,7 @@ w_j = \ensuremath{\int}_a^b w(x) {\rm d}x \underbrace{q_0(x_j)^2/\ensuremath{\al
 
 In analogy to how Fourier series are orthogonal with respect to the Trapezium rule, Orthogonal polynomials are orthogonal with respect to Gaussian quadrature:
 
-\begin{lemma}[Discrete orthogonality] For $0 \ensuremath{\leq} \ensuremath{\ell},m \ensuremath{\leq} n-1$, the orthonormal polynomials $q_n(x)$ satisfy
+\begin{lemma}[Discrete orthogonality] For $0 \ensuremath{\leq} \ensuremath{\ell},m \ensuremath{\leq} n-1$, the orthonormal polynomials $q_n(x)$ satisfy
 \[
 \ensuremath{\Sigma}_n^w[q_\ensuremath{\ell} q_m] = \ensuremath{\delta}_{\ensuremath{\ell}m}
 \]
