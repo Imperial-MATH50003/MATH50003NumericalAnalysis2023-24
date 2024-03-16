@@ -48,8 +48,8 @@ A𝐱 ≈ \begin{bmatrix} ⨁_{j=1}^n (a_{1j}  ⊗ x_j) \\ ⋮ \\  ⨁_{j=1}^n (
 $$
 This actually encodes an algorithm for computing the entries.
 
-This algorithm uses $O(m n)$ floating point operations (see the appendix if you are unaware of Big-O notation, here our complexities are implicitely taken to be
-when $m$ or $n$ tends to $∞$): each of the $m$ entry consists
+This algorithm uses $O(m n)$ floating point operations (see the appendix if you are unaware of Big-O notation, here our complexities are implicitly taken to be
+when $m$ or $n$ tends to $∞$): each of the $m$ entries consists
 of $n$ multiplications and $n-1$ additions, hence we have a total of $2n-1 = O(n)$ operations per row for a total of $m(2n-1) = O(mn)$ operations. For a square matrix this is $O(n^2)$ operations which we call _quadratic complexity_. In the problem sheet we see how
 the floating point error can be bounded in terms of norms, thus reducing the problem to a purely mathematical concept.
 

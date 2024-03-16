@@ -363,11 +363,11 @@ First, assume $p_n(x)$ has the specified form. Noting that $\|q_n\|^2 = 1$ and t
 if $p_n(x) = α s_n q_n(x)$ we have
 $$
 b_n = {⟨xp_n, p_{n+1}⟩ \over \|p_{n+1}\|^2} = s_n s_{n+1} ⟨x q_n, q_{n+1}⟩ =
-s_n s_{n+1} ⟨q_n, x q_{n+1}⟩ = {⟨p_n, xp_{n+1}⟩ \over \|p_n\|^2} = c_{n-1}
+s_n s_{n+1} ⟨q_n, x q_{n+1}⟩ = {⟨p_n, xp_{n+1}⟩ \over \|p_n\|^2} = c_{n}
 $$
 and therefore $X$ is symmetric.
 
-Conversely, suppose $X = X^⊤$, i.e., $b_n = c_{n-1}$ and write the corresponding
+Conversely, suppose $X = X^⊤$, i.e., $b_n = c_{n}$ and write the corresponding
 orthogonal polynomials as $p_n(x) = α_n q_n(x)$. We have
 $$
 \meeq{
@@ -375,7 +375,7 @@ b_n = {⟨xp_n, p_{n+1}⟩ \over \|p_{n+1}\|^2} =
 {α_n \over α_{n+1}} ⟨xq_n, q_{n+1}⟩ =
 {α_n \over α_{n+1}} ⟨q_n, x q_{n+1}⟩ = {α_n^2 \over α_{n+1}^2} {⟨p_n, xp_{n+1}⟩ \over \|p_n\|^2}
 \ccr
-= {α_n^2 \over α_{n+1}^2} c_{n-1} = {α_n^2 \over α_{n+1}^2} b_n.
+= {α_n^2 \over α_{n+1}^2} c_{n} = {α_n^2 \over α_{n+1}^2} b_n.
 }
 $$
 Hence $α_n^2 = α_{n+1}^2$ which implies that $α_{n+1} = ± α_n$. By induction the result follows,

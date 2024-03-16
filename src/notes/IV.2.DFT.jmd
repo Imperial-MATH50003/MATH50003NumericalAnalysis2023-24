@@ -99,7 +99,7 @@ $$
 S_n(0) \\
 ⋮ \\
 S_n(n-1)
-\end{bmatrix} = {1 \over \sqrt{n}} Q_n \begin{bmatrix} 1 \\
+\end{bmatrix} = {1 \over \sqrt{n}} Q_n \begin{bmatrix} {\rm e} \\
                                 \exp({\rm e}^{2\I π/n}) \\
                                 ⋮ \\
                                 \exp({\rm e}^{2\I (n-1) π/n}) \end{bmatrix}

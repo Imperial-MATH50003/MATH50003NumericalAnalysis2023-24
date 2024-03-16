@@ -38,7 +38,7 @@ A\ensuremath{\bm{\x}} \ensuremath{\approx} \begin{bmatrix} \ensuremath{\bigoplus
 \]
 This actually encodes an algorithm for computing the entries.
 
-This algorithm uses $O(m n)$ floating point operations (see the appendix if you are unaware of Big-O notation, here our complexities are implicitely taken to be when $m$ or $n$ tends to $\ensuremath{\infty}$): each of the $m$ entry consists of $n$ multiplications and $n-1$ additions, hence we have a total of $2n-1 = O(n)$ operations per row for a total of $m(2n-1) = O(mn)$ operations. For a square matrix this is $O(n^2)$ operations which we call \emph{quadratic complexity}. In the problem sheet we see how the floating point error can be bounded in terms of norms, thus reducing the problem to a purely mathematical concept.
+This algorithm uses $O(m n)$ floating point operations (see the appendix if you are unaware of Big-O notation, here our complexities are implicitly taken to be when $m$ or $n$ tends to $\ensuremath{\infty}$): each of the $m$ entries consists of $n$ multiplications and $n-1$ additions, hence we have a total of $2n-1 = O(n)$ operations per row for a total of $m(2n-1) = O(mn)$ operations. For a square matrix this is $O(n^2)$ operations which we call \emph{quadratic complexity}. In the problem sheet we see how the floating point error can be bounded in terms of norms, thus reducing the problem to a purely mathematical concept.
 
 Sometimes there are multiple ways of implementing numerical algorithms. We have an alternative formula where we multiply by columns:
 \[

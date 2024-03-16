@@ -118,7 +118,7 @@ printbits(x + y) # + is automatically modular arithmetic
 x = UInt8(3) # An 8-bit representation of the number   3, i.e. with bits 00000011
 y = UInt8(5) # An 8-bit representation of the number   5, i.e. with bits 00000101
 printbits(x); println(" - "); printbits(y); println(" = ")
-printbits(x - y) # + is automatically modular arithmetic
+printbits(x - y) # - is automatically modular arithmetic
 
 
 # Multiplication also works similarly. Multiplication by two shifts bits by
