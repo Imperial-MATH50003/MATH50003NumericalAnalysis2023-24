@@ -2,7 +2,7 @@
 
 
 
-**Problem 1** What are the upper $3 × 3$ sub-block of the Jacobi matrix for the 
+**Problem 1** What are the upper $3 × 3$ sub-block of the multiplication matrix $X$ / Jacobi matrix $J$ for the
 monic and orthonormal polynomials with respect to the following weights on
 $[-1,1]$:
 $$
@@ -25,30 +25,24 @@ $w(x) = \sqrt{1-x^2}$ with the points $[-1,1/2,1]$.
 
 
 
-**Problem 4** Compute the 2-point 
-interpolatory quadrature rule associated with roots of orthogonal polynomials for the weights $\sqrt{1-x^2}$, $1$, 
+**Problem 4** Compute the 2-point
+interpolatory quadrature rule associated with roots of orthogonal polynomials for the weights $\sqrt{1-x^2}$, $1$,
 and $1-x$ on $[-1,1]$ by integrating the Lagrange bases.
 
 
 
 
 
-**Problem 5** Compute the 2-point and 3-point Gaussian quadrature rules associated with $w(x) = 1$ on $[-1,1]$. 
-
-
-
-
-
-**Problem 6(a)** For the matrix
+**Problem 5(a)** For the matrix
 $$
-J_n = \begin{bmatrix} 0 & 1/\sqrt{2} \\ 
+J_n = \begin{bmatrix} 0 & 1/\sqrt{2} \\
                 1/\sqrt{2} & 0 & 1/2 \\
 				& 1/2 & 0 & ⋱  \\
                 && ⋱ & ⋱ & 1/2 \\
                 &&& 1/2 & 0
                 \end{bmatrix} ∈ ℝ^{n × n}
 $$
-use the relationship with the Jacobi matrix associated with $T_n(x)$ to prove that
+use the relationship with the Jacobi matrix associated with $T_n(x)$ to prove that, for $x_j = \cos θ_j$, and $θ_j = (n-j+1/2)π/n$,
 $$
 J_n = Q_n \begin{bmatrix} x_1 \\ & ⋱ \\ && x_n \end{bmatrix} Q_n^⊤
 $$
@@ -56,10 +50,9 @@ where
 $$
 \meeq{
 𝐞_1^⊤ Q_n 𝐞_j = {1 \over \sqrt{n}}, \qquad
-𝐞_k^⊤ Q_n 𝐞_j = \sqrt{2 \over n} \cos (k-1) θ_j,
+𝐞_k^⊤ Q_n 𝐞_j = \sqrt{2 \over n} \cos (k-1) θ_j.
 }
 $$
-for $x_j = \cos θ_j$, and $θ_j = (n-j+1/2)π/n$ for $j = 1,…,n$.
 You may use without proof the sums-of-squares formula
 $$
 1 + 2 ∑_{k=1}^{n-1} \cos^2 k θ_j = n.
@@ -68,7 +61,7 @@ $$
 
 
 
-**Problem 6(b)** Show for $w(x) = 1/\sqrt{1-x^2}$ that the Gaussian quadrature rule is
+**Problem 5(b)** Show for $w(x) = 1/\sqrt{1-x^2}$ that the Gaussian quadrature rule is
 $$
 Q_n^w[f] = {π \over n} \sum_{j=1}^n f(x_j)
 $$
@@ -76,6 +69,6 @@ where $x_j = \cos θ_j$ for $θ_j = (j-1/2)π/n$.
 
 
 
-**Problem 6(c)** Give an explicit formula for the polynomial that interpolates $\exp x$ at the points $x_1,…,x_n$ as defined above.
-
+**Problem 5(c)** Give an explicit formula for the polynomial that interpolates $\exp x$ at the points $x_1,…,x_n$ as defined above, in terms of Chebyshev polynomials
+with the coefficients defined in terms of a sum involving only exponentials, cosines and $θ_j = (n-j+1/2)π/n$.
 

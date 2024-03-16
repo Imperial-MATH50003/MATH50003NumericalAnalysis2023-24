@@ -138,9 +138,13 @@
 \def\z{ {\vc z} }
 \def\w{ {\vc w} }
 
+\def\bt{ {\tilde b} }
+\def\ct{ {\tilde c} }
 \def\Ut{ {\tilde U} }
 \def\Qt{ {\tilde Q} }
 \def\Rt{ {\tilde R} }
+\def\Xt{ {\tilde X} }
+\def\acos{ {\rm acos}\, }
 
 \def\red#1{ {\color{red} #1} }
 \def\blue#1{ {\color{blue} #1} }
@@ -155,7 +159,7 @@
 
 \textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Problem Sheet 10}
 
-\textbf{Problem 1} What are the upper $3 \ensuremath{\times} 3$ sub-block of the Jacobi matrix for the  monic and orthonormal polynomials with respect to the following weights on $[-1,1]$:
+\textbf{Problem 1} What are the upper $3 \ensuremath{\times} 3$ sub-block of the multiplication matrix $X$ / Jacobi matrix $J$ for the monic and orthonormal polynomials with respect to the following weights on $[-1,1]$:
 \[
 1-x, \sqrt{1-x^2}, 1-x^2
 \]
@@ -163,39 +167,37 @@
 
 \textbf{Problem 3} Compute the interpolatory quadrature rule for $w(x) = \sqrt{1-x^2}$ with the points $[-1,1/2,1]$.
 
-\textbf{Problem 4} Compute the 2-point  interpolatory quadrature rule associated with roots of orthogonal polynomials for the weights $\sqrt{1-x^2}$, $1$,  and $1-x$ on $[-1,1]$ by integrating the Lagrange bases.
+\textbf{Problem 4} Compute the 2-point interpolatory quadrature rule associated with roots of orthogonal polynomials for the weights $\sqrt{1-x^2}$, $1$, and $1-x$ on $[-1,1]$ by integrating the Lagrange bases.
 
-\textbf{Problem 5} Compute the 2-point and 3-point Gaussian quadrature rules associated with $w(x) = 1$ on $[-1,1]$. 
-
-\textbf{Problem 6(a)} For the matrix
+\textbf{Problem 5(a)} For the matrix
 \[
-J_n = \begin{bmatrix} 0 & 1/\sqrt{2} \\ 
+J_n = \begin{bmatrix} 0 & 1/\sqrt{2} \\
                 1/\sqrt{2} & 0 & 1/2 \\
 				& 1/2 & 0 & \ensuremath{\ddots}  \\
                 && \ensuremath{\ddots} & \ensuremath{\ddots} & 1/2 \\
                 &&& 1/2 & 0
                 \end{bmatrix} \ensuremath{\in} \ensuremath{\bbR}^{n \ensuremath{\times} n}
 \]
-use the relationship with the Jacobi matrix associated with $T_n(x)$ to prove that
+use the relationship with the Jacobi matrix associated with $T_n(x)$ to prove that, for $x_j = \cos \ensuremath{\theta}_j$, and $\ensuremath{\theta}_j = (n-j+1/2)\ensuremath{\pi}/n$,
 \[
 J_n = Q_n \begin{bmatrix} x_1 \\ & \ensuremath{\ddots} \\ && x_n \end{bmatrix} Q_n^\ensuremath{\top}
 \]
 where
 \meeq{
 \ensuremath{\bm{\e}}_1^\ensuremath{\top} Q_n \ensuremath{\bm{\e}}_j = {1 \over \sqrt{n}}, \qquad
-\ensuremath{\bm{\e}}_k^\ensuremath{\top} Q_n \ensuremath{\bm{\e}}_j = \sqrt{2 \over n} \cos (k-1) \ensuremath{\theta}_j,
+\ensuremath{\bm{\e}}_k^\ensuremath{\top} Q_n \ensuremath{\bm{\e}}_j = \sqrt{2 \over n} \cos (k-1) \ensuremath{\theta}_j.
 }
-for $x_j = \cos \ensuremath{\theta}_j$, and $\ensuremath{\theta}_j = (n-j+1/2)\ensuremath{\pi}/n$ for $j = 1,\ensuremath{\ldots},n$. You may use without proof the sums-of-squares formula
+You may use without proof the sums-of-squares formula
 \[
 1 + 2 \ensuremath{\sum}_{k=1}^{n-1} \cos^2 k \ensuremath{\theta}_j = n.
 \]
-\textbf{Problem 6(b)} Show for $w(x) = 1/\sqrt{1-x^2}$ that the Gaussian quadrature rule is
+\textbf{Problem 5(b)} Show for $w(x) = 1/\sqrt{1-x^2}$ that the Gaussian quadrature rule is
 \[
 Q_n^w[f] = {\ensuremath{\pi} \over n} \sum_{j=1}^n f(x_j)
 \]
 where $x_j = \cos \ensuremath{\theta}_j$ for $\ensuremath{\theta}_j = (j-1/2)\ensuremath{\pi}/n$.
 
-\textbf{Problem 6(c)} Give an explicit formula for the polynomial that interpolates $\exp x$ at the points $x_1,\ensuremath{\ldots},x_n$ as defined above.
+\textbf{Problem 5(c)} Give an explicit formula for the polynomial that interpolates $\exp x$ at the points $x_1,\ensuremath{\ldots},x_n$ as defined above, in terms of Chebyshev polynomials with the coefficients defined in terms of a sum involving only exponentials, cosines and $\ensuremath{\theta}_j = (n-j+1/2)\ensuremath{\pi}/n$.
 
 
 

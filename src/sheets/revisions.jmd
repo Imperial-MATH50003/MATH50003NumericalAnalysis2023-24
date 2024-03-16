@@ -95,3 +95,57 @@ $$
 $$
 
 **END**
+
+**Problem 5** Compute the 2-point and 3-point Gaussian quadrature rules associated with $w(x) = 1$ on $[-1,1]$.
+
+**SOLUTION**
+
+For the weights $w(x) = 1$, the orthogonal polynomials of degree $≤ 3$ are the Legendre polynomials,
+$$
+\begin{align*}
+	P_0(x) = 1, \\
+	P_1(x) = x, \\
+	P_2(x) = \frac{1}{2}(3x^2  - 1), \\
+	P_3(x) = \frac{1}{2}(5x^3 - 3x)
+\end{align*}
+$$
+which can be found from, e.g, the Rodriguez formula or by direct construction.
+We can normalise each to get $q_j(x) = P_j(x)/\|P_j\|$, with $\|P_j\|^2 = \int_{-1}^1 P_j^2 dx$. This gives,
+$$
+\begin{align*}
+	q_0(x) = \frac{1}{\sqrt{2}}, \\
+	q_1(x) = \sqrt{\frac{3}{2}}x, \\
+	q_2(x) = \sqrt{\frac{5}{8}}(3x^2  - 1), \\
+	q_3(x) = \sqrt{\frac{7}{8}}(5x^3 - 3x).
+\end{align*}
+$$
+For the first part we use the roots of $P_2(x)$ which are $𝐱 = \left\{± \frac{1}{\sqrt{3}}\right\}$. The weights are,
+$$
+w_j = \frac{1}{α_j^2} = \frac{1}{q_0(x_j)^2 + q_1(x_j)^2} = \frac{1}{\frac{1}{2}+\frac{3}{2}x_j^2},
+$$
+where $α_j$ is the same as in III.6 Lemma 2,
+so that,
+$$
+w_1 = w_2 = 1,
+$$
+and the Gaussian Quadrature rule is,
+$$
+Σ_2^w[f] = f\left(-\frac{1}{\sqrt{3}}\right) + f\left(\frac{1}{\sqrt{3}}\right)
+$$
+For the second part, we use the roots of $P_3(x)$ which are $𝐱 = \left\{0, ± \sqrt{\frac{3}{5}} \right\}$. The weights are then,
+$$
+w_j = \frac{1}{α_j^2} = \frac{1}{q_0(x_j)^2 + q_1(x_j)^2 + q_2(x_j)^2} = \frac{1}{\frac{9}{8} -\frac{9}{4}x_j^2 + \frac{45}{8}x_j^4 }
+$$
+Giving us,
+$$
+\begin{align*}
+	w_1 = w_3 = \frac{1}{\frac{9}{8} - \frac{9}{4}\frac{3}{5} + \frac{45}{8}\frac{9}{25}} &= \frac{5}{9} \\
+	w_2 &= \frac{8}{9}
+\end{align*}
+$$
+Then the Gaussian Quadrature rule is,
+$$
+Σ_3^w[f] = \frac{1}{9} \left[5f\left(-\sqrt\frac{3}{5}\right) +8f(0) + 5f\left(\sqrt\frac{3}{5}\right) \right]
+$$
+
+**END**
