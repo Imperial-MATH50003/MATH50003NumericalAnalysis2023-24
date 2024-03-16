@@ -407,24 +407,6 @@ $$
 $$
 ∎
 
-**Example (Chebyshev quadrature via Lagrange polynomials)** The connection with interpolatory quadrature
-means theres another way to compute the quadrature: integrate the Lagrange polynomials associated with
-the zeros. For example, with $n = 3$ recall that the roots of $T_3(x)$ are $±\sqrt{3}/2$ and $0$. Thus we have
-$$
-\begin{align*}
-ℓ_1(x) &= x (x +\sqrt{3}/2) / (3/2) = {(2x^2+\sqrt{3}x) \over 3} \\
-ℓ_2(x) &= (x - \sqrt{3}/2) (x +\sqrt{3}/2) / (-3/4) = -{4 \over 3} x^2 + 1 \\
-ℓ_3(x) &=(x -\sqrt{3}/2) x / (3/2) = {(2x^2-\sqrt{3}x) \over 3}
-\end{align*}
-$$
-A quick check confirms that
-$$
-w_j = ∫_{-1}^1 {ℓ_j(x) \over \sqrt{1-x^2}} {\rm d}x = {π \over 3}.
-$$
-∎
-
-
-
 
 A consequence of being an interpolatory quadrature rule is that it is exact for all
 polynomials of degree $n-1$. The _miracle_ of Gaussian quadrature is it is exact for twice

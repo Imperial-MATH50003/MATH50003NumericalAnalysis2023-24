@@ -332,18 +332,6 @@ which can be easily confirmed. \end{example}
 \]
 \ensuremath{\QED}
 
-\begin{example}[Chebyshev quadrature via Lagrange polynomials] The connection with interpolatory quadrature means theres another way to compute the quadrature: integrate the Lagrange polynomials associated with the zeros. For example, with $n = 3$ recall that the roots of $T_3(x)$ are $\ensuremath{\pm}\sqrt{3}/2$ and $0$. Thus we have
-\begin{align*}
-\ensuremath{\ell}_1(x) &= x (x +\sqrt{3}/2) / (3/2) = {(2x^2+\sqrt{3}x) \over 3} \\
-\ensuremath{\ell}_2(x) &= (x - \sqrt{3}/2) (x +\sqrt{3}/2) / (-3/4) = -{4 \over 3} x^2 + 1 \\
-\ensuremath{\ell}_3(x) &=(x -\sqrt{3}/2) x / (3/2) = {(2x^2-\sqrt{3}x) \over 3}
-\end{align*}
-A quick check confirms that
-\[
-w_j = \ensuremath{\int}_{-1}^1 {\ensuremath{\ell}_j(x) \over \sqrt{1-x^2}} {\rm d}x = {\ensuremath{\pi} \over 3}.
-\]
-\end{example}
-
 A consequence of being an interpolatory quadrature rule is that it is exact for all polynomials of degree $n-1$. The \emph{miracle} of Gaussian quadrature is it is exact for twice as many!
 
 \begin{theorem}[Exactness of Gauss quadrature] If $p(x)$ is a degree $2n-1$ polynomial then Gauss quadrature is exact:
