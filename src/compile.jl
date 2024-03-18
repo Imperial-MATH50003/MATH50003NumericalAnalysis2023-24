@@ -37,7 +37,7 @@ compilenotes("A.Permutations")
 # Sheets
 ####
 
-for k = 1:10
+for k = 1:11
     compilesheet(k)
 end
 

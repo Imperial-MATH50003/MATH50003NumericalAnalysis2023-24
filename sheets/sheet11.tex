@@ -1,0 +1,251 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage[usenames,dvipsnames]{xcolor}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.2ex}
+
+
+
+
+\hypersetup
+       {   pdfauthor = {  },
+           pdftitle={  },
+           colorlinks=TRUE,
+           linkcolor=black,
+           citecolor=blue,
+           urlcolor=blue
+       }
+
+
+
+
+\usepackage{upquote}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    upquote=true,
+    breaklines=true,
+    breakindent=0pt,
+    keepspaces=true,
+    showspaces=false,
+    columns=fullflexible,
+    showtabs=false,
+    showstringspaces=false,
+    escapeinside={(*@}{@*)},
+    extendedchars=true,
+}
+\newcommand{\HLJLt}[1]{#1}
+\newcommand{\HLJLw}[1]{#1}
+\newcommand{\HLJLe}[1]{#1}
+\newcommand{\HLJLeB}[1]{#1}
+\newcommand{\HLJLo}[1]{#1}
+\newcommand{\HLJLk}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkc}[1]{\textcolor[RGB]{59,151,46}{\textit{#1}}}
+\newcommand{\HLJLkd}[1]{\textcolor[RGB]{214,102,97}{\textit{#1}}}
+\newcommand{\HLJLkn}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkp}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkr}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkt}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLn}[1]{#1}
+\newcommand{\HLJLna}[1]{#1}
+\newcommand{\HLJLnb}[1]{#1}
+\newcommand{\HLJLnbp}[1]{#1}
+\newcommand{\HLJLnc}[1]{#1}
+\newcommand{\HLJLncB}[1]{#1}
+\newcommand{\HLJLnd}[1]{\textcolor[RGB]{214,102,97}{#1}}
+\newcommand{\HLJLne}[1]{#1}
+\newcommand{\HLJLneB}[1]{#1}
+\newcommand{\HLJLnf}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnfm}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnp}[1]{#1}
+\newcommand{\HLJLnl}[1]{#1}
+\newcommand{\HLJLnn}[1]{#1}
+\newcommand{\HLJLno}[1]{#1}
+\newcommand{\HLJLnt}[1]{#1}
+\newcommand{\HLJLnv}[1]{#1}
+\newcommand{\HLJLnvc}[1]{#1}
+\newcommand{\HLJLnvg}[1]{#1}
+\newcommand{\HLJLnvi}[1]{#1}
+\newcommand{\HLJLnvm}[1]{#1}
+\newcommand{\HLJLl}[1]{#1}
+\newcommand{\HLJLld}[1]{\textcolor[RGB]{148,91,176}{\textit{#1}}}
+\newcommand{\HLJLs}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsa}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsb}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsc}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsd}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdC}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLse}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLsh}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsi}[1]{#1}
+\newcommand{\HLJLso}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsr}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLss}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLssB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLnB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnbB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnfB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnh}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLni}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnil}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnoB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLoB}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLow}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLp}[1]{#1}
+\newcommand{\HLJLc}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLch}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcm}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcp}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcpB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcs}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcsB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLg}[1]{#1}
+\newcommand{\HLJLgd}[1]{#1}
+\newcommand{\HLJLge}[1]{#1}
+\newcommand{\HLJLgeB}[1]{#1}
+\newcommand{\HLJLgh}[1]{#1}
+\newcommand{\HLJLgi}[1]{#1}
+\newcommand{\HLJLgo}[1]{#1}
+\newcommand{\HLJLgp}[1]{#1}
+\newcommand{\HLJLgs}[1]{#1}
+\newcommand{\HLJLgsB}[1]{#1}
+\newcommand{\HLJLgt}[1]{#1}
+
+
+\def\endash{–}
+\def\bbD{ {\mathbb D} }
+\def\bbZ{ {\mathbb Z} }
+\def\bbR{ {\mathbb R} }
+\def\bbC{ {\mathbb C} }
+
+\def\x{ {\vc x} }
+\def\a{ {\vc a} }
+\def\b{ {\vc b} }
+\def\e{ {\vc e} }
+\def\f{ {\vc f} }
+\def\u{ {\vc u} }
+\def\v{ {\vc v} }
+\def\y{ {\vc y} }
+\def\z{ {\vc z} }
+\def\w{ {\vc w} }
+
+\def\bt{ {\tilde b} }
+\def\ct{ {\tilde c} }
+\def\Ut{ {\tilde U} }
+\def\Qt{ {\tilde Q} }
+\def\Rt{ {\tilde R} }
+\def\Xt{ {\tilde X} }
+\def\acos{ {\rm acos}\, }
+
+\def\red#1{ {\color{red} #1} }
+\def\blue#1{ {\color{blue} #1} }
+\def\green#1{ {\color{ForestGreen} #1} }
+\def\magenta#1{ {\color{magenta} #1} }
+
+\input{somacros}
+
+\begin{document}
+
+
+
+\textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Revision Sheet}
+
+\textbf{Problem 1(a)} State which integers are represented by an 8-bit signed (\texttt{Int8}) and unsigned (\texttt{UInt8}) integer, both with   bits
+\[
+{\tt 10000001}
+\]
+\textbf{Problem 1(b)} State which real number is represented by an IEEE 16-bit floating point number (with $\ensuremath{\sigma} = 15, Q = 5$, and $S = 10$) with bits
+\[
+{\tt 1\ 01000\ 0000000001}
+\]
+\textbf{Problem 2(a)} Consider the truncated Taylor series for $1/(1-x)$:
+\[
+g_n(x) := \ensuremath{\sum}_{k=0}^n x^k
+\]
+Write  a one-line mathematical function $g_n^t(x)$ approximating $g_n(x)$ using floating point operations  involving $\ensuremath{\oplus}$, $\ensuremath{\oslash}$, and $\ensuremath{\otimes}$. You may find it convenient to use the notation:
+\begin{align*}
+\ensuremath{\bigoplus}_{k=1}^n x_k &:= x_1 \ensuremath{\oplus} \ensuremath{\cdots} \ensuremath{\oplus} x_n = (\ensuremath{\cdots}((x_1 \ensuremath{\oplus} x_2) \ensuremath{\oplus} x_3)\ensuremath{\cdots} \ensuremath{\oplus} x_{n-1}) \ensuremath{\oplus} x_n \\
+\ensuremath{\bigotimes}_{k=1}^n x_k &:= x_1 \ensuremath{\otimes} \ensuremath{\cdots} \ensuremath{\otimes} x_n = (\ensuremath{\cdots}((x_1 \ensuremath{\otimes} x_2) \ensuremath{\otimes} x_3)\ensuremath{\cdots} \ensuremath{\otimes} x_{n-1}) \ensuremath{\otimes} x_n \\
+\end{align*}
+\textbf{Problem 2(b)} Recall for $E_{n,\ensuremath{\epsilon}} := {n \ensuremath{\epsilon} \over 1-n\ensuremath{\epsilon}}$ and $x_1,\ensuremath{\ldots},x_n \ensuremath{\in} F$ that
+\begin{align*}
+x_1 \ensuremath{\otimes} \ensuremath{\cdots} \ensuremath{\otimes} x_n &= x_1 \ensuremath{\cdots} x_n (1 + \ensuremath{\theta}_{n-1}),\\
+x_1 \ensuremath{\oplus} \ensuremath{\cdots} \ensuremath{\oplus} x_n &= x_1 +  \ensuremath{\cdots} + x_n + \ensuremath{\sigma}_n
+\end{align*}
+where $|\ensuremath{\theta}_n| \ensuremath{\leq} E_{n,\ensuremath{\epsilon}_{\rm m}/2}$ and $|\ensuremath{\sigma}_n| \ensuremath{\leq} M E_{n-1,\ensuremath{\epsilon}_{\rm m}/2}$, for $M = \ensuremath{\Sigma}_{k=1}^n |x_k|$ and  assuming $n \ensuremath{\epsilon}_{\rm m} < 2$. Show for $x \ensuremath{\in} F$ such that $|x| < 1$
+\[
+g_n^t(x) = \ensuremath{\sum}_{k=0}^n x^k + \ensuremath{\varepsilon}_n
+\]
+where
+\[
+|\ensuremath{\varepsilon}_n| \ensuremath{\leq} {2E_{n,\ensuremath{\epsilon}_{\rm m}/2} + E_{n,\ensuremath{\epsilon}_{\rm m}/2}^2 \over  1- |x|}.
+\]
+You may assume all operations are normal.
+
+\textbf{Problem 3} What is the dual extension of square-roots? I.e. what should $\sqrt{a + b \ensuremath{\epsilon}}$ equal assuming $a > 0$?
+
+\textbf{Problem 6} Use the Cholesky factorisation to determine whether the following matrix is symmetric positive definite:
+\[
+\begin{bmatrix} 2 & 2 & 1  \\
+2 & 3 & 2\\
+1 & 2 & 2
+\end{bmatrix}
+\]
+\textbf{Problem 5} Use reflections to determine the entries of an orthogonal matrix $Q$ such that
+\[
+Q \begin{bmatrix} 2 \\ 1 \\ 2 \end{bmatrix} =  \begin{bmatrix} -3 \\ 0 \\ 0 \end{bmatrix}.
+\]
+\textbf{Problem 8} For the function $f(\ensuremath{\theta}) = \sin 3 \ensuremath{\theta}$, state explicit formulae for its Fourier coefficients
+\[
+\hat f_k := {1 \over 2\ensuremath{\pi}} \int_0^{2\ensuremath{\pi}} f(\ensuremath{\theta}) {\rm e}^{-{\rm i} k \ensuremath{\theta}} {\rm d}\ensuremath{\theta}
+\]
+and  their discrete approximation:
+\[
+\hat f_k^n := {1 \over n} \sum_{j=0}^{n-1} f(\ensuremath{\theta}_j) {\rm e}^{-{\rm i} k \ensuremath{\theta}_j}.
+\]
+for \emph{all} integers $k$, $n = 1,2,\ensuremath{\ldots}$, where $\ensuremath{\theta}_j = 2\ensuremath{\pi} j/n$.
+
+\textbf{Problem 9} Consider orthogonal polynomials
+\[
+H_n(x) = 2^n x^n + O (x^{n-1})
+\]
+as $x \ensuremath{\rightarrow} \ensuremath{\infty}$ and $n = 0, 1, 2, \ensuremath{\ldots}$,  orthogonal with respect to the inner product
+\[
+\langle f, g \rangle = \int_{-\ensuremath{\infty}}^\ensuremath{\infty} f(x) g(x) w(x) {\rm d}x, \qquad w(x) = \exp(-x^2)
+\]
+Construct $H_0(x)$, $H_1(x)$, $H_2(x)$ and hence show that $H_3(x) = 8x^3-12x$. You may use without proof the formulae
+\[
+\int_{-\ensuremath{\infty}}^\ensuremath{\infty} w(x) {\rm d}x = \sqrt{\ensuremath{\pi}}, \int_{-\ensuremath{\infty}}^\ensuremath{\infty} x^2 w(x) {\rm d}x = \sqrt{\ensuremath{\pi}}/2,
+\int_{-\ensuremath{\infty}}^\ensuremath{\infty} x^4 w(x) {\rm d}x = 3\sqrt{\ensuremath{\pi}}/4.
+\]
+\textbf{Problem 10} Solve Problem 4(b) from PS8 using \textbf{Lemma 12 (discrete orthogonality)} with $w(x) = 1/\sqrt{1-x^2}$ on $[-1,1]$. That is, use the connection of $T_n(x)$ with $\cos n \ensuremath{\theta}$ to show that the Discrete Cosine Transform
+\[
+C_n := \begin{bmatrix}
+\sqrt{1/n} \\
+ & \sqrt{2/n} \\
+ && \ensuremath{\ddots} \\
+ &&& \sqrt{2/n}
+ \end{bmatrix}
+\begin{bmatrix}
+    1 & \ensuremath{\cdots} & 1\\
+    \cos \ensuremath{\theta}_1 & \ensuremath{\cdots} & \cos \ensuremath{\theta}_n \\
+    \ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\vdots} \\
+    \cos (n-1)\ensuremath{\theta}_1 & \ensuremath{\cdots} & \cos (n-1)\ensuremath{\theta}_n
+\end{bmatrix}
+\]
+for $\ensuremath{\theta}_j = \ensuremath{\pi}(j-1/2)/n$ is an orthogonal matrix.
+
+\textbf{Problem 5} Compute the 2-point and 3-point Gaussian quadrature rules associated with $w(x) = 1$ on $[-1,1]$.
+
+
+
+\end{document}
