@@ -4,46 +4,91 @@
 
 
 **Problem 1** Construct the monic and orthonormal polynomials up to degree $3$
-for the weights $\sqrt{1-x^2}$ and $1-x$ on $[-1,1]$. What are the corresponding Jacobi matrices?
-Hint: for the first weight, first compute $\int_{-1}^1 x^k \sqrt{1-x^2} {\rm d} x$ for $0 ≤ k ≤ 2$
+for the weights $\sqrt{1-x^2}$ and $1-x$ on $[-1,1]$. What are the top $3 × 3$ entries of the corresponding Jacobi matrices?
+Hint: for the first weight, find a recursive formula for $\int_{-1}^1 x^k \sqrt{1-x^2} {\rm d} x$
 using a change-of-variables.
 
 **SOLUTION**
 
-Following the hint, we first calculate $\int_{-1}^1 x^k\sqrt{1-x^2}{\rm d}x$. By symmetry, it's zero when $k$ is odd and double the integral on $[0,1]$ when $k$ is even. 
+**Weight 1** ($\sqrt{1-x^2}$)
+
+Following the hint, we first calculate $\int_{-1}^1 x^k\sqrt{1-x^2}{\rm d}x$. By symmetry, it's zero when $k$ is odd and double the integral on $[0,1]$ when $k$ is even.
 
 $$
 \underbrace{\int_0^1 x^k\sqrt{1-x^2}{\rm d}x}_{I_k} = _{x=\sin t}\underbrace{\int_0^{π/2}\sin^k(t)\cos^2(t){\rm d}t}_{I_k}=\underbrace{\int_0^{π/2}\sin^k t{\rm d}t}_{J_k}-\underbrace{\int_0^{π/2}\sin^{k+2}t{\rm d}t}_{J_{k+2}}.
 $$
 
-Meanwhile, 
+Meanwhile,
 $$
 J_k=-\int_0^{π/2}\sin^{k-1}t{\rm d}(\cos t)=_{\text{integral by part}}(k-1)I_{k-2}.
 $$
 
-Putting the above 2 equations together, we have $I_k=(k-1)I_{k-2}-(k+1)I_k$, so $I_k=\frac{k-1}{k+2}I_{k-2}$. Since $I_0=π/4$, we have $I_k=\frac{(k-1)!!}{(k+2)!!}\frac{π}{2}$ for positive even $k$. (Note that the denominator multiplies to 4, not to 2.) Keep in mind that the integral we want is double this value when $k$ is even.
+Putting the above 2 equations together, we have $I_k=(k-1)I_{k-2}-(k+1)I_k$, so $I_k=\frac{k-1}{k+2}I_{k-2}$. Since $I_0=π/4$ we have $I_2 = {π / 16}$ and $I_4 = π/32$ hence
+$$
+\meeq{
+\int_{-1}^1 \sqrt{1-x^2} {\rm d}x = {π \over 2}, \int_{-1}^1 x  \sqrt{1-x^2} {\rm d}x = 0, \int_{-1}^1 x^2 \sqrt{1-x^2} {\rm d}x = {π \over 8}, \ccr
+\int_{-1}^1 x^3 \sqrt{1-x^2} {\rm d}x = 0, \int_{-1}^1 x^4 \sqrt{1-x^2} {\rm d}x = {π \over 16}.
+}
+$$
 
-【Remark】Check the [beta function](https://en.wikipedia.org/wiki/Beta_function).
+
+
 
 Let $p_0(x)=1$, then $\|p_0\|^2=2I_0=π/2$. We know from the 3-term recurrence that
-$$xp_0(x)=a_0p_0(x)+p_1(x)$$
+$$
+xp_0(x)=a_0p_0(x)+p_1(x)
+$$
 where
 $$
-a_0=\frac{⟨ p_0,xp_0⟩}{\|p_0\|^2}=0.$$
+a_0=\frac{⟨ p_0,xp_0⟩}{\|p_0\|^2}=0.
+$$
 Thus $p_1(x)=x$ and $\|p_1\|^2=2I_2=π/8$.
 From
-$$xp_1(x)=c_0p_0(x)+a_1p_1(x)+p_2(x)$$
+$$
+xp_1(x)=c_0p_0(x)+a_1p_1(x)+p_2(x)
+$$
 we have
-$$c_0=\frac{⟨ p_0,xp_1⟩}{\|p_0\|^2}=2I_2/2I_0=1/4$$
-$$a_1=\frac{⟨ p_1,xp_1⟩}{\|p_1\|^2}=0$$
-$$p_2(x)=xp_1(x)-c_0-a_1p_1(x)=x^2-1/4$$
-$$\|p_2\|^2=2I_4-I_2+1/8I_0=π/32$$
+$$
+\meeq{
+c_0=\frac{⟨ p_0,xp_1⟩}{\|p_0\|^2}=2I_2/2I_0=1/4 \ccr
+a_1=\frac{⟨ p_1,xp_1⟩}{\|p_1\|^2}=0 \ccr
+p_2(x)=xp_1(x)-c_0-a_1p_1(x)=x^2-1/4 \ccr
+\|p_2\|^2=2I_4-I_2+1/8I_0=π/32
+}
+$$
 Finally, from
-$$xp_2(x)=c_1p_1(x)+a_2p_2(x)+p_3(x)$$
+$$
+xp_2(x)=c_1p_1(x)+a_2p_2(x)+p_3(x)
+$$
 we have
-$$c_1=\frac{⟨ p_1,xp_2⟩}{\|p_1\|^2}=(2I_4-1/2I_2)/(π/8)=1/4$$
-$$a_2=\frac{⟨ p_2,xp_2⟩}{\|p_2\|^2}=0$$
-$$p_3(x)=xp_2(x)-c_1p_1(x)-a_2p_2(x)=x^3-1/2x$$
+$$
+\meeq{
+c_1=\frac{⟨ p_1,xp_2⟩}{\|p_1\|^2}=(2I_4-1/2I_2)/(π/8)=1/4\ccr
+a_2=\frac{⟨ p_2,xp_2⟩}{\|p_2\|^2}=0\ccr
+p_3(x)=xp_2(x)-c_1p_1(x)-a_2p_2(x)=x^3-x/2
+}
+$$
+
+
+We need one more constant:  from
+$$
+x p_3(x) p_2(x) = (x^4-x^2/2)(x^2-1/4) = x^6 - 3x^4/4 - x^2/8
+$$
+we find (since $I_6 = 5I_4/8 =5π/256)
+$$
+c_2 = \frac{⟨ p_2,xp_3⟩}{\|p_2\|^2}=2{I_6-3I_4/4 + I_2/8 \over π/32} =1/4
+$$
+We see from this that
+$$
+x [p_0(x),p_1(x),…] = [p_0(x),p_1(x),…] \begin{bmatrix} 0 & 1/4 \\
+                                                        1 & 0 & 1/4 \\
+                                                          & 1 & 0  & 1/4 \\
+                                                          && ⋱ & ⋱  & ⋱
+                                                          \end{bmatrix}
+$$
+
+
+**Weight 2** ($1-x$)
 
 
 
@@ -94,10 +139,10 @@ Hint: first show that the (monic) polynomials $p_{2n}(x)$ are even and $p_{2n+1}
 
 **SOLUTION**
 
-An integral is zero if its integrand is odd. 
+An integral is zero if its integrand is odd.
 Moreover an even function times an odd function is odd and
 an odd function times an odd fuction is even.
-Note that $p_0(x)$ and $w(x)$ are even and $x$ is odd. 
+Note that $p_0(x)$ and $w(x)$ are even and $x$ is odd.
 
 We see that $a_0$ is zero:
 $$
@@ -116,7 +161,7 @@ $$
 since $x w(x) p_{2n}(x)^2$ is odd, therefore $a_{2n} = 0$.
 Thus from
 $$
-p_{2n+1}(x) = (x p_{2n}(x)- c_{2n-1} p_{2n-1}(x)) / b_{2n} 
+p_{2n+1}(x) = (x p_{2n}(x)- c_{2n-1} p_{2n-1}(x)) / b_{2n}
 $$
 we see that $p_{2n+1}$ is odd. Then
 $$
@@ -125,7 +170,7 @@ $$
 since $x w(x) p_{2n+1}(x)^2$ is odd, therefore $a_{2n+1} = 0$.
 and hence
 $$
-p_{2n+2}(x) = (x p_{2n+1}(x)- c_{2n} p_{2n}(x)) / b_{2n+1} 
+p_{2n+2}(x) = (x p_{2n+1}(x)- c_{2n} p_{2n}(x)) / b_{2n+1}
 $$
 is even.
 
@@ -171,7 +216,7 @@ Now for $n = 1,2,…$  use the fact that
 $$
 xp_n(x)=\frac{\cos θ\sin(n+1) θ}{\sin θ}=\frac{\sin (n+2) θ+\sin n θ}{2\sin θ}
 $$
-In other words $2xp_n(x)=p_{n+1}(x)+p_{n-1}(x)$, i.e. $p_{n+1}(x) = 2x p_n(x) + p_{n-1}(x).
+In other words $2xp_n(x)=p_{n+1}(x)+p_{n-1}(x)$, i.e. $p_{n+1}(x) = 2x p_n(x) + p_{n-1}(x).$
 By induction it follows that
 $$
 p_n(x) = 2^n x^n + O(x^{n-1})
@@ -191,12 +236,12 @@ $$
 
 **SOLUTION**
 
-The first result is trivial. For the other parts, from the solution to 4.2 we know $2xU_n(x)=U_{n+1}(x)+U_{n-1}(x)$
+The first result is trivial. For the other parts, from the solution to the previous part we know $2xU_n(x)=U_{n+1}(x)+U_{n-1}(x)$
 and this result is a reordering.
 
 **END**
 
-**Problem 5**  Use the fact that orthogonal polynomials are uniquely determined by their leading order coefficient and orthogonality to lower 
+**Problem 5**  Use the fact that orthogonal polynomials are uniquely determined by their leading order coefficient and orthogonality to lower
 dimensional polynomials to show that:
 $$
 T_n'(x) = n U_{n-1}(x).
@@ -215,7 +260,7 @@ T_n'(x) = n 2^{n-1} x^{n-1} + O(x^{n-2}).
 $$
 (2) For $f_m$ degree $m < n-1$ we have
 $$
-∫_{-1}^1 T_n'(x) f_m(x) \sqrt{1-x^2} {\rm d}x = 
+∫_{-1}^1 T_n'(x) f_m(x) \sqrt{1-x^2} {\rm d}x =
 -∫_{-1}^1 T_n(x) \underbrace{(f_m'(x)(1-x^2) -x f_m)}_{\hbox{degree $m+1 < n$}}  (1-x^2)^{-1/2} {\rm d}x = 0.
 $$
 
@@ -246,7 +291,7 @@ We need to verify that $p_n$
 2. are orthogonal to all lower degree polynomials on $\mathbb{R}$, and
 3. have the right leading coefficient $2^n$.
 
-Comparing the Rodrigues formula for $n$ and $n-1$, we find that 
+Comparing the Rodrigues formula for $n$ and $n-1$, we find that
 $$
 (-1)^n\exp(-x^2)p_n(x)={{\rm d} \over {\rm d}x}\left((-1)^{n-1}\exp(-x^2)p_{n-1}(x)\right)
 $$
@@ -312,7 +357,7 @@ and that the normalisation constants match.
 
 We have for $f_m$ degree $m < n-1$, using integration by parts
 $$
-⟨H_n', f_m⟩ = ∫_{-∞}^∞ H_n'(x) f_m(x) {\rm e}^{-x^2} {\rm d} x =  ∫_{-∞}^∞ H_n(x) \undebrace{(f_m'(x) -2x f_m)}_{degree $m+1 < n$}  {\rm e}^{-x^2} {\rm d} x = 0.
+⟨H_n', f_m⟩ = ∫_{-∞}^∞ H_n'(x) f_m(x) {\rm e}^{-x^2} {\rm d} x =  ∫_{-∞}^∞ H_n(x) \underbrace{(f_m'(x) -2x f_m)}_{\hbox{degree $m+1 < n$}}  {\rm e}^{-x^2} {\rm d} x = 0.
 $$
 Further,
 $$
