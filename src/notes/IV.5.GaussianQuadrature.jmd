@@ -67,11 +67,16 @@ $$
 ∎
 
 **Example (Chebyshev roots)** We now find the interpolatory quadrature rule for $w(x) = 1/\sqrt{1-x^2}$ on $[-1,1]$ with points equal to the
-roots of $T_3(x)$. This is a special case of Gaussian quadrature which we will approach in another way below. We use:
+roots of $T_3(x)$.
+ This is a special case of Gaussian quadrature which we will approach in another way below. We use:
 $$
 \int_{-1}^1 w(x) {\rm d}x = π, \int_{-1}^1 xw(x) {\rm d}x = 0, \int_{-1}^1 x^2 w(x) {\rm d}x = {π \over 2}.
 $$
-Recall from before that $x_1,x_2,x_3 = \sqrt{3}/2,0,-\sqrt{3}/2$. Thus we have:
+ From the 3-term recurrence we deduce
+$$
+T_0(x) = 1, T_1(x) =x, T_2(x) = 2x T_1(x) - T_0(x) = 2x^2-1, T_3(x) = 2x T_2(x) - T_1(x) = 4x^3-3x
+$$
+hence we find the 3 roots of $T_3(x)$ are $x_1,x_2,x_3 = \sqrt{3}/2,0,-\sqrt{3}/2$. Thus we have:
 $$
 \begin{align*}
 w_1 = \int_{-1}^1 w(x) ℓ_1(x) {\rm d}x = \int_{-1}^1 {x(x+\sqrt{3}/2) \over (\sqrt{3}/2) \sqrt{3} \sqrt{1-x^2}}{\rm d}x = {π \over 3} \\
@@ -107,7 +112,7 @@ first need to guarantee that the roots are distinct.
 
 **Proof**
 
-Suppose $x_1, …,x_j$ are the roots where $q_n(x)$ changes sign, i.e., the order of the root must be odd and hence
+Suppose $x_1, …,x_j$ are the roots where $p_n(x)$ changes sign, i.e., the order of the root must be odd and hence
 $$
 p_n(x) = c_k (x-x_k)^{2p+1} + O((x-x_k)^{2p+2})
 $$
@@ -173,8 +178,7 @@ b_{n-2} q_{n-2}(x_j) + a_{n-1} q_{n-1}(x_j) + b_{n-1} q_n(x_j)
 q_{n-1}(x_j)
 \end{bmatrix}
 $$
-
-The sepctral theorem guarantees that all symmetric matrices have an orthogonal eigenvector matrix. 
+The spectral theorem guarantees that all symmetric matrices have an orthogonal eigenvector matrix. 
 That is, by scaling the columns of the eigenvectors we know there must exist $α_j$ so that 
 $$
 Q_n = \underbrace{\begin{bmatrix}
@@ -207,7 +211,7 @@ T_2(x) = 2x T_1(x) - T_0(x) = 2x^2-1, \ccr
 T_3(x) = 2x T_2(x) - T_1(x) = 4x^3-3x.
 }
 $$
-We orthonormalise by rescaling
+As determined as part of the problem sheet, we orthonormalise by rescaling
 $$
 \begin{align*}
 q_0(x) &= 1/\sqrt{π}, \\
@@ -221,7 +225,7 @@ x [q_0(x)|q_1(x)|⋯] = [q_0(x)|q_1(x)|⋯] \underbrace{\begin{bmatrix} 0 & 1/\s
                             &1/2 & 0 & 1/2 \\
                              &   & 1/2 & 0 & ⋱ \\
                               &  && ⋱ & ⋱
-\end{bmatrix}}_X
+\end{bmatrix}}_J
 $$
 We can then confirm that we have constructed an eigenvector/eigenvalue of the $3 × 3$ truncation of the Jacobi matrix,
 e.g. at $x_2 = 0$:
