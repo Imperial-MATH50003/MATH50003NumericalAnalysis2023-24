@@ -32,7 +32,7 @@ Office hour: Mondays 11am, Huxley 6M40
    - [Sheet 7](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet7.pdf)  ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet7s.pdf))
 8. IV.1 Fourier Expansions and IV.2 Discrete Fourier Transform
    - [Revision Lab](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab8.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab8s.ipynb))
-   - [Sheet 8](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet8.pdf)
+   - [Sheet 8](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet8.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet8s.pdf))
 9. IV.3 Orthogonal Polynomials and IV.4 Classical Orthogonal Polynomials
    - [Sheet 9](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet9.pdf)
 10. IV.5 Gaussian Quadrature
