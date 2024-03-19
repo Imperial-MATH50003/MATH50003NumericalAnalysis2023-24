@@ -285,7 +285,7 @@ $$
 \begin{bmatrix}
 q_m(x_1)/α_1 \\
 ⋮ \\
-q_m(x_n)/α_n \end{bmatrix} = 𝐞_ℓ Q_n Q_n^⊤ 𝐞_m = δ_{ℓm}
+q_m(x_n)/α_n \end{bmatrix} = 𝐞_ℓ^⊤ Q_n Q_n^⊤ 𝐞_m = δ_{ℓm}
 $$
 
 ∎
