@@ -347,7 +347,11 @@ A consequence of being an interpolatory quadrature rule is that it is exact for 
 \[
 p(x) = q_n(x) s(x) + r(x)
 \]
-where $s$ and $r$ are degree $n-1$ and $q_n(x)$ is the degree $n$ orthonormal polynomial. Then we have:
+where $s$ and $r$ are degree $n-1$ and $q_n(x)$ is the degree $n$ orthonormal polynomial. Because Gauss quadrature is interpolatory we know that it is exact for degree $n-1$ polynomials, in particular:
+\[
+\ensuremath{\Sigma}_n^w[r] = \ensuremath{\int}_a^b r(x) w(x) {\rm d}x.
+\]
+But then we find that
 \begin{align*}
 \ensuremath{\Sigma}_n^w[p] &= \underbrace{\ensuremath{\Sigma}_n^w[q_n s]}_{\hbox{$0$ since evaluating $q_n$ at zeros}} + \ensuremath{\Sigma}_n^w[r] = \ensuremath{\int}_a^b r(x) w(x) {\rm d}x\\
 &= \underbrace{\ensuremath{\int}_a^b q_n(x)s(x) w(x) {\rm d}x}_{\hbox{$0$ since $s$ is degree $<n$}}  + \ensuremath{\int}_a^b r(x) w(x) {\rm d}x \\
@@ -355,21 +359,75 @@ where $s$ and $r$ are degree $n-1$ and $q_n(x)$ is the degree $n$ orthonormal po
 \end{align*}
 \ensuremath{\QED}
 
-\begin{example}[Double exactness] We are exact for all polynomials of degree $2n-1$, so for our $n = 3$ rule consider integrating $x^5$. We correctly get:
+\begin{example}[Double exactness] Let's look at an example in completeness for $n = 3$ with uniform weight on $[-1,1]$. From the 3-term recurrence for Legendre polynomials we get the multiplication matrix
 \[
-\ensuremath{\Sigma}_n^w[x^5] = {\ensuremath{\pi} \over 3} \left( {9 \sqrt{3} \over 32}  - {9 \sqrt{3} \over 2} \right) = 0.
+x [P_0(x) | P_1(x) | \ensuremath{\cdots} ] = [P_0(x) | P_1(x) | \ensuremath{\cdots} ] \underbrace{\begin{bmatrix} 0 & 1/3\\
+                                1 & 0 & 2/5 \\
+                                    &2/3 & 0 & 3/7 \\
+                                    && 3/5 & 0 & \ensuremath{\ddots} \\
+                                    &&& \ensuremath{\ddots} & \ensuremath{\ddots}
+                                    \end{bmatrix}}_X
 \]
-We are also correct for $x^4$:
+From this we deduce that
+\meeq{
+P_0(x) = 1 \ccr
+P_1(x) = x \ccr
+P_2(x) = 3/2 x P_1(x) - P_0(x)/2 = {3x^2 \over 2} - {1 \over 2} \ccr
+P_3(x) = 5/3 x P_2(x) - 2P_1(x)/3 = {5 x^2 \over 2} - {3 x \over 2}.
+}
+The roots of $P_3(x)$ are
 \[
-\ensuremath{\Sigma}_n^w[x^4] = {\ensuremath{\pi} \over 3} \left( {9 \over 16} + {9 \over 16} \right) = {3 \ensuremath{\pi} \over 8}.
+x_1,x_2,x_3 = -\sqrt{3/5}, 0, \sqrt{3/5}.
 \]
-However,
+We know the first orthonormal polynomial is $q_0(x) = 1/\sqrt{2}$, i.e., $k_0 = 1/\sqrt{2}$. We write
 \[
-\ensuremath{\Sigma}_n^w[x^6] = {9 \ensuremath{\pi} \over 64} \ensuremath{\neq} {5 \ensuremath{\pi} \over 16}
+[q_0(x) | q_1(x) | \ensuremath{\cdots} ] = [P_0(x) | P_1(x) | \ensuremath{\cdots} ] \underbrace{\begin{bmatrix} 1/\sqrt{2} \\ & k_1 \\ && k_2 \\ &&&\ensuremath{\ddots} \end{bmatrix}}_K
 \]
-hence it is incorrect for larger degree polynomials. \end{example}
+Thus from
+\[
+x [q_0(x) | q_1(x) | \ensuremath{\cdots} ] = [q_0(x) | q_1(x) | \ensuremath{\cdots} ] \underbrace{K^{-1} X K}_J
+\]
+we find that
+\[
+J = \begin{bmatrix} 0 & \sqrt{2}k_1/3 \\
+                                1/(\sqrt{2}k_1) & 0 & 2k_2/(5k_1) \\
+                                    &2k_1/(3k_2) & 0 & 3k_3/(7k_2) \\
+                                    && 3k_2/(5k_3) & 0 & \ensuremath{\ddots} \\
+                                    &&& \ensuremath{\ddots} & \ensuremath{\ddots}
+                                    \end{bmatrix}
+\]
+For this to be symmetric we find
+\meeq{
+k_1 = \sqrt{3/2} \ccr
+k_2 = \sqrt{10k_1^2/6} = \sqrt{5/2} \ccr
+k_3 = \sqrt{21k_2^2/15} = \sqrt{21/6}
+}
+We thus get the quadrature weights
+\meeq{
+w_1 = \ensuremath{\alpha}_1^{-2} = {1 \over q_0(x_1)^2 + q_1(x_1)^2 + q_2(x_1)^2} = {1 \over 1/2 + (3/2) \ensuremath{\times} (3/5) + (5/2) \ensuremath{\times} (4/25)} = {5 \over 9} \ccr
+w_2 = \ensuremath{\alpha}_2^{-2} = {1 \over q_0(x_2)^2 + q_1(x_2)^2 + q_2(x_2)^2} = {1 \over 1/2 + (5/2) \ensuremath{\times} (1/4)} = {8 \over 9} \ccr
+w_3 = w_1 = {5 \over 9}.
+}
+Thus our Gauss\ensuremath{\endash}Legendre quadrature formula is
+\[
+Q^w[f] = {5 \over 9} f(-\sqrt{3/5}) + {8 \over 9} f(0) + {5 \over 9} f(\sqrt{3/5}).
+\]
+We are exact for all polynomials up to degree $2n-1 = 5$:
+\meeq{
+Q^w[1] = {5 \over 9} + {8 \over 9} + {5 \over 9} = 2 \ccr
+Q^w[x] = -{5 \over 9} \sqrt{3/5} + {5 \over 9} \sqrt{3/5} = 0 \ccr
+Q^w[x^2] = {5 \over 9} {3 \over 5} + {5 \over 9} {3 \over 5} = {2 \over 3} \ccr
+Q^w[x^3] = -{5 \over 9} (3/5)^{3/2} + {5 \over 9} (3/5)^{3/2} = 0 \ccr
+Q^w[x^4] = {5 \over 9} {9 \over 25} + {5 \over 9} {9 \over 25} = {2 \over 5} \ccr
+Q^w[x^5] = 0.
+}
+But the next integral is wrong:
+\[
+Q^w[x^6] = {5 \over 9} {27 \over 125} + {5 \over 9} {27 \over 125} = {6 \over 25} \ensuremath{\neq} {2 \over 7} = \ensuremath{\int}_{-1}^1 x^6 {\rm d}x.
+\]
+\end{example}
 
-Going beyond polynomials,  Gaussian quadrature achieves faster than algebraic convergence for any smooth function.  If the function is analytic in a neighbourhood of the support of the interval this is in fact exponential convergence, far exceeding the convergence rate observed for rectangular and Trapezium rules.  This is a beautiful example of more sophisticated mathematics leading to powerful numerical methods.
+Going beyond polynomials,  Gaussian quadrature achieves faster than algebraic convergence for any smooth function.  If the function is analytic in a neighbourhood of the support of the interval this is in fact exponential convergence, far exceeding the convergence rate observed for rectangular and Trapezium rules.  This is a beautiful example of more sophisticated mathematics leading to powerful numerical methods. 
 
 
 
