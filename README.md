@@ -34,7 +34,7 @@ Office hour: Mondays 11am, Huxley 6M40
    - [Revision Lab](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab8.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab8s.ipynb))
    - [Sheet 8](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet8.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet8s.pdf))
 9. IV.3 Orthogonal Polynomials and IV.4 Classical Orthogonal Polynomials
-   - [Sheet 9](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet9.pdf)
+   - [Sheet 9](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet9.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet9s.pdf))
 10. IV.5 Gaussian Quadrature
    - [Sheet 10](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet10.pdf)
 

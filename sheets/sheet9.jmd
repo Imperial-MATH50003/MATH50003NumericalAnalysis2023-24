@@ -4,8 +4,8 @@
 
 
 **Problem 1** Construct the monic and orthonormal polynomials up to degree $3$
-for the weights $\sqrt{1-x^2}$ and $1-x$ on $[-1,1]$. What are the corresponding Jacobi matrices?
-Hint: for the first weight, first compute $\int_{-1}^1 x^k \sqrt{1-x^2} {\rm d} x$ for $0 ≤ k ≤ 2$
+for the weights $\sqrt{1-x^2}$ and $1-x$ on $[-1,1]$. What are the top $3 × 3$ entries of the corresponding Jacobi matrices?
+Hint: for the first weight, find a recursive formula for $\int_{-1}^1 x^k \sqrt{1-x^2} {\rm d} x$
 using a change-of-variables.
 
 
@@ -54,7 +54,7 @@ $$
 
 
 
-**Problem 5**  Use the fact that orthogonal polynomials are uniquely determined by their leading order coefficient and orthogonality to lower 
+**Problem 5**  Use the fact that orthogonal polynomials are uniquely determined by their leading order coefficient and orthogonality to lower
 dimensional polynomials to show that:
 $$
 T_n'(x) = n U_{n-1}(x).
