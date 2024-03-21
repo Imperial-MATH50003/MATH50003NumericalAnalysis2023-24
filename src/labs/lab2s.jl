@@ -16,7 +16,6 @@
 # Mathematical knowledge:
 #
 # 1. Definition of dual numbers and functions applied dual numbers.
-# 2. Approximating second derivatives using second-order divided differences.
 # 3. Newton's method for root finding.
 #
 # Coding knowledge:
