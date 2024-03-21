@@ -1,0 +1,544 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage[usenames,dvipsnames]{xcolor}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.2ex}
+
+
+
+
+\hypersetup
+       {   pdfauthor = {  },
+           pdftitle={  },
+           colorlinks=TRUE,
+           linkcolor=black,
+           citecolor=blue,
+           urlcolor=blue
+       }
+
+
+
+
+\usepackage{upquote}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    upquote=true,
+    breaklines=true,
+    breakindent=0pt,
+    keepspaces=true,
+    showspaces=false,
+    columns=fullflexible,
+    showtabs=false,
+    showstringspaces=false,
+    escapeinside={(*@}{@*)},
+    extendedchars=true,
+}
+\newcommand{\HLJLt}[1]{#1}
+\newcommand{\HLJLw}[1]{#1}
+\newcommand{\HLJLe}[1]{#1}
+\newcommand{\HLJLeB}[1]{#1}
+\newcommand{\HLJLo}[1]{#1}
+\newcommand{\HLJLk}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkc}[1]{\textcolor[RGB]{59,151,46}{\textit{#1}}}
+\newcommand{\HLJLkd}[1]{\textcolor[RGB]{214,102,97}{\textit{#1}}}
+\newcommand{\HLJLkn}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkp}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkr}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkt}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLn}[1]{#1}
+\newcommand{\HLJLna}[1]{#1}
+\newcommand{\HLJLnb}[1]{#1}
+\newcommand{\HLJLnbp}[1]{#1}
+\newcommand{\HLJLnc}[1]{#1}
+\newcommand{\HLJLncB}[1]{#1}
+\newcommand{\HLJLnd}[1]{\textcolor[RGB]{214,102,97}{#1}}
+\newcommand{\HLJLne}[1]{#1}
+\newcommand{\HLJLneB}[1]{#1}
+\newcommand{\HLJLnf}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnfm}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnp}[1]{#1}
+\newcommand{\HLJLnl}[1]{#1}
+\newcommand{\HLJLnn}[1]{#1}
+\newcommand{\HLJLno}[1]{#1}
+\newcommand{\HLJLnt}[1]{#1}
+\newcommand{\HLJLnv}[1]{#1}
+\newcommand{\HLJLnvc}[1]{#1}
+\newcommand{\HLJLnvg}[1]{#1}
+\newcommand{\HLJLnvi}[1]{#1}
+\newcommand{\HLJLnvm}[1]{#1}
+\newcommand{\HLJLl}[1]{#1}
+\newcommand{\HLJLld}[1]{\textcolor[RGB]{148,91,176}{\textit{#1}}}
+\newcommand{\HLJLs}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsa}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsb}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsc}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsd}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdC}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLse}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLsh}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsi}[1]{#1}
+\newcommand{\HLJLso}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsr}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLss}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLssB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLnB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnbB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnfB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnh}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLni}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnil}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnoB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLoB}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLow}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLp}[1]{#1}
+\newcommand{\HLJLc}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLch}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcm}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcp}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcpB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcs}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcsB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLg}[1]{#1}
+\newcommand{\HLJLgd}[1]{#1}
+\newcommand{\HLJLge}[1]{#1}
+\newcommand{\HLJLgeB}[1]{#1}
+\newcommand{\HLJLgh}[1]{#1}
+\newcommand{\HLJLgi}[1]{#1}
+\newcommand{\HLJLgo}[1]{#1}
+\newcommand{\HLJLgp}[1]{#1}
+\newcommand{\HLJLgs}[1]{#1}
+\newcommand{\HLJLgsB}[1]{#1}
+\newcommand{\HLJLgt}[1]{#1}
+
+
+\def\endash{–}
+\def\bbD{ {\mathbb D} }
+\def\bbZ{ {\mathbb Z} }
+\def\bbR{ {\mathbb R} }
+\def\bbC{ {\mathbb C} }
+
+\def\x{ {\vc x} }
+\def\a{ {\vc a} }
+\def\b{ {\vc b} }
+\def\e{ {\vc e} }
+\def\f{ {\vc f} }
+\def\u{ {\vc u} }
+\def\v{ {\vc v} }
+\def\y{ {\vc y} }
+\def\z{ {\vc z} }
+\def\w{ {\vc w} }
+
+\def\bt{ {\tilde b} }
+\def\ct{ {\tilde c} }
+\def\Ut{ {\tilde U} }
+\def\Qt{ {\tilde Q} }
+\def\Rt{ {\tilde R} }
+\def\Xt{ {\tilde X} }
+\def\acos{ {\rm acos}\, }
+
+\def\red#1{ {\color{red} #1} }
+\def\blue#1{ {\color{blue} #1} }
+\def\green#1{ {\color{ForestGreen} #1} }
+\def\magenta#1{ {\color{magenta} #1} }
+
+\input{somacros}
+
+\begin{document}
+
+
+
+\textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Problem Sheet 9}
+
+\textbf{Problem 1} Construct the monic and orthonormal polynomials up to degree $3$ for the weights $\sqrt{1-x^2}$ and $1-x$ on $[-1,1]$. What are the top $3 \ensuremath{\times} 3$ entries of the corresponding Jacobi matrices? Hint: for the first weight, find a recursive formula for $\int_{-1}^1 x^k \sqrt{1-x^2} {\rm d} x$ using a change-of-variables.
+
+\textbf{SOLUTION}
+
+\textbf{Weight 1} ($\sqrt{1-x^2}$)
+
+Following the hint, we first calculate $\int_{-1}^1 x^k\sqrt{1-x^2}{\rm d}x$. By symmetry, it's zero when $k$ is odd and double the integral on $[0,1]$ when $k$ is even.
+\[
+\underbrace{\int_0^1 x^k\sqrt{1-x^2}{\rm d}x}_{I_k} = _{x=\sin t}\underbrace{\int_0^{\ensuremath{\pi}/2}\sin^k(t)\cos^2(t){\rm d}t}_{I_k}=\underbrace{\int_0^{\ensuremath{\pi}/2}\sin^k t{\rm d}t}_{J_k}-\underbrace{\int_0^{\ensuremath{\pi}/2}\sin^{k+2}t{\rm d}t}_{J_{k+2}}.
+\]
+Meanwhile,
+\[
+J_k=-\int_0^{\ensuremath{\pi}/2}\sin^{k-1}t{\rm d}(\cos t)=_{\text{integral by part}}(k-1)I_{k-2}.
+\]
+Putting the above 2 equations together, we have $I_k=(k-1)I_{k-2}-(k+1)I_k$, so $I_k=\frac{k-1}{k+2}I_{k-2}$. Since $I_0=\ensuremath{\pi}/4$ we have $I_2 = {\ensuremath{\pi} / 16}$ and $I_4 = \ensuremath{\pi}/32$ hence
+\meeq{
+\int_{-1}^1 \sqrt{1-x^2} {\rm d}x = {\ensuremath{\pi} \over 2}, \int_{-1}^1 x  \sqrt{1-x^2} {\rm d}x = 0, \int_{-1}^1 x^2 \sqrt{1-x^2} {\rm d}x = {\ensuremath{\pi} \over 8}, \ccr
+\int_{-1}^1 x^3 \sqrt{1-x^2} {\rm d}x = 0, \int_{-1}^1 x^4 \sqrt{1-x^2} {\rm d}x = {\ensuremath{\pi} \over 16}.
+}
+Let $p_0(x)=1$, then $\|p_0\|^2=2I_0=\ensuremath{\pi}/2$. We know from the 3-term recurrence that
+\[
+xp_0(x)=a_0p_0(x)+p_1(x)
+\]
+where
+\[
+a_0=\frac{\ensuremath{\langle} p_0,xp_0\ensuremath{\rangle}}{\|p_0\|^2}=0.
+\]
+Thus $p_1(x)=x$ and $\|p_1\|^2=2I_2=\ensuremath{\pi}/8$. From
+\[
+xp_1(x)=c_0p_0(x)+a_1p_1(x)+p_2(x)
+\]
+we have
+\meeq{
+c_0=\frac{\ensuremath{\langle} p_0,xp_1\ensuremath{\rangle}}{\|p_0\|^2}=2I_2/2I_0=1/4 \ccr
+a_1=\frac{\ensuremath{\langle} p_1,xp_1\ensuremath{\rangle}}{\|p_1\|^2}=0 \ccr
+p_2(x)=xp_1(x)-c_0-a_1p_1(x)=x^2-1/4 \ccr
+\|p_2\|^2=2I_4-I_2+1/8I_0=\ensuremath{\pi}/32
+}
+Finally, from
+\[
+xp_2(x)=c_1p_1(x)+a_2p_2(x)+p_3(x)
+\]
+we have
+\meeq{
+c_1=\frac{\ensuremath{\langle} p_1,xp_2\ensuremath{\rangle}}{\|p_1\|^2}=(2I_4-1/2I_2)/(\ensuremath{\pi}/8)=1/4\ccr
+a_2=\frac{\ensuremath{\langle} p_2,xp_2\ensuremath{\rangle}}{\|p_2\|^2}=0\ccr
+p_3(x)=xp_2(x)-c_1p_1(x)-a_2p_2(x)=x^3-x/2
+}
+We need one more constant:  from
+\[
+x p_3(x) p_2(x) = (x^4-x^2/2)(x^2-1/4) = x^6 - 3x^4/4 - x^2/8
+\]
+we find (since $I_6 = 5I_4/8 =5\ensuremath{\pi}/256$)
+\[
+c_2 = \frac{\ensuremath{\langle} p_2,xp_3\ensuremath{\rangle}}{\|p_2\|^2}=2{I_6-3I_4/4 + I_2/8 \over \ensuremath{\pi}/32} =1/4
+\]
+We see from this that
+\[
+x [p_0(x),p_1(x),\ensuremath{\ldots}] = [p_0(x),p_1(x),\ensuremath{\ldots}] \begin{bmatrix} 0 & 1/4 \\
+                                                        1 & 0 & 1/4 \\
+                                                          & 1 & 0  & 1/4 \\
+                                                          && 1 & 0  & \ensuremath{\ddots} \\
+                                                          &&& \ensuremath{\ddots} & \ensuremath{\ddots}
+                                                          \end{bmatrix}
+\]
+To make this symmetric we choose
+\meeq{
+k_0 = \|p_0\|^{-1} = \sqrt{2/\ensuremath{\pi}} \ccr
+k_1 = k_0 \sqrt{4} = 2\sqrt{2/\ensuremath{\pi}} \ccr
+k_2 = k_1 \sqrt{4} = 4\sqrt{2/\ensuremath{\pi}} \ccr
+k_3 = k_2 \sqrt{4} = 8\sqrt{2/\ensuremath{\pi}}
+}
+Giving us (also computable from norms of $p_n(x)$):
+\meeq{
+q_0(x) = \sqrt{2/\ensuremath{\pi}} \ccr
+q_1(x) = 2\sqrt{2/\ensuremath{\pi}} x \ccr
+q_2(x) = 4 \sqrt{2/\ensuremath{\pi}} (x^2-1/4) \ccr
+q_3(x) = 8\sqrt{2/\ensuremath{\pi}}(x^3-x/2)
+}
+with Jacobi matrix
+\[
+J = \begin{bmatrix} 0 & 1/2 \\
+                    1/2 & 0 & 1/2 \\
+                        & 1/2 & 0  & 1/2 \\
+                        && \ensuremath{\ddots} & \ensuremath{\ddots}  & \ensuremath{\ddots}
+                        \end{bmatrix}
+\]
+\textbf{Weight 2} ($1-x$)
+
+Here we have polynomials so computing the moments are easier. We have $p_0(x) = 1$ hence
+\[
+\| p_0\|^2 = \ensuremath{\int}_{-1}^1 (1-x) {\rm d x} = 2
+\]
+Hence
+\meeq{
+a_0 = {\ensuremath{\langle}xp_0, p_0 \ensuremath{\rangle} \over \|p_0\|^2} = {\ensuremath{\int}_{-1}^1 x(1-x) {\rm d x}  \over 2} = -{1 \over 3} \ensuremath{\Rightarrow} \ccr
+p_1(x) = x p_0(x) - a_0 p_0(x) = x + 1/3 \ensuremath{\Rightarrow} \ccr
+\|p_1\|^2 = \ensuremath{\int}_{-1}^1 (-x^3 + x^2/3 + 5x/9 + 1/9) {\rm d x} = {4 \over 9} \ensuremath{\Rightarrow}\ccr
+c_0 =  {\ensuremath{\langle}xp_1, p_0 \ensuremath{\rangle} \over \|p_0\|^2} = {2 \over 9}, \ccr
+a_1 =  {\ensuremath{\langle}xp_1, p_1 \ensuremath{\rangle} \over \|p_1\|^2} = -{1 \over 15} \ensuremath{\Rightarrow} \ccr
+p_2(x) = x p_1(x) - a_1 p_1(x) - c_0 p_0(x) = x^2 + {2x \over 5} - {1 \over 5} \ensuremath{\Rightarrow} \ccr
+\|p_2\|^2 = {8 \over 75} \ccr
+c_1 =  {\ensuremath{\langle}xp_2, p_1 \ensuremath{\rangle} \over \|p_1\|^2} = {6 \over 25}, \ccr
+a_2 =  {\ensuremath{\langle}xp_2, p_2 \ensuremath{\rangle} \over \|p_2\|^2} = -{1 \over 35} \ensuremath{\Rightarrow} \ccr
+p_3(x) = x p_2(x) - a_2 p_2(x) - c_1 p_1(x) = x^3 + {3x^2 \over 7} - {3 x \over 7} - {3 \over 35} \ccr
+c_2 =  {\ensuremath{\langle}xp_3, p_2 \ensuremath{\rangle} \over \|p_2\|^2} = {12 \over 49}.
+}
+Thus the multiplication matrix is
+\[
+x [p_0(x),p_1(x),\ensuremath{\ldots}] = [p_0(x),p_1(x),\ensuremath{\ldots}] \begin{bmatrix} -1/3 & 2/9\\
+                                                        1 & -1/15 & 6/25 \\
+                                                          & 1 & -1/35  & 12/49 \\
+                                                          && 1 & \ensuremath{\ddots}  & \ensuremath{\ddots} \\
+                                                          &&& \ensuremath{\ddots} & \ensuremath{\ddots}
+                                                          \end{bmatrix}
+\]
+To make this symmetric we choose
+\meeq{
+k_0 = \|p_0\|^{-1} = 1/\sqrt{2} \ccr
+k_1 = k_0 \sqrt{9/2} = 3/2 \ccr
+k_2 = k_1 \sqrt{25/6} = 15/(2\sqrt 6) \ccr
+k_3 = k_2 \sqrt{49/12} = 35/(4\sqrt 2)
+}
+That is
+\meeq{
+q_0(x) = 1/\sqrt{2} \ccr
+q_1(x) = {3 \over 2} (x + 1/3) \ccr
+q_2(x) = {15 \over 2\sqrt 6} ( x^2 + {2x \over 5} - {1 \over 5}) \ccr
+q_3(x) = {35 \over 4\sqrt 2}( x^3 + {3x^2 \over 7} - {3 x \over 7} - {3 \over 35}).
+}
+with Jacobi matrix
+\[
+J = \begin{bmatrix} -1/3 & \sqrt 2 / 3 \\
+                    \sqrt 2 / 3  & -1/15 & \sqrt{6}/5 \\
+                        & \sqrt{6}/5 &  -1/35   & \ensuremath{\ddots} \\
+                        && \ensuremath{\ddots} & \ensuremath{\ddots}
+                        \end{bmatrix}
+\]
+\textbf{END}
+
+\textbf{Problem 2} Prove Theorem 13: a precisely degree $n$ polynomial
+\[
+p(x) = k_n x^n + O(x^{n-1})
+\]
+satisfies
+\[
+\ensuremath{\langle}p,f_m\ensuremath{\rangle} = 0
+\]
+for all  polynomials $f_m$ of degree $m < n$ of degree less than $n$ if and only if $p(x) = c \ensuremath{\pi}_n$ for some constant $c$, where $\ensuremath{\pi}_n$ are monic orthogonal polynomials.
+
+\textbf{SOLUTION} As $\{\ensuremath{\pi}_0,\ensuremath{\ldots},\ensuremath{\pi}_n\}$ are a basis of all polynomials of degree $n$, we can write
+\[
+r(x) = \ensuremath{\sum}_{k=0}^m a_k \ensuremath{\pi}_k(x)
+\]
+Thus if $p(x) = c \ensuremath{\pi}_n(x)$, by linearity of inner products we have
+\[
+\ensuremath{\langle}p,r\ensuremath{\rangle} = \ensuremath{\langle}c\ensuremath{\pi}_n,\ensuremath{\sum}_{k=0}^m a_k \ensuremath{\pi}_k\ensuremath{\rangle} = \ensuremath{\sum}_{k=0}^m ca_k \ensuremath{\langle}\ensuremath{\pi}_n, \ensuremath{\pi}_k\ensuremath{\rangle} = 0.
+\]
+Now suppose
+\[
+p(x) = c x^n + O(x^{n-1})
+\]
+and consider $p(x) - c \ensuremath{\pi}_n(x)$ which is of degree $n-1$. It satisfies for $k \ensuremath{\leq} n-1$
+\[
+\ensuremath{\langle}\ensuremath{\pi}_k, p - c \ensuremath{\pi}_n\ensuremath{\rangle} = \ensuremath{\langle}\ensuremath{\pi}_k, p\ensuremath{\rangle} - c \ensuremath{\langle}\ensuremath{\pi}_k, \ensuremath{\pi}_n\ensuremath{\rangle} = 0.
+\]
+Thus $p - c \ensuremath{\pi}_n$ is zero, i.e., $p(x) = c \ensuremath{\pi}_n(x)$.
+
+\textbf{END}
+
+\textbf{Problem 3} If $w(-x) = w(x)$ for a weight supported on $[-b,b]$ show that $a_n = 0$. Hint: first show that the (monic) polynomials $p_{2n}(x)$ are even and $p_{2n+1}(x)$ are odd.
+
+\textbf{SOLUTION}
+
+An integral is zero if its integrand is odd. Moreover an even function times an odd function is odd and an odd function times an odd fuction is even. Note that $p_0(x)$ and $w(x)$ are even and $x$ is odd.
+
+We see that $a_0$ is zero:
+\[
+\ensuremath{\langle}p_0,x p_0(x)\ensuremath{\rangle} = \int_{-b}^b x w(x) {\rm d} x = 0
+\]
+since $xw(x)$ is odd, which shows that
+\[
+p_1(x) = xp_0(x)
+\]
+is odd. We now proceed by induction. Assume that $p_{2n}$ is even and $p_{2n-1}$ is odd. We have:
+\[
+\ensuremath{\langle}p_{2n},x p_{2n}(x)\ensuremath{\rangle} = \int_{-b}^b x w(x) p_{2n}(x)^2 {\rm d} x = 0
+\]
+since $x w(x) p_{2n}(x)^2$ is odd, therefore $a_{2n} = 0$. Thus from
+\[
+p_{2n+1}(x) = (x p_{2n}(x)- c_{2n-1} p_{2n-1}(x)) / b_{2n}
+\]
+we see that $p_{2n+1}$ is odd. Then
+\[
+\ensuremath{\langle}p_{2n+1},x p_{2n+1}(x)\ensuremath{\rangle} = \int_{-b}^b x w(x) p_{2n+1}(x)^2 {\rm d} x = 0
+\]
+since $x w(x) p_{2n+1}(x)^2$ is odd, therefore $a_{2n+1} = 0$. and hence
+\[
+p_{2n+2}(x) = (x p_{2n+1}(x)- c_{2n} p_{2n}(x)) / b_{2n+1}
+\]
+is even.
+
+\textbf{END}
+
+\textbf{Problem 4(a)} Prove that
+\[
+U_n(\cos \ensuremath{\theta}) = {\sin(n+1) \ensuremath{\theta} \over \sin \ensuremath{\theta}}.
+\]
+\textbf{SOLUTION}
+
+We need to verify
+\[
+p_n(x) := {\sin(n+1) \ensuremath{\theta} \over \sin \ensuremath{\theta}}
+\]
+are
+
+\begin{itemize}
+\item[1. ] graded polynomials
+
+
+\item[2. ] orthogonal w.r.t. $\sqrt{1-x^2}$ on $[-1,1]$, and
+
+
+\item[3. ] have the leading coefficient $2^n$.
+
+\end{itemize}
+Then uniqueness will guarantee that $p_n(x) = U_n(x)$.
+
+(2) follows under a change of variables
+\begin{align*}
+\int_{-1}^1 p_n(x)p_m(x)\sqrt{1-x^2}{\rm d}x &= \int_0^{\ensuremath{\pi}}p_n(\cos \ensuremath{\theta})p_m(\cos \ensuremath{\theta})\sin^2 \ensuremath{\theta}{\rm d} \ensuremath{\theta} \\
+&= \int_0^{\ensuremath{\pi}}\sin(n+1) \ensuremath{\theta}\sin(m+1) \ensuremath{\theta}{\rm d} \ensuremath{\theta}=\frac{\ensuremath{\pi}}{2}\ensuremath{\delta}_{mn}
+\end{align*}
+where the last step can be shown by substituting $\sin k\ensuremath{\theta} = (\exp(ik\ensuremath{\theta})-\exp(-ik\ensuremath{\theta})/(2i)$.
+
+To see that they are graded, first note that
+\[
+p_0(x) = {\sin \ensuremath{\theta} /\sin \ensuremath{\theta}} = 1, p_1(x) =  {\sin 2 \ensuremath{\theta} \over \sin \ensuremath{\theta}} = {2 \sin \ensuremath{\theta} \cos \ensuremath{\theta} \over \sin \ensuremath{\theta}} = 2x.
+\]
+Now for $n = 1,2,\ensuremath{\ldots}$  use the fact that
+\[
+xp_n(x)=\frac{\cos \ensuremath{\theta}\sin(n+1) \ensuremath{\theta}}{\sin \ensuremath{\theta}}=\frac{\sin (n+2) \ensuremath{\theta}+\sin n \ensuremath{\theta}}{2\sin \ensuremath{\theta}}
+\]
+In other words $2xp_n(x)=p_{n+1}(x)+p_{n-1}(x)$, i.e. $p_{n+1}(x) = 2x p_n(x) + p_{n-1}(x).$ By induction it follows that
+\[
+p_n(x) = 2^n x^n + O(x^{n-1})
+\]
+which also proves (3).
+
+\textbf{END}
+
+\textbf{Problem 4(b)} Show that
+\begin{align*}
+x U_0(x) &= U_1(x)/2 \\
+x U_n(x) &= {U_{n-1}(x) \over 2} + {U_{n+1}(x) \over 2}.
+\end{align*}
+\textbf{SOLUTION}
+
+The first result is trivial. For the other parts, from the solution to the previous part we know $2xU_n(x)=U_{n+1}(x)+U_{n-1}(x)$ and this result is a reordering.
+
+\textbf{END}
+
+\textbf{Problem 5}  Use the fact that orthogonal polynomials are uniquely determined by their leading order coefficient and orthogonality to lower dimensional polynomials to show that:
+\[
+T_n'(x) = n U_{n-1}(x).
+\]
+\textbf{SOLUTION}
+
+We need to verify that $T_n'(x)$
+
+\begin{itemize}
+\item[1. ] graded polynomials
+
+
+\item[2. ] orthogonal w.r.t. $\sqrt{1-x^2}$ on $[-1,1]$, and
+
+
+\item[3. ] have the leading coefficient $n 2^n$.
+
+\end{itemize}
+(1) and (3) are clear:
+\[
+T_n'(x) = n 2^{n-1} x^{n-1} + O(x^{n-2}).
+\]
+(2) For $f_m$ degree $m < n-1$ we have
+\[
+\ensuremath{\int}_{-1}^1 T_n'(x) f_m(x) \sqrt{1-x^2} {\rm d}x =
+-\ensuremath{\int}_{-1}^1 T_n(x) \underbrace{(f_m'(x)(1-x^2) -x f_m)}_{\hbox{degree $m+1 < n$}}  (1-x^2)^{-1/2} {\rm d}x = 0.
+\]
+\textbf{END}
+
+\textbf{Problem 6(a)} Consider Hermite polynomials orthogonal with respect to the weight $\exp(-x^2)$ on $\ensuremath{\bbR}$ with the normalisation
+\[
+H_n(x) = 2^n x^n + O(x^{n-1}).
+\]
+Prove the Rodrigues formula
+\[
+H_n(x) = (-1)^n \exp(x^2) {{\rm d}^n \over {\rm d}x^n} \exp(-x^2).
+\]
+Hint: use integration-by-parts.
+
+\textbf{SOLUTION} Define
+\[
+p_n(x) := (-1)^n \exp(x^2) {{\rm d}^n \over {\rm d}x^n} \exp(-x^2)
+\]
+We need to verify that $p_n$
+
+\begin{itemize}
+\item[1. ] are graded polynomials
+
+
+\item[2. ] are orthogonal to all lower degree polynomials on $\mathbb{R}$, and
+
+
+\item[3. ] have the right leading coefficient $2^n$.
+
+\end{itemize}
+Comparing the Rodrigues formula for $n$ and $n-1$, we find that
+\[
+(-1)^n\exp(-x^2)p_n(x)={{\rm d} \over {\rm d}x}\left((-1)^{n-1}\exp(-x^2)p_{n-1}(x)\right)
+\]
+which reduces to $p_n(x)=2xp_{n-1}(x)-p_{n-1}'(x).$
+
+(1) and (3) then follows from induction since $p_0(x)=1$.
+
+(2) follows by integration by parts. If $r_m$ is any degree $m<n$ polynomial we have:
+\begin{align*}
+\int_{-\ensuremath{\infty}}^\ensuremath{\infty} p_n(x)r_m(x)\exp(-x^2){\rm d}x&=\int_{-\ensuremath{\infty}}^\ensuremath{\infty}{{\rm d}^n \over {\rm d}x^n} \exp(-x^2)r(x){\rm d}x = -\int_{-\ensuremath{\infty}}^\ensuremath{\infty}{{\rm d}^{n-1} \over {\rm d}x^{n-1}} \exp(-x^2)r'(x){\rm d}x\\
+&=\ensuremath{\cdots}\text{integration by parts $n$ times}\ensuremath{\ldots}=(-1)^n\int_{-\ensuremath{\infty}}^\ensuremath{\infty} \exp(-x^2)r_m^{(n)}(x)=0
+\end{align*}
+Thus $p_n(x) = H_n(x)$ by uniqueness.
+
+\textbf{END}
+
+\textbf{Problem 6(b)} What are $k_n^{(1)}$ and $k_n^{(2)}$ such that
+\[
+H_n(x) = 2^n x^n + k_n^{(1)} x^{n-1} + k_n^{(2)} x^{n-2} + O(x^{n-3})
+\]
+\textbf{SOLUTION}
+
+From the previous part: $H_n(x)=2xH_{n-1}(x)-H_{n-1}'(x).$ Thus we have $k_n^{(1)}=2k_{n-1}^{(1)}$ $k_n^{(2)}=2k_{n-1}^{(2)}-(n-1)2^{n-1}$
+
+Since $k_0^{(1)}=0$, we have $k_n^{(1)}=0$. For the second recurrence, divide both sides by $2^n$: $2^{-n}k_n^{(2)}=2^{-(n-1)}k_{n-1}^{(2)}-\frac{n-1}{2}$ Since $k_0^{(2)}=0$, we have $2^{-n}k_n^{(2)}=-\frac{1+\ensuremath{\cdots}+(n-1)}{2}=-\frac{n(n-1)}{4}$, so $k_n^{(2)}=-n(n-1)2^{n-2}$.
+
+\textbf{END}
+
+\textbf{Problem 6(c)} Deduce the 3-term recurrence relationship for $H_n(x)$.
+
+\textbf{SOLUTION}
+
+Our goal is to find $a_n$, $b_n$ and $c_n$ such that $xH_n(x)=c_{n-1}H_{n-1}(x)+a_nH_n(x)+b_nH_{n+1}(x).$ Compare the 3 leading coefficients on both sides and use the results from Problem 4(a) and Problem 4(c):
+\[
+2^n=0+0+b_n2^{n+1}
+\]
+\[
+0=0+a_n2^n+0
+\]
+\[
+n(n-1)2^{n-2}=c_{n-1}2^{n-1}+0+b_n(n+1)n2^{n-1}
+\]
+Thus we have $b_n=1/2$, $a_n=0$ and $c_{n-1}=n$.
+
+\textbf{END}
+
+\textbf{Problem 6(d)} Prove that $H_n'(x) = 2n H_{n-1}(x)$. Hint: show orthogonality of $H_n'$ to all lower degree polynomials, and that the normalisation constants match.
+
+\textbf{SOLUTION}
+
+We have for $f_m$ degree $m < n-1$, using integration by parts
+\[
+\ensuremath{\langle}H_n', f_m\ensuremath{\rangle} = \ensuremath{\int}_{-\ensuremath{\infty}}^\ensuremath{\infty} H_n'(x) f_m(x) {\rm e}^{-x^2} {\rm d} x =  \ensuremath{\int}_{-\ensuremath{\infty}}^\ensuremath{\infty} H_n(x) \underbrace{(f_m'(x) -2x f_m)}_{\hbox{degree $m+1 < n$}}  {\rm e}^{-x^2} {\rm d} x = 0.
+\]
+Further,
+\[
+H_n'(x) = n 2^n x^{n-1} + O(x^{n-1}) = 2n (2^{n-1} x^{n-1} + O(x^{n-1}))
+\]
+hence the normalisation constants match.
+
+\textbf{END}
+
+
+
+\end{document}
