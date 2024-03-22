@@ -138,9 +138,13 @@
 \def\z{ {\vc z} }
 \def\w{ {\vc w} }
 
+\def\bt{ {\tilde b} }
+\def\ct{ {\tilde c} }
 \def\Ut{ {\tilde U} }
 \def\Qt{ {\tilde Q} }
 \def\Rt{ {\tilde R} }
+\def\Xt{ {\tilde X} }
+\def\acos{ {\rm acos}\, }
 
 \def\red#1{ {\color{red} #1} }
 \def\blue#1{ {\color{blue} #1} }
@@ -155,7 +159,7 @@
 
 \textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Problem Sheet 9}
 
-\textbf{Problem 1} Construct the monic and orthonormal polynomials up to degree $3$ for the weights $\sqrt{1-x^2}$ and $1-x$ on $[-1,1]$. What are the corresponding Jacobi matrices? Hint: for the first weight, first compute $\int_{-1}^1 x^k \sqrt{1-x^2} {\rm d} x$ for $0 \ensuremath{\leq} k \ensuremath{\leq} 2$ using a change-of-variables.
+\textbf{Problem 1} Construct the monic and orthonormal polynomials up to degree $3$ for the weights $\sqrt{1-x^2}$ and $1-x$ on $[-1,1]$. What are the top $3 \ensuremath{\times} 3$ entries of the corresponding Jacobi matrices? Hint: for the first weight, find a recursive formula for $\int_{-1}^1 x^k \sqrt{1-x^2} {\rm d} x$ using a change-of-variables.
 
 \textbf{Problem 2} Prove Theorem 13: a precisely degree $n$ polynomial
 \[
@@ -178,7 +182,7 @@ U_n(\cos \ensuremath{\theta}) = {\sin(n+1) \ensuremath{\theta} \over \sin \ensur
 x U_0(x) &= U_1(x)/2 \\
 x U_n(x) &= {U_{n-1}(x) \over 2} + {U_{n+1}(x) \over 2}.
 \end{align*}
-\textbf{Problem 5}  Use the fact that orthogonal polynomials are uniquely determined by their leading order coefficient and orthogonality to lower  dimensional polynomials to show that:
+\textbf{Problem 5}  Use the fact that orthogonal polynomials are uniquely determined by their leading order coefficient and orthogonality to lower dimensional polynomials to show that:
 \[
 T_n'(x) = n U_{n-1}(x).
 \]
