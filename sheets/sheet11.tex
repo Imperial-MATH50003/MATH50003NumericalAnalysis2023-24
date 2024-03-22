@@ -159,41 +159,48 @@
 
 \textbf{Numerical Analysis MATH50003 (2023\ensuremath{\endash}24) Revision Sheet}
 
-\textbf{Problem 1(a)} State which integers are represented by an 8-bit signed (\texttt{Int8}) and unsigned (\texttt{UInt8}) integer, both with   bits
-\[
-{\tt 10000001}
-\]
-\textbf{Problem 1(b)} State which real number is represented by an IEEE 16-bit floating point number (with $\ensuremath{\sigma} = 15, Q = 5$, and $S = 10$) with bits
+\textbf{Problem 1(a)} State which real number is represented by an IEEE 16-bit floating point number (with $\ensuremath{\sigma} = 15, Q = 5$, and $S = 10$) with bits
 \[
 {\tt 1\ 01000\ 0000000001}
 \]
-\textbf{Problem 2(a)} Consider the truncated Taylor series for $1/(1-x)$:
+\textbf{Problem 1(b)}  How are the following real numbers rounded to the nearest $F_{16}$?
 \[
-g_n(x) := \ensuremath{\sum}_{k=0}^n x^k
+1/2, 1/2 + 2^{-12}, 3 + 2^{-9} + 2^{-10}, 3 + 2^{-10} + 2^{-11}.
 \]
-Write  a one-line mathematical function $g_n^t(x)$ approximating $g_n(x)$ using floating point operations  involving $\ensuremath{\oplus}$, $\ensuremath{\oslash}$, and $\ensuremath{\otimes}$. You may find it convenient to use the notation:
-\begin{align*}
-\ensuremath{\bigoplus}_{k=1}^n x_k &:= x_1 \ensuremath{\oplus} \ensuremath{\cdots} \ensuremath{\oplus} x_n = (\ensuremath{\cdots}((x_1 \ensuremath{\oplus} x_2) \ensuremath{\oplus} x_3)\ensuremath{\cdots} \ensuremath{\oplus} x_{n-1}) \ensuremath{\oplus} x_n \\
-\ensuremath{\bigotimes}_{k=1}^n x_k &:= x_1 \ensuremath{\otimes} \ensuremath{\cdots} \ensuremath{\otimes} x_n = (\ensuremath{\cdots}((x_1 \ensuremath{\otimes} x_2) \ensuremath{\otimes} x_3)\ensuremath{\cdots} \ensuremath{\otimes} x_{n-1}) \ensuremath{\otimes} x_n \\
-\end{align*}
-\textbf{Problem 2(b)} Recall for $E_{n,\ensuremath{\epsilon}} := {n \ensuremath{\epsilon} \over 1-n\ensuremath{\epsilon}}$ and $x_1,\ensuremath{\ldots},x_n \ensuremath{\in} F$ that
-\begin{align*}
-x_1 \ensuremath{\otimes} \ensuremath{\cdots} \ensuremath{\otimes} x_n &= x_1 \ensuremath{\cdots} x_n (1 + \ensuremath{\theta}_{n-1}),\\
-x_1 \ensuremath{\oplus} \ensuremath{\cdots} \ensuremath{\oplus} x_n &= x_1 +  \ensuremath{\cdots} + x_n + \ensuremath{\sigma}_n
-\end{align*}
-where $|\ensuremath{\theta}_n| \ensuremath{\leq} E_{n,\ensuremath{\epsilon}_{\rm m}/2}$ and $|\ensuremath{\sigma}_n| \ensuremath{\leq} M E_{n-1,\ensuremath{\epsilon}_{\rm m}/2}$, for $M = \ensuremath{\Sigma}_{k=1}^n |x_k|$ and  assuming $n \ensuremath{\epsilon}_{\rm m} < 2$. Show for $x \ensuremath{\in} F$ such that $|x| < 1$
+\textbf{Problem 2(a)} Consider a Lower triangular matrix with floating point entries:
 \[
-g_n^t(x) = \ensuremath{\sum}_{k=0}^n x^k + \ensuremath{\varepsilon}_n
+L = \begin{bmatrix}
+\ensuremath{\ell}_{11} \\
+ \ensuremath{\ell}_{21} & \ensuremath{\ell}_{22} \\
+ \ensuremath{\vdots} & \ensuremath{\ddots} & \ensuremath{\ddots} \\
+ \ensuremath{\ell}_{n1} & \ensuremath{\cdots} & \ensuremath{\ell}_{n,n-1} & \ensuremath{\ell}_{nn}
+ \end{bmatrix} \ensuremath{\in} F_{\ensuremath{\sigma},Q,S}^{n \ensuremath{\times} n}
+\]
+and a vector $\ensuremath{\bm{\x}} \in F_{\ensuremath{\sigma},Q,S}^{n}$, where $F_{\ensuremath{\sigma},Q,S}$ is a set of floating-point numbers. Denoting matrix-vector multiplication implemented using floating point arithmetic as
+\[
+\ensuremath{\bm{\b}} := {\tt lowermul}(L,\ensuremath{\bm{\x}})
+\]
+express the entries $b_k := {\bf e}_k^\ensuremath{\top} \ensuremath{\bm{\b}}$  in terms of $\ensuremath{\ell}_{kj}$ and $x_k := {\bf e}_k^\ensuremath{\top} \ensuremath{\bm{\x}}$, using rounded floating-point operations $\ensuremath{\oplus}$ and $\ensuremath{\otimes}$. 
+
+\textbf{Problem 2(b)} Assuming all operations involve normal floating numbers, show that your approximation has the form
+\[
+L \ensuremath{\bm{\x}} = {\tt lowermul}(L, \ensuremath{\bm{\x}}) + \ensuremath{\bm{\epsilon}}
+\]
+where, for $\ensuremath{\epsilon}_{\rm m}$ denoting machine epsilon and $E_{n,\ensuremath{\epsilon}}:= {n \ensuremath{\epsilon} \over 1-n\ensuremath{\epsilon}}$ and assuming $n \ensuremath{\epsilon}_{\rm m} < 2$,
+\[
+\| \ensuremath{\bm{\epsilon}} \|_1 \ensuremath{\leq}   2E_{n,\ensuremath{\epsilon}_{\rm m}/2}   \|L\|_1 \| \ensuremath{\bm{\x}} \|_1.
+\]
+Here we use  the matrix norm $\| A \|_1 := \max_j \ensuremath{\sum}_{k=1}^n |a_{kj}|$ and the vector norm $\| \ensuremath{\bm{\x}} \|_1 := \ensuremath{\sum}_{k=1}^n |x_k|$. You may use the fact that
+\[
+x_1 \ensuremath{\oplus} \ensuremath{\cdots} \ensuremath{\oplus} x_n = x_1 +  \ensuremath{\cdots} + x_n + \ensuremath{\sigma}_n
 \]
 where
 \[
-|\ensuremath{\varepsilon}_n| \ensuremath{\leq} {2E_{n,\ensuremath{\epsilon}_{\rm m}/2} + E_{n,\ensuremath{\epsilon}_{\rm m}/2}^2 \over  1- |x|}.
+|\ensuremath{\sigma}_n| \ensuremath{\leq} \| \ensuremath{\bm{\x}} \|_1 E_{n-1,\ensuremath{\epsilon}_{\rm m}/2}.
 \]
-You may assume all operations are normal.
-
 \textbf{Problem 3} What is the dual extension of square-roots? I.e. what should $\sqrt{a + b \ensuremath{\epsilon}}$ equal assuming $a > 0$?
 
-\textbf{Problem 6} Use the Cholesky factorisation to determine whether the following matrix is symmetric positive definite:
+\textbf{Problem 4} Use the Cholesky factorisation to determine whether the following matrix is symmetric positive definite:
 \[
 \begin{bmatrix} 2 & 2 & 1  \\
 2 & 3 & 2\\
@@ -204,7 +211,7 @@ You may assume all operations are normal.
 \[
 Q \begin{bmatrix} 2 \\ 1 \\ 2 \end{bmatrix} =  \begin{bmatrix} -3 \\ 0 \\ 0 \end{bmatrix}.
 \]
-\textbf{Problem 8} For the function $f(\ensuremath{\theta}) = \sin 3 \ensuremath{\theta}$, state explicit formulae for its Fourier coefficients
+\textbf{Problem 6} For the function $f(\ensuremath{\theta}) = \sin 3 \ensuremath{\theta}$, state explicit formulae for its Fourier coefficients
 \[
 \hat f_k := {1 \over 2\ensuremath{\pi}} \int_0^{2\ensuremath{\pi}} f(\ensuremath{\theta}) {\rm e}^{-{\rm i} k \ensuremath{\theta}} {\rm d}\ensuremath{\theta}
 \]
@@ -214,7 +221,7 @@ and  their discrete approximation:
 \]
 for \emph{all} integers $k$, $n = 1,2,\ensuremath{\ldots}$, where $\ensuremath{\theta}_j = 2\ensuremath{\pi} j/n$.
 
-\textbf{Problem 9} Consider orthogonal polynomials
+\textbf{Problem 7} Consider orthogonal polynomials
 \[
 H_n(x) = 2^n x^n + O (x^{n-1})
 \]
@@ -227,7 +234,9 @@ Construct $H_0(x)$, $H_1(x)$, $H_2(x)$ and hence show that $H_3(x) = 8x^3-12x$. 
 \int_{-\ensuremath{\infty}}^\ensuremath{\infty} w(x) {\rm d}x = \sqrt{\ensuremath{\pi}}, \int_{-\ensuremath{\infty}}^\ensuremath{\infty} x^2 w(x) {\rm d}x = \sqrt{\ensuremath{\pi}}/2,
 \int_{-\ensuremath{\infty}}^\ensuremath{\infty} x^4 w(x) {\rm d}x = 3\sqrt{\ensuremath{\pi}}/4.
 \]
-\textbf{Problem 10} Solve Problem 4(b) from PS8 using \textbf{Lemma 12 (discrete orthogonality)} with $w(x) = 1/\sqrt{1-x^2}$ on $[-1,1]$. That is, use the connection of $T_n(x)$ with $\cos n \ensuremath{\theta}$ to show that the Discrete Cosine Transform
+\textbf{Problem 8.2} Compute the 2-point and 3-point Gaussian quadrature rules associated with $w(x) = \exp(-x^2)$ on $(-\ensuremath{\infty},\ensuremath{\infty})$.
+
+\textbf{Problem 9} Solve Problem 4(b) from PS8 using \textbf{Lemma 12 (discrete orthogonality)} with $w(x) = 1/\sqrt{1-x^2}$ on $[-1,1]$. That is, use the connection of $T_n(x)$ with $\cos n \ensuremath{\theta}$ to show that the Discrete Cosine Transform
 \[
 C_n := \begin{bmatrix}
 \sqrt{1/n} \\
@@ -243,8 +252,6 @@ C_n := \begin{bmatrix}
 \end{bmatrix}
 \]
 for $\ensuremath{\theta}_j = \ensuremath{\pi}(j-1/2)/n$ is an orthogonal matrix.
-
-\textbf{Problem 5} Compute the 2-point and 3-point Gaussian quadrature rules associated with $w(x) = 1$ on $[-1,1]$.
 
 
 
