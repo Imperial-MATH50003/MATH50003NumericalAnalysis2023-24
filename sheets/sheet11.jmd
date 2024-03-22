@@ -1,0 +1,148 @@
+**Numerical Analysis MATH50003 (2023–24) Revision Sheet**
+
+
+**Problem 1(a)** State which real number is represented by an IEEE 16-bit floating point number (with $σ = 15, Q = 5$, and $S = 10$) with bits
+$$
+{\tt 1\ 01000\ 0000000001}
+$$
+
+
+
+**Problem 1(b)**  How are the following real numbers rounded to the nearest $F_{16}$?
+$$
+1/2, 1/2 + 2^{-12}, 3 + 2^{-9} + 2^{-10}, 3 + 2^{-10} + 2^{-11}.
+$$
+
+
+
+**Problem 2(a)** Consider a Lower triangular matrix with floating point entries:
+$$
+L = \begin{bmatrix}
+ℓ_{11} \\
+ ℓ_{21} & ℓ_{22} \\
+ ⋮ & ⋱ & ⋱ \\
+ ℓ_{n1} & ⋯ & ℓ_{n,n-1} & ℓ_{nn}
+ \end{bmatrix} ∈ F_{σ,Q,S}^{n × n}
+$$
+
+and a vector $𝐱 \in F_{σ,Q,S}^{n}$, where $F_{σ,Q,S}$ is a set of floating-point numbers.
+Denoting matrix-vector multiplication implemented using floating point arithmetic as
+$$
+𝐛 := {\tt lowermul}(L,𝐱)
+$$
+express the entries $b_k := {\bf e}_k^⊤ 𝐛$  in terms of $ℓ_{kj}$ and $x_k := {\bf e}_k^⊤ 𝐱$, using rounded floating-point operations $⊕$ and $⊗$. 
+
+**Problem 2(b)** Assuming all operations involve normal floating numbers, show that your approximation has the form
+$$
+L 𝐱 = {\tt lowermul}(L, 𝐱) + 𝛜
+$$
+where, for $ϵ_{\rm m}$ denoting machine epsilon and $E_{n,ϵ}:= {n ϵ \over 1-nϵ}$ and assuming $n ϵ_{\rm m} < 2$,
+$$
+\| 𝛜 \|_1 ≤   2E_{n,ϵ_{\rm m}/2}   \|L\|_1 \| 𝐱 \|_1.
+$$
+Here we use  the matrix norm $\| A \|_1 := \max_j ∑_{k=1}^n |a_{kj}|$
+and the vector norm $\| 𝐱 \|_1 := ∑_{k=1}^n |x_k|$. You may use the fact that
+$$
+x_1 ⊕ ⋯ ⊕ x_n = x_1 +  ⋯ + x_n + σ_n
+$$
+where
+$$
+|σ_n| ≤ \| 𝐱 \|_1 E_{n-1,ϵ_{\rm m}/2}.
+$$
+
+
+
+
+
+
+**Problem 3** What is the dual extension of square-roots? I.e. what should $\sqrt{a + b ϵ}$ equal assuming $a > 0$?
+
+
+
+
+
+
+
+**Problem 4** Use the Cholesky factorisation to determine
+whether the following matrix is symmetric positive definite:
+$$
+\begin{bmatrix} 2 & 2 & 1  \\
+2 & 3 & 2\\
+1 & 2 & 2
+\end{bmatrix}
+$$
+
+
+
+**Problem 5** Use reflections to determine the entries of an orthogonal matrix $Q$ such that
+$$
+Q \begin{bmatrix} 2 \\ 1 \\ 2 \end{bmatrix} =  \begin{bmatrix} -3 \\ 0 \\ 0 \end{bmatrix}.
+$$
+
+
+
+
+
+
+
+**Problem 6** For the function $f(θ) = \sin 3 θ$, state explicit formulae for its Fourier coefficients
+$$
+\hat f_k := {1 \over 2π} \int_0^{2π} f(θ) {\rm e}^{-{\rm i} k θ} {\rm d}θ
+$$
+and  their discrete approximation:
+$$
+\hat f_k^n := {1 \over n} \sum_{j=0}^{n-1} f(θ_j) {\rm e}^{-{\rm i} k θ_j}.
+$$
+for _all_ integers $k$, $n = 1,2,…$, where $θ_j = 2π j/n$.
+
+
+
+
+
+
+
+
+**Problem 7** Consider orthogonal polynomials
+$$
+H_n(x) = 2^n x^n + O (x^{n-1})
+$$
+as $x → ∞$ and $n = 0, 1, 2, …$,  orthogonal with respect to the inner product
+$$
+\langle f, g \rangle = \int_{-∞}^∞ f(x) g(x) w(x) {\rm d}x, \qquad w(x) = \exp(-x^2)
+$$
+Construct $H_0(x)$, $H_1(x)$, $H_2(x)$ and hence show that $H_3(x) = 8x^3-12x$. You may use without proof the formulae
+$$
+\int_{-∞}^∞ w(x) {\rm d}x = \sqrt{π}, \int_{-∞}^∞ x^2 w(x) {\rm d}x = \sqrt{π}/2,
+\int_{-∞}^∞ x^4 w(x) {\rm d}x = 3\sqrt{π}/4.
+$$
+
+
+
+
+
+**Problem 8.2** Compute the 2-point and 3-point Gaussian quadrature rules associated with $w(x) = \exp(-x^2)$ on $(-∞,∞)$.
+
+
+
+
+
+**Problem 9** Solve Problem 4(b) from PS8 using **Lemma 12 (discrete orthogonality)** with
+$w(x) = 1/\sqrt{1-x^2}$ on $[-1,1]$. That is, use the connection of $T_n(x)$ with $\cos n θ$ to
+show that the Discrete Cosine Transform
+$$
+C_n := \begin{bmatrix}
+\sqrt{1/n} \\
+ & \sqrt{2/n} \\
+ && ⋱ \\
+ &&& \sqrt{2/n}
+ \end{bmatrix}
+\begin{bmatrix}
+    1 & ⋯ & 1\\
+    \cos θ_1 & ⋯ & \cos θ_n \\
+    ⋮ & ⋱ & ⋮ \\
+    \cos (n-1)θ_1 & ⋯ & \cos (n-1)θ_n
+\end{bmatrix}
+$$
+for $θ_j = π(j-1/2)/n$ is an orthogonal matrix.
+
+
