@@ -507,23 +507,23 @@ w_3 = w_1 = {5 \over 9}.
 $$
 Thus our Gauss–Legendre quadrature formula is
 $$
-Q^w[f] = {5 \over 9} f(-\sqrt{3/5}) + {8 \over 9} f(0) + {5 \over 9} f(\sqrt{3/5}).
+Σ_3^w[f] = {5 \over 9} f(-\sqrt{3/5}) + {8 \over 9} f(0) + {5 \over 9} f(\sqrt{3/5}).
 $$
 
 We are exact for all polynomials up to degree $2n-1 = 5$:
 $$
 \meeq{
-Q^w[1] = {5 \over 9} + {8 \over 9} + {5 \over 9} = 2 \ccr
-Q^w[x] = -{5 \over 9} \sqrt{3/5} + {5 \over 9} \sqrt{3/5} = 0 \ccr
-Q^w[x^2] = {5 \over 9} {3 \over 5} + {5 \over 9} {3 \over 5} = {2 \over 3} \ccr
-Q^w[x^3] = -{5 \over 9} (3/5)^{3/2} + {5 \over 9} (3/5)^{3/2} = 0 \ccr
-Q^w[x^4] = {5 \over 9} {9 \over 25} + {5 \over 9} {9 \over 25} = {2 \over 5} \ccr
-Q^w[x^5] = 0.
+Σ_3^w[1] = {5 \over 9} + {8 \over 9} + {5 \over 9} = 2 \ccr
+Σ_3^w[x] = -{5 \over 9} \sqrt{3/5} + {5 \over 9} \sqrt{3/5} = 0 \ccr
+Σ_3^w[x^2] = {5 \over 9} {3 \over 5} + {5 \over 9} {3 \over 5} = {2 \over 3} \ccr
+Σ_3^w[x^3] = -{5 \over 9} (3/5)^{3/2} + {5 \over 9} (3/5)^{3/2} = 0 \ccr
+Σ_3^w[x^4] = {5 \over 9} {9 \over 25} + {5 \over 9} {9 \over 25} = {2 \over 5} \ccr
+Σ_3^w[x^5] = 0.
 }
 $$
 But the next integral is wrong:
 $$
-Q^w[x^6] = {5 \over 9} {27 \over 125} + {5 \over 9} {27 \over 125} = {6 \over 25} ≠ {2 \over 7} = ∫_{-1}^1 x^6 {\rm d}x.
+Σ_3^w[x^6] = {5 \over 9} {27 \over 125} + {5 \over 9} {27 \over 125} = {6 \over 25} ≠ {2 \over 7} = ∫_{-1}^1 x^6 {\rm d}x.
 $$
 ∎
 
