@@ -332,7 +332,7 @@ interpolatory quadrature rule associated with roots of orthogonal polynomials fo
 and $1-x$ on $[-1,1]$ by integrating the Lagrange bases.
 
 **SOLUTION**
-For $w(x) = \sqrt{1-x}^2$ the orthogonal polynomial of degree 2 is $U_2(x) = 4x^2 -1$, with roots $𝐱 = \{x = ± \frac{1}{2}\}$. The Lagrange polynomials corresponding to these roots are,
+For $w(x) = \sqrt{1-x^2}$ the orthogonal polynomial of degree 2 is $U_2(x) = 4x^2 -1$, with roots $𝐱 = \{x = ± \frac{1}{2}\}$. The Lagrange polynomials corresponding to these roots are,
 $$
 \begin{align*}
 ℓ_1(x) &= \frac{x - 1/2}{-1/2 - 1/2} = \frac{1}{2} - x, \\
