@@ -138,9 +138,13 @@
 \def\z{ {\vc z} }
 \def\w{ {\vc w} }
 
+\def\bt{ {\tilde b} }
+\def\ct{ {\tilde c} }
 \def\Ut{ {\tilde U} }
 \def\Qt{ {\tilde Q} }
 \def\Rt{ {\tilde R} }
+\def\Xt{ {\tilde X} }
+\def\acos{ {\rm acos}\, }
 
 \def\red#1{ {\color{red} #1} }
 \def\blue#1{ {\color{blue} #1} }
@@ -242,8 +246,10 @@ given that $f^{(\ensuremath{\lambda})}$ is uniformly bounded, the second part fo
 \[
 |\ensuremath{\sum}_{k=n}^{\ensuremath{\infty}} \hat f_k {\rm e}^{{\rm i}k\ensuremath{\theta}}| \ensuremath{\leq} \ensuremath{\sum}_{k=n}^{\ensuremath{\infty}} |\hat f_k | \ensuremath{\leq} C \ensuremath{\sum}_{k=n}^{\ensuremath{\infty}} k^{-\ensuremath{\lambda}}
 \]
-for some constant $C$.
-
+for some constant $C$. The result then follows by the dominant convergence test:
+\[
+\ensuremath{\sum}_{k=n}^{\ensuremath{\infty}} k^{-\ensuremath{\lambda}} \ensuremath{\leq} \int_{n-1}^\ensuremath{\infty} k^{-\ensuremath{\lambda}} {\rm d}k = O(n^{1-\ensuremath{\lambda}}).
+\]
 \textbf{END}
 
 \textbf{Problem 3(a)} If $f$ is a trigonometric polynomial  ($\hat f_k = 0$ for $|k| > m$) show for $n \ensuremath{\geq} 2m+1$ that we can exactly recover $f$:

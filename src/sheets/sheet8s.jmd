@@ -111,7 +111,10 @@ given that $f^{(λ)}$ is uniformly bounded, the second part follows directly fro
 $$
 |∑_{k=n}^{∞} \hat f_k {\rm e}^{{\rm i}kθ}| ≤ ∑_{k=n}^{∞} |\hat f_k | ≤ C ∑_{k=n}^{∞} k^{-λ}
 $$
-for some constant $C$.
+for some constant $C$. The result then follows by the dominant convergence test:
+$$
+∑_{k=n}^{∞} k^{-λ} ≤ \int_{n-1}^∞ k^{-λ} {\rm d}k = O(n^{1-λ}).
+$$
 
 **END**
 
