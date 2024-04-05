@@ -137,7 +137,7 @@ $$
 
 
 
-**Example (DFT versus Lagrange)** Consider interpolating $f(z) = \exp z$ by a polynomial at the points $1, \I, -1, -\I$.
+**Example (DFT versus Lagrange)** Consider interpolating $\exp z$ by a polynomial at the points $1, \I, -1, -\I$.
 We can use Lagrange polynomials:
 $$
 \meeq{
@@ -160,7 +160,7 @@ $$
 $$
 
 Alternatively we could have deduced this directly from the DFT. In particular, we know the coefficients of the interpolating polynomial must be,
-for $ω = \I$,
+for $ω = \I$ and $f(θ) = \exp(\E^{\I θ})$,
 $$
 \Vectt[\hat f_0^4, \hat f_1^4, \hat f_2^4, \hat f_3^4] = 
 {1 \over 4} \begin{bmatrix}1 & 1 & 1 & 1 \\
@@ -172,7 +172,11 @@ $$
  \E -\I \E^\I - \E^{-1} + \I \E^{-\I} ,
  \E - \E^\I + \E^{-1} - \E^{-\I} ,
  \E + \I \E^\I - \E^{-1} - \I \E^{-\I}
- ]
+ ] = {1 \over 2} \Vectt[\cosh 1 + \cos 1 ,
+\sinh 1 + \sin 1 ,
+ \cosh 1 - \cos 1 ,
+ \sinh 1 - \sin 1
+ ].
 $$
 ∎
 

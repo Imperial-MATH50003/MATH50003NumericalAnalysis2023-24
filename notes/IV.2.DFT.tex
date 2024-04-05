@@ -107,7 +107,7 @@ f_n(\ensuremath{\theta}_j) = \ensuremath{\sum}_{k=0}^{n-1} \hat f_k^n {\rm e}^{\
 \]
 \ensuremath{\QED}
 
-\begin{example}[DFT versus Lagrange] Consider interpolating $f(z) = \exp z$ by a polynomial at the points $1, \I, -1, -\I$. We can use Lagrange polynomials:
+\begin{example}[DFT versus Lagrange] Consider interpolating $\exp z$ by a polynomial at the points $1, \I, -1, -\I$. We can use Lagrange polynomials:
 \meeq{
 \ensuremath{\ell}_1(z) ={ (z - \I)(z + 1)(z + \I) \over 2(1 - \I)(1 + \I)} = { z^3 + z^2 + z + 1 \over 4} \ccr
 \ensuremath{\ell}_2(z) ={ (z - 1)(z + 1)(z + \I) \over (\I - 1) (\I + 1) 2\I} = { \I z^3 - z^2 - \I z + 1 \over 4} \ccr
@@ -123,7 +123,7 @@ So we get the interpolant:
  {\E - \E^\I + \E^{-1} - \I \E^{-\I} \over 4} z^2 +
  {\E + \I \E^\I - \E^{-1} - \I \E^{-\I} \over 4} z^3 
 \end{align*}
-Alternatively we could have deduced this directly from the DFT. In particular, we know the coefficients of the interpolating polynomial must be, for $\ensuremath{\omega} = \I$,
+Alternatively we could have deduced this directly from the DFT. In particular, we know the coefficients of the interpolating polynomial must be, for $\ensuremath{\omega} = \I$ and $f(\ensuremath{\theta}) = \exp(\E^{\I \ensuremath{\theta}})$,
 \[
 \Vectt[\hat f_0^4, \hat f_1^4, \hat f_2^4, \hat f_3^4] = 
 {1 \over 4} \begin{bmatrix}1 & 1 & 1 & 1 \\
@@ -135,7 +135,11 @@ Alternatively we could have deduced this directly from the DFT. In particular, w
  \E -\I \E^\I - \E^{-1} + \I \E^{-\I} ,
  \E - \E^\I + \E^{-1} - \E^{-\I} ,
  \E + \I \E^\I - \E^{-1} - \I \E^{-\I}
- ]
+ ] = {1 \over 2} \Vectt[\cosh 1 + \cos 1 ,
+\sinh 1 + \sin 1 ,
+ \cosh 1 - \cos 1 ,
+ \sinh 1 - \sin 1
+ ].
 \]
 \end{example}
 
