@@ -76,9 +76,9 @@ $$
 x p_n(x) = \cos θ \cos n θ = {\cos(n-1)θ + \cos(n+1)θ \over 2} = {p_{n-1}(x) + p_{n+1}(x) \over 2}.
 $$
 In other words $p_{n+1}(x) = 2x p_n(x) - p_{n-1}(x)$.
-Since each time we multiply by $2x$ and $p_0(x) = 1$ we have
+Since each time we multiply by $2x$ and $p_0(x) = 1$ we have by induction
 $$
-p_n(x) = (2x)^n + O(x^{n-1})
+p_{n+1}(x) = 2x (2^{n-1}x^n + O(x^{n-1})) + O(x^{n-1})) = 2^n x^{n+1} + O(x^n)
 $$
 which completes the proof.
 

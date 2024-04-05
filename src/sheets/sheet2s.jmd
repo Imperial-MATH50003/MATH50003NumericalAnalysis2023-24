@@ -85,15 +85,10 @@ there exists $a^{-1}$ such that $a a^{-1} = 1$. Can we use the previous part to 
 
 **SOLUTION**
 
-Fields require that all nonzero elements have a unique multiplicative inverse. However, this is not the case for dual numbers. To give an explicit counter example, we show that there is no dual number $z$ which is the inverse of $0+ϵ$, i.e. a dual number $z$ such that
+An example that doesn't work is $z = 0 + ϵ$ where the formula is undefined, i.e, it would give:
 $$
-\frac{(0+ϵ)}{(z_r+z_d ϵ)} = 1 + 0 ϵ.
+z^{-1} = ∞ + ∞ϵ
 $$
-By appropriate multiplication with the conjugate we show that
-$$
-\frac{(0+ϵ)(z_r-z_d ϵ)}{(z_r+z_d ϵ)(z_r-z_d ϵ)} = \frac{z_r ϵ}{z_r^2} = \frac{ϵ}{z_r}.
-$$
-This proves that no choice of real part $z_r$ can reach the multiplicative identity $1+0 ϵ$ when starting from the number $0+ϵ$. More general results for zero real part dual numbers can also be proved.
 
 **END**
  

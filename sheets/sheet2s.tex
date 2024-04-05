@@ -125,6 +125,7 @@
 \def\bbD{ {\mathbb D} }
 \def\bbZ{ {\mathbb Z} }
 \def\bbR{ {\mathbb R} }
+\def\bbC{ {\mathbb C} }
 
 \def\x{ {\vc x} }
 \def\a{ {\vc a} }
@@ -132,8 +133,18 @@
 \def\e{ {\vc e} }
 \def\f{ {\vc f} }
 \def\u{ {\vc u} }
+\def\v{ {\vc v} }
 \def\y{ {\vc y} }
 \def\z{ {\vc z} }
+\def\w{ {\vc w} }
+
+\def\bt{ {\tilde b} }
+\def\ct{ {\tilde c} }
+\def\Ut{ {\tilde U} }
+\def\Qt{ {\tilde Q} }
+\def\Rt{ {\tilde R} }
+\def\Xt{ {\tilde X} }
+\def\acos{ {\rm acos}\, }
 
 \def\red#1{ {\color{red} #1} }
 \def\blue#1{ {\color{blue} #1} }
@@ -220,16 +231,10 @@ Thus we have $s = \frac{a}{c}$ and $t = \frac{bc - ad}{c^2}$.
 
 \textbf{SOLUTION}
 
-Fields require that all nonzero elements have a unique multiplicative inverse. However, this is not the case for dual numbers. To give an explicit counter example, we show that there is no dual number $z$ which is the inverse of $0+\ensuremath{\epsilon}$, i.e. a dual number $z$ such that
+An example that doesn't work is $z = 0 + \ensuremath{\epsilon}$ where the formula is undefined, i.e, it would give:
 \[
-\frac{(0+\ensuremath{\epsilon})}{(z_r+z_d \ensuremath{\epsilon})} = 1 + 0 \ensuremath{\epsilon}.
+z^{-1} = \ensuremath{\infty} + \ensuremath{\infty}\ensuremath{\epsilon}
 \]
-By appropriate multiplication with the conjugate we show that
-\[
-\frac{(0+\ensuremath{\epsilon})(z_r-z_d \ensuremath{\epsilon})}{(z_r+z_d \ensuremath{\epsilon})(z_r-z_d \ensuremath{\epsilon})} = \frac{z_r \ensuremath{\epsilon}}{z_r^2} = \frac{\ensuremath{\epsilon}}{z_r}.
-\]
-This proves that no choice of real part $z_r$ can reach the multiplicative identity $1+0 \ensuremath{\epsilon}$ when starting from the number $0+\ensuremath{\epsilon}$. More general results for zero real part dual numbers can also be proved.
-
 \textbf{END}
 
 \textbf{Problem 4} Use dual numbers to compute the derivative of the following functions at $x = 0.1$:
