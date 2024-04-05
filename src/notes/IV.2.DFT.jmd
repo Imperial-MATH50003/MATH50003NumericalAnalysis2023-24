@@ -130,7 +130,7 @@ $$
 **Proof**
 We have
 $$
-f_n(θ_j) = ∑_{k=0}^{n-1} \hat f_k^n {\rm e}^{\I k θ_j} = \sqrt n 𝐞_j^⊤ Q_n^⋆ \vchatf^n = 𝐞_j^⊤ Q_n^⋆ Q_n 𝐟^n = f(θ_j).
+f_n(θ_j) = ∑_{k=0}^{n-1} \hat f_k^n {\rm e}^{\I k θ_j} = \sqrt n 𝐞_{j+1}^⊤ Q_n^⋆ \vchatf^n = 𝐞_{j+1}^⊤ Q_n^⋆ Q_n 𝐟^n = f(θ_j).
 $$
 
 ∎
