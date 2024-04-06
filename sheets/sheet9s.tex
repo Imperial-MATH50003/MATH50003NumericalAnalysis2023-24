@@ -532,18 +532,22 @@ k_{n+1}^{(2)}=2k_n^{(2)}-n2^n = -n(n-1)2^{n-1} - n2^n = -n(n+1)2^{n-1}.
 
 \textbf{SOLUTION}
 
-Our goal is to find $a_n$, $b_n$ and $c_n$ such that $xH_n(x)=c_{n-1}H_{n-1}(x)+a_nH_n(x)+b_nH_{n+1}(x).$ Compare the 3 leading coefficients on both sides and use the results from Problem 4(a) and Problem 4(c):
+Our goal is to find $a_n$, $b_n$ and $c_n$ such that
 \[
-2^n=0+0+b_n2^{n+1}
+xH_n(x)=c_{n-1}H_{n-1}(x)+a_nH_n(x)+b_nH_{n+1}(x).
 \]
+Matching terms we have $b_n = 1/2$ and $a_n = 0$ so that
+\meeq{
+c_{n-1} H_{n-1}(x) = xH_n(x) - H_{n+1}(x)/2 = 2^n x^{n+1} + k_n^{(2)}x^{n-1} 
+- 2^n x^{n+1} - k_{n+1}^{(2)}/2 x^{n-1} + O(x^{n-2}) \ccr
+= (k_n^{(2)} - k_{n+1}^{(2)}/2 ) x^{n-1} + O(x^{n-2}) \ccr 
+= (-n(n-1)2^{n-2} +n(n+1)2^{n-2}) x^{n-1} + O(x^{n-2}) \ccr
+= n2^{n-1} x^{n-1} + O(x^{n-2}).
+}
+Therefore we choose
 \[
-0=0+a_n2^n+0
+c_{n-1} = {n2^{n-1} \over 2^{n-1}} = n.
 \]
-\[
-n(n-1)2^{n-2}=c_{n-1}2^{n-1}+0+b_n(n+1)n2^{n-1}
-\]
-Thus we have $b_n=1/2$, $a_n=0$ and $c_{n-1}=n$.
-
 \textbf{END}
 
 \textbf{Problem 6(d)} Prove that $H_n'(x) = 2n H_{n-1}(x)$. Hint: show orthogonality of $H_n'$ to all lower degree polynomials, and that the normalisation constants match.

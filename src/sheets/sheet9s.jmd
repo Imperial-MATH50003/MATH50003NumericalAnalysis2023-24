@@ -443,18 +443,23 @@ $$
 **SOLUTION**
 
 Our goal is to find $a_n$, $b_n$ and $c_n$ such that
-$$xH_n(x)=c_{n-1}H_{n-1}(x)+a_nH_n(x)+b_nH_{n+1}(x).$$
-Compare the 3 leading coefficients on both sides and use the results from Problem 4(a) and Problem 4(c):
 $$
-2^n=0+0+b_n2^{n+1}
+xH_n(x)=c_{n-1}H_{n-1}(x)+a_nH_n(x)+b_nH_{n+1}(x).
 $$
+Matching terms we have $b_n = 1/2$ and $a_n = 0$ so that
 $$
-0=0+a_n2^n+0
+\meeq{
+c_{n-1} H_{n-1}(x) = xH_n(x) - H_{n+1}(x)/2 = 2^n x^{n+1} + k_n^{(2)}x^{n-1} 
+- 2^n x^{n+1} - k_{n+1}^{(2)}/2 x^{n-1} + O(x^{n-2}) \ccr
+= (k_n^{(2)} - k_{n+1}^{(2)}/2 ) x^{n-1} + O(x^{n-2}) \ccr 
+= (-n(n-1)2^{n-2} +n(n+1)2^{n-2}) x^{n-1} + O(x^{n-2}) \ccr
+= n2^{n-1} x^{n-1} + O(x^{n-2}).
+}
 $$
+Therefore we choose
 $$
-n(n-1)2^{n-2}=c_{n-1}2^{n-1}+0+b_n(n+1)n2^{n-1}
+c_{n-1} = {n2^{n-1} \over 2^{n-1}} = n.
 $$
-Thus we have $b_n=1/2$, $a_n=0$ and $c_{n-1}=n$.
 
 **END**
 
