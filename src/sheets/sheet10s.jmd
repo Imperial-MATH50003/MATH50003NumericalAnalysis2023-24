@@ -239,7 +239,7 @@ Next recall that $P_1(x) =  x$ and so $Q_1(x) = x/||P_1(x)||=\sqrt{\frac{3}{2}} 
 $$
 b_0 = ⟨ xQ_0(x), Q_1(x)⟩ = \int_{-1}^1 \frac{\sqrt{3}}{2}x^2 dx = \frac{1}{\sqrt{3}},
 $$
-and also $b_0 = c_0$ by the Corollary (orthonormal 3-term recurrence). We have,
+and also $b_0 = c_0$ by the Corollary 8 (Jacobi matrix). We have,
 $$
 a_1 = ⟨ xQ_1(x), Q_1(x)⟩ = \int_{-1}^1 \frac{3}{2}x^3 dx = 0.
 $$
