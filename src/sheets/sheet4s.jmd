@@ -20,7 +20,7 @@ using  half-precision arithmetic ($F_{16} := F_{15,5,10}$) (using default roundi
 For the first part we use Geometric series:
 $$
 \meeq{
- 2^{-3} (1.1001100110\magenta{011…})_2 =  2^{-3} \left(∑_{k=0}^∞ {1 \over 2^{4k}} + 
+ 2^{-3} (1.1001100110\magenta{011…})_2 =  2^{-3} \left(∑_{k=0}^∞ {1 \over 2^{4k}} +
 {1 \over 2} ∑_{k=0}^∞ {1 \over 2^{4k}}\right) \ccr
 = {3 \over 2^4} {1 \over 1-1/2^4} = {3 \over 2^4-1} = {1 \over 5}
 }
@@ -72,7 +72,7 @@ $$
 $$
 we find that
 $$
-|ε_1| ≤ |δ_1| + |δ_2| + |δ_3| + |δ_1δ_2| + |δ_1δ_3| + |δ_2δ_3|+ |δ_1δ_2δ_3| 
+|ε_1| ≤ |δ_1| + |δ_2| + |δ_3| + |δ_1δ_2| + |δ_1δ_3| + |δ_2δ_3|+ |δ_1δ_2δ_3|
      ≤ (3/2 + 3/4 + 1/8) ≤ 5/2 ϵ_{\rm m}
 $$
 Then we have
@@ -87,7 +87,7 @@ Finally,
 $$
 (2.62 + ε_2)(1+δ_5) = 2.62 + \underbrace{ε_2 + 2.62δ_5 + ε_2 δ_5}_{ε_3}
 $$
-where, using $|ε_2 δ_5| ≤ 3ϵ_{\rm m}$ we get, 
+where, using $|ε_2 δ_5| ≤ 3ϵ_{\rm m}$ we get,
 $$
 |ε_3| ≤ (5 + 3/2 + 3) ϵ_{\rm m}  ≤ 10ϵ_{\rm m}.
 $$
@@ -160,15 +160,24 @@ $$
 &= {f(x+h) - f(x-h) \over 2h} (1 + δ_1) + {δ_{x+h}- δ_{x-h} \over 2h} (1 + δ_1)
 \end{align*}
 $$
-Applying Taylor's theorem we get
+From PS1 Q4 we get the error term
 $$
-(f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x-h)) / (2h) =
-f'(x) + \underbrace{f'(x) δ_1 + δ_{x,h}^{\rm T} (1 + δ_1) + {δ_{x+h}- δ_{x-h} \over 2h} (1 + δ_1)}_{δ_{x,h}^{\rm CD}}
+f'(x) = {f(x + h) - f(x-h) \over 2h} + δ^{\rm T}
 $$
 where
 $$
-|δ_{x,h}^{\rm CD}| ≤ {|f'(x)| \over 2} ϵ_{\rm m} + {M \over 3} h^2 + {2 c ϵ_{\rm m} \over h}
+|δ^{\rm T}| ≤ Mh^2/6.
 $$
+Thus
+$$
+(f^{\rm FP}(x + h) ⊖ f^{\rm FP}(x-h)) / (2h) =
+f'(x) + \underbrace{f'(x) δ_1 - δ^{\rm T} (1 + δ_1) + {δ_{x+h}- δ_{x-h} \over 2h} (1 + δ_1)}_{ε}
+$$
+where
+$$
+|ε| ≤ {|f'(x)| \over 2} ϵ_{\rm m} + {M \over 3} h^2 + {2 c ϵ_{\rm m} \over h}.
+$$
+
 
 **END**
 
@@ -185,7 +194,7 @@ on positivity of $a,b,c,d$. You may use the $\min$ or $\max$ functions.
 
 **SOLUTION**
 
-For $X/n$: if $x ∈ X$ then $a/n ≤ x/n ≤ b/n$ means $x ∈ [a/n,b/n]$. Similarly, 
+For $X/n$: if $x ∈ X$ then $a/n ≤ x/n ≤ b/n$ means $x ∈ [a/n,b/n]$. Similarly,
 if $z ∈ [a/n,b/n]$ then $a ≤ nz ≤ b$ hence $nz ∈ X$ and therefore $z ∈ X/n$.
 
 For $XY$: if $x ∈ X$ and $y ∈ Y$ then $ac ≤ xy ≤ bd$ means $xy ∈ [ac,bd]$.
@@ -208,7 +217,7 @@ with the signs. Eg if $n < 0$ we need to swap the order hence we get:
 $$
 A/n =  \begin{cases}
 [a/n,b/n] & n > 0  \\
-[b/n,a/n] & n < 0 
+[b/n,a/n] & n < 0
 \end{cases}
 $$
 
@@ -227,7 +236,7 @@ $$
 $$
 Hint: it might help to write $1 = (0.1111…)_2$ when doing subtraction.
 
-**SOLUTION** 
+**SOLUTION**
 Note that
 $$
 {1 \over 6} = {1 \over 2} {1\over 3} = 2^{-3} (1.010101…)_2
@@ -248,7 +257,7 @@ $$
 **END**
 
 
-**Problem 6(b)** Writing 
+**Problem 6(b)** Writing
 $$
 \sin\ x = ∑_{k=0}^n {(-1)^k x^{2k+1} \over (2k+1)!} + δ_{x,2n+1}
 $$
@@ -260,7 +269,7 @@ We have from Taylor's theorem up to order $x^{2n+2}$:
 $$
 \sin\ x = ∑_{k=0}^n {(-1)^k x^{2k+1} \over (2k+1)!} + \underbrace{{\sin^{2n+3}(t) x^{2n+3} \over (2n+3)!}}_{δ_{x,2n+1}}.
 $$
-The bound follows since all derivatives of $\sin$ are bounded by 1 and we have assumed $|x| ≤ 1$. 
+The bound follows since all derivatives of $\sin$ are bounded by 1 and we have assumed $|x| ≤ 1$.
 
 **END**
 
@@ -269,7 +278,7 @@ The bound follows since all derivatives of $\sin$ are bounded by 1 and we have a
 $$
 \sin 1 ∈ [(0.11010011000)_2, (0.11010111101)_2] = [0.82421875, 0.84228515625]
 $$
-You may use without proof that $1/120 = 2^{-7} (1.000100010001…)_2$. 
+You may use without proof that $1/120 = 2^{-7} (1.000100010001…)_2$.
 
 **SOLUTION**
 Using $n = 1$ we have
@@ -279,11 +288,11 @@ $$
 Noting that in floating point $1 ⊗ 1 = 1$ (ie it is exact) we compute
 $$
 \begin{align*}
-\sin 1 &∈ [1,1] ⊖ [1,1] ⊘ 6 ⊕ [{\rm fl}^{\rm down}(-1/120), {\rm fl}^{\rm up}(1/120)] \ccr 
+\sin 1 &∈ [1,1] ⊖ [1,1] ⊘ 6 ⊕ [{\rm fl}^{\rm down}(-1/120), {\rm fl}^{\rm up}(1/120)] \ccr
  = [(0.11010101010)_2, (0.11010101011)_2] ⊕ [-(0.0000001000100010)_2, (0.00000010001000101)_2] \ccr
   =
 [{\rm fl}^{\rm down}(0.11010011000\magenta{11101111…})_2,
- {\rm fl}^{\rm up}(0.11010111100\magenta{000101})_2] \ccr 
+ {\rm fl}^{\rm up}(0.11010111100\magenta{000101})_2] \ccr
  = [(0.11010011000)_2, (0.11010111101)_2] = [0.82421875, 0.84228515625]
 \end{align*}
 $$

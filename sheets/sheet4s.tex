@@ -136,6 +136,15 @@
 \def\v{ {\vc v} }
 \def\y{ {\vc y} }
 \def\z{ {\vc z} }
+\def\w{ {\vc w} }
+
+\def\bt{ {\tilde b} }
+\def\ct{ {\tilde c} }
+\def\Ut{ {\tilde U} }
+\def\Qt{ {\tilde Q} }
+\def\Rt{ {\tilde R} }
+\def\Xt{ {\tilde X} }
+\def\acos{ {\rm acos}\, }
 
 \def\red#1{ {\color{red} #1} }
 \def\blue#1{ {\color{blue} #1} }
@@ -160,7 +169,7 @@
 
 For the first part we use Geometric series:
 \meeq{
- 2^{-3} (1.1001100110\magenta{011\ensuremath{\ldots}})_2 =  2^{-3} \left(\ensuremath{\sum}_{k=0}^\ensuremath{\infty} {1 \over 2^{4k}} + 
+ 2^{-3} (1.1001100110\magenta{011\ensuremath{\ldots}})_2 =  2^{-3} \left(\ensuremath{\sum}_{k=0}^\ensuremath{\infty} {1 \over 2^{4k}} +
 {1 \over 2} \ensuremath{\sum}_{k=0}^\ensuremath{\infty} {1 \over 2^{4k}}\right) \ccr
 = {3 \over 2^4} {1 \over 1-1/2^4} = {3 \over 2^4-1} = {1 \over 5}
 }
@@ -201,7 +210,7 @@ where, using the bounds:
 \]
 we find that
 \[
-|\ensuremath{\varepsilon}_1| \ensuremath{\leq} |\ensuremath{\delta}_1| + |\ensuremath{\delta}_2| + |\ensuremath{\delta}_3| + |\ensuremath{\delta}_1\ensuremath{\delta}_2| + |\ensuremath{\delta}_1\ensuremath{\delta}_3| + |\ensuremath{\delta}_2\ensuremath{\delta}_3|+ |\ensuremath{\delta}_1\ensuremath{\delta}_2\ensuremath{\delta}_3| 
+|\ensuremath{\varepsilon}_1| \ensuremath{\leq} |\ensuremath{\delta}_1| + |\ensuremath{\delta}_2| + |\ensuremath{\delta}_3| + |\ensuremath{\delta}_1\ensuremath{\delta}_2| + |\ensuremath{\delta}_1\ensuremath{\delta}_3| + |\ensuremath{\delta}_2\ensuremath{\delta}_3|+ |\ensuremath{\delta}_1\ensuremath{\delta}_2\ensuremath{\delta}_3|
      \ensuremath{\leq} (3/2 + 3/4 + 1/8) \ensuremath{\leq} 5/2 \ensuremath{\epsilon}_{\rm m}
 \]
 Then we have
@@ -216,7 +225,7 @@ Finally,
 \[
 (2.62 + \ensuremath{\varepsilon}_2)(1+\ensuremath{\delta}_5) = 2.62 + \underbrace{\ensuremath{\varepsilon}_2 + 2.62\ensuremath{\delta}_5 + \ensuremath{\varepsilon}_2 \ensuremath{\delta}_5}_{\ensuremath{\varepsilon}_3}
 \]
-where, using $|\ensuremath{\varepsilon}_2 \ensuremath{\delta}_5| \ensuremath{\leq} 3\ensuremath{\epsilon}_{\rm m}$ we get, 
+where, using $|\ensuremath{\varepsilon}_2 \ensuremath{\delta}_5| \ensuremath{\leq} 3\ensuremath{\epsilon}_{\rm m}$ we get,
 \[
 |\ensuremath{\varepsilon}_3| \ensuremath{\leq} (5 + 3/2 + 3) \ensuremath{\epsilon}_{\rm m}  \ensuremath{\leq} 10\ensuremath{\epsilon}_{\rm m}.
 \]
@@ -275,14 +284,22 @@ In floating point we have
 {f^{\rm FP}(x + h) \ensuremath{\ominus} f^{\rm FP}(x-h) \over 2h} &= {f(x + h) +  \ensuremath{\delta}_{x+h} - f(x-h) - \ensuremath{\delta}_{x-h} \over 2h} (1 + \ensuremath{\delta}_1) \\
 &= {f(x+h) - f(x-h) \over 2h} (1 + \ensuremath{\delta}_1) + {\ensuremath{\delta}_{x+h}- \ensuremath{\delta}_{x-h} \over 2h} (1 + \ensuremath{\delta}_1)
 \end{align*}
-Applying Taylor's theorem we get
+From PS1 Q4 we get the error term
 \[
-(f^{\rm FP}(x + h) \ensuremath{\ominus} f^{\rm FP}(x-h)) / (2h) =
-f'(x) + \underbrace{f'(x) \ensuremath{\delta}_1 + \ensuremath{\delta}_{x,h}^{\rm T} (1 + \ensuremath{\delta}_1) + {\ensuremath{\delta}_{x+h}- \ensuremath{\delta}_{x-h} \over 2h} (1 + \ensuremath{\delta}_1)}_{\ensuremath{\delta}_{x,h}^{\rm CD}}
+f'(x) = {f(x + h) - f(x-h) \over 2h} + \ensuremath{\delta}^{\rm T}
 \]
 where
 \[
-|\ensuremath{\delta}_{x,h}^{\rm CD}| \ensuremath{\leq} {|f'(x)| \over 2} \ensuremath{\epsilon}_{\rm m} + {M \over 3} h^2 + {2 c \ensuremath{\epsilon}_{\rm m} \over h}
+|\ensuremath{\delta}^{\rm T}| \ensuremath{\leq} Mh^2/6.
+\]
+Thus
+\[
+(f^{\rm FP}(x + h) \ensuremath{\ominus} f^{\rm FP}(x-h)) / (2h) =
+f'(x) + \underbrace{f'(x) \ensuremath{\delta}_1 - \ensuremath{\delta}^{\rm T} (1 + \ensuremath{\delta}_1) + {\ensuremath{\delta}_{x+h}- \ensuremath{\delta}_{x-h} \over 2h} (1 + \ensuremath{\delta}_1)}_{\ensuremath{\varepsilon}}
+\]
+where
+\[
+|\ensuremath{\varepsilon}| \ensuremath{\leq} {|f'(x)| \over 2} \ensuremath{\epsilon}_{\rm m} + {M \over 3} h^2 + {2 c \ensuremath{\epsilon}_{\rm m} \over h}.
 \]
 \textbf{END}
 
@@ -295,7 +312,7 @@ Generalise (without proof) these formul\ensuremath{\ae} to the case $n < 0$ and 
 
 \textbf{SOLUTION}
 
-For $X/n$: if $x \ensuremath{\in} X$ then $a/n \ensuremath{\leq} x/n \ensuremath{\leq} b/n$ means $x \ensuremath{\in} [a/n,b/n]$. Similarly,  if $z \ensuremath{\in} [a/n,b/n]$ then $a \ensuremath{\leq} nz \ensuremath{\leq} b$ hence $nz \ensuremath{\in} X$ and therefore $z \ensuremath{\in} X/n$.
+For $X/n$: if $x \ensuremath{\in} X$ then $a/n \ensuremath{\leq} x/n \ensuremath{\leq} b/n$ means $x \ensuremath{\in} [a/n,b/n]$. Similarly, if $z \ensuremath{\in} [a/n,b/n]$ then $a \ensuremath{\leq} nz \ensuremath{\leq} b$ hence $nz \ensuremath{\in} X$ and therefore $z \ensuremath{\in} X/n$.
 
 For $XY$: if $x \ensuremath{\in} X$ and $y \ensuremath{\in} Y$ then $ac \ensuremath{\leq} xy \ensuremath{\leq} bd$ means $xy \ensuremath{\in} [ac,bd]$. Note $ac,bd \ensuremath{\in} XY$. To employ convexity we take logarithms. In particular if $z \ensuremath{\in} [ac,bd]$ then $\log a + \log c \ensuremath{\leq} \log z \ensuremath{\leq} \log b + \log d$. Hence write
 \[
@@ -311,7 +328,7 @@ The generalisation to negative cases proceeds by being a bit careful with the si
 \[
 A/n =  \begin{cases}
 [a/n,b/n] & n > 0  \\
-[b/n,a/n] & n < 0 
+[b/n,a/n] & n < 0
 \end{cases}
 \]
 For multiplication we just use $\min$ and $\max$ in a naive fashion:
@@ -326,7 +343,7 @@ AB = [\min(ac,ad,bc,bd), \max(ac,ad,bc,bd)].
 \]
 Hint: it might help to write $1 = (0.1111\ensuremath{\ldots})_2$ when doing subtraction.
 
-\textbf{SOLUTION}  Note that
+\textbf{SOLUTION} Note that
 \[
 {1 \over 6} = {1 \over 2} {1\over 3} = 2^{-3} (1.010101\ensuremath{\ldots})_2
 \]
@@ -342,7 +359,7 @@ And hence
 }
 \textbf{END}
 
-\textbf{Problem 6(b)} Writing 
+\textbf{Problem 6(b)} Writing
 \[
 \sin\ x = \ensuremath{\sum}_{k=0}^n {(-1)^k x^{2k+1} \over (2k+1)!} + \ensuremath{\delta}_{x,2n+1}
 \]
@@ -354,7 +371,7 @@ We have from Taylor's theorem up to order $x^{2n+2}$:
 \[
 \sin\ x = \ensuremath{\sum}_{k=0}^n {(-1)^k x^{2k+1} \over (2k+1)!} + \underbrace{{\sin^{2n+3}(t) x^{2n+3} \over (2n+3)!}}_{\ensuremath{\delta}_{x,2n+1}}.
 \]
-The bound follows since all derivatives of $\sin$ are bounded by 1 and we have assumed $|x| \ensuremath{\leq} 1$. 
+The bound follows since all derivatives of $\sin$ are bounded by 1 and we have assumed $|x| \ensuremath{\leq} 1$.
 
 \textbf{END}
 
@@ -362,7 +379,7 @@ The bound follows since all derivatives of $\sin$ are bounded by 1 and we have a
 \[
 \sin 1 \ensuremath{\in} [(0.11010011000)_2, (0.11010111101)_2] = [0.82421875, 0.84228515625]
 \]
-You may use without proof that $1/120 = 2^{-7} (1.000100010001\ensuremath{\ldots})_2$. 
+You may use without proof that $1/120 = 2^{-7} (1.000100010001\ensuremath{\ldots})_2$.
 
 \textbf{SOLUTION} Using $n = 1$ we have
 \[
@@ -370,11 +387,11 @@ You may use without proof that $1/120 = 2^{-7} (1.000100010001\ensuremath{\ldots
 \]
 Noting that in floating point $1 \ensuremath{\otimes} 1 = 1$ (ie it is exact) we compute
 \begin{align*}
-\sin 1 &\ensuremath{\in} [1,1] \ensuremath{\ominus} [1,1] \ensuremath{\oslash} 6 \ensuremath{\oplus} [{\rm fl}^{\rm down}(-1/120), {\rm fl}^{\rm up}(1/120)] \ccr 
+\sin 1 &\ensuremath{\in} [1,1] \ensuremath{\ominus} [1,1] \ensuremath{\oslash} 6 \ensuremath{\oplus} [{\rm fl}^{\rm down}(-1/120), {\rm fl}^{\rm up}(1/120)] \ccr
  = [(0.11010101010)_2, (0.11010101011)_2] \ensuremath{\oplus} [-(0.0000001000100010)_2, (0.00000010001000101)_2] \ccr
   =
 [{\rm fl}^{\rm down}(0.11010011000\magenta{11101111\ensuremath{\ldots}})_2,
- {\rm fl}^{\rm up}(0.11010111100\magenta{000101})_2] \ccr 
+ {\rm fl}^{\rm up}(0.11010111100\magenta{000101})_2] \ccr
  = [(0.11010011000)_2, (0.11010111101)_2] = [0.82421875, 0.84228515625]
 \end{align*}
 \textbf{END}
