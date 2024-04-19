@@ -213,6 +213,16 @@ Then we know
 $$
 Q^⊤ \Qt  = R \Rt^{-1}
 $$
-Note $Q^⊤ \Qt $ is orthogonal, and $R \Rt^{-1}$ has positive eigenvalues (the diagonal), hence all $m$ eigenvalues of
-$Q^⊤ \Qt $ are 1. This means that $Q^⊤ \Qt  = I$ and hence $\Qt = Q$ and $\Rt = R$.
+Note $Q^⊤ \Qt $ is a product of orthogonal matrices so is also orthogonal. It's eigenvalues are
+the same as $R \Rt^{-1}$, which is upper triangular. The eigenvalues of an upper triangular matrix are the diagonal
+entries, which in this case are all positive. Since all eigenvalues of an orthogonal matrix are on the unit circle
+(see Q1(b) above) we know all $m$ eigenvalues of
+$Q^⊤ \Qt$ are 1. By Q1(e) above, this means that $Q^⊤ \Qt  = I$. Hence
+$$
+\Qt = (Q^⊤)^{-1} = Q
+$$
+and
+$$
+\Rt = (\Qt)^{-1}A =  R.
+$$
 **END**

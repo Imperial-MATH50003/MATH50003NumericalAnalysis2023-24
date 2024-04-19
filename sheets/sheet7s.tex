@@ -138,9 +138,13 @@
 \def\z{ {\vc z} }
 \def\w{ {\vc w} }
 
+\def\bt{ {\tilde b} }
+\def\ct{ {\tilde c} }
 \def\Ut{ {\tilde U} }
 \def\Qt{ {\tilde Q} }
 \def\Rt{ {\tilde R} }
+\def\Xt{ {\tilde X} }
+\def\acos{ {\rm acos}\, }
 
 \def\red#1{ {\color{red} #1} }
 \def\blue#1{ {\color{blue} #1} }
@@ -327,7 +331,15 @@ Then we know
 \[
 Q^\ensuremath{\top} \Qt  = R \Rt^{-1}
 \]
-Note $Q^\ensuremath{\top} \Qt $ is orthogonal, and $R \Rt^{-1}$ has positive eigenvalues (the diagonal), hence all $m$ eigenvalues of $Q^\ensuremath{\top} \Qt $ are 1. This means that $Q^\ensuremath{\top} \Qt  = I$ and hence $\Qt = Q$ and $\Rt = R$. \textbf{END}
+Note $Q^\ensuremath{\top} \Qt $ is a product of orthogonal matrices so is also orthogonal. It's eigenvalues are the same as $R \Rt^{-1}$, which is upper triangular. The eigenvalues of an upper triangular matrix are the diagonal entries, which in this case are all positive. Since all eigenvalues of an orthogonal matrix are on the unit circle (see Q1(b) above) we know all $m$ eigenvalues of $Q^\ensuremath{\top} \Qt$ are 1. By Q1(e) above, this means that $Q^\ensuremath{\top} \Qt  = I$. Hence
+\[
+\Qt = (Q^\ensuremath{\top})^{-1} = Q
+\]
+and
+\[
+\Rt = (\Qt)^{-1}A =  R.
+\]
+\textbf{END}
 
 
 
