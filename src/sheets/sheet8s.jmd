@@ -277,20 +277,23 @@ for $θ_j = π(j-1/2)/n$. Prove that $C_n$ is orthogonal: $C_n^⊤ C_n = C_n C_n
 
 **SOLUTION**
 
-The components of $C$ without the diagonal matrix, which we may call $\hat{C}$ are
+The components of $C_n$ are
 $$
-\hat{C}_{ij} = \cos((j-1)θ_{i-1}),
+𝐞_k^⊤ C_n  𝐞_j =  {1 \over \sqrt{n}} \begin{cases} 1 & k = 1 \\ \sqrt{2} & k ≠ 1 \end{cases} \cos((k-1)θ_{j-1}),
 $$
-where $θ_j = π(j-1/2)/n$. Recalling that the elements of matrix multiplication are given by
+where $θ_j = π(j-1/2)/n$. We find using the previous part:
 $$
-(ab)_{ij} := ∑_{k=1}^n a_{ik} b_{kj}
+\meeq{
+𝐞_k^⊤ C_n C_n^⊤ 𝐞_ℓ  = \pr({\begin{cases} 1 & k = ℓ = 1 \\ \sqrt{2} & k,ℓ = 1, k ≠ ℓ \\
+                                                    2 & k,ℓ ≠ 1 \end{cases}})
+     {1 \over n} ∑_{j=1}^n \cos((k-1)θ_{j-1}) \cos((ℓ-1)θ_{j-1}) \ccr
+    = \pr({\begin{cases} 1 & k = ℓ = 1 \\ \sqrt{2} & k,ℓ = 1, k ≠ ℓ \\
+                                                    2 & k,ℓ ≠ 1 \end{cases}}) \pr({\begin{cases} 1 & k = ℓ = 1 \\
+                                                  1/2 & k = ℓ \\
+                                                  0 & \hbox{otherwise}
+                                                  \end{cases}})= δ_{k ℓ}.
+}
 $$
-we find that
-$$
-(\hat{C}_n \hat{C}_n^⊤)_{ij} = ∑_{k=1}^n \cos((i-1)θ_{k-1}) \cos((k-1)θ_{j-1}).
-$$
-
-By using the previous problem and the terms on the diagonal matrices which ensure that the $1/2$ terms become $1$ we know how to compute all of these entries and find that it is the identity.
 
 
 **END**
