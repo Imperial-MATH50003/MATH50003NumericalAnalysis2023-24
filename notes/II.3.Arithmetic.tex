@@ -222,12 +222,12 @@ whenever  $h = 2^{j-n}$ for $0 \ensuremath{\leq} n \ensuremath{\leq} S$ and the 
 \end{corollary}
 \textbf{Proof}
 
-When $h = 2^{-n}$ we have for any normal float $y = \ensuremath{\pm}2^j (1.b_1\ensuremath{\ldots}b_S)_2 \ensuremath{\in} F_{\ensuremath{\infty},S}$ that 
-\[
-y/h = \ensuremath{\pm}2^{j-n} (1.b_1\ensuremath{\ldots}b_S)_2 \ensuremath{\in} F_{\ensuremath{\infty},S} \ensuremath{\Rightarrow} y/h = y \ensuremath{\oslash} h.
-\]
-If $b_S = 0$ the worst possible case is that we increase the exponent by one as we are just adding $1$ to one of the digits $b_1,\ensuremath{\ldots},b_S$. This would cause us to lose the last digit. But if that is zero no error is incurred when we round.
+We first confirm $x \ensuremath{\oplus} h = x + h$. If $b_S = 0$ the worst possible case is that we increase the exponent by one as we are just adding $1$ to one of the digits $b_1,\ensuremath{\ldots},b_S$. This would cause us to lose the last digit. But if that is zero no error is incurred when we round.
 
+Now write $y := (f^{\rm FP}(x \ensuremath{\oplus} h) \ensuremath{\ominus} f^{\rm FP}(x)) = \ensuremath{\pm}2^\ensuremath{\nu} (1.c_1\ensuremath{\ldots}c_S)_2 \ensuremath{\in} F_{\ensuremath{\infty},S}$. We have
+\[
+y/h = \ensuremath{\pm}2^{\ensuremath{\nu}+n-j} (1.c_1\ensuremath{\ldots}c_S)_2 \ensuremath{\in} F_{\ensuremath{\infty},S} \ensuremath{\Rightarrow} y/h = y \ensuremath{\oslash} h.
+\]
 \ensuremath{\QED}
 
 The three-terms of this bound tell us a story: the first term is a fixed (small) error, the second term tends to zero as $h \rightarrow 0$, while the last term grows like $\ensuremath{\epsilon}_{\rm m}/h$ as $h \rightarrow 0$.  Thus we observe convergence while the second term dominates, until the last term takes over. Of course, a bad upper bound is not the same as a proof that something grows, but it is a good indication of what happens \emph{in general} and suffices to choose $h$ so that these errors are balanced (and thus minimised). Since in general we do not have access to the constants $c$ and $M$ we employ the following heuristic to balance the two sources of errors:

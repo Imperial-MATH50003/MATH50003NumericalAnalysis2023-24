@@ -323,12 +323,13 @@ that is $x = ±2^j (1.b_1…b_{S-1}0)_2$.
 
 **Proof**
 
-When $h = 2^{-n}$ we have for any normal float $y = ±2^j (1.b_1…b_S)_2 ∈ F_{∞,S}$ that 
-$$
-y/h = ±2^{j-n} (1.b_1…b_S)_2 ∈ F_{∞,S} ⇒ y/h = y ⊘ h.
-$$
-If $b_S = 0$ the worst possible case is that we increase the exponent by one as we are just adding $1$ to one of the
+We first confirm $x ⊕ h = x + h$. If $b_S = 0$ the worst possible case is that we increase the exponent by one as we are just adding $1$ to one of the
 digits $b_1,…,b_S$. This would cause us to lose the last digit. But if that is zero no error is incurred when we round.
+
+Now write $y := (f^{\rm FP}(x ⊕ h) ⊖ f^{\rm FP}(x)) = ±2^ν (1.c_1…c_S)_2 ∈ F_{∞,S}$. We have
+$$
+y/h = ±2^{ν+n-j} (1.c_1…c_S)_2 ∈ F_{∞,S} ⇒ y/h = y ⊘ h.
+$$
 
 ∎
 
