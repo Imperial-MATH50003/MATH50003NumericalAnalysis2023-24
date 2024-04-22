@@ -535,7 +535,7 @@ f_n(x) = ∑_{k=0}^{n-1} c_k^n q_k(x)
 $$
 where $q_0(x) = 1/\sqrt{π}$ and $q_n(x) = \sqrt{2/π} T_n(x)$ and
 $$
-c_k^n = Σ_n^w[\exp(x) q_k] = {π \over n} ∑_{j=0}^n \exp( \cos θ_j) \cos(k θ_j)
+c_k^n = Σ_n^w[\exp(x) q_k] = {π \over n} ∑_{j=1}^n \exp( \cos θ_j) \cos(k θ_j)
 $$
 for $θ_j = (n-j+1/2)π/n$.
 
