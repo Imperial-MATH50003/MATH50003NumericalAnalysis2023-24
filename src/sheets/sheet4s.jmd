@@ -194,7 +194,7 @@ on positivity of $a,b,c,d$. You may use the $\min$ or $\max$ functions.
 
 **SOLUTION**
 
-For $X/n$: if $x ∈ X$ then $a/n ≤ x/n ≤ b/n$ means $x ∈ [a/n,b/n]$. Similarly,
+For $X/n$: if $x ∈ X$ then $a/n ≤ x/n ≤ b/n$ means $x/n ∈ [a/n,b/n]$. Similarly,
 if $z ∈ [a/n,b/n]$ then $a ≤ nz ≤ b$ hence $nz ∈ X$ and therefore $z ∈ X/n$.
 
 For $XY$: if $x ∈ X$ and $y ∈ Y$ then $ac ≤ xy ≤ bd$ means $xy ∈ [ac,bd]$.
