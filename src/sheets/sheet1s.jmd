@@ -131,7 +131,7 @@ show that $|δ| ≤ Mh/2$ for $M = \sup_{x-h ≤ t ≤ x}\abs{f''(t)}$.
 
 **SOLUTION**
 
-Almost identical to the right-difference. Use Taylor series to right:
+Almost identical to the right-difference. Use Taylor series to write:
 $$
 f(x-h) = f(x) + f'(x) (-h) + {f''(t) \over 2} h^2
 $$
