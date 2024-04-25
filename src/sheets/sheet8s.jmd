@@ -49,7 +49,7 @@ $$
 \meeq{
 (\sin θ)^4= \left({\exp({\rm i} θ) - \exp(-{\rm i} θ) \over 2 {\rm i}}\right)^4
 = \left({\exp(2{\rm i} θ) -2 + \exp(-2{\rm i} θ) \over -4}\right)^2 \ccr
-= {\exp(4{\rm i} θ) -4\exp(2{\rm i} θ) +6 -4 \exp(-2{\rm i} θ)+\exp(-2{\rm i} θ) \over 16}
+= {\exp(4{\rm i} θ) -4\exp(2{\rm i} θ) +6 -4 \exp(-2{\rm i} θ)+\exp(-4{\rm i} θ) \over 16}
 }
 $$
 that is $\hat f_{-4} = \hat f_4 = 1/16$, $\hat f_{-2} = \hat f_2 = -1/4$, $f_0 = 3/8$, $\hat f_k = 0$ otherwise.
