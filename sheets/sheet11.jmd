@@ -24,13 +24,15 @@ L = \begin{bmatrix}
  ℓ_{n1} & ⋯ & ℓ_{n,n-1} & ℓ_{nn}
  \end{bmatrix} ∈ F_{σ,Q,S}^{n × n}
 $$
-
 and a vector $𝐱 \in F_{σ,Q,S}^{n}$, where $F_{σ,Q,S}$ is a set of floating-point numbers.
 Denoting matrix-vector multiplication implemented using floating point arithmetic as
 $$
 𝐛 := {\tt lowermul}(L,𝐱)
 $$
-express the entries $b_k := {\bf e}_k^⊤ 𝐛$  in terms of $ℓ_{kj}$ and $x_k := {\bf e}_k^⊤ 𝐱$, using rounded floating-point operations $⊕$ and $⊗$. 
+express the entries $b_k := {\bf e}_k^⊤ 𝐛$  in terms of $ℓ_{kj}$ and $x_k := {\bf e}_k^⊤ 𝐱$, 
+using rounded floating-point operations $⊕$ and $⊗$.
+
+
 
 **Problem 2(b)** Assuming all operations involve normal floating numbers, show that your approximation has the form
 $$
@@ -120,7 +122,17 @@ $$
 
 
 
-**Problem 8.2** Compute the 2-point and 3-point Gaussian quadrature rules associated with $w(x) = \exp(-x^2)$ on $(-∞,∞)$.
+**Problem 8(a)** Derive the 3-point Gauss quadrature formula
+$$
+\int_{-∞}^∞ f(x) \exp(-x^2) {\rm d}x ≈ w_1 f(x_1) + w_2 f(x_2) + w_3 f(x_3)
+$$
+with analytic expressions for $x_j$ and $w_j$.
+
+
+
+
+
+**Problem 8(b)** Compute the 2-point and 3-point Gaussian quadrature rules associated with $w(x) = 1$ on $[-1,1]$.
 
 
 

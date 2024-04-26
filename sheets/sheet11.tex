@@ -180,7 +180,7 @@ and a vector $\ensuremath{\bm{\x}} \in F_{\ensuremath{\sigma},Q,S}^{n}$, where $
 \[
 \ensuremath{\bm{\b}} := {\tt lowermul}(L,\ensuremath{\bm{\x}})
 \]
-express the entries $b_k := {\bf e}_k^\ensuremath{\top} \ensuremath{\bm{\b}}$  in terms of $\ensuremath{\ell}_{kj}$ and $x_k := {\bf e}_k^\ensuremath{\top} \ensuremath{\bm{\x}}$, using rounded floating-point operations $\ensuremath{\oplus}$ and $\ensuremath{\otimes}$. 
+express the entries $b_k := {\bf e}_k^\ensuremath{\top} \ensuremath{\bm{\b}}$  in terms of $\ensuremath{\ell}_{kj}$ and $x_k := {\bf e}_k^\ensuremath{\top} \ensuremath{\bm{\x}}$,  using rounded floating-point operations $\ensuremath{\oplus}$ and $\ensuremath{\otimes}$.
 
 \textbf{Problem 2(b)} Assuming all operations involve normal floating numbers, show that your approximation has the form
 \[
@@ -234,7 +234,13 @@ Construct $H_0(x)$, $H_1(x)$, $H_2(x)$ and hence show that $H_3(x) = 8x^3-12x$. 
 \int_{-\ensuremath{\infty}}^\ensuremath{\infty} w(x) {\rm d}x = \sqrt{\ensuremath{\pi}}, \int_{-\ensuremath{\infty}}^\ensuremath{\infty} x^2 w(x) {\rm d}x = \sqrt{\ensuremath{\pi}}/2,
 \int_{-\ensuremath{\infty}}^\ensuremath{\infty} x^4 w(x) {\rm d}x = 3\sqrt{\ensuremath{\pi}}/4.
 \]
-\textbf{Problem 8.2} Compute the 2-point and 3-point Gaussian quadrature rules associated with $w(x) = \exp(-x^2)$ on $(-\ensuremath{\infty},\ensuremath{\infty})$.
+\textbf{Problem 8(a)} Derive the 3-point Gauss quadrature formula
+\[
+\int_{-\ensuremath{\infty}}^\ensuremath{\infty} f(x) \exp(-x^2) {\rm d}x \ensuremath{\approx} w_1 f(x_1) + w_2 f(x_2) + w_3 f(x_3)
+\]
+with analytic expressions for $x_j$ and $w_j$.
+
+\textbf{Problem 8(b)} Compute the 2-point and 3-point Gaussian quadrature rules associated with $w(x) = 1$ on $[-1,1]$.
 
 \textbf{Problem 9} Solve Problem 4(b) from PS8 using \textbf{Lemma 12 (discrete orthogonality)} with $w(x) = 1/\sqrt{1-x^2}$ on $[-1,1]$. That is, use the connection of $T_n(x)$ with $\cos n \ensuremath{\theta}$ to show that the Discrete Cosine Transform
 \[

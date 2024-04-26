@@ -33,7 +33,7 @@ $$
 1/2 + 2^{-12} = (0.100000000001)_2 = 2^{-1} (1.00000000001)_2
 $$
 This is exactly at the midpoint so is rounded down so the last bit is 0, that is, it is rounded
-to $1/2$.  Next we have 
+to $1/2$.  Next we have
 $$
 3 + 2^{-9}  + 2^{-10} = (11.0000000011)_2 = 2(1.10000000011)_2.
 $$
@@ -41,7 +41,7 @@ This time we are are exactly at the midpoint but we round up so the last bit is 
 $$
 2(1.100000001)_2 = 3 + 2^{-8}.
 $$
-Finally, 
+Finally,
 $$
 3 + 2^{-10} + 2^{-11} = 2(1.100000000011)_2
 $$
@@ -60,13 +60,20 @@ L = \begin{bmatrix}
  ℓ_{n1} & ⋯ & ℓ_{n,n-1} & ℓ_{nn}
  \end{bmatrix} ∈ F_{σ,Q,S}^{n × n}
 $$
-
 and a vector $𝐱 \in F_{σ,Q,S}^{n}$, where $F_{σ,Q,S}$ is a set of floating-point numbers.
 Denoting matrix-vector multiplication implemented using floating point arithmetic as
 $$
 𝐛 := {\tt lowermul}(L,𝐱)
 $$
-express the entries $b_k := {\bf e}_k^⊤ 𝐛$  in terms of $ℓ_{kj}$ and $x_k := {\bf e}_k^⊤ 𝐱$, using rounded floating-point operations $⊕$ and $⊗$. 
+express the entries $b_k := {\bf e}_k^⊤ 𝐛$  in terms of $ℓ_{kj}$ and $x_k := {\bf e}_k^⊤ 𝐱$, 
+using rounded floating-point operations $⊕$ and $⊗$.
+
+**SOLUTION**
+$$
+b_k = ⨁_{j=1}^k (ℓ_{kj} ⊗ x_j)
+$$
+
+**END**
 
 **Problem 2(b)** Assuming all operations involve normal floating numbers, show that your approximation has the form
 $$
@@ -91,7 +98,7 @@ $$
 
 We have
 $$
-b_k = (⨁_{j=1}^k ℓ_{kj} ⊗ x_j) = 
+b_k = (⨁_{j=1}^k ℓ_{kj} ⊗ x_j) =
 (⨁_{j=1}^k ℓ_{kj} x_j (1 + δ_j)) =
 (∑_{j=1}^k ℓ_{kj} x_j (1 + δ_j)) + σ_k
 $$
@@ -114,15 +121,19 @@ $$
 $$
 where we use
 $$
- (|δ_j| + 2 E_{k-1,ϵ_{\rm m}/2}) ≤ {ϵ_{\rm m} \over 2} + 2 {(k-1) {ϵ_{\rm m} / 2} \over 1-(k-1){ϵ_{\rm m}/ 2}}}
- = {ϵ_{\rm m}/2 - (k-1)ϵ_{\rm m}^2/4 +  2(k-1) {ϵ_{\rm m} / 2} \over 1-(k-1){ϵ_{\rm m}/ 2}}}
- ≤ {2k {ϵ_{\rm m} / 2} \over 1-k{ϵ_{\rm m}/ 2}}} = 2E_{k,ϵ_{\rm m}/ 2}.
+\begin{align*}
+ (|δ_j| + 2 E_{k-1,ϵ_{\rm m}/2}) &≤ {ϵ_{\rm m} \over 2} + 2 {(k-1) {ϵ_{\rm m} / 2} \over 1-(k-1){ϵ_{\rm m}/ 2}} \cr
+ &= {ϵ_{\rm m}/2 - (k-1)ϵ_{\rm m}^2/4 +  2(k-1) {ϵ_{\rm m} / 2} \over 1-(k-1){ϵ_{\rm m}/ 2}} \cr
+ &≤ {2k {ϵ_{\rm m} / 2} \over 1-k{ϵ_{\rm m}/ 2}} = 2E_{k,ϵ_{\rm m}/ 2}.
+\end{align*}
 $$
 We then have using $E_{k,ϵ_{\rm m}/ 2} ≤ E_{n,ϵ_{\rm m}/ 2}$,
 $$
-\| 𝛜 \|_1 = ∑_{k=1}^n |ε_k| ≤ 2E_{n,ϵ_{\rm m}/2} ∑_{k=1}^n ∑_{j=1}^k |ℓ_{kj}| |x_j |
-=  2E_{n,ϵ_{\rm m}/2} ∑_{j=1}^n  |x_j | ∑_{k=1}^{n-j+1} |ℓ_{kj}| ≤ 2E_{n,ϵ_{\rm m}/2}
-∑_{j=1}^n  |x_j | \|L\|_1 = 2E_{n,ϵ_{\rm m}/2} \|L\|_1 \| 𝐱\|_1.
+\meeq{
+\| 𝛜 \|_1 = ∑_{k=1}^n |ε_k| ≤ 2E_{n,ϵ_{\rm m}/2} ∑_{k=1}^n ∑_{j=1}^k |ℓ_{kj}| |x_j | \ccr
+=  2E_{n,ϵ_{\rm m}/2} ∑_{j=1}^n  |x_j | ∑_{k=1}^{n-j+1} |ℓ_{kj}| ≤ 2E_{n,ϵ_{\rm m}/2}  ∑_{j=1}^n  |x_j | \|L\|_1 \ccr
+= 2E_{n,ϵ_{\rm m}/2} \|L\|_1 \| 𝐱\|_1.
+}
 $$
 
 **END**
@@ -224,6 +235,7 @@ $$
 f(θ) = \sin 3 θ = { \exp(3 i θ) \over 2} -  { \exp(-3 i θ) \over 2 i}
 $$
 hence $\hat f_3 = 1/(2i) \hat f_{-3} = -1/(2i)$ and $\hat f_k = 0$ otherwise. Thus we have:
+$$
 \begin{align*}
 \hat f_k^1 &= \sum_{k=-∞}^∞ \hat f_k = \hat f_{-3} + \hat f_3 = 0, \\
 \hat f_{2k}^2 &= 0, \hat f_{2k+1}^2 = \hat f_{-3} + \hat f_3 = 0, \\
@@ -232,6 +244,7 @@ hence $\hat f_3 = 1/(2i) \hat f_{-3} = -1/(2i)$ and $\hat f_k = 0$ otherwise. Th
 \hat f_{5k}^5 &= \hat f_{5k+1}^5 = \hat f_{5k+4}^5,  \hat f_{5k+2}^5 = \hat f_{-3} = -1/(2i),  \hat f_{5k+3}^5 = \hat f_{3} = 1/(2i), \\
 \hat f_{6k}^6 &= \hat f_{6k+1}^6 = \hat f_{6k+2}^6 = \hat f_{6k+4}^6 = \hat f_{6k+5}^6,  \hat f_{6k+3}^5 = \hat f_{-3} + \hat f_{3} = 0
 \end{align*}
+$$
 For $n > 6$ we have
 $$
 \hat f_{-3+nk}^n =  \hat f_{-3} = -{1 \over 2i},\hat f_{3+nk}^n =  \hat f_{3} = {1 \over 2i}
@@ -299,11 +312,11 @@ $$
 
 
 
+**END**
 
 
 
-
-**Problem 8.1** Derive the 3-point Gauss quadrature formula
+**Problem 8(a)** Derive the 3-point Gauss quadrature formula
 $$
 \int_{-∞}^∞ f(x) \exp(-x^2) {\rm d}x ≈ w_1 f(x_1) + w_2 f(x_2) + w_3 f(x_3)
 $$
@@ -312,9 +325,10 @@ with analytic expressions for $x_j$ and $w_j$.
 **SOLUTION**
 
 We know $x_k$ are the roots of $H_3(x) = 8x^3 - 12x$ hence we have $x_2 = 0$ and the other roots satisfy
-$
-2x^2 - 3 = 0
-$, i.e., $x_1 = -\sqrt{3/2}$ and $x_2 = \sqrt{3/2}$. To deduce the weights the easiest approach is to use Lagrange
+$$
+2x^2 - 3 = 0,
+$$
+i.e., $x_1 = -\sqrt{3/2}$ and $x_2 = \sqrt{3/2}$. To deduce the weights the easiest approach is to use Lagrange
 interpolation. An alternative is to orthonormalise. Note the Jacobi matrix satisfies
 $$
 x [H_0 | H_1 | H_2 | H_3 | …] = [H_0 | H_1 | H_2 | H_3 | …] \underbrace{\begin{bmatrix} 0 & 1  \\
@@ -346,11 +360,13 @@ d_1^2 &= 4 d_2^2 ⇒ d_2 = 1/(2\sqrt{2} π^{1/4})
 $$
 We thus have
 $$
+\meeq{
 w_1 = {1 \over q_0(-\sqrt{3/2})^2 + q_1(-\sqrt{3/2})^2 + q_2(-\sqrt{3/2})^2} =
-{1 \over d_0^2 + 4d_1^2 (3/2) + d_2^2 (6 - 2)^2} = {\sqrt{π} \over 6} \\
+{1 \over d_0^2 + 4d_1^2 (3/2) + d_2^2 (6 - 2)^2} = {\sqrt{π} \over 6} \ccr
 w_2 = {1 \over q_0(0)^2 + q_1(0)^2 + q_2(0)^2} =
-{1 \over d_0^2 + d_2^2 (2)^2} = {2\sqrt{π} \over  3} \\
+{1 \over d_0^2 + d_2^2 (2)^2} = {2\sqrt{π} \over  3} \ccr
 w_3 = w_1 = {\sqrt{π} \over 6}.
+}
 $$
 
 
@@ -358,7 +374,7 @@ $$
 
 
 
-**Problem 8.2** Compute the 2-point and 3-point Gaussian quadrature rules associated with $w(x) = \exp(-x^2)$ on $(-∞,∞)$.
+**Problem 8(b)** Compute the 2-point and 3-point Gaussian quadrature rules associated with $w(x) = 1$ on $[-1,1]$.
 
 **SOLUTION**
 
@@ -375,10 +391,10 @@ which can be found from, e.g, the Rodriguez formula or by direct construction.
 We can normalise each to get $q_j(x) = P_j(x)/\|P_j\|$, with $\|P_j\|^2 = \int_{-1}^1 P_j^2 dx$. This gives,
 $$
 \begin{align*}
-	q_0(x) = \frac{1}{\sqrt{2}}, \\
-	q_1(x) = \sqrt{\frac{3}{2}}x, \\
-	q_2(x) = \sqrt{\frac{5}{8}}(3x^2  - 1), \\
-	q_3(x) = \sqrt{\frac{7}{8}}(5x^3 - 3x).
+	q_0(x) &= \frac{1}{\sqrt{2}}, \\
+	q_1(x) &= \sqrt{\frac{3}{2}}x, \\
+	q_2(x) &= \sqrt{\frac{5}{8}}(3x^2  - 1), \\
+	q_3(x) &= \sqrt{\frac{7}{8}}(5x^3 - 3x).
 \end{align*}
 $$
 For the first part we use the roots of $P_2(x)$ which are $𝐱 = \left\{± \frac{1}{\sqrt{3}}\right\}$. The weights are,
@@ -437,21 +453,27 @@ for $θ_j = π(j-1/2)/n$ is an orthogonal matrix.
 
 
 By the Lemma 3 (Discrete Orthogonality), we have,
+$$
 \begin{align*}
 	Σ_{n}^w[q_lq_m] = \frac{π}{n}\sum_{j=1}^n q_l(x_j)q_m(x_j) = δ_{lm}, \\
 	\sum_{j=1}^n q_l(x_j)q_m(x_j) = \frac{n}{π}δ_{lm},
 \end{align*}
+$$
 By the previous question, for the weight $w(x) = \frac{1}{\sqrt{1-x^2}}$ we have $q_0(x_j) = \frac{1}{\sqrt{π}}$, $q_k(x_j) = \sqrt{\frac{2}{π}}\cos(k θ_j).$
 For $l = m = 0$ then we have,
+$$
 \begin{align*}
 	\frac{1}{π}\sum_{j=1}^n \cos(l θ_j)\cos(m θ_j) =\sum_{j=1}^nq_l(x_j)q_m(x_j) =  \frac{n}{π}δ_{lm} = \frac{n}{π} \\
 	\Rightarrow \frac{1}{n}\sum_{j=1}^n \cos(l θ_j)\cos(m θ_j) = 1\
 \end{align*}
+$$
 Now, for $l = m ≠ 0$, we have,
+$$
 \begin{align*}
 	\frac{2}{π}\sum_{j=1}^n \cos(l θ_j)\cos(m θ_j) =\sum_{j=1}^nq_l(x_j)q_m(x_j) =  \frac{n}{π}δ_{lm} = \frac{n}{π} \\
 	\Rightarrow \frac{1}{n}\sum_{j=1}^n \cos(l θ_j)\cos(m θ_j) = \frac{1}{2}\
 \end{align*}
+$$
 Finally, for $l ≠ m$, we have,
 $$
 C_{lm}\sum_{j=1}^n\cos(l θ_j)\cos(m θ_j) = \sum_{j=1}^nq_l(x_j )q_m(x_j) = \frac{n}{π}δ_{lm} = 0,
