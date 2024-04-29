@@ -43,7 +43,7 @@ Office hour: Mondays 11am, Huxley 6M40
 ## Assessment
 
 1. [Mock computer-based exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/mockexam.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/mockexams.ipynb))
-2. Computer-based exam (20% of term mark): 15 March 2024, 9:00–10:30
+2. [Computer-based exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/computerexam.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/computerexams.ipynb))
 1. [Mock final exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/mockfinal.pdf) (2(c/d) are not relevant.)
     ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/mockfinals.pdf))
 5. Final exam (pen-and-paper, 80% of term mark): 7 May 2024, 10:00–13:00
