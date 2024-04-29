@@ -207,7 +207,7 @@ $$
 𝐱 &:= [2,1,2], \| 𝐱 \| = 3\\
 𝐲 &:= \|𝐱\| 𝐞_1 + 𝐱 = [5,1,2], \| 𝐲 \| = \sqrt{30} \\
 𝐰 &:= 𝐲 / \| 𝐲 \| = [5,1,2] /  \sqrt{30} \\
-Q &:= I - 2𝐰 𝐰^⊤ = I - {1 \over 15} \begin{bmatrix}5 \\ 1 \\ 2 \end{bmatrix} [5 1 2] = I - {1 \over 15} \begin{bmatrix} 25 & 5 & 10 \\5 & 1 & 2 \\ 10 & 2 & 4 \end{bmatrix} \\
+Q &:= I - 2𝐰 𝐰^⊤ = I - {1 \over 15} \begin{bmatrix}5 \\ 1 \\ 2 \end{bmatrix} [5\ 1\ 2] = I - {1 \over 15} \begin{bmatrix} 25 & 5 & 10 \\5 & 1 & 2 \\ 10 & 2 & 4 \end{bmatrix} \\
 &= {1 \over 15} \begin{bmatrix} -10 & -5 & -10 \\ -5 & 14 & -2 \\ -10 & -2 & 11 \end{bmatrix}
 \end{align*}
 $$
@@ -232,9 +232,9 @@ for _all_ integers $k$, $n = 1,2,…$, where $θ_j = 2π j/n$.
 
 We have
 $$
-f(θ) = \sin 3 θ = { \exp(3 i θ) \over 2} -  { \exp(-3 i θ) \over 2 i}
+f(θ) = \sin 3 θ = { \exp(3 i θ) \over 2 i} -  { \exp(-3 i θ) \over 2 i}
 $$
-hence $\hat f_3 = 1/(2i) \hat f_{-3} = -1/(2i)$ and $\hat f_k = 0$ otherwise. Thus we have:
+hence $\hat f_3 = 1/(2i)$, $\hat f_{-3} = -1/(2i)$ and $\hat f_k = 0$ otherwise. Thus we have:
 $$
 \begin{align*}
 \hat f_k^1 &= \sum_{k=-∞}^∞ \hat f_k = \hat f_{-3} + \hat f_3 = 0, \\
@@ -452,35 +452,24 @@ for $θ_j = π(j-1/2)/n$ is an orthogonal matrix.
 **SOLUTION**
 
 
-By the Lemma 3 (Discrete Orthogonality), we have,
+Our goal is to show that $C_n C_n^⊤ = I$. By  Lemma 12 (Discrete Orthogonality) and PS10 Q5, we have,
 $$
 \begin{align*}
-	Σ_{n}^w[q_lq_m] = \frac{π}{n}\sum_{j=1}^n q_l(x_j)q_m(x_j) = δ_{lm}, \\
-	\sum_{j=1}^n q_l(x_j)q_m(x_j) = \frac{n}{π}δ_{lm},
+	Σ_{n}^w[q_lq_m] = \frac{π}{n}\sum_{j=1}^n q_l(x_j)q_m(x_j) = δ_{lm}.
 \end{align*}
 $$
-By the previous question, for the weight $w(x) = \frac{1}{\sqrt{1-x^2}}$ we have $q_0(x_j) = \frac{1}{\sqrt{π}}$, $q_k(x_j) = \sqrt{\frac{2}{π}}\cos(k θ_j).$
-For $l = m = 0$ then we have,
+where for the weight $w(x) = \frac{1}{\sqrt{1-x^2}}$ we have the orthonormal polynomials $q_0(x_j) = \frac{1}{\sqrt{π}}$, $q_k(x_j) = \sqrt{\frac{2}{π}}\cos(k θ_j).$
+Thus we have:
 $$
-\begin{align*}
-	\frac{1}{π}\sum_{j=1}^n \cos(l θ_j)\cos(m θ_j) =\sum_{j=1}^nq_l(x_j)q_m(x_j) =  \frac{n}{π}δ_{lm} = \frac{n}{π} \\
-	\Rightarrow \frac{1}{n}\sum_{j=1}^n \cos(l θ_j)\cos(m θ_j) = 1\
-\end{align*}
-$$
-Now, for $l = m ≠ 0$, we have,
-$$
-\begin{align*}
-	\frac{2}{π}\sum_{j=1}^n \cos(l θ_j)\cos(m θ_j) =\sum_{j=1}^nq_l(x_j)q_m(x_j) =  \frac{n}{π}δ_{lm} = \frac{n}{π} \\
-	\Rightarrow \frac{1}{n}\sum_{j=1}^n \cos(l θ_j)\cos(m θ_j) = \frac{1}{2}\
-\end{align*}
-$$
-Finally, for $l ≠ m$, we have,
-$$
-C_{lm}\sum_{j=1}^n\cos(l θ_j)\cos(m θ_j) = \sum_{j=1}^nq_l(x_j )q_m(x_j) = \frac{n}{π}δ_{lm} = 0,
-$$
-for some constant $C_{lm} ≠ 0$ which is $\frac{1}{π}$ if $l = 0$ or $m = 0$ and $\frac{2}{π}$ otherwise (it doesn't matter what it is so long as it is not 0). Therefore, for $l ≠ m$ we have,
-$$
-\frac{1}{n}\sum_{j=1}^n \cos(l θ_j)\cos(m θ_j) = 0
+\meeq{
+𝐞_1^⊤ C_n C_n^⊤ 𝐞_1 = \sqrt{1/n} [1,1,…,1] \begin{bmatrix}1 \\ ⋮ \\ 1 \end{bmatrix}  \sqrt{1/n} = {1 \over n} ∑_{j=1}^n 1 = 1 \ccr
+𝐞_k^⊤ C_n C_n^⊤ 𝐞_1 = 𝐞_1^⊤ C_n C_n^⊤ 𝐞_k = \sqrt{1/n} [1,1,…,1] \begin{bmatrix}\cos (k-1) θ_1 \\ ⋮ \\ \cos (k-1) θ_n \end{bmatrix}  \sqrt{2/n} \ccr
+=
+ {1 \over n} π ∑_{ℓ=1}^n q_k(x_ℓ)q_0(x_ℓ) = 0 \ccr
+ 𝐞_k^⊤ C_n C_n^⊤ 𝐞_j = \sqrt{2/n} [\cos (k-1) θ_1, … , \cos (k-1) θ_n] \begin{bmatrix}\cos (j-1) θ_1 \\ ⋮ \\ \cos (j-1) θ_n \end{bmatrix}  \sqrt{2/n} \ccr 
+ =
+ {π \over n} ∑_{ℓ=1}^n q_k(x_ℓ)q_j(x_ℓ) = δ_{kj}.
+}
 $$
 
 **END**

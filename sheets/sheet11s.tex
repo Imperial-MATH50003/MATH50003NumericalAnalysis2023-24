@@ -331,7 +331,7 @@ Q \begin{bmatrix} 2 \\ 1 \\ 2 \end{bmatrix} =  \begin{bmatrix} -3 \\ 0 \\ 0 \end
 \ensuremath{\bm{\x}} &:= [2,1,2], \| \ensuremath{\bm{\x}} \| = 3\\
 \ensuremath{\bm{\y}} &:= \|\ensuremath{\bm{\x}}\| \ensuremath{\bm{\e}}_1 + \ensuremath{\bm{\x}} = [5,1,2], \| \ensuremath{\bm{\y}} \| = \sqrt{30} \\
 \ensuremath{\bm{\w}} &:= \ensuremath{\bm{\y}} / \| \ensuremath{\bm{\y}} \| = [5,1,2] /  \sqrt{30} \\
-Q &:= I - 2\ensuremath{\bm{\w}} \ensuremath{\bm{\w}}^\ensuremath{\top} = I - {1 \over 15} \begin{bmatrix}5 \\ 1 \\ 2 \end{bmatrix} [5 1 2] = I - {1 \over 15} \begin{bmatrix} 25 & 5 & 10 \\5 & 1 & 2 \\ 10 & 2 & 4 \end{bmatrix} \\
+Q &:= I - 2\ensuremath{\bm{\w}} \ensuremath{\bm{\w}}^\ensuremath{\top} = I - {1 \over 15} \begin{bmatrix}5 \\ 1 \\ 2 \end{bmatrix} [5\ 1\ 2] = I - {1 \over 15} \begin{bmatrix} 25 & 5 & 10 \\5 & 1 & 2 \\ 10 & 2 & 4 \end{bmatrix} \\
 &= {1 \over 15} \begin{bmatrix} -10 & -5 & -10 \\ -5 & 14 & -2 \\ -10 & -2 & 11 \end{bmatrix}
 \end{align*}
 \textbf{END}
@@ -350,9 +350,9 @@ for \emph{all} integers $k$, $n = 1,2,\ensuremath{\ldots}$, where $\ensuremath{\
 
 We have
 \[
-f(\ensuremath{\theta}) = \sin 3 \ensuremath{\theta} = { \exp(3 i \ensuremath{\theta}) \over 2} -  { \exp(-3 i \ensuremath{\theta}) \over 2 i}
+f(\ensuremath{\theta}) = \sin 3 \ensuremath{\theta} = { \exp(3 i \ensuremath{\theta}) \over 2 i} -  { \exp(-3 i \ensuremath{\theta}) \over 2 i}
 \]
-hence $\hat f_3 = 1/(2i) \hat f_{-3} = -1/(2i)$ and $\hat f_k = 0$ otherwise. Thus we have:
+hence $\hat f_3 = 1/(2i)$, $\hat f_{-3} = -1/(2i)$ and $\hat f_k = 0$ otherwise. Thus we have:
 \begin{align*}
 \hat f_k^1 &= \sum_{k=-\ensuremath{\infty}}^\ensuremath{\infty} \hat f_k = \hat f_{-3} + \hat f_3 = 0, \\
 \hat f_{2k}^2 &= 0, \hat f_{2k+1}^2 = \hat f_{-3} + \hat f_3 = 0, \\
@@ -530,29 +530,20 @@ for $\ensuremath{\theta}_j = \ensuremath{\pi}(j-1/2)/n$ is an orthogonal matrix.
 
 \textbf{SOLUTION}
 
-By the Lemma 3 (Discrete Orthogonality), we have,
+Our goal is to show that $C_n C_n^\ensuremath{\top} = I$. By  Lemma 12 (Discrete Orthogonality) and PS10 Q5, we have,
 \begin{align*}
-	\ensuremath{\Sigma}_{n}^w[q_lq_m] = \frac{\ensuremath{\pi}}{n}\sum_{j=1}^n q_l(x_j)q_m(x_j) = \ensuremath{\delta}_{lm}, \\
-	\sum_{j=1}^n q_l(x_j)q_m(x_j) = \frac{n}{\ensuremath{\pi}}\ensuremath{\delta}_{lm},
+	\ensuremath{\Sigma}_{n}^w[q_lq_m] = \frac{\ensuremath{\pi}}{n}\sum_{j=1}^n q_l(x_j)q_m(x_j) = \ensuremath{\delta}_{lm}.
 \end{align*}
-By the previous question, for the weight $w(x) = \frac{1}{\sqrt{1-x^2}}$ we have $q_0(x_j) = \frac{1}{\sqrt{\ensuremath{\pi}}}$, $q_k(x_j) = \sqrt{\frac{2}{\ensuremath{\pi}}}\cos(k \ensuremath{\theta}_j).$ For $l = m = 0$ then we have,
-\begin{align*}
-	\frac{1}{\ensuremath{\pi}}\sum_{j=1}^n \cos(l \ensuremath{\theta}_j)\cos(m \ensuremath{\theta}_j) =\sum_{j=1}^nq_l(x_j)q_m(x_j) =  \frac{n}{\ensuremath{\pi}}\ensuremath{\delta}_{lm} = \frac{n}{\ensuremath{\pi}} \\
-	\Rightarrow \frac{1}{n}\sum_{j=1}^n \cos(l \ensuremath{\theta}_j)\cos(m \ensuremath{\theta}_j) = 1\
-\end{align*}
-Now, for $l = m \ensuremath{\neq} 0$, we have,
-\begin{align*}
-	\frac{2}{\ensuremath{\pi}}\sum_{j=1}^n \cos(l \ensuremath{\theta}_j)\cos(m \ensuremath{\theta}_j) =\sum_{j=1}^nq_l(x_j)q_m(x_j) =  \frac{n}{\ensuremath{\pi}}\ensuremath{\delta}_{lm} = \frac{n}{\ensuremath{\pi}} \\
-	\Rightarrow \frac{1}{n}\sum_{j=1}^n \cos(l \ensuremath{\theta}_j)\cos(m \ensuremath{\theta}_j) = \frac{1}{2}\
-\end{align*}
-Finally, for $l \ensuremath{\neq} m$, we have,
-\[
-C_{lm}\sum_{j=1}^n\cos(l \ensuremath{\theta}_j)\cos(m \ensuremath{\theta}_j) = \sum_{j=1}^nq_l(x_j )q_m(x_j) = \frac{n}{\ensuremath{\pi}}\ensuremath{\delta}_{lm} = 0,
-\]
-for some constant $C_{lm} \ensuremath{\neq} 0$ which is $\frac{1}{\ensuremath{\pi}}$ if $l = 0$ or $m = 0$ and $\frac{2}{\ensuremath{\pi}}$ otherwise (it doesn't matter what it is so long as it is not 0). Therefore, for $l \ensuremath{\neq} m$ we have,
-\[
-\frac{1}{n}\sum_{j=1}^n \cos(l \ensuremath{\theta}_j)\cos(m \ensuremath{\theta}_j) = 0
-\]
+where for the weight $w(x) = \frac{1}{\sqrt{1-x^2}}$ we have the orthonormal polynomials $q_0(x_j) = \frac{1}{\sqrt{\ensuremath{\pi}}}$, $q_k(x_j) = \sqrt{\frac{2}{\ensuremath{\pi}}}\cos(k \ensuremath{\theta}_j).$ Thus we have:
+\meeq{
+\ensuremath{\bm{\e}}_1^\ensuremath{\top} C_n C_n^\ensuremath{\top} \ensuremath{\bm{\e}}_1 = \sqrt{1/n} [1,1,\ensuremath{\ldots},1] \begin{bmatrix}1 \\ \ensuremath{\vdots} \\ 1 \end{bmatrix}  \sqrt{1/n} = {1 \over n} \ensuremath{\sum}_{j=1}^n 1 = 1 \ccr
+\ensuremath{\bm{\e}}_k^\ensuremath{\top} C_n C_n^\ensuremath{\top} \ensuremath{\bm{\e}}_1 = \ensuremath{\bm{\e}}_1^\ensuremath{\top} C_n C_n^\ensuremath{\top} \ensuremath{\bm{\e}}_k = \sqrt{1/n} [1,1,\ensuremath{\ldots},1] \begin{bmatrix}\cos (k-1) \ensuremath{\theta}_1 \\ \ensuremath{\vdots} \\ \cos (k-1) \ensuremath{\theta}_n \end{bmatrix}  \sqrt{2/n} \ccr
+=
+ {1 \over n} \ensuremath{\pi} \ensuremath{\sum}_{\ensuremath{\ell}=1}^n q_k(x_\ensuremath{\ell})q_0(x_\ensuremath{\ell}) = 0 \ccr
+ \ensuremath{\bm{\e}}_k^\ensuremath{\top} C_n C_n^\ensuremath{\top} \ensuremath{\bm{\e}}_j = \sqrt{2/n} [\cos (k-1) \ensuremath{\theta}_1, \ensuremath{\ldots} , \cos (k-1) \ensuremath{\theta}_n] \begin{bmatrix}\cos (j-1) \ensuremath{\theta}_1 \\ \ensuremath{\vdots} \\ \cos (j-1) \ensuremath{\theta}_n \end{bmatrix}  \sqrt{2/n} \ccr 
+ =
+ {\ensuremath{\pi} \over n} \ensuremath{\sum}_{\ensuremath{\ell}=1}^n q_k(x_\ensuremath{\ell})q_j(x_\ensuremath{\ell}) = \ensuremath{\delta}_{kj}.
+}
 \textbf{END}
 
 
