@@ -5,53 +5,53 @@ Lecturer: [Dr Sheehan Olver](https://www.ma.imperial.ac.uk/~solver/)
 
 Office hour: Mondays 11am, Huxley 6M40
 
-## [Notes](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/raw/main/notes/notes.pdf)
+## [Notes](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/raw/main/notes/notes.pdf)
 
 ## Weekly Material
 
 1. I.1 Rectangular Rule and I.2 Divided Differences
-   - [Lab 1](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab1.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab1s.ipynb))
-   - [Sheet 1](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet1.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet1s.pdf))
+   - [Lab 1](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/labs/lab1.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/labs/lab1s.ipynb))
+   - [Sheet 1](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet1.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet1s.pdf))
 2. I.3 Dual Numbers and I.4 Newton's method
-   - [Lab 2](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab2.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab2s.ipynb))
-   - [Sheet 2](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet2.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet2s.pdf))
+   - [Lab 2](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/labs/lab2.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/labs/lab2s.ipynb))
+   - [Sheet 2](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet2.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet2s.pdf))
 3. II.1 Integers and II.2 Reals
-   - [Lab 3](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab3.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab3s.ipynb))
-   - [Sheet 3](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet3.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet3s.pdf))
+   - [Lab 3](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/labs/lab3.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/labs/lab3s.ipynb))
+   - [Sheet 3](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet3.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet3s.pdf))
 4. II.3 Floating Point Arithmetic and II.4 Interval Arithmetic
-   - [Lab 4](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab4.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab4s.ipynb))
-   - [Sheet 4](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet4.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet4s.pdf))
+   - [Lab 4](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/labs/lab4.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/labs/lab4s.ipynb))
+   - [Sheet 4](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet4.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet4s.pdf))
 5. III.1 Structured Matrices and III.2 Differential Equations via Finite Differences
-   - [Lab 5](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab5.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab5s.ipynb))
-   - [Sheet 5](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet5.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet5s.pdf))
+   - [Lab 5](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/labs/lab5.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/labs/lab5s.ipynb))
+   - [Sheet 5](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet5.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet5s.pdf))
 6. III.3 Cholesky Factorisations and III.4 Polynomial Regression
-   - [Lab 6](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab6.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab6s.ipynb))
-   - [Sheet 6](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet6.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet6s.pdf))
+   - [Lab 6](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/labs/lab6.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/labs/lab6s.ipynb))
+   - [Sheet 6](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet6.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet6s.pdf))
 7. III.5 Orthogonal and Unitary Matrices and III.6 QR Factorisation
-   - [Lab 7](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab7.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab7s.ipynb))
-   - [Sheet 7](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet7.pdf)  ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet7s.pdf))
+   - [Lab 7](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/labs/lab7.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/labs/lab7s.ipynb))
+   - [Sheet 7](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet7.pdf)  ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet7s.pdf))
 8. IV.1 Fourier Expansions and IV.2 Discrete Fourier Transform
-   - [Revision Lab](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab8.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/labs/lab8s.ipynb))
-   - [Sheet 8](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet8.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet8s.pdf))
+   - [Revision Lab](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/labs/lab8.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/labs/lab8s.ipynb))
+   - [Sheet 8](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet8.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet8s.pdf))
 9. IV.3 Orthogonal Polynomials and IV.4 Classical Orthogonal Polynomials
-   - [Sheet 9](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet9.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet9s.pdf))
+   - [Sheet 9](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet9.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet9s.pdf))
 10. IV.5 Gaussian Quadrature
-   - [Sheet 10](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet10.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet10s.pdf))
-   - [Revision Sheet](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet11.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/sheets/sheet11s.pdf))
+   - [Sheet 10](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet10.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet10s.pdf))
+   - [Revision Sheet](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet11.pdf) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/sheets/sheet11s.pdf))
 
 
 ## Assessment
 
-1. [Mock computer-based exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/mockexam.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/mockexams.ipynb))
-2. [Computer-based exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/computerexam.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/computerexams.ipynb))
-1. [Mock final exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/mockfinal.pdf) (2(c/d) are not relevant.)
-    ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/mockfinals.pdf))
+1. [Mock computer-based exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/exams/mockexam.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/exams/mockexams.ipynb))
+2. [Computer-based exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/exams/computerexam.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/exams/computerexams.ipynb))
+1. [Mock final exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/exams/mockfinal.pdf) (2(c/d) are not relevant.)
+    ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/exams/mockfinals.pdf))
 5. Final exam (pen-and-paper, 80% of term mark): 7 May 2024, 10:00–13:00
 
 
 ## Reading List
 
-1. [MATH50003 Introduction to Julia](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/notes/A.Julia.ipynb)
+1. [MATH50003 Introduction to Julia](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/notes/A.Julia.ipynb)
 4. [The Julia Documentation](https://docs.julialang.org)
 6. Ben Lauwens, [Think Julia](https://benlauwens.github.io/ThinkJulia.jl/latest/book)
 5. [The Julia–Matlab–Python Cheatsheet](https://cheatsheets.quantecon.org)
@@ -146,8 +146,8 @@ notebook()
 ## Past exams
 
 
-1. [2021–22 Computer-based exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/computerexam2122.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/computerexam2122s.ipynb))
-2. [2022–23 Computer-based exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/computerexam2223.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis/blob/main/exams/computerexam2223s.ipynb))
+1. [2021–22 Computer-based exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/exams/computerexam2122.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/exams/computerexam2122s.ipynb))
+2. [2022–23 Computer-based exam](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/exams/computerexam2223.ipynb) ([Solutions](https://github.com/Imperial-MATH50003/MATH50003NumericalAnalysis2023-24/blob/main/exams/computerexam2223s.ipynb))
 
 ## Past Course Websites
 
